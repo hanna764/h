@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>브라운더스트2 2025 3Q 회고 — NEOWIZ 사업PM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{max-width:100%;overflow-x:hidden;}
+body{font-family:'Noto Sans KR','DM Sans',sans-serif;background:var(--surface-alt);color:var(--ink);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+/* ============ NEOWIZ DESIGN TOKENS ============ */
+:root{
+  --nw-red:#E51937; --nw-red-deep:#B8142C; --nw-red-soft:#FBE8EC;
+  --nw-red-tint:rgba(229,25,55,0.08);
+  --white:#FFFFFF; --surface:#FFFFFF;
+  --surface-alt:#F7F7F9; --surface-mute:#F0F0F3;
+  --border:#D6D6DC; --divider:#E5E5EA;
+  --ink:#1C1C20; --ink-2:#4A4A52; --ink-3:#717174; --ink-4:#A0A0A6;
+  --positive:#1E8E5A; --negative:#E51937;
+  --warn:#D98C1F; --info:#2E5CE6;
+  --shadow-sm:0 1px 2px rgba(20,20,30,.04);
+  --shadow-md:0 2px 6px rgba(20,20,30,.06);
+  --shadow-card:0 1px 3px rgba(20,20,30,.05);
+}
+
+/* ============ TOP HEADER ============ */
+.top-bar{background:var(--white);border-bottom:1px solid var(--divider);}
+.top-bar-inner{max-width:1280px;margin:0 auto;padding:20px 40px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.bar-left{}
+.bar-eye{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;}
+.bar-title{font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.2;}
+.bar-title span{color:var(--nw-red);}
+.bar-title-rule{display:block;width:60px;height:1px;background:var(--nw-red);border:0;margin-top:10px;}
+.bar-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.hbadge{font-size:10px;font-weight:600;letter-spacing:.08em;padding:3px 9px;border-radius:3px;border:1px solid var(--border);color:var(--ink-3);text-transform:uppercase;}
+.hbadge.accent{border-color:var(--nw-red);color:var(--nw-red);}
+.bar-date{font-size:11px;color:var(--ink-3);}
+.dark-btn{background:var(--surface-alt);border:1px solid var(--border);color:var(--ink-2);font-size:11px;font-family:inherit;padding:5px 12px;border-radius:4px;cursor:pointer;transition:all .15s;}
+.dark-btn:hover{background:var(--surface-mute);color:var(--ink);}
+
+/* ============ TAB NAV ============ */
+.tab-bar{background:var(--white);border-bottom:1px solid var(--border);z-index:50;box-shadow:var(--shadow-sm);}
+.tab-bar.pinned{position:fixed;top:0;left:0;right:0;}
+.tab-inner{max-width:1280px;margin:0 auto;padding:0 40px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+.tab-inner::-webkit-scrollbar{display:none;}
+.t-btn{padding:0 22px;height:46px;border:none;background:transparent;color:var(--ink-3);font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all .15s;flex-shrink:0;display:flex;align-items:center;gap:6px;}
+.t-num{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;background:var(--surface-mute);color:var(--ink-3);font-size:9px;font-weight:700;transition:all .15s;}
+.t-btn:hover{color:var(--ink);background:var(--surface-alt);}
+.t-btn.on{color:var(--ink);border-bottom-color:var(--nw-red);font-weight:600;}
+.t-btn.on .t-num{background:var(--nw-red);color:#fff;}
+
+/* ============ BODY ============ */
+.body-wrap{max-width:1280px;margin:0 auto;padding:28px 40px 72px;background:var(--surface-alt);}
+@media(max-width:768px){.top-bar-inner,.tab-inner,.body-wrap{padding-left:18px;padding-right:18px;}.t-btn{padding:0 14px;font-size:12px;}}
+
+/* PANELS */
+.panel{display:none;}.panel.on{display:block;}
+
+/* ============ PAGE TITLE ============ */
+.page-ttl-bar{margin-bottom:20px;}
+.page-ttl{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:4px;letter-spacing:-.01em;}
+.page-sub{font-size:12px;color:var(--ink-3);}
+
+/* ============ SEC HEAD — NEOWIZ 1px RED RULE ============ */
+.sec-hd{margin-bottom:0;padding-bottom:10px;}
+.sec-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px;}
+.sec-ttl{font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.02em;}
+.sec-sub{font-size:12px;color:var(--ink-3);margin-top:3px;}
+.nw-rule{display:block;width:100%;height:1px;background:var(--nw-red);border:0;margin:0 0 16px;}
+
+/* ============ CARD ============ */
+.card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:24px 28px;box-shadow:var(--shadow-card);overflow-x:auto;-webkit-overflow-scrolling:touch;}
+
+/* ============ HERO ============ */
+.hero{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:28px 32px;margin-bottom:18px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:start;position:relative;box-shadow:var(--shadow-card);}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--nw-red);border-radius:8px 8px 0 0;}
+@media(max-width:900px){.hero{grid-template-columns:1fr;}}
+.hero-tag{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--nw-red);margin-bottom:8px;}
+.hero-txt{font-size:15px;font-weight:400;color:var(--ink-2);line-height:1.7;}
+.hero-txt strong{color:var(--ink);font-weight:600;}
+.hero-txt em{font-style:normal;color:var(--nw-red);font-weight:600;}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,120px);gap:1px;background:var(--divider);border:1px solid var(--divider);border-radius:6px;overflow:hidden;flex-shrink:0;}
+@media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+.kpi-c{background:var(--white);padding:14px 16px;text-align:center;}
+.kpi-v{font-family:'DM Sans',sans-serif;font-size:26px;font-weight:700;color:var(--ink);line-height:1;letter-spacing:-.02em;}
+.kpi-v.accent{color:var(--nw-red);}
+.kpi-v sup{font-size:13px;}
+.kpi-l{font-size:10px;color:var(--ink-3);margin-top:5px;line-height:1.35;}
+.kpi-ch{font-size:10px;font-weight:600;margin-top:3px;}
+.up{color:var(--positive);}.dn{color:var(--nw-red);}
+
+/* ============ ISSUE CARDS ============ */
+.issue-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+@media(max-width:1024px){.issue-row{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.issue-row{grid-template-columns:1fr;}}
+.iss{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:18px 20px;position:relative;overflow:hidden;box-shadow:var(--shadow-card);}
+.iss::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ic,var(--nw-red));}
+.iss-num{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;color:var(--ink-3);letter-spacing:.1em;margin-bottom:8px;}
+.iss-ttl{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px;line-height:1.3;}
+.iss-body{font-size:12px;color:var(--ink-2);line-height:1.6;}
+
+/* ============ GRIDS ============ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;}
+.g2-6040{display:grid;grid-template-columns:6fr 5fr;gap:16px;margin-bottom:18px;}
+@media(max-width:900px){.g2,.g2-6040{grid-template-columns:1fr;}}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:18px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+@media(max-width:1100px){.g4{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:900px){.g3{grid-template-columns:1fr;}}
+@media(max-width:600px){.g4{grid-template-columns:1fr;}}
+
+/* ============ TEXT BLOCK ============ */
+.tb h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid var(--divider);}
+.tb p{font-size:13px;color:var(--ink-2);line-height:1.75;margin-bottom:9px;}
+.tb p:last-child{margin-bottom:0;}
+.nh{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.05em;color:var(--ink);}
+.nh.n{color:var(--nw-red);}.nh.p{color:var(--positive);}
+
+/* ============ HIGHLIGHT ============ */
+.hl{border-left:3px solid var(--nw-red);background:var(--nw-red-tint);padding:12px 16px;border-radius:0 4px 4px 0;font-size:12px;line-height:1.6;color:var(--ink-2);}
+.hl strong{color:var(--ink);font-weight:700;display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;}
+.hl.red{border-left-color:var(--nw-red);background:var(--nw-red-tint);}
+.hl.pos{border-left-color:var(--positive);background:rgba(30,142,90,.07);}
+.hl.warn{border-left-color:var(--warn);background:rgba(217,140,31,.08);}
+.hl.info{border-left-color:var(--info);background:rgba(46,92,230,.07);}
+
+/* ============ CHART BOX ============ */
+.cbox{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:18px 22px;box-shadow:var(--shadow-card);}
+.ch-ttl{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.ch-sub{font-size:11px;color:var(--ink-3);margin-bottom:14px;}
+.cw{position:relative;height:220px;}
+.cw-lg{position:relative;height:280px;}
+.cw-sm{position:relative;height:180px;}
+
+/* ============ TIMELINE ============ */
+.tl-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;}
+@media(max-width:900px){.tl-grid{grid-template-columns:1fr;gap:12px;}}
+.tl-grid::before{content:'';position:absolute;top:20px;left:9%;right:9%;height:1px;background:var(--divider);}
+@media(max-width:900px){.tl-grid::before{display:none;}}
+.tli{padding:0 8px;text-align:center;position:relative;}
+.tli-dot{display:flex;justify-content:center;margin-bottom:10px;position:relative;z-index:1;}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--border);border:3px solid var(--white);box-shadow:0 0 0 1px var(--border);}
+.dot.done{background:var(--ink);box-shadow:0 0 0 1px var(--ink);}
+.dot.now{background:var(--nw-red);box-shadow:0 0 0 3px var(--nw-red-tint);}
+.dot.warn{background:var(--warn);box-shadow:0 0 0 3px rgba(217,140,31,.18);}
+.dot.key{background:var(--info);box-shadow:0 0 0 3px rgba(46,92,230,.18);}
+.tl-per{font-size:10px;font-weight:700;letter-spacing:.07em;color:var(--ink-3);margin-bottom:5px;}
+.tl-per.a{color:var(--nw-red);}
+.tl-per.b{color:var(--info);}
+.tl-ttl{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px;line-height:1.3;}
+.tl-bd{font-size:11px;color:var(--ink-2);line-height:1.5;}
+
+/* ============ TABLE ============ */
+.tbl-scroll{overflow-x:auto;border-radius:6px;border:1px solid var(--border);}
+.ctbl{width:100%;border-collapse:collapse;font-size:13px;background:var(--white);}
+.ctbl thead th{background:var(--surface-alt);color:var(--ink-3);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:10px 13px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;}
+.ctbl tbody td{padding:11px 13px;border-bottom:1px solid var(--divider);color:var(--ink-2);vertical-align:middle;}
+.ctbl tbody tr:last-child td{border-bottom:none;}
+.ctbl tbody tr:hover td{background:rgba(28,28,32,.03);}
+.ctbl .cg{font-weight:700;color:var(--ink);}
+.ctbl .rs td{background:var(--nw-red-tint);}
+.ctbl .rs .cg{color:var(--nw-red);}
+.ctbl .ps td{background:rgba(30,142,90,.05);}
+.ctbl .ps .cg{color:var(--positive);}
+.bdg{display:inline-block;padding:2px 7px;border-radius:3px;font-size:11px;font-weight:700;}
+.bhi{background:var(--nw-red-tint);color:var(--nw-red);}
+.bmd{background:rgba(217,140,31,.12);color:var(--warn);}
+.blo{background:rgba(30,142,90,.12);color:var(--positive);}
+.bna{background:rgba(46,92,230,.10);color:var(--info);}
+.bself{background:var(--surface-mute);color:var(--ink);}
+
+/* ============ STAT BOXES ============ */
+.stat-box{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:20px 24px;box-shadow:var(--shadow-card);text-align:center;}
+.stat-v{font-family:'DM Sans',sans-serif;font-size:30px;font-weight:700;color:var(--ink);line-height:1;letter-spacing:-.02em;}
+.stat-v.red{color:var(--nw-red);}
+.stat-v.pos{color:var(--positive);}
+.stat-v sup{font-size:14px;}
+.stat-l{font-size:11px;color:var(--ink-3);margin-top:6px;line-height:1.4;}
+.stat-ch{font-size:12px;font-weight:600;margin-top:4px;}
+
+/* ============ INSIGHT ============ */
+.ins-list{display:flex;flex-direction:column;gap:10px;}
+.ins-item{display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start;background:var(--white);border:1px solid var(--border);border-radius:8px;padding:18px 20px;box-shadow:var(--shadow-card);position:relative;}
+.ins-item::before{content:'';position:absolute;top:0;left:0;bottom:0;width:2px;background:var(--nw-red);border-radius:2px 0 0 2px;}
+.ins-n{width:40px;height:40px;border-radius:7px;background:var(--nw-red);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;flex-shrink:0;}
+.ins-n.i{background:var(--info);}.ins-n.p{background:var(--positive);}.ins-n.w{background:var(--warn);}
+.ins-ttl{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.3;}
+.ins-txt{font-size:13px;color:var(--ink-2);line-height:1.7;}
+.ins-txt strong{color:var(--ink);font-weight:600;}
+.ins-txt em{font-style:normal;color:var(--nw-red);font-weight:600;}
+.clt{display:flex;align-items:flex-start;gap:6px;margin-top:10px;padding:9px 12px;border-radius:4px;font-size:12px;line-height:1.5;font-weight:500;}
+.clt::before{content:'→';flex-shrink:0;}
+.cb{background:rgba(46,92,230,.08);color:var(--info);}
+.cr{background:var(--nw-red-tint);color:var(--nw-red);}
+.ct{background:rgba(30,142,90,.08);color:var(--positive);}
+.ca{background:rgba(217,140,31,.10);color:var(--warn);}
+
+/* ============ FOOTNOTE ============ */
+.fn{background:var(--surface-alt);border:1px solid var(--divider);border-radius:6px;padding:13px 18px;margin-top:18px;}
+.fn-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px;}
+.fn-ul{list-style:none;counter-reset:fn;}
+.fn-ul li{counter-increment:fn;font-size:11px;color:var(--ink-3);padding:3px 0 3px 14px;position:relative;border-bottom:1px dashed var(--divider);}
+.fn-ul li:last-child{border-bottom:none;}
+.fn-ul li::before{content:counter(fn);position:absolute;left:0;font-size:9px;font-weight:700;color:var(--nw-red);top:5px;}
+
+/* ============ REVEAL ============ */
+.rv{opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease;}
+.rv.vis{opacity:1;transform:translateY(0);}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none;}}
+
+/* ============ DARK (optional) ============ */
+body.dark{background:#0e111a;color:#E8ECF5;}
+body.dark{
+  --white:#161b2e; --surface:#161b2e; --surface-alt:#1a2035; --surface-mute:#222840;
+  --border:#2e3650; --divider:#2e3650;
+  --ink:#E8ECF5; --ink-2:#A0ABC8; --ink-3:#5C6B8C; --ink-4:#5C6B8C;
+  --nw-red-tint:rgba(229,25,55,.14);
+}
+body.dark .top-bar{background:#0e111a;}
+body.dark .tab-bar{background:#161b2e;}
+
+/* ============ PRINT ============ */
+@media print{
+  .tab-bar,.dark-btn{display:none!important;}
+  .panel{display:block!important;}
+  .card,.cbox,.ins-item{break-inside:avoid;}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="top-bar-inner">
+    <div class="bar-left">
+      <div class="bar-eye">NEOWIZ · 사업PM · GPX사업부 · Quarterly Review</div>
+      <h1 class="bar-title">브라운더스트2 <span>2025 3Q 회고</span></h1>
+      <hr class="bar-title-rule">
+    </div>
+    <div class="bar-right">
+      <span class="hbadge accent">Confidential</span>
+      <span class="hbadge">2025 Q3</span>
+      <span class="bar-date">2025.10 결산</span>
+      <button class="dark-btn" onclick="toggleDark()">Dark</button>
+    </div>
+  </div>
+</header>
+
+<nav class="tab-bar">
+  <div class="tab-inner">
+    <button class="t-btn on" onclick="go(0,this)"><span class="t-num">0</span>Executive Summary</button>
+    <button class="t-btn"    onclick="go(1,this)"><span class="t-num">1</span>매출 &amp; 수익 성과</button>
+    <button class="t-btn"    onclick="go(2,this)"><span class="t-num">2</span>AU &amp; 유저 현황</button>
+    <button class="t-btn"    onclick="go(3,this)"><span class="t-num">3</span>팬덤 &amp; 글로벌</button>
+    <button class="t-btn"    onclick="go(4,this)"><span class="t-num">4</span>4Q 전략 &amp; 결론</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+<!-- ==================== TAB 0: EXECUTIVE SUMMARY ==================== -->
+<div class="panel on" id="p0">
+  <div class="hero rv">
+    <div>
+      <div class="hero-tag">Executive Summary</div>
+      <p class="hero-txt">
+        브라운더스트2 2025년 3분기 총 매출은 <strong>258.3억 원</strong>으로 목표 대비 <strong>+11%</strong>, QoQ <strong>+12.4%</strong>를 달성했다.
+        2주년 이벤트가 8월 매출을 견인하며 AU 피크 <strong>24.9만</strong>을 기록했으나,
+        <em>9월 이후 -51.9% MoM 급락</em>이 확인되어 이벤트 의존형 매출 구조의 한계가 드러났다.
+        글로벌 팬덤 액션(BiliBili World·SDCC·코미케 등)은 IP 확장에 기여했으며,
+        4Q는 <strong>무직전생 콜라보 · 2.5주년 · 스팀 런칭</strong>으로 반등을 도모한다.
+      </p>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-c"><div class="kpi-v accent">258.3<sup>억</sup></div><div class="kpi-l">3Q 총 매출</div><div class="kpi-ch up">↑ +12.4% QoQ</div></div>
+      <div class="kpi-c"><div class="kpi-v">+11<sup>%</sup></div><div class="kpi-l">목표 달성률</div><div class="kpi-ch up">↑ 목표 초과</div></div>
+      <div class="kpi-c"><div class="kpi-v">24.9<sup>만</sup></div><div class="kpi-l">2주년 피크 AU</div><div class="kpi-ch up">3Q 최고치</div></div>
+      <div class="kpi-c"><div class="kpi-v accent">-51.9<sup>%</sup></div><div class="kpi-l">9월 MoM 감소</div><div class="kpi-ch dn">↓ 이벤트 이후</div></div>
+    </div>
+  </div>
+
+  <div class="sec-hd rv"><div class="sec-lbl">Key Issues</div><div class="sec-ttl">3Q 핵심 이슈</div></div>
+  <hr class="nw-rule">
+  <div class="issue-row rv">
+    <div class="iss" style="--ic:#1E8E5A">
+      <div class="iss-num">01</div>
+      <div class="iss-ttl">2주년 이벤트 성과 달성</div>
+      <div class="iss-body">8월 2주년 이벤트로 AU 24.9만 피크 달성. 프레스티지 스킨(테레제 49억)이 매출 최대 기여. 목표 +11% 초과 달성.</div>
+    </div>
+    <div class="iss" style="--ic:#E51937">
+      <div class="iss-num">02</div>
+      <div class="iss-ttl">9월 이후 급락 — 이벤트 의존 구조</div>
+      <div class="iss-body">2주년 종료 후 9월 매출 -51.9% MoM 급락. 이벤트 부재 구간 자연 매출 수준이 낮음. 구조적 개선 필요.</div>
+    </div>
+    <div class="iss" style="--ic:#2E5CE6">
+      <div class="iss-num">03</div>
+      <div class="iss-ttl">글로벌 팬덤 IP 확장</div>
+      <div class="iss-body">BiliBili World 4,000명, SDCC 1,800명, Anime NYC 3,500명 등 글로벌 팬덤 이벤트 다수 성공. 일본/북미 팬베이스 강화.</div>
+    </div>
+    <div class="iss" style="--ic:#D98C1F">
+      <div class="iss-num">04</div>
+      <div class="iss-ttl">4Q 반등 카드 준비 완료</div>
+      <div class="iss-body">무직전생 콜라보(10월), 스토리팩19(11월), 2.5주년+스팀 런칭(12/16) 예정. Q4 마케팅 예산 41.9억 투입.</div>
+    </div>
+  </div>
+
+  <div class="g2 rv">
+    <div class="cbox">
+      <div class="ch-ttl">분기별 매출 추이</div>
+      <div class="ch-sub">단위: 억원 · 2024~2025</div>
+      <div class="cw"><canvas id="c0a" role="img" aria-label="분기별 매출 추이 막대 차트"></canvas></div>
+    </div>
+    <div class="cbox">
+      <div class="ch-ttl">3Q 월별 매출 추이</div>
+      <div class="ch-sub">단위: 억원 · 2025.07~09</div>
+      <div class="cw"><canvas id="c0b" role="img" aria-label="3Q 월별 매출 추이 차트"></canvas></div>
+    </div>
+  </div>
+
+  <div class="hl warn rv" style="margin-bottom:18px;">
+    <strong>핵심 관찰</strong>3Q 목표 초과 달성은 2주년 이벤트 집중 효과다. 이벤트 종료 후 9월 급락폭(-51.9%)은 자연 리텐션 기반이 아직 취약함을 시사한다. 4Q 콜라보·스팀 런칭 효과와 함께 비이벤트 구간 매출 저점을 끌어올리는 것이 핵심 과제다.
+  </div>
+
+  <div class="fn rv">
+    <div class="fn-lbl">출처</div>
+    <ul class="fn-ul">
+      <li>브라운더스트2 2025 3Q 회고(최종) — GPX사업부 내부 자료</li>
+      <li>매출 수치는 전사 집계 기준. 9월 감소율 -51.9%는 8월 대비 MoM 기준.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== TAB 1: 매출 & 수익 성과 ==================== -->
+<div class="panel" id="p1">
+  <div class="page-ttl-bar rv">
+    <div class="page-ttl">매출 &amp; 수익 성과</div>
+    <div class="page-sub">3Q 총 258.3억 달성 — 2주년 이벤트 중심 구조. 프레스티지 스킨이 핵심 매출원으로 확인.</div>
+  </div>
+
+  <div class="sec-hd rv"><div class="sec-lbl">Revenue</div><div class="sec-ttl">3Q 매출 상세</div></div>
+  <hr class="nw-rule">
+
+  <div class="g4 rv" style="margin-bottom:18px;">
+    <div class="stat-box">
+      <div class="stat-v red">258.3<sup>억</sup></div>
+      <div class="stat-l">3Q 총 매출</div>
+      <div class="stat-ch up">↑ +12.4% QoQ</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-v pos">+11<sup>%</sup></div>
+      <div class="stat-l">vs 목표</div>
+      <div class="stat-ch up">목표 초과 달성</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-v">229.8<sup>억</sup></div>
+      <div class="stat-l">2Q 매출 (비교)</div>
+      <div class="stat-ch" style="color:var(--ink-3)">전 분기 기준</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-v red">-51.9<sup>%</sup></div>
+      <div class="stat-l">9월 MoM 감소</div>
+      <div class="stat-ch dn">↓ 이벤트 이후 급락</div>
+    </div>
+  </div>
+
+  <div class="g2 rv">
+    <div class="cbox">
+      <div class="ch-ttl">3Q 월별 매출 분해</div>
+      <div class="ch-sub">단위: 억원 · 2025년 7~9월</div>
+      <div class="cw-lg"><canvas id="c1a" role="img" aria-label="3Q 월별 매출 막대 차트"></canvas></div>
+    </div>
+    <div class="cbox">
+      <div class="ch-ttl">분기별 매출 추이</div>
+      <div class="ch-sub">단위: 억원 · 2024 Q1 ~ 2025 Q3</div>
+      <div class="cw-lg"><canvas id="c1b" role="img" aria-label="분기별 매출 추이 라인 차트"></canvas></div>
+    </div>
+  </div>
+
+  <div class="g3 rv">
+    <div class="hl pos"><strong>발견</strong>3Q 총 258.3억 — QoQ +12.4%, 목표 대비 +11% 초과. 2주년 이벤트 집중 효과로 8월 매출이 분기 전체의 약 46%를 차지.</div>
+    <div class="hl warn"><strong>주의</strong>9월 매출 -51.9% MoM 급락. 이벤트 종료 직후 자연 유지 매출이 약 58억 수준으로 낮다. 비이벤트 구간 베이스라인 취약.</div>
+    <div class="hl red"><strong>시사점</strong>이벤트 의존도 완화를 위해 상시 BM(스킨 정기 출시·구독형 패스) 강화가 필요. 4Q 스팀 런칭은 새로운 매출 채널 다각화 기회.</div>
+  </div>
+
+  <div class="sec-hd rv"><div class="sec-lbl">Prestige Skin</div><div class="sec-ttl">프레스티지 스킨 성과</div></div>
+  <hr class="nw-rule">
+
+  <div class="g2-6040 rv">
+    <div class="card">
+      <div class="tbl-scroll">
+        <table class="ctbl">
+          <thead>
+            <tr><th>스킨명</th><th>매출</th><th>특이사항</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rs"><td class="cg">테레제 프레스티지</td><td><strong>49.0억 원</strong></td><td><span class="bdg bhi">3Q 최고</span> 2주년 연계 출시</td></tr>
+            <tr class="ps"><td class="cg">유스티아 프레스티지</td><td><strong>42.5억 원</strong></td><td><span class="bdg blo">성과 우수</span> 선행 출시</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="cbox">
+      <div class="ch-ttl">프레스티지 스킨 매출 비교</div>
+      <div class="ch-sub">단위: 억원</div>
+      <div class="cw-sm"><canvas id="c1c" role="img" aria-label="프레스티지 스킨 매출 비교 차트"></canvas></div>
+    </div>
+  </div>
+
+  <div class="hl red rv" style="margin-bottom:18px;">
+    <strong>핵심 관찰</strong>프레스티지 스킨 2종(유스티아 42.5억 + 테레제 49억)의 합산 91.5억이 3Q 매출의 약 35%를 차지. 캐릭터 스킨이 단일 최대 매출원임이 재확인됨. 4Q 스킨 라인업 선정이 매출 목표 달성의 핵심 변수.
+  </div>
+
+  <div class="sec-hd rv"><div class="sec-lbl">Marketing</div><div class="sec-ttl">마케팅 예산 현황</div></div>
+  <hr class="nw-rule">
+
+  <div class="g2 rv">
+    <div class="cbox">
+      <div class="ch-ttl">분기별 마케팅 예산 집행</div>
+      <div class="ch-sub">단위: 억원 · 2025 연간 133.2억 기준</div>
+      <div class="cw"><canvas id="c1d" role="img" aria-label="분기별 마케팅 예산 차트"></canvas></div>
+    </div>
+    <div class="card tb">
+      <h4>마케팅 예산 구조</h4>
+      <p>2025 연간 총 마케팅 예산 <span class="nh">133.2억 원</span>. Q4에 가장 큰 비중인 <span class="nh">41.9억</span>을 배정하여 2.5주년·스팀 런칭·무직전생 콜라보에 집중 투입한다.</p>
+      <p>Q1~Q3 집행분은 <span class="nh">91.3억</span>으로, 2주년 이벤트(Q3)에 연간 대비 높은 비중을 투입했다.</p>
+      <p>Q4 41.9억은 <em>스팀 런칭(신규 플랫폼 개척)</em>과 <em>무직전생 IP 콜라보(외부 팬덤 유입)</em>에 우선 배분 예정이다.</p>
+    </div>
+  </div>
+
+  <div class="fn rv">
+    <div class="fn-lbl">출처</div>
+    <ul class="fn-ul">
+      <li>브라운더스트2 2025 3Q 회고(최종) — GPX사업부 내부 자료</li>
+      <li>7~8월 매출 추정치는 총합 258.3억 및 9월 MoM -51.9% 역산 기반. 정확한 월별 수치는 내부 ERP 기준.</li>
+      <li>마케팅 Q1~Q3 분기별 배분은 추정치. Q4 41.9억은 확정 수치.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== TAB 2: AU & 유저 현황 ==================== -->
+<div class="panel" id="p2">
+  <div class="page-ttl-bar rv">
+    <div class="page-ttl">AU &amp; 유저 현황</div>
+    <div class="page-sub">3Q 평균 AU 21.6만 — 2주년 피크 후 급락. 이탈 유저 83%는 무과금, 복귀 가능성 높음.</div>
+  </div>
+
+  <div class="sec-hd rv"><div class="sec-lbl">Active Users</div><div class="sec-ttl">AU 추이 분석</div></div>
+  <hr class="nw-rule">
+
+  <div class="g4 rv" style="margin-bottom:18px;">
+    <div class="stat-box">
+      <div class="stat-v">21.6<sup>만</sup></div>
+      <div class="stat-l">3Q 평균 AU</div>
+      <div class="stat-ch" style="color:var(--ink-3)">7~9월 평균</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-v red">24.9<sup>만</sup></div>
+      <div class="stat-l">2주년 피크 AU</div>
+      <div class="stat-ch up">3Q 최고치</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-v">90<sup>%</sup></div>
+      <div class="stat-l">이탈 유저 중<br>7일 이내 방문</div>
+      <div class="stat-ch pos">복귀 잠재력</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-v red">83<sup>%</sup></div>
+      <div class="stat-l">이탈 유저 중<br>무과금 비율</div>
+      <div class="stat-ch dn">과금 전환 기회</div>
+    </div>
+  </div>
+
+  <div class="g2 rv">
+    <div class="cbox">
+      <div class="ch-ttl">3Q 월별 AU 추이</div>
+      <div class="ch-sub">단위: 만명 · 2025.07~09</div>
+      <div class="cw-lg"><canvas id="c2a" role="img" aria-label="3Q 월별 AU 추이 라인 차트"></canvas></div>
+    </div>
+    <div class="cbox">
+      <div class="ch-ttl">이탈 유저 행동 분석</div>
+      <div class="ch-sub">최근 이탈 유저 분포</div>
+      <div class="cw-lg"><canvas id="c2b" role="img" aria-label="이탈 유저 행동 분석 차트"></canvas></div>
+    </div>
+  </div>
+
+  <div class="g3 rv">
+    <div class="hl pos"><strong>발견</strong>이탈 유저 90%가 7일 이내 방문 이력 보유 — 완전 이탈이 아닌 '휴면' 상태. 복귀 캠페인 대상으로 적합.</div>
+    <div class="hl info"><strong>발견</strong>이탈 유저 83%가 무과금 유저 — 게임 자체의 재미 부족보다 진입 장벽·콘텐츠 소진이 이탈 원인일 가능성.</div>
+    <div class="hl red"><strong>시사점</strong>무과금 이탈 유저 복귀 시 과금 전환 퍼널 개선이 필요. 스팀 런칭은 새로운 무과금 진입 유저 대상 재설계 기회.</div>
+  </div>
+
+  <div class="sec-hd rv"><div class="sec-lbl">Dormant Users</div><div class="sec-ttl">휴면 유저 구조 분석</div></div>
+  <hr class="nw-rule">
+
+  <div class="g2-6040 rv">
+    <div class="card tb">
+      <h4>이탈이 아닌 휴면 — 복귀 가능 풀이 크다</h4>
+      <p>이탈 유저의 <span class="nh p">90%</span>가 마지막 접속 후 <span class="nh">7일 이내</span>에 방문 이력을 가진다. 이는 완전 이탈이 아닌 '일시 이탈' 패턴으로, 적절한 복귀 트리거가 있으면 재접속 가능성이 높다.</p>
+      <p>이탈 유저의 <span class="nh n">83%</span>가 무과금 유저다. 이들은 게임을 즐겼으나 과금 전환이 없었던 층으로, 낮은 BM 진입 장벽(체험형 콘텐츠·소액 스타터팩)이 효과적일 수 있다.</p>
+      <p>4Q 무직전생 콜라보 및 2.5주년 이벤트는 <em>이 휴면 유저 복귀 캠페인</em>과 연동 시 시너지가 크다. 알림 푸시·이메일 리타게팅을 통한 복귀 유도가 권장된다.</p>
+    </div>
+    <div class="cbox">
+      <div class="ch-ttl">이탈 유저 과금 분포</div>
+      <div class="ch-sub">이탈 유저 기준</div>
+      <div class="cw"><canvas id="c2c" role="img" aria-label="이탈 유저 과금 분포 도넛 차트"></canvas></div>
+    </div>
+  </div>
+
+  <div class="fn rv">
+    <div class="fn-lbl">출처</div>
+    <ul class="fn-ul">
+      <li>브라운더스트2 2025 3Q 회고(최종) — GPX사업부 내부 자료</li>
+      <li>AU 월별 수치는 실제 문서 기반. 일별 변동은 내부 데이터 플랫폼 기준.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== TAB 3: 팬덤 & 글로벌 ==================== -->
+<div class="panel" id="p3">
+  <div class="page-ttl-bar rv">
+    <div class="page-ttl">팬덤 &amp; 글로벌 현황</div>
+    <div class="page-sub">3Q 6개 글로벌 팬덤 이벤트 — BiliBili·SDCC·코미케·팬시프론티어·Anime NYC·TGS. IP 인지도 확장 지속.</div>
+  </div>
+
+  <div class="sec-hd rv"><div class="sec-lbl">Fandom Actions</div><div class="sec-ttl">글로벌 팬덤 액션 성과</div></div>
+  <hr class="nw-rule">
+
+  <div class="card rv" style="padding:0;overflow:hidden;margin-bottom:16px;">
+    <div class="tbl-scroll">
+      <table class="ctbl">
+        <thead>
+          <tr><th>이벤트</th><th>지역</th><th>방문 인원 / 성과</th><th>주요 활동</th><th>평가</th></tr>
+        </thead>
+        <tbody>
+          <tr class="ps"><td class="cg">BiliBili World</td><td>중국 (상하이)</td><td><strong>4,000명</strong></td><td>BD2 전용 부스, 팬미팅, 굿즈 배포</td><td><span class="bdg blo">우수</span></td></tr>
+          <tr><td class="cg">SDCC (San Diego Comic-Con)</td><td>미국 (샌디에고)</td><td><strong>1,800명</strong></td><td>북미 팬 대상 체험 부스, 코스프레 콘테스트</td><td><span class="bdg bna">양호</span></td></tr>
+          <tr class="ps"><td class="cg">코미케 (Comiket)</td><td>일본 (도쿄)</td><td><strong>1억 원 매출</strong></td><td>공식 굿즈 판매, 팬 아트 전시</td><td><span class="bdg blo">우수</span></td></tr>
+          <tr class="ps"><td class="cg">팬시프론티어 (Fancy Frontier)</td><td>대만 (타이베이)</td><td><strong>1.4억 원 매출</strong></td><td>굿즈 판매, 팬아트 부스, 현지 인플루언서 연계</td><td><span class="bdg blo">우수</span></td></tr>
+          <tr><td class="cg">Anime NYC</td><td>미국 (뉴욕)</td><td><strong>3,500명</strong></td><td>북미 IP 홍보, 아티스트 협업 전시</td><td><span class="bdg bna">양호</span></td></tr>
+          <tr><td class="cg">TGS (Tokyo Game Show)</td><td>일본 (도쿄)</td><td>— (참가)</td><td>업계 네트워킹, 미디어 노출</td><td><span class="bdg bself">참가</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="g2 rv">
+    <div class="cbox">
+      <div class="ch-ttl">팬덤 이벤트 인원 비교</div>
+      <div class="ch-sub">단위: 명 · 3Q 이벤트 기준</div>
+      <div class="cw-lg"><canvas id="c3a" role="img" aria-label="팬덤 이벤트 인원 비교 막대 차트"></canvas></div>
+    </div>
+    <div class="cbox">
+      <div class="ch-ttl">팬덤 이벤트 굿즈 매출</div>
+      <div class="ch-sub">단위: 억원 · 코미케·팬시프론티어 기준</div>
+      <div class="cw-lg"><canvas id="c3b" role="img" aria-label="팬덤 이벤트 굿즈 매출 차트"></canvas></div>
+    </div>
+  </div>
+
+  <div class="g3 rv">
+    <div class="hl pos"><strong>발견</strong>팬시프론티어(대만) 1.4억, 코미케(일본) 1억 — 굿즈 매출이 IP 가치를 직접 수익화. 대만·일본 팬덤의 소비 강도 확인.</div>
+    <div class="hl info"><strong>발견</strong>북미(SDCC 1,800명 + Anime NYC 3,500명)는 인원 규모는 크지만 굿즈 매출 기여가 낮다. 북미는 IP 인지도 확장 단계.</div>
+    <div class="hl red"><strong>시사점</strong>팬덤 이벤트를 수익 채널로 정식화할 필요. 온라인 굿즈 스토어(일본·대만·북미 별도 운영) 연계 시 이벤트 효과를 상시화 가능.</div>
+  </div>
+
+  <div class="sec-hd rv"><div class="sec-lbl">Regional</div><div class="sec-ttl">권역별 현황 요약</div></div>
+  <hr class="nw-rule">
+
+  <div class="card rv" style="padding:0;overflow:hidden;margin-bottom:16px;">
+    <div class="tbl-scroll">
+      <table class="ctbl">
+        <thead>
+          <tr><th>권역</th><th>주요 시장</th><th>3Q 팬덤 액션</th><th>강점</th><th>4Q 핵심 과제</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="cg">한국</td><td>국내</td><td>국내 커뮤니티 운영</td><td>빠른 이벤트 반응, 고과금 유저층</td><td>휴면 유저 복귀 캠페인</td></tr>
+          <tr class="ps"><td class="cg">일본</td><td>Japan</td><td>코미케(1억), TGS 참가</td><td>고밀도 팬덤, 굿즈 소비력 강함</td><td>무직전생 콜라보 마케팅 집중</td></tr>
+          <tr class="ps"><td class="cg">대홍마 (대만·홍콩·마카오)</td><td>Taiwan / HK</td><td>팬시프론티어(1.4억), BiliBili</td><td>팬아트·2차창작 활발, 굿즈 매출 최고</td><td>팬시프론티어 4Q 연계 이벤트</td></tr>
+          <tr><td class="cg">북미 / 글로벌</td><td>US / Global</td><td>SDCC(1,800명), Anime NYC(3,500명)</td><td>IP 노출·미디어 커버리지 강함</td><td>스팀 런칭(12/16) 북미 유저 획득</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="hl red rv" style="margin-bottom:18px;">
+    <strong>핵심 관찰</strong>일본·대만이 팬덤 소비 핵심 권역. 북미는 인지도 확장 단계. 4Q 스팀 런칭은 PC 게이머 중심의 북미·유럽 신규 유저 획득 기회로, 글로벌 팬덤 밸런스 재편 가능성이 있다.
+  </div>
+
+  <div class="fn rv">
+    <div class="fn-lbl">출처</div>
+    <ul class="fn-ul">
+      <li>브라운더스트2 2025 3Q 회고(최종) — GPX사업부 내부 자료</li>
+      <li>팬덤 이벤트 인원·굿즈 매출은 공식 집계 기준. TGS 인원은 행사 특성상 별도 집계 없음.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== TAB 4: 4Q 전략 & 결론 ==================== -->
+<div class="panel" id="p4">
+  <div class="page-ttl-bar rv">
+    <div class="page-ttl">4Q 전략 &amp; 결론</div>
+    <div class="page-sub">무직전생 콜라보(10월) → 스토리팩19(11월) → 2.5주년+스팀 런칭(12/16). 마케팅 41.9억 집중 투입.</div>
+  </div>
+
+  <div class="sec-hd rv"><div class="sec-lbl">Q4 Roadmap</div><div class="sec-ttl">4Q 실행 로드맵</div></div>
+  <hr class="nw-rule">
+
+  <div class="card rv" style="margin-bottom:18px;">
+    <div class="tl-grid">
+      <div class="tli">
+        <div class="tli-dot"><div class="dot now"></div></div>
+        <div class="tl-per a">2025.10</div>
+        <div class="tl-ttl">무직전생 콜라보</div>
+        <div class="tl-bd">인기 애니메이션 IP 연계. 일본·북미·한국 동시 캠페인. 신규 유저 유입 목표.</div>
+      </div>
+      <div class="tli">
+        <div class="tli-dot"><div class="dot key"></div></div>
+        <div class="tl-per b">2025.11</div>
+        <div class="tl-ttl">스토리팩 19</div>
+        <div class="tl-bd">신규 스토리 콘텐츠 업데이트. 기존 유저 리텐션 강화 및 휴면 유저 복귀 유도.</div>
+      </div>
+      <div class="tli">
+        <div class="tli-dot"><div class="dot"></div></div>
+        <div class="tl-per">2025.12.01~15</div>
+        <div class="tl-ttl">2.5주년 사전 이벤트</div>
+        <div class="tl-bd">2.5주년 예고 캠페인, 사전 등록 이벤트, 복귀 유저 쿠폰 배포.</div>
+      </div>
+      <div class="tli">
+        <div class="tli-dot"><div class="dot now"></div></div>
+        <div class="tl-per a">2025.12.16</div>
+        <div class="tl-ttl">2.5주년 + 스팀 런칭</div>
+        <div class="tl-bd">2.5주년 이벤트 본행사. 동시에 Steam 플랫폼 정식 출시. PC 유저 신규 획득 핵심 일정.</div>
+      </div>
+      <div class="tli">
+        <div class="tli-dot"><div class="dot"></div></div>
+        <div class="tl-per">2026.01~</div>
+        <div class="tl-ttl">스팀 안착 &amp; 4Q 결산</div>
+        <div class="tl-bd">스팀 리뷰·유저 피드백 기반 빠른 패치. 4Q 목표 달성 여부 집계 및 2026 계획 수립.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2 rv">
+    <div class="cbox">
+      <div class="ch-ttl">4Q 마케팅 예산 배분 (추정)</div>
+      <div class="ch-sub">4Q 총 41.9억 · 단위: 억원</div>
+      <div class="cw-lg"><canvas id="c4a" role="img" aria-label="4Q 마케팅 예산 배분 도넛 차트"></canvas></div>
+    </div>
+    <div class="card tb">
+      <h4>4Q 전략 핵심</h4>
+      <p><strong>무직전생 콜라보(10월)</strong>는 일본 최대 인기 애니메이션 IP 연계로, 일본·북미 신규 유저 유입 효과가 기대된다. BD2의 핵심 팬층과 무직전생 팬층 간 높은 겹침이 예상된다.</p>
+      <p><strong>스팀 런칭(12/16)</strong>은 기존 모바일 전용 구조에서 PC 플랫폼으로의 첫 확장. 스팀 사용자층(북미·유럽 PC 게이머)은 BD2 기존 매출 구조와 다른 신규 풀로, 장기적 매출 다각화의 첫 발이다.</p>
+      <p>3Q 급락폭(-51.9%)에 비해 4Q는 <em>대형 이벤트 3개가 집중</em>되어 반등 여건이 갖춰졌다. 마케팅 41.9억을 무직전생·스팀 런칭에 집중 배분하는 것이 ROI 극대화 전략이다.</p>
+    </div>
+  </div>
+
+  <div class="sec-hd rv" style="margin-top:4px;"><div class="sec-lbl">Strategic Insights</div><div class="sec-ttl">결론 &amp; 전략 인사이트</div></div>
+  <hr class="nw-rule">
+
+  <div class="ins-list rv">
+    <div class="ins-item">
+      <div class="ins-n">01</div>
+      <div>
+        <div class="ins-ttl">이벤트 의존 매출 구조 — 베이스라인 강화가 최우선 과제</div>
+        <div class="ins-txt">3Q 목표 초과 달성(+11%)의 이면에는 9월 -51.9% MoM 급락이 있다. 2주년 이벤트 종료 후 자연 유지 매출이 약 <strong>58억 수준</strong>으로 낮다. 분기 내 이벤트 종료 후 저점이 반복되는 구조는 장기 서비스 안정성을 위협한다.
+        <div class="clt cr">상시 BM 강화(스킨 정기 출시 캘린더 공개, 시즌 패스 도입) 및 4Q 스팀 런칭을 통한 플랫폼 매출 다각화가 핵심 해결책</div></div>
+      </div>
+    </div>
+    <div class="ins-item">
+      <div class="ins-n p">02</div>
+      <div>
+        <div class="ins-ttl">휴면 유저 복귀 캠페인 — 4Q 최고 효율 레버</div>
+        <div class="ins-txt">이탈 유저 <strong>90%가 7일 이내 방문</strong> 이력 보유, <strong>83%가 무과금</strong>. 완전 이탈이 아닌 휴면 상태로, 복귀 캠페인 효율이 신규 획득 대비 월등히 높다. 무직전생 콜라보·2.5주년 이벤트는 이 휴면층을 재활성화할 최적 트리거다.
+        <div class="clt ct">무직전생 콜라보 기간 휴면 유저 대상 알림 푸시·이메일 캠페인 선제 실행. 복귀 즉시 소액 과금 유도 스타터팩 제공.</div></div>
+      </div>
+    </div>
+    <div class="ins-item">
+      <div class="ins-n i">03</div>
+      <div>
+        <div class="ins-ttl">스팀 런칭 — 플랫폼 다각화 첫 발. 첫 30일이 스팀 포지셔닝을 결정한다</div>
+        <div class="ins-txt">12월 16일 스팀 런칭은 BD2 역사상 첫 PC 플랫폼 진출이다. 스팀 사용자층(북미·유럽 PC 게이머)은 기존 모바일 과금 구조와 다르며, <strong>높은 품질 기대치와 초기 리뷰 민감도</strong>가 특징이다. 출시 직후 리뷰가 '긍정적'으로 형성되어야 스팀 알고리즘 노출과 지속 유입이 가능하다.
+        <div class="cb clt">런칭 전 베타 피드백 기반 PC UX 최적화, 런칭 당일 버그 즉각 패치 체계 구축, 스팀 커뮤니티 공식 포럼 운영 담당자 사전 배정 필수.</div></div>
+      </div>
+    </div>
+    <div class="ins-item">
+      <div class="ins-n w">04</div>
+      <div>
+        <div class="ins-ttl">일본·대만 팬덤 — 수익화 가능한 IP 자산. 온라인 굿즈 채널 정식화 필요</div>
+        <div class="ins-txt">코미케(1억) + 팬시프론티어(1.4억) = 2.4억의 굿즈 매출은 IP 가치를 직접 수익화한 사례다. 현재 오프라인 이벤트에만 의존하는 구조는 기회 손실이다. <strong>일본·대만 대상 상시 온라인 굿즈 스토어</strong>를 운영하면 이벤트 시즌 외에도 팬덤 소비를 포착할 수 있다.
+        <div class="ca clt">4Q 팬시프론티어 연계 이벤트 + 온라인 굿즈 스토어 파일럿 운영 검토. 일본·대만 현지 물류 파트너십 사전 확보 필요.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2 rv" style="margin-top:18px;">
+    <div class="cbox">
+      <div class="ch-ttl">4Q 기대 매출 시나리오</div>
+      <div class="ch-sub">단위: 억원 · 시나리오 비교</div>
+      <div class="cw-lg"><canvas id="c4b" role="img" aria-label="4Q 기대 매출 시나리오 막대 차트"></canvas></div>
+    </div>
+    <div class="cbox">
+      <div class="ch-ttl">연간 매출 추이 (2025)</div>
+      <div class="ch-sub">단위: 억원 · Q4는 추정</div>
+      <div class="cw-lg"><canvas id="c4c" role="img" aria-label="2025 연간 매출 추이 차트"></canvas></div>
+    </div>
+  </div>
+
+  <div class="fn rv">
+    <div class="fn-lbl">출처 &amp; 고지</div>
+    <ul class="fn-ul">
+      <li>브라운더스트2 2025 3Q 회고(최종) — GPX사업부 내부 자료</li>
+      <li>4Q 시나리오 매출은 과거 이벤트 효과 및 내부 예측 기반 추정치. 실제 결과와 상이할 수 있음.</li>
+      <li>스팀 런칭 매출 기여는 별도 채널 집계 예정. 4Q 통합 목표에 포함.</li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- /body-wrap -->
+
+<script>
+/* TAB-BAR AFFIX */
+(function(){
+  var nav=document.querySelector('.tab-bar');
+  var ph=document.createElement('div');ph.style.display='none';ph.style.height=nav.offsetHeight+'px';
+  nav.parentNode.insertBefore(ph,nav.nextSibling);
+  var navTop=nav.offsetTop;
+  window.addEventListener('scroll',function(){
+    if(window.scrollY>=navTop){nav.classList.add('pinned');ph.style.display='block';}
+    else{nav.classList.remove('pinned');ph.style.display='none';}
+  },{passive:true});
+})();
+
+var dark=localStorage.getItem('rd')==='1';
+if(dark){document.body.classList.add('dark');document.querySelector('.dark-btn').textContent='Light';}
+function toggleDark(){dark=!dark;document.body.classList.toggle('dark',dark);localStorage.setItem('rd',dark?'1':'0');document.querySelector('.dark-btn').textContent=dark?'Light':'Dark';if(built){built=false;bc();}}
+
+var panels=document.querySelectorAll('.panel');
+function go(i,b){
+  panels.forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.t-btn').forEach(function(x){x.classList.remove('on');});
+  panels[i].classList.add('on');b.classList.add('on');
+  window.scrollTo({top:0,behavior:'instant'});
+  panels[i].querySelectorAll('.rv:not(.vis)').forEach(function(el){ro.observe(el);});
+  if(!built)bc();
+}
+
+var ro=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target);}});},{threshold:.08});
+document.querySelectorAll('.rv').forEach(function(el){ro.observe(el);});
+
+var built=false;
+var CM={ch:new Map(),init:function(id,cfg){if(typeof Chart==='undefined')return null;try{if(this.ch.has(id)){this.ch.get(id).destroy();this.ch.delete(id);}var el=document.getElementById(id);if(!el)return null;var c=new Chart(el,cfg);this.ch.set(id,c);return c;}catch(e){return null;}}};
+
+function bc(){
+  if(built)return;
+  if(typeof Chart==='undefined'){setTimeout(bc,200);return;}
+  Chart.defaults.animation=false;
+  var d=document.body.classList.contains('dark');
+  var INK='#1C1C20', RED='#E51937', REDDEEP='#B8142C';
+  var POS='#1E8E5A', WARN='#D98C1F', INFO='#2E5CE6';
+  var GRAY='#A0A0A6';
+  if(d){INK='#E8ECF5';GRAY='#5C6B8C';}
+  var grid=d?'rgba(255,255,255,.06)':'rgba(20,20,30,.06)';
+  var lbl=d?'#A0ABC8':'#717174';
+  var ink=INK;
+  var ink2=d?'#A0ABC8':'#4A4A52';
+  var sx={grid:{color:grid},ticks:{color:lbl,font:{size:11,family:"'Noto Sans KR',sans-serif"}}};
+  var sy=Object.assign({},sx,{beginAtZero:true});
+  var leg={labels:{color:ink2,font:{size:12,family:"'Noto Sans KR',sans-serif"},padding:14}};
+
+  function bar(id,labels,datasets,opts){
+    CM.init(id,{type:'bar',data:{labels:labels,datasets:datasets},options:Object.assign({responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:true}},scales:{x:sx,y:sy}},opts||{})});
+  }
+
+  // ---- TAB 0 ----
+  // 분기별 매출 추이
+  bar('c0a',['24 Q1','24 Q2','24 Q3','24 Q4','25 Q1','25 Q2','25 Q3'],[{
+    data:[185,198,210,230,205,229.8,258.3],
+    borderRadius:4,
+    backgroundColor:['#D6D6DC','#D6D6DC','#D6D6DC','#D6D6DC','#A0A0A6','#717174',RED],
+    borderColor:'transparent',borderWidth:0
+  }],{scales:{x:sx,y:Object.assign({},sy,{ticks:Object.assign({},sy.ticks,{callback:function(v){return v+'억';}})})}});
+
+  // 3Q 월별 매출
+  CM.init('c0b',{type:'bar',data:{
+    labels:['7월','8월','9월'],
+    datasets:[{
+      data:[80.6,120,57.7],
+      borderRadius:5,
+      backgroundColor:[INFO, RED, WARN],
+      borderColor:'transparent',borderWidth:0
+    }]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.raw+'억원';}}}},scales:{x:sx,y:Object.assign({},sy,{ticks:Object.assign({},sy.ticks,{callback:function(v){return v+'억';}})})}}});
+
+  // ---- TAB 1 ----
+  bar('c1a',['7월','8월','9월'],[{
+    data:[80.6,120,57.7],
+    borderRadius:5,
+    backgroundColor:[INFO,RED,WARN],
+    borderColor:'transparent',borderWidth:0
+  }],{scales:{x:sx,y:Object.assign({},sy,{ticks:Object.assign({},sy.ticks,{callback:function(v){return v+'억';}})})}});
+
+  CM.init('c1b',{type:'line',data:{
+    labels:['24Q1','24Q2','24Q3','24Q4','25Q1','25Q2','25Q3'],
+    datasets:[{
+      label:'분기 매출',
+      data:[185,198,210,230,205,229.8,258.3],
+      borderColor:RED,backgroundColor:'rgba(229,25,55,.08)',
+      borderWidth:2,pointBackgroundColor:RED,pointRadius:4,fill:true,tension:.3
+    }]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.raw+'억원';}}}},scales:{x:sx,y:Object.assign({},sy,{ticks:Object.assign({},sy.ticks,{callback:function(v){return v+'억';}})})}}});
+
+  bar('c1c',['유스티아','테레제'],[{
+    data:[42.5,49.0],
+    borderRadius:5,
+    backgroundColor:[INFO,RED]
+  }],{scales:{x:sx,y:Object.assign({},sy,{ticks:Object.assign({},sy.ticks,{callback:function(v){return v+'억';}})})}});
+
+  bar('c1d',['Q1','Q2','Q3','Q4'],[{
+    data:[24.1,25.3,42.0,41.9],
+    borderRadius:4,
+    backgroundColor:[GRAY,GRAY,INK,RED]
+  }],{scales:{x:sx,y:Object.assign({},sy,{ticks:Object.assign({},sy.ticks,{callback:function(v){return v+'억';}})})}});
+
+  // ---- TAB 2 ----
+  CM.init('c2a',{type:'line',data:{
+    labels:['7월 초','7월 말','8월 초(2주년)','8월 말','9월 초','9월 말'],
+    datasets:[{
+      label:'AU (만명)',
+      data:[19.5,20.8,24.9,22.3,15.2,12.4],
+      borderColor:RED,backgroundColor:'rgba(229,25,55,.08)',
+      borderWidth:2.5,pointBackgroundColor:RED,pointRadius:4,fill:true,tension:.4
+    }]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.raw+'만명';}}}},scales:{x:sx,y:Object.assign({},sy,{ticks:Object.assign({},sy.ticks,{callback:function(v){return v+'만';}})})}}});
+
+  bar('c2b',['7일 이내 방문','7일 이상 경과'],[{
+    data:[90,10],
+    borderRadius:4,
+    backgroundColor:[POS,GRAY]
+  }],{scales:{x:sx,y:Object.assign({},sy,{max:100,ticks:Object.assign({},sy.ticks,{callback:function(v){return v+'%';}})})},plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.raw+'%';}}}}});
+
+  CM.init('c2c',{type:'doughnut',data:{
+    labels:['무과금 (83%)','소과금 (12%)','고과금 (5%)'],
+    datasets:[{data:[83,12,5],backgroundColor:[RED,WARN,POS],borderWidth:0,hoverOffset:5}]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:Object.assign({},leg,{position:'right'})},cutout:'62%'}});
+
+  // ---- TAB 3 ----
+  bar('c3a',['BiliBili World','Anime NYC','SDCC'],[{
+    data:[4000,3500,1800],
+    borderRadius:4,
+    backgroundColor:[INFO,POS,WARN]
+  }],{scales:{x:sx,y:Object.assign({},sy,{ticks:Object.assign({},sy.ticks,{callback:function(v){return v+'명';}})})}});
+
+  bar('c3b',['팬시프론티어 (대만)','코미케 (일본)'],[{
+    data:[1.4,1.0],
+    borderRadius:4,
+    backgroundColor:[RED,INFO]
+  }],{scales:{x:sx,y:Object.assign({},sy,{ticks:Object.assign({},sy.ticks,{callback:function(v){return v+'억';}})})}});
+
+  // ---- TAB 4 ----
+  CM.init('c4a',{type:'doughnut',data:{
+    labels:['무직전생 콜라보','스팀 런칭','2.5주년 이벤트','스토리팩19'],
+    datasets:[{data:[12,15,11,3.9],backgroundColor:[INFO,RED,POS,WARN],borderWidth:0,hoverOffset:5}]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:Object.assign({},leg,{position:'right'}),tooltip:{callbacks:{label:function(c){return c.dataset.label+' '+c.raw+'억원(추정)';}}}}  ,cutout:'55%'}});
+
+  bar('c4b',['보수 (220억)','기본 (260억)','낙관 (300억+)'],[{
+    data:[220,260,310],
+    borderRadius:4,
+    backgroundColor:[WARN,INK,POS]
+  }],{scales:{x:sx,y:Object.assign({},sy,{ticks:Object.assign({},sy.ticks,{callback:function(v){return v+'억';}})})}});
+
+  CM.init('c4c',{type:'line',data:{
+    labels:['Q1','Q2','Q3','Q4(추정)'],
+    datasets:[
+      {label:'실적',data:[205,229.8,258.3,null],borderColor:INK,backgroundColor:'transparent',borderWidth:2,pointBackgroundColor:INK,pointRadius:4,tension:.3},
+      {label:'추정(기본)',data:[null,null,258.3,260],borderColor:RED,backgroundColor:'rgba(229,25,55,.06)',borderWidth:2,borderDash:[5,4],pointBackgroundColor:RED,pointRadius:4,fill:true,tension:.3},
+      {label:'추정(낙관)',data:[null,null,258.3,310],borderColor:POS,backgroundColor:'rgba(30,142,90,.06)',borderWidth:2,borderDash:[5,4],pointBackgroundColor:POS,pointRadius:4,fill:true,tension:.3}
+    ]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:Object.assign({display:true},leg),tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+(c.raw?c.raw+'억':'');}}}},scales:{x:sx,y:Object.assign({},sy,{ticks:Object.assign({},sy.ticks,{callback:function(v){return v+'억';}})})}}});
+
+  built=true;
+}
+document.addEventListener('DOMContentLoaded',function(){setTimeout(bc,100);});
+</script>
+</body>
+</html>
