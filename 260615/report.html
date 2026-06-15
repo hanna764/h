@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>서브컬처 게임 주간 리포트 — 2026.06.15 (W25)</title>
+<style>
+  :root{
+    --red:#E51937; --red-bg:#fef2f2; --ink:#1a1a1a; --muted:#6b7280;
+    --line:#e5e7eb; --bg:#f4f5f7; --card:#ffffff;
+    --green:#16a34a; --green-bg:#f0fdf4; --blue:#2563eb; --blue-bg:#eff6ff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Pretendard','Noto Sans KR',-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;}
+  .header{background:#fff;padding:36px 24px 0;text-align:center;border-bottom:3px solid var(--red);}
+  .header h1{font-size:26px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px;}
+  .header .subtitle{color:var(--muted);font-size:14px;font-weight:500;}
+  .header .date-badge{display:inline-block;background:var(--red);color:#fff;padding:4px 16px;border-radius:20px;font-size:13px;font-weight:600;margin:12px 0 18px;}
+  .tab-nav{display:flex;justify-content:center;gap:0;padding:0 16px;background:#fff;border-bottom:1px solid var(--line);overflow-x:auto;position:sticky;top:0;z-index:50;}
+  .tab-btn{background:transparent;color:var(--muted);border:none;padding:14px 18px;font-size:13px;font-weight:700;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:.2s;font-family:inherit;}
+  .tab-btn:hover{color:var(--ink);}
+  .tab-btn.active{color:var(--red);border-bottom-color:var(--red);}
+  .tab-content{display:none;}
+  .tab-content.active{display:block;}
+  .container{max-width:900px;margin:0 auto;padding:24px 16px 60px;}
+  .section{background:var(--card);border-radius:12px;padding:28px 24px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--line);}
+  .section h2{font-size:18px;font-weight:800;color:var(--ink);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--red);display:flex;align-items:center;gap:8px;}
+  .section h2 .num{background:var(--red);color:#fff;width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+  h3{font-size:16px;font-weight:700;color:var(--ink);margin:20px 0 10px;}
+  h4{font-size:14px;font-weight:700;color:var(--ink);margin:14px 0 6px;}
+  p{margin-bottom:10px;} ul{padding-left:20px;margin-bottom:12px;} li{margin-bottom:6px;}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;}
+  th{background:var(--ink);color:#fff;text-align:left;padding:10px 12px;font-weight:600;font-size:13px;}
+  td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fafafa;}
+  .publisher-badge{display:inline-block;background:var(--ink);color:#fff;padding:2px 10px;border-radius:4px;font-size:12px;font-weight:600;margin-bottom:8px;}
+  .publisher-badge.cn{background:var(--red);} .publisher-badge.kr{background:var(--blue);} .publisher-badge.jp{background:#7c3aed;}
+  .game-card{border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:14px;}
+  .game-card h4{margin-top:0;font-size:15px;}
+  .tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600;margin-right:4px;}
+  .tag-hot{background:#fef2f2;color:var(--red);} .tag-new{background:#eff6ff;color:#2563eb;}
+  .tag-global{background:#f0fdf4;color:#16a34a;} .tag-update{background:#fefce8;color:#a16207;} .tag-trend{background:#f5f3ff;color:#7c3aed;}
+  .threat-box,.opp-box{border-radius:8px;padding:14px 16px;margin-bottom:10px;}
+  .threat-box{background:var(--red-bg);border-left:3px solid var(--red);}
+  .opp-box{background:var(--green-bg);border-left:3px solid var(--green);}
+  .calendar-row td:first-child{font-weight:700;color:var(--red);white-space:nowrap;}
+  .summary-box{background:var(--ink);color:#fff;border-radius:12px;padding:24px;margin-top:24px;}
+  .summary-box h2{color:#fff;border-bottom-color:var(--red);}
+  .summary-box p{color:#d1d5db;line-height:1.8;}
+  .footer{text-align:center;color:var(--muted);font-size:12px;margin-top:32px;padding:20px;}
+  .footer a{color:var(--red);text-decoration:none;font-weight:600;}
+  .footer a:hover{text-decoration:underline;}
+  @media(max-width:640px){.header h1{font-size:20px;}.section{padding:20px 16px;}table{font-size:13px;}th,td{padding:8px;}.tab-btn{padding:11px 12px;font-size:12px;}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>서브컬처 게임 주간 리포트</h1>
+  <div class="subtitle">GPX사업부 컨텐츠사업팀 — 브라운더스트2 시장 모니터링 · KR &gt; TW &gt; CN</div>
+  <div class="date-badge">2026년 6월 15일 (월) · W25 기준</div>
+</div>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="t1">시장 흐름</button>
+  <button class="tab-btn" data-tab="t2">게임별 이슈</button>
+  <button class="tab-btn" data-tab="t3">1개월 전망</button>
+  <button class="tab-btn" data-tab="t4">2~6개월 전망</button>
+  <button class="tab-btn" data-tab="t5">브더2 시사점</button>
+</nav>
+
+<!-- TAB 1 시장 흐름 -->
+<div id="t1" class="tab-content active"><div class="container"><div class="section">
+  <h2><span class="num">1</span> 서브컬처 시장 핵심 흐름</h2>
+
+  <div class="game-card"><h4>이번 주 핵심: 6/17 젠레스 Steam 정식 출시 임박 <span class="tag tag-hot">이번 주</span></h4><ul>
+    <li>호요버스 젠레스 존 제로 3.0 + <strong>Steam 정식 출시(6/17)</strong> — PC 유입 확대 본격 구간 진입</li>
+    <li>6/24 스타레일 Phase2 Phainon 배너까지 호요 라인업 모멘텀이 2주 연속 누적</li>
+  </ul></div>
+
+  <div class="game-card"><h4>명조 사이버펑크 콜라보 중반부 <span class="tag tag-hot">진행 중</span></h4><ul>
+    <li>쿠로게임즈 명조 3.4 — 사이버펑크: 엣지러너 콜라보(6/8~7/9) 중반부 진입</li>
+    <li>KR 매출 TOP10 재진입 견인 지속, 7/9 종료 후 이탈 유저 발생 예고</li>
+  </ul></div>
+
+  <div class="game-card"><h4>한국 서브컬처 톱티어 굳히기 <span class="tag tag-hot">핵심</span></h4><ul>
+    <li>니케 — 한·일·미·대만 구글 <strong>매출 1위 4주 연속</strong> 행진</li>
+    <li>블루 아카이브 — 6/9 '말쿠트전' 2막 진행 중, 스팀 국내 매출 1위</li>
+    <li>리스크: 시프트업 신작 공백기 + 신규 SSR 의존도 누적</li>
+  </ul></div>
+
+  <div class="game-card"><h4>대형 KR사 서브컬처 본격 진입 <span class="tag tag-new">구조적</span></h4><ul>
+    <li><strong>엔씨소프트</strong> — 리밋 제로 브레이커스(빅게임스튜디오) 프롤로그 테스트 6/15 종료, 사전예약 본격화 임박</li>
+    <li><strong>스마일게이트</strong> — 미래시(컨트롤나인)·카오스 제로 나이트메어(슈퍼크리에이티브) 라인업</li>
+    <li>리니지라이크 강자들의 서브컬처 무게중심 분산 — 국산 경쟁 심화</li>
+  </ul></div>
+
+  <div class="game-card"><h4>중국산 차세대 오픈월드 가챠 대기 <span class="tag tag-trend">구조적</span></h4><ul>
+    <li>아주르 프로밀리아(Manjuu, <strong>KR 퍼블 넥슨</strong>, CBT 5/15~18) — 2026 하반기 출시 목표</li>
+    <li>무한대 ANANTA(NetEase, Q3말 글로벌 목표), 귀환(텐센트 Saroasis, 2026말~)</li>
+    <li>원신·명조류 오픈월드 가챠가 서브컬처 예산을 추가 분산시킬 전망</li>
+  </ul></div>
+
+  <div class="game-card"><h4>멀티플랫폼 서브컬처 부상 <span class="tag tag-trend">구조적</span></h4><ul>
+    <li>이환(NTE, 호타/퍼펙트월드) 4/29 KR 출시 후 2개월차 — <strong>PC·PS5 비중 75%</strong> 리텐션 시험</li>
+    <li>엔드필드(하이퍼그리프) 모바일 누적 $96M, 일평균 78만(일본 41%)</li>
+    <li>모바일 일변도 → PC·콘솔 동시 서비스로 서브컬처도 멀티플랫폼화</li>
+  </ul></div>
+
+  <div class="summary-box">
+    <h2><span class="num" style="background:var(--red);">★</span> 핵심 요약</h2>
+    <p>이번 주는 6/17 젠레스 Steam 정식 출시와 6/24 스타레일 Phainon 배너로 호요 라인업 모멘텀이 누적되고, 명조 콜라보 중반부(~7/9)가 겹쳐 서브컬처 코어 유저의 시간·지갑 집중도가 정점에 접근하는 구간. 니케·블루아카이브는 톱티어 매출 견고. 엔씨·스마일게이트의 진입과 CN 차세대 오픈월드 대기(아주르프로밀리아·무한대·귀환)로 하반기 경쟁 구조가 본격화.</p>
+    <p style="margin-top:12px;"><strong style="color:#fff;">브더2 핵심 과제:</strong> 명조 콜라보 종료(7/9) 직전·직후를 이탈 유저 흡수 골든타임으로 잡고, BD2의 2D 스토리·코스튬 차별화로 선제 대응. 6~8월 신작 출시 러시 전 유저 기반 공고화가 최우선 과제.</p>
+  </div>
+</div></div></div>
+
+<!-- TAB 2 게임별 이슈 -->
+<div id="t2" class="tab-content"><div class="container"><div class="section">
+  <h2><span class="num">2</span> 게임별 최근 30일 이슈</h2>
+  <p style="color:var(--muted);font-size:13px;">기간: 2026.05.16 ~ 2026.06.15 · 우선순위 KR &gt; TW &gt; CN</p>
+
+  <h3><span class="publisher-badge cn">호요버스 (CN)</span></h3>
+  <div class="game-card"><h4>붕괴: 스타레일 <span class="tag tag-update">4.3</span></h4><ul>
+    <li>4.3 Phainon 패치(6/1~6/24), 6/24 Phase2 Phainon/Cyrene 배너 임박 <span style="color:var(--muted);font-size:12px;">[2026-06-01]</span></li>
+    <li>KR 매출 4위 이력(비MMORPG 최고) · TW #1급</li></ul></div>
+  <div class="game-card"><h4>원신 <span class="tag tag-update">Luna VII</span></h4><ul>
+    <li>6.6 Luna VII — Nicole/Lohen/Prune, Mavuika 복각(6/9~30) <span style="color:var(--muted);font-size:12px;">[2026-06-09]</span></li>
+    <li>KR 상(#6~7) · TW 최상(#3) · 글로벌 매출 전년比 감소세로 신캐 의존도 상승</li></ul></div>
+  <div class="game-card"><h4>젠레스 존 제로 <span class="tag tag-hot">6/17 Steam</span></h4><ul>
+    <li>3.0 + <strong>Steam 정식 출시(6/17)</strong> — 신규 바람속성·신도시, 첫 바람 S랭크 Velina <span style="color:var(--muted);font-size:12px;">[2026-06-06 발표]</span></li>
+    <li>KR 상(top-10) · TW 상(#10) · PC 유입 확대 본격화</li></ul></div>
+
+  <h3><span class="publisher-badge cn">쿠로게임즈 (CN)</span></h3>
+  <div class="game-card"><h4>명조: 워더링 웨이브 <span class="tag tag-hot">콜라보 중반부</span></h4><ul>
+    <li>3.4 사이버펑크: 엣지러너 콜라보(6/8~7/9) — 출시 후 첫 크로스IP <span style="color:var(--muted);font-size:12px;">[2026-06-08]</span></li>
+    <li>KR 최상(#2, TOP10 재진입) · TW 상</li></ul></div>
+
+  <h3><span class="publisher-badge kr">시프트업 · 넥슨게임즈 (KR)</span></h3>
+  <div class="game-card"><h4>승리의 여신: 니케 <span class="tag tag-hot">매출 1위 4주 연속</span></h4><ul>
+    <li>5/28 'BITTER SPICE' — 신규 SSR 프리카, 솔로레이드 시즌37(~6/11) <span style="color:var(--muted);font-size:12px;">[2026-05-28]</span></li>
+    <li>한·일·미·대만 구글 매출 1위 · 리스크: 중국 부진 + 시프트업 신작 공백</li></ul></div>
+  <div class="game-card"><h4>블루 아카이브 <span class="tag tag-update">말쿠트전</span></h4><ul>
+    <li>6/9 이벤트 2막 '말쿠트전' — 신규 아리스(무장)·케이, 스팀 국내 1위 <span style="color:var(--muted);font-size:12px;">[2026-06-09]</span></li>
+    <li>KR 상(구글5위권+스팀1위) · TW 중(한중일 통합서버) · 5주년 모멘텀</li></ul></div>
+
+  <h3><span class="publisher-badge kr">넷마블 · 프로젝트문 · 에피드 (KR)</span></h3>
+  <div class="game-card"><h4>몬길 STAR DIVE / 림버스 / 트릭컬</h4><ul>
+    <li>몬길 — 5/21 1.1 버전(얼음 나래, 첫 전설 레기눌라), KR #4 <span style="color:var(--muted);font-size:12px;">[2026-05-21]</span></li>
+    <li>림버스 컴퍼니 — 6/11 정기 업데이트, 발푸르기스의 밤 임박 <span style="color:var(--muted);font-size:12px;">[2026-06-11]</span></li>
+    <li>트릭컬 리바이브 — 6/11 신규 사도 키샤 + 테마극장(~6/18)</li></ul></div>
+
+  <h3><span class="publisher-badge kr">엔씨소프트 · 스마일게이트 (KR 신규 진입)</span></h3>
+  <div class="game-card"><h4>리밋 제로 브레이커스 <span class="tag tag-new">테스트 종료</span> / 미래시 / 카오스 제로</h4><ul>
+    <li>리밋 제로(빅게임스튜디오/<strong>NC</strong>) — 프롤로그 테스트 6/11~15 종료, 연내 글로벌 출시 <span style="color:var(--muted);font-size:12px;">[2026-05-14]</span></li>
+    <li>미래시(컨트롤나인/<strong>스마일게이트</strong>) — 신규 PV·역사서 공개, 니케 출신 인력</li>
+    <li>카오스 제로 나이트메어(슈퍼크리에이티브/스마일게이트) — 시즌2 진행 중(~6/30)</li></ul></div>
+
+  <h3><span class="publisher-badge cn">CN 신작 침투 (호타·NetEase·텐센트·Manjuu)</span></h3>
+  <div class="game-card"><h4>이환(NTE) <span class="tag tag-hot">KR 2개월차</span> / 무한대 / 귀환 / 아주르 프로밀리아</h4><ul>
+    <li>이환(NTE) — <strong>4/29 KR 정식 출시</strong>, 첫날 1억위안, 사전예약 3,500만, PC·PS5 75% <span style="color:var(--muted);font-size:12px;">[2026-04-29]</span></li>
+    <li>아주르 프로밀리아(Manjuu, KR 넥슨) — CBT 5/15~18 완료, 2026년 KR 출시 목표</li>
+    <li>무한대 ANANTA(NetEase) — Q3말 글로벌 목표 · 귀환(텐센트) — 2026말~2027초</li></ul></div>
+
+  <h3><span class="publisher-badge cn">하이퍼그리프 (CN)</span></h3>
+  <div class="game-card"><h4>명일방주 / 엔드필드</h4><ul>
+    <li>명일방주 — 콜라보 신규 오키드(6성)(6/1~15) 종료, 7년차 코어 · TW 상</li>
+    <li>엔드필드 — 모바일 누적 $96M, 일평균 78만(일본 41%) <span style="color:var(--muted);font-size:12px;">[2026-06-11]</span></li></ul></div>
+
+  <h3><span class="publisher-badge jp">일본 (사이게임즈·라센글)</span></h3>
+  <div class="game-card"><h4>우마무스메 / FGO</h4><ul>
+    <li>우마무스메 — 4주년 픽업(오르페브르), 3국 누적 매출 20억$ · KR 구글9/애플6 · TW 중 <span style="color:var(--muted);font-size:12px;">[2026-06-15]</span></li>
+    <li>FGO — 로스트벨트 2부 개막(~6/18) · TW #4(iOS 고래)</li></ul></div>
+
+  <h3><span class="publisher-badge">기타 주목</span></h3>
+  <div class="game-card"><h4>벽람항로 · 로스트소드 · 이터널 리턴 · 실버 팰리스</h4><ul>
+    <li>벽람항로(CN/요스타) — WoW 8번째 콜라보(5/30~6/17 종료)</li>
+    <li>로스트소드(KR/코드캣) — 엔씨타이완 통해 대만/홍콩/마카오 연내 출시</li>
+    <li>이터널 리턴(KR/님블뉴런) — v11.3 패치(5/27~6/4), 코어 PC 유저층</li>
+    <li>실버 팰리스(<strong>싱가포르</strong>/엘리멘타) — UE5 추리 ARPG, 사전예약 400만</li></ul></div>
+</div></div></div>
+
+<!-- TAB 3 1개월 전망 -->
+<div id="t3" class="tab-content"><div class="container"><div class="section">
+  <h2><span class="num">3</span> 향후 1개월 전망 (6월 후반 ~ 7월)</h2>
+  <table>
+    <tr><th>일정</th><th>타이틀</th><th>내용</th></tr>
+    <tr class="calendar-row"><td>6/17</td><td>젠레스 존 제로</td><td>3.0 시즌3 + Steam 정식 출시 (PC 유입 확대, 이번 주 핵심)</td></tr>
+    <tr class="calendar-row"><td>6/17</td><td>벽람항로</td><td>WoW 콜라보(5/30~) 종료</td></tr>
+    <tr class="calendar-row"><td>6/18</td><td>트릭컬 리바이브 / FGO</td><td>키샤+테마극장(트릭컬) · 로스트벨트 2부 1차 종료(FGO)</td></tr>
+    <tr class="calendar-row"><td>6/24</td><td>붕괴: 스타레일</td><td>Phase2 Phainon/Cyrene 배너</td></tr>
+    <tr class="calendar-row"><td>6/30</td><td>원신 / 카오스 제로</td><td>6.6 Luna VII 종료 · 카오스제로 시즌2 종료</td></tr>
+    <tr class="calendar-row"><td>~7/09</td><td>명조</td><td>사이버펑크 콜라보 종료 → 이탈 유저 발생 구간</td></tr>
+    <tr class="calendar-row"><td>7월</td><td>림버스 컴퍼니</td><td>제6회 발푸르기스의 밤 이벤트 임박</td></tr>
+    <tr class="calendar-row"><td>6~7월</td><td>리밋 제로(NC)</td><td>프롤로그 테스트(6/11~15) 결과 → 사전예약 본격화</td></tr>
+  </table>
+  <h3>핵심 관전 포인트</h3>
+  <ol>
+    <li><strong>6/17 젠레스 Steam 정식 출시 흐름:</strong> 호요 라인업의 PC 유입 확대가 KR 매출 순위에 미치는 영향과 BD2 신규 코스튬 이벤트와의 시간·지갑 경쟁.</li>
+    <li><strong>명조 콜라보 종료 후 이탈 흐름(7/9):</strong> 사이버펑크로 유입된 신규·복귀 유저가 콜라보 종료 후 어디로 이동하는지 — BD2 흡수 골든타임.</li>
+    <li><strong>니케 매출 1위 유지 여부:</strong> 시프트업 신작 공백기에 니케가 서브컬처 톱 지위를 얼마나 유지하는지(4주 연속 1위 갱신 중).</li>
+    <li><strong>엔씨·스마일게이트 테스트 반응:</strong> 리밋제로 프롤로그 테스트(6/15 종료) 피드백 = 대형사 서브컬처 진입의 경쟁 강도 가늠자.</li>
+    <li><strong>이환(NTE) KR 리텐션:</strong> 4/29 출시 2개월차 — PC·콘솔 비중 높은 CN 멀티플랫폼작의 KR 안착 여부.</li>
+  </ol>
+</div></div></div>
+
+<!-- TAB 4 2~6개월 전망 -->
+<div id="t4" class="tab-content"><div class="container"><div class="section">
+  <h2><span class="num">4</span> 향후 2~6개월 전망 (7~12월)</h2>
+  <h3>대형 출시 일정</h3>
+  <table>
+    <tr><th>예상 시기</th><th>타이틀</th><th>비고</th></tr>
+    <tr><td>2026 하반기</td><td><strong>아주르 프로밀리아</strong></td><td>Manjuu, KR 퍼블 넥슨 — 컴패니언 오픈월드 가챠</td></tr>
+    <tr><td>2026 Q3말</td><td><strong>무한대 ANANTA</strong></td><td>NetEase, 도심 오픈월드 RPG (PC/PS5/모바일)</td></tr>
+    <tr><td>2026 연내</td><td>리밋 제로 브레이커스</td><td>NC, 애니메이션 액션 RPG 크로스플랫폼</td></tr>
+    <tr><td>2026 연내</td><td>로스트소드 대만/홍콩/마카오</td><td>엔씨타이완 퍼블(遺忘之劍)</td></tr>
+    <tr><td>2026 하반기</td><td>미래시 / 실버 팰리스</td><td>스마일게이트 / 싱가포르 엘리멘타(사전예약 400만)</td></tr>
+    <tr><td>2026말~2027초</td><td>귀환(Rewinding Cadence)</td><td>텐센트 Saroasis, 타임루프 오픈월드 ARPG</td></tr>
+  </table>
+  <h3>글로벌 확장 이슈</h3>
+  <ul>
+    <li><strong>CN 차세대 오픈월드 동시 진입:</strong> 아주르프로밀리아·무한대·귀환이 원신·명조 뒤를 잇는 오픈월드 가챠 경쟁 → 서브컬처 코어 예산 분산 심화.</li>
+    <li><strong>대만 시장:</strong> 호요 3종 + 니케 + FGO 강세. 로스트소드 중화권 진출로 KR산 서브컬처의 TW 확장 시도.</li>
+    <li><strong>멀티플랫폼화:</strong> 이환·엔드필드·젠레스(Steam 6/17)·무한대(PS5) 등 PC·콘솔 동시 서비스 보편화 → 모바일 전용 서브컬처 경쟁 환경 변화.</li>
+  </ul>
+  <h3>시장 구조 트렌드</h3>
+  <ul>
+    <li><strong>대형 KR사 서브컬처 진입:</strong> 엔씨·스마일게이트·넷마블이 서브컬처를 신성장 장르로 채택 → 국산 라인업 다변화 + 경쟁 격화.</li>
+    <li><strong>콜라보 = 유입 엔진:</strong> 명조 사이버펑크 콜라보 흥행으로 외부 IP 콜라보의 신규·복귀 견인력 재입증.</li>
+    <li><strong>여성향 분리:</strong> (본 리포트는 여성향 제외) 오토메·연애시뮬은 별도 시장으로 분화.</li>
+  </ul>
+</div></div></div>
+
+<!-- TAB 5 브더2 시사점 -->
+<div id="t5" class="tab-content"><div class="container"><div class="section">
+  <h2><span class="num">5</span> 브더2(BrownDust 2) 관점 시사점</h2>
+  <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">BD2 — 네오위즈의 2D 스토리·코스튬 기반 서브컬처 수집형 RPG / 글로벌 서비스 중</p>
+
+  <h3 style="color:var(--red);">위협 요인</h3>
+  <div class="threat-box"><strong>1. 6/17 젠레스 Steam·6/24 스타레일 Phainon 호요 라인업 모멘텀 누적</strong><br>이번 주 6/17 젠레스 Steam 정식 출시와 6/24 스타레일 Phase2 Phainon 배너가 2주 연속 호요 모멘텀을 만들며 서브컬처 코어 유저의 시간·지갑을 호요 라인업에 재집중. BD2 신규 코스튬·이벤트 경쟁 압박 정점 구간.</div>
+  <div class="threat-box"><strong>2. 명조 콜라보 중반부 + 니케 매출 1위 4주 연속</strong><br>명조 사이버펑크 콜라보(~7/9) 중반부 진입 + 니케 한·일·미·대만 1위 행진으로 서브컬처 코어 매출권이 톱티어에 응집. BD2 매출 지표 압박 가능.</div>
+  <div class="threat-box"><strong>3. 엔씨·스마일게이트 국산 서브컬처 진입</strong><br>리밋제로(NC) 프롤로그 테스트 6/15 종료로 사전예약 본격화 임박. 미래시·카오스제로(스마일게이트)와 함께 대형사 진입으로 국산 서브컬처 경쟁·인력·마케팅 비용 과열. BD2의 KR 점유·인지 경쟁 심화.</div>
+  <div class="threat-box"><strong>4. CN 차세대 오픈월드 가챠 대기</strong><br>아주르프로밀리아(넥슨 KR퍼블)·무한대(NetEase)·귀환(텐센트)이 하반기 대거 진입 예정. 원신·명조류 오픈월드가 서브컬처 예산을 추가 분산.</div>
+  <div class="threat-box"><strong>5. 멀티플랫폼 경쟁 (PC·콘솔)</strong><br>이환·엔드필드·젠레스(Steam 6/17) 등 PC·콘솔 동시작이 늘며 '고사양 서브컬처' 기대치 상승. 2D 모바일 중심 BD2의 상대적 포지셔닝 점검 필요.</div>
+  <div class="threat-box"><strong>6. 대만 시장 경쟁 격화</strong><br>TW 서브컬처는 호요 3종·니케·FGO가 강세. 로스트소드 등 KR산도 중화권 진출 시도 → BD2의 TW 유저 기반 유지 시험대.</div>
+
+  <h3 style="color:var(--green);">기회 요인</h3>
+  <div class="opp-box"><strong>1. 명조 콜라보 종료 직전·직후 이탈 유저 흡수 골든타임</strong><br>명조 콜라보 종료(7/9) 시점에 BD2 신규 코스튬·복귀 이벤트를 선제 설계해 이탈 유저를 흡수. 7~8월이 BD2의 핵심 흡수 구간.</div>
+  <div class="opp-box"><strong>2. 2D 스토리·코스튬 차별화 소구</strong><br>CN 3D 오픈월드 피로·과금 부담 + 호요 라인업 신규 캐릭터 의존도 상승 시점에 BD2의 2D 작화·컷신 스토리·코스튬 IP라는 '가볍고 깊은' 포지션을 차별점으로 강조.</div>
+  <div class="opp-box"><strong>3. 외부 IP 콜라보 강화</strong><br>명조 사이버펑크 콜라보가 입증한 콜라보의 유입 견인력 → BD2도 화제성 높은 외부 IP 콜라보로 신규·복귀 유입 설계.</div>
+  <div class="opp-box"><strong>4. 신작 출시 러시 전 기반 공고화</strong><br>6~8월 대형 신작(리밋제로·미래시·아주르프로밀리아) 출시 전, BD2 충성 유저 기반과 과금 동선을 선제 강화.</div>
+  <div class="opp-box"><strong>5. 대만 시장 선점</strong><br>CN 차세대 오픈월드 본격화 전, BD2의 TW 서브컬처 입지(스토리·코스튬 소구)를 공고히 하여 중기 점유 확보.</div>
+</div></div></div>
+
+<div class="container"><div class="footer">
+  <p>본 보고서는 공개된 뉴스·커뮤니티·스토어 데이터를 기반으로 AI가 작성한 리서치 자료입니다. (Tavily·Brave 리서치)</p>
+  <p>출처: 인벤, 게임메카, 루리웨이, ZDNet Korea, 베타뉴스, NCSoft·Smilegate 뉴스룸 등</p>
+  <p style="margin-top:10px;"><a href="https://hanna764.github.io/h/subculture/roster.html">📋 트래킹 게임·게임사 명단</a></p>
+  <p style="margin-top:8px;">GPX사업부 컨텐츠사업팀 · 이한나 · subculture-weekly-report 스킬 · 2026.06.15 (W25) · © NEOWIZ</p>
+</div></div>
+
+<button id="archive-btn" onclick="openArchive()" style="position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--red);color:#fff;border:none;border-radius:12px;padding:12px 20px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(229,25,55,.35);font-family:inherit;">📁 지난 리포트</button>
+<div id="archive-overlay" onclick="closeArchive()" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);justify-content:center;align-items:center;">
+<div onclick="event.stopPropagation()" style="background:#fff;border:1px solid var(--red);border-radius:16px;width:min(480px,90vw);max-height:80vh;overflow-y:auto;padding:28px 24px;box-shadow:0 8px 32px rgba(0,0,0,.5);">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <h3 style="color:var(--red);font-size:18px;margin:0;">📁 지난 리포트 아카이브</h3>
+    <button onclick="closeArchive()" style="background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;padding:4px 8px;">✕</button>
+  </div>
+  <div id="archive-list" style="color:var(--muted);font-size:14px;">불러오는 중...</div>
+</div></div>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var btns=document.querySelectorAll('.tab-btn'),tabs=document.querySelectorAll('.tab-content');
+  btns.forEach(function(btn){btn.addEventListener('click',function(){
+    var t=this.getAttribute('data-tab');
+    btns.forEach(function(b){b.classList.remove('active');});
+    tabs.forEach(function(x){x.classList.remove('active');});
+    this.classList.add('active');document.getElementById(t).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });});
+});
+var ARCHIVE_INDEX_URL='https://hanna764.github.io/h/subculture/archive/index.json';
+var archiveLoaded=false;
+function openArchive(){document.getElementById('archive-overlay').style.display='flex';if(!archiveLoaded)loadArchive();}
+function closeArchive(){document.getElementById('archive-overlay').style.display='none';}
+function loadArchive(){
+  var list=document.getElementById('archive-list');
+  fetch(ARCHIVE_INDEX_URL).then(function(r){return r.json();}).then(function(data){
+    archiveLoaded=true;
+    var reports=data.reports||data;
+    if(!reports||!reports.length){list.innerHTML='<p style="color:#999;">아카이브된 리포트가 없습니다. (최초 발행)</p>';return;}
+    list.innerHTML=reports.map(function(item){
+      return '<a href="'+item.url+'" style="display:block;padding:14px 16px;margin-bottom:8px;background:#fafafa;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;">'
+        +'<div style="font-weight:600;font-size:14px;">📊 '+item.title+'</div>'
+        +'<div style="font-size:12px;color:#999;margin-top:4px;">'+item.date+'</div></a>';
+    }).join('');
+  }).catch(function(){list.innerHTML='<p style="color:#999;">아카이브된 리포트가 없습니다. (최초 발행)</p>';});
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeArchive();});
+</script>
+</body>
+</html>
