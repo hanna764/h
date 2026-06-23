@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💗 컨텐츠 사업팀과 함께 회식하기 💗</title>
+<style>
+  :root{
+    --pink:#ff5d8f; --pink-soft:#ffe3ec; --pink-deep:#e63e72;
+    --green:#1faa6c; --green-soft:#e3f7ec;
+    --red:#e0566a; --red-soft:#fde6ea;
+    --ink:#2b2230; --muted:#8a8090; --line:#f0e4ea;
+    --best:#fff4d6; --best-line:#f2c94c;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Noto Sans KR','Malgun Gothic',sans-serif;
+    background:linear-gradient(160deg,#fff6f9 0%,#fef0f5 100%);
+    color:var(--ink); line-height:1.6; padding:28px 16px 60px;
+  }
+  .wrap{max-width:880px;margin:0 auto;}
+
+  header{text-align:center;margin-bottom:22px;}
+  header h1{
+    font-size:clamp(22px,5vw,34px); font-weight:800; color:var(--pink-deep);
+    letter-spacing:-0.5px;
+  }
+  header h1 .h{filter:saturate(1.2);}
+  header p.sub{color:var(--muted);margin-top:6px;font-size:14px;}
+
+  .info{
+    display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin:20px 0 26px;
+  }
+  .chip{
+    background:#fff; border:1.5px solid var(--line); border-radius:14px;
+    padding:12px 18px; min-width:150px; box-shadow:0 4px 14px rgba(255,93,143,.08);
+  }
+  .chip .lbl{font-size:12px;color:var(--muted);font-weight:600;}
+  .chip .val{font-size:16px;font-weight:700;margin-top:2px;}
+  .chip .val.accent{color:var(--pink-deep);}
+
+  .guide{
+    background:var(--pink-soft); border:1.5px dashed var(--pink);
+    border-radius:14px; padding:14px 18px; font-size:14px; color:#7a3b52;
+    margin-bottom:18px; text-align:center;
+  }
+  .guide b{color:var(--pink-deep);}
+
+  .legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;font-size:13px;}
+  .legend span{display:inline-flex;align-items:center;gap:6px;color:var(--muted);}
+  .dot{width:16px;height:16px;border-radius:5px;display:inline-block;border:1.5px solid;}
+  .dot.ok{background:var(--green-soft);border-color:var(--green);}
+  .dot.no{background:var(--red-soft);border-color:var(--red);}
+  .dot.na{background:#f6f1f4;border-color:#ddd2d9;}
+
+  .tablecard{background:#fff;border-radius:18px;padding:10px;box-shadow:0 8px 30px rgba(230,62,114,.10);overflow-x:auto;}
+  table{border-collapse:separate;border-spacing:0;width:100%;min-width:560px;}
+  th,td{text-align:center;padding:10px 6px;}
+  thead th{
+    font-size:14px;font-weight:700;border-bottom:2px solid var(--line);
+    color:var(--ink); white-space:nowrap;
+  }
+  thead th .wd{display:block;font-size:11px;color:var(--muted);font-weight:600;margin-top:1px;}
+  thead th.namecol{text-align:left;padding-left:14px;color:var(--muted);font-size:13px;}
+  tbody th.name{
+    text-align:left;padding-left:14px;font-weight:600;font-size:15px;white-space:nowrap;
+    border-bottom:1px solid #faf3f7;
+  }
+  tbody td{border-bottom:1px solid #faf3f7;}
+
+  .cell{
+    width:52px;height:38px;border-radius:9px;border:1.5px solid #e7dbe3;
+    background:#f9f5f7;cursor:pointer;font-size:16px;font-weight:700;
+    color:#bcaeb8; transition:transform .08s, background .15s, border-color .15s;
+  }
+  .cell:hover{transform:translateY(-1px);}
+  .cell.ok{background:var(--green-soft);border-color:var(--green);color:var(--green);}
+  .cell.no{background:var(--red-soft);border-color:var(--red);color:var(--red);}
+  .cell:active{transform:scale(.94);}
+
+  tfoot td,tfoot th{padding-top:14px;border-top:2px solid var(--line);}
+  tfoot th.name{text-align:left;padding-left:14px;font-weight:700;color:var(--pink-deep);}
+  .count{font-size:20px;font-weight:800;color:var(--ink);}
+  .count small{font-size:11px;font-weight:600;color:var(--muted);display:block;}
+  td.bestcol{background:var(--best);}
+  th.bestcol{background:var(--best);}
+  td.badcol{background:var(--red-soft);}
+  th.badcol{background:var(--red-soft);}
+  .crown{font-size:13px;color:#c79a14;font-weight:700;}
+  .xbadge{font-size:12px;color:var(--red);font-weight:700;}
+  .midbadge{font-size:11px;color:var(--muted);font-weight:600;}
+
+  .actions{display:flex;gap:10px;justify-content:center;margin-top:22px;flex-wrap:wrap;}
+  button.btn{
+    border:none;border-radius:12px;padding:11px 22px;font-size:14px;font-weight:700;
+    cursor:pointer;font-family:inherit;
+  }
+  .btn.primary{background:var(--pink-deep);color:#fff;box-shadow:0 6px 16px rgba(230,62,114,.3);}
+  .btn.ghost{background:#fff;color:var(--muted);border:1.5px solid var(--line);}
+
+  .result{
+    text-align:center;margin-top:18px;font-size:15px;color:var(--ink);
+    background:#fff;border-radius:14px;padding:16px;border:1.5px solid var(--line);
+  }
+  .result b{color:var(--pink-deep);}
+  .result .big{font-size:20px;font-weight:800;}
+
+  footer{text-align:center;margin-top:34px;font-size:12px;color:var(--muted);}
+  footer .note{margin-bottom:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1><span class="h">💗</span> 컨텐츠 사업팀과 함께 회식하기 <span class="h">💗</span></h1>
+    <p class="sub">⚠️ <b>전원 필참!</b> 모두 참석 가능한 날(불가자 0명)로 예약합니다 🍽️</p>
+  </header>
+
+  <div class="info">
+    <div class="chip"><div class="lbl">📍 장소</div><div class="val accent">왕스덕 판교</div></div>
+    <div class="chip"><div class="lbl">🍴 형태</div><div class="val">점심 회식</div></div>
+    <div class="chip"><div class="lbl">🕛 시작</div><div class="val">12:00 부터</div></div>
+    <div class="chip"><div class="lbl">👥 인원</div><div class="val">총 9명</div></div>
+  </div>
+
+  <div class="guide">
+    각자 본인 이름 칸에서 날짜를 눌러 <b>가능(O)</b> / <b>불가(X)</b> 를 표시해 주세요.
+    한 번 더 누르면 표시가 바뀝니다. (한 번: O · 두 번: X · 세 번: 해제)<br>
+    <b>※ 필참이라 한 명이라도 불가(X)면 그 날은 제외됩니다.</b>
+  </div>
+
+  <div class="legend">
+    <span><i class="dot ok"></i> 가능 (O)</span>
+    <span><i class="dot no"></i> 불가 (X)</span>
+    <span><i class="dot na"></i> 미정</span>
+  </div>
+
+  <div class="tablecard">
+    <table id="grid">
+      <thead>
+        <tr id="headRow">
+          <th class="namecol">참석자</th>
+          <!-- date headers injected -->
+        </tr>
+      </thead>
+      <tbody id="body"><!-- rows injected --></tbody>
+      <tfoot>
+        <tr id="footRow">
+          <th class="name">✅ 가능 인원</th>
+          <!-- counts injected -->
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="actions">
+    <button class="btn primary" id="saveBtn">💾 내 선택 저장됨 (자동)</button>
+    <button class="btn ghost" id="resetBtn">전체 초기화</button>
+  </div>
+
+  <div class="result" id="result">날짜를 선택하면 전원 참석 가능한 날을 찾아드려요!</div>
+
+  <footer>
+    <div class="note">선택 내용은 이 브라우저에 자동 저장됩니다. (같은 PC에서 다시 열면 유지)</div>
+    <div>날짜 확정 후 왕스덕 판교 예약 예정 · 컨텐츠 사업팀</div>
+  </footer>
+
+</div>
+
+<script>
+  const NAMES = ["최석영","이한나","이한솔","장인호","김수연","박성준","서진원","김염광","신혜원"];
+  // 6/24(수) ~ 6/30(화), 주말 제외
+  const DATES = [
+    {key:"06-24", d:"6/24", wd:"수"},
+    {key:"06-25", d:"6/25", wd:"목"},
+    {key:"06-26", d:"6/26", wd:"금"},
+    {key:"06-29", d:"6/29", wd:"월"},
+    {key:"06-30", d:"6/30", wd:"화"},
+  ];
+  const STORE_KEY = "hoesik_2026_06_content_team";
+  const CYCLE = ["", "ok", "no"];   // 미정 → 가능 → 불가
+  const MARK  = {"":"", "ok":"O", "no":"X"};
+
+  let state = load();
+
+  function load(){
+    try{ return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+    catch(e){ return {}; }
+  }
+  function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+  function cellId(n,d){ return n+"|"+d; }
+
+  // ---- build header ----
+  const headRow = document.getElementById("headRow");
+  DATES.forEach(dt=>{
+    const th = document.createElement("th");
+    th.dataset.date = dt.key;
+    th.innerHTML = dt.d + '<span class="wd">('+dt.wd+')</span>';
+    headRow.appendChild(th);
+  });
+
+  // ---- build body ----
+  const body = document.getElementById("body");
+  NAMES.forEach(name=>{
+    const tr = document.createElement("tr");
+    const th = document.createElement("th");
+    th.className = "name"; th.textContent = name;
+    tr.appendChild(th);
+    DATES.forEach(dt=>{
+      const td = document.createElement("td");
+      const btn = document.createElement("button");
+      btn.className = "cell";
+      const id = cellId(name, dt.key);
+      const st = state[id] || "";
+      btn.classList.toggle("ok", st==="ok");
+      btn.classList.toggle("no", st==="no");
+      btn.textContent = MARK[st];
+      btn.onclick = ()=>{
+        const cur = state[id] || "";
+        const next = CYCLE[(CYCLE.indexOf(cur)+1) % CYCLE.length];
+        if(next==="") delete state[id]; else state[id]=next;
+        btn.className = "cell" + (next?(" "+next):"");
+        btn.textContent = MARK[next];
+        save(); render();
+      };
+      td.appendChild(btn);
+      tr.appendChild(td);
+    });
+    body.appendChild(tr);
+  });
+
+  // ---- footer counts ----
+  const footRow = document.getElementById("footRow");
+  const countCells = {};
+  DATES.forEach(dt=>{
+    const td = document.createElement("td");
+    td.dataset.date = dt.key;
+    td.innerHTML = '<span class="count">0</span><small>/ 9명</small>';
+    footRow.appendChild(td);
+    countCells[dt.key] = td;
+  });
+
+  function render(){
+    const info = {};   // {okCount, noCount, naCount, noNames[]}
+    let anyMark = false;
+    DATES.forEach(dt=>{
+      let ok=0, no=0; const noNames=[];
+      NAMES.forEach(n=>{
+        const s = state[cellId(n,dt.key)] || "";
+        if(s==="ok"){ ok++; anyMark=true; }
+        else if(s==="no"){ no++; anyMark=true; noNames.push(n); }
+      });
+      info[dt.key] = {ok, no, na: NAMES.length-ok-no, noNames};
+    });
+
+    // update footer + header highlight
+    DATES.forEach(dt=>{
+      const f = info[dt.key];
+      const td = countCells[dt.key];
+      const isFull = (f.ok===NAMES.length);            // 전원 가능 확정
+      const isBlocked = (f.no>0);                        // 필참 불가
+      let badge = '';
+      if(isFull)        badge = '<div class="crown">👑 전원 가능</div>';
+      else if(isBlocked)badge = '<div class="xbadge">✖ 불가 '+f.no+'명</div>';
+      else if(f.na<NAMES.length) badge = '<div class="midbadge">미정 '+f.na+'명</div>';
+      td.innerHTML = '<span class="count">'+f.ok+'</span><small>/ 9명 가능</small>'+badge;
+      td.classList.toggle("bestcol", isFull);
+      td.classList.toggle("badcol", isBlocked && !isFull);
+      const th = headRow.querySelector('th[data-date="'+dt.key+'"]');
+      if(th){ th.classList.toggle("bestcol", isFull); th.classList.toggle("badcol", isBlocked && !isFull); }
+    });
+
+    // result text — 필참 기준
+    const result = document.getElementById("result");
+    const fullDays  = DATES.filter(dt=>info[dt.key].ok===NAMES.length);          // 전원 O
+    const viableDays= DATES.filter(dt=>info[dt.key].no===0);                      // 불가자 없음
+    if(!anyMark){
+      result.innerHTML = "날짜를 선택하면 전원 참석 가능한 날을 찾아드려요!";
+    }else if(fullDays.length){
+      const list = fullDays.map(dt=>dt.d+"("+dt.wd+")").join(", ");
+      result.innerHTML = '✅ <b>전원 참석 가능한 날</b>: <span class="big"><b>'+list+'</b></span><br>' +
+        '<span style="color:var(--muted);font-size:13px;">9명 전원 가능 · 이 날로 왕스덕 판교 예약 예정</span>';
+    }else if(viableDays.length){
+      const list = viableDays.map(dt=>dt.d+"("+dt.wd+")"+" (가능 "+info[dt.key].ok+"명)").join(", ");
+      result.innerHTML = '🟡 아직 불가자는 없지만 미응답이 남은 후보일: <b>'+list+'</b><br>' +
+        '<span style="color:var(--muted);font-size:13px;">남은 분들이 모두 가능(O)으로 체크하면 확정됩니다</span>';
+    }else{
+      // 모든 날에 불가자 있음 → 불가자 가장 적은 날 + 불가 명단
+      const minNo = Math.min(...DATES.map(dt=>info[dt.key].no));
+      const near = DATES.filter(dt=>info[dt.key].no===minNo)
+        .map(dt=>dt.d+"("+dt.wd+") · 불가: "+info[dt.key].noNames.join("·"));
+      result.innerHTML = '⚠️ <b>전원 가능한 날이 없습니다.</b><br>' +
+        '<span style="font-size:13px;">불가자가 가장 적은 날(불가 '+minNo+'명): '+near.join(" / ")+'</span><br>'+
+        '<span style="color:var(--muted);font-size:12px;">필참이라면 해당 분들과 일정 조율이 필요합니다</span>';
+    }
+  }
+
+  document.getElementById("resetBtn").onclick = ()=>{
+    if(confirm("모든 참석자의 선택을 초기화할까요?")){
+      state = {}; save();
+      document.querySelectorAll(".cell").forEach(b=>{b.className="cell";b.textContent="";});
+      render();
+    }
+  };
+  document.getElementById("saveBtn").onclick = ()=>{
+    save();
+    const b = document.getElementById("saveBtn");
+    const t = b.textContent; b.textContent = "✅ 저장 완료!";
+    setTimeout(()=>b.textContent=t, 1200);
+  };
+
+  render();
+</script>
+</body>
+</html>
