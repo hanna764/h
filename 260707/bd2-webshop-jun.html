@@ -28,7 +28,6 @@
     align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
   .lead{color:var(--sub);font-size:13.5px;margin:8px 0 18px}
 
-  /* KPI */
   .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:4px}
   .kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 14px;text-align:center}
   .kpi .lab{font-size:11.5px;color:var(--sub);font-weight:600;min-height:32px;display:flex;align-items:center;justify-content:center}
@@ -36,7 +35,6 @@
   .kpi .val.red{color:var(--red)}
   .kpi .sub{font-size:10.5px;color:var(--sub);margin-top:4px}
 
-  /* Hero — 좌: 큰 숫자 / 우: 계산 박스 (grid로 안전하게) */
   .hero{background:linear-gradient(135deg,#1A1A2E,#2b2b4d);color:#fff;border-radius:14px;padding:26px 30px;margin-top:20px}
   .hero-top{display:grid;grid-template-columns:1fr 1.05fr;gap:28px;align-items:center}
   .hero .hlab{font-size:13.5px;opacity:.85}
@@ -53,7 +51,6 @@
   .calc .row.total b{color:#ff8a9a}
   .hero .hfoot{font-size:12px;opacity:.72;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1)}
 
-  /* 표 */
   table{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
   th,td{padding:10px 12px;text-align:right;border-bottom:1px solid var(--line)}
   th{background:var(--panel2);font-weight:700;color:var(--navy);font-size:12px;text-align:right}
@@ -65,12 +62,10 @@
   .tag{display:inline-block;padding:1px 8px;border-radius:5px;font-size:11px;font-weight:700}
   .tag.web{background:#fde8eb;color:var(--red)}.tag.mkt{background:#eef0f3;color:#556}
 
-  /* 콜아웃 */
   .callout{background:#fff8f9;border:1px solid #f5d0d6;border-left:4px solid var(--red);
     border-radius:8px;padding:14px 18px;margin-top:16px;font-size:13px}
   .callout b{color:var(--red)}
 
-  /* 불릿 노트 */
   .notelist{list-style:none;font-size:13px;color:#4a4a50;margin-top:14px;background:var(--panel);
     border:1px solid var(--line);border-radius:10px;padding:8px 18px}
   .notelist li{padding:9px 0 9px 18px;position:relative;line-height:1.6;border-bottom:1px dashed var(--line)}
@@ -78,7 +73,6 @@
   .notelist li::before{content:"•";position:absolute;left:2px;color:var(--red);font-weight:800}
   .notelist b{color:var(--navy)}
 
-  /* 근거/검증 */
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
   .prov{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;font-size:13px}
   .prov h3{font-size:13px;color:var(--navy);margin-bottom:8px;font-weight:800}
@@ -86,9 +80,10 @@
   .prov li{padding:7px 0;border-bottom:1px dashed var(--line);color:#4a4a50;line-height:1.55}
   .prov li:last-child{border:0}
   .prov code{background:#eef0f3;padding:1px 6px;border-radius:4px;font-size:11px;color:#334}
-  .verify{display:flex;gap:10px;align-items:flex-start;background:#eafaf1;border:1px solid #b7e4c7;
-    border-radius:8px;padding:12px 16px;margin-top:14px;font-size:12.5px;color:#155d3a}
-  .verify .chk{color:var(--good);font-weight:800;font-size:16px;line-height:1.2}
+  .verify{display:flex;gap:10px;align-items:flex-start;border-radius:8px;padding:12px 16px;margin-top:14px;font-size:12.5px}
+  .verify.ok{background:#eafaf1;border:1px solid #b7e4c7;color:#155d3a}
+  .verify.fix{background:#fff4e5;border:1px solid #ffdda6;color:#8a5a00}
+  .verify .chk{font-weight:800;font-size:16px;line-height:1.2}
 
   footer{padding:22px 44px 38px;font-size:11.5px;color:#9a9aa0;text-align:center;line-height:1.9}
 
@@ -107,49 +102,49 @@
   <header>
     <div class="eyebrow">BD2 · 결제 채널 효율 분석</div>
     <h1>웹상점(자체결제) 6월 순절감액 분석</h1>
-    <div class="meta">기준월 2026년 6월 · 데이터: NSIS 매출집계(실측) + 겜프스엔 정산서 검증
-      <span class="flag">⚠ 6월 정산 전 잠정치</span></div>
+    <div class="meta">기준월 2026년 6월 · 데이터: NSIS + 겜프스엔·智冠(대만) 정산서 검증
+      <span class="flag">⚠ MyCard 정산 확정 · 엑솔라·마켓은 잠정</span></div>
   </header>
 
   <!-- 1. 핵심 결과 -->
   <section>
     <h2><span class="n">1</span>핵심 결과</h2>
-    <p class="lead">엑솔라·마이카드(=자체결제)로 결제를 받아 마켓(구글·애플) 수수료를 아낀 금액입니다. 수수료율은 <b>NSIS 데이터와 5월 정산서로 검증한 실제 숫자</b>입니다.</p>
+    <p class="lead">엑솔라·마이카드(=자체결제)로 결제를 받아 마켓(구글·애플) 수수료를 아낀 금액입니다. 수수료율은 <b>NSIS 데이터와 정산서로 검증한 실제 숫자</b>입니다.</p>
 
     <div class="kpis">
-      <div class="kpi"><div class="lab">자체결제 매출</div><div class="val">120.6<small>억</small></div><div class="sub">전체의 51.8% (잠정)</div></div>
-      <div class="kpi"><div class="lab">자체결제 실제 수수료</div><div class="val red">11.4%</div><div class="sub">엑솔라 8.7 / 마이카드 13.8</div></div>
+      <div class="kpi"><div class="lab">자체결제 매출</div><div class="val">73.4<small>억</small></div><div class="sub">전체의 39.6%</div></div>
+      <div class="kpi"><div class="lab">자체결제 실제 수수료</div><div class="val red">10.4%</div><div class="sub">엑솔라 8.7 / 마이카드 16.4</div></div>
       <div class="kpi"><div class="lab">마켓 실제 수수료</div><div class="val">32.8%</div><div class="sub">공식 30%보다 높음</div></div>
-      <div class="kpi"><div class="lab">진짜 순절감</div><div class="val red">≈14<small>억</small></div><div class="sub">혜택까지 반영</div></div>
+      <div class="kpi"><div class="lab">진짜 순절감</div><div class="val red">≈9.5<small>억</small></div><div class="sub">혜택까지 반영</div></div>
     </div>
 
     <div class="hero">
       <div class="hero-top">
         <div class="hero-left">
           <div class="hlab">2026년 6월 <b>진짜</b> 순절감액</div>
-          <div class="hbig">약 14 <small>억 원</small></div>
+          <div class="hbig">약 9.5 <small>억 원</small></div>
           <div class="hsub">쿠폰·마일리지 할인 전 <b>정가 기준</b>으로 계산한 실제 절감액</div>
         </div>
         <div class="calc">
-          <div class="row"><span>마켓 대비 수수료 절감 (정가 기준)</span><b>+31.4억</b></div>
-          <div class="row"><span>− 유저에게 준 혜택 (쿠폰+마일리지)</span><b>−17.0억</b></div>
-          <div class="row total"><span>= 진짜 순절감</span><b>14.3억</b></div>
+          <div class="row"><span>마켓 대비 수수료 절감 (정가 기준)</span><b>+19.8억</b></div>
+          <div class="row"><span>− 유저에게 준 혜택 (쿠폰+마일리지)</span><b>−10.4억</b></div>
+          <div class="row total"><span>= 진짜 순절감</span><b>9.5억</b></div>
         </div>
       </div>
-      <div class="hfoot">구글·애플 공식 수수료 30%로 보수적으로 보면 ≈10.5억 · 레인지 10~14억</div>
+      <div class="hfoot">구글·애플 공식 수수료 30%로 보수적으로 보면 ≈7.1억 · 레인지 7~9.5억</div>
     </div>
   </section>
 
   <!-- 2. 스토어별 실측 -->
   <section>
     <h2><span class="n">2</span>스토어별 매출·수수료 (실측)</h2>
-    <p class="lead">2026년 6월, 채널별 매출과 실제로 지급 예정인 수수료(NSIS 자료)입니다.</p>
+    <p class="lead">2026년 6월, 채널별 매출과 실제로 지급 예정인 수수료(NSIS·정산서 자료)입니다.</p>
     <table>
       <thead><tr><th>채널</th><th>구분</th><th>매출(억)</th><th>수수료(억)</th><th>실제 수수료율</th></tr></thead>
       <tbody>
         <tr><td>엑솔라 (XSOLLA)</td><td><span class="tag web">자체결제</span></td><td>56.8</td><td>4.9</td><td>8.7%</td></tr>
-        <tr><td>마이카드 (MYCARD)</td><td><span class="tag web">자체결제</span></td><td>63.7</td><td>8.8</td><td>13.8%</td></tr>
-        <tr class="sum"><td>자체결제 합계</td><td>—</td><td>120.6</td><td>13.7</td><td>11.4%</td></tr>
+        <tr><td>마이카드 (MYCARD)</td><td><span class="tag web">자체결제</span></td><td>16.6</td><td>2.7</td><td>16.4%</td></tr>
+        <tr class="sum"><td>자체결제 합계</td><td>—</td><td>73.4</td><td>7.7</td><td>10.4%</td></tr>
         <tr><td>구글 (GOOGLE)</td><td><span class="tag mkt">마켓</span></td><td>75.0</td><td>24.5</td><td>32.7%</td></tr>
         <tr><td>애플 (APPLE)</td><td><span class="tag mkt">마켓</span></td><td>34.8</td><td>11.5</td><td>33.0%</td></tr>
         <tr class="sub-r"><td>원스토어 (ONE)</td><td><span class="tag mkt">마켓</span></td><td>2.4</td><td>0.5</td><td>20.0%</td></tr>
@@ -157,32 +152,32 @@
       </tbody>
     </table>
     <ul class="notelist">
-      <li><b>자체결제는 11.4%, 마켓은 32.8%</b> — 같은 물건을 팔아도 마켓은 3배 가까운 수수료를 뗍니다.</li>
+      <li><b>자체결제는 10.4%, 마켓은 32.8%</b> — 같은 물건을 팔아도 마켓은 3배 넘는 수수료를 뗍니다.</li>
       <li><b>마켓은 공식 30%가 아니라 실제 32.8%</b> — 환전 수수료 등이 붙어서, 알려진 것보다 격차가 더 큽니다.</li>
-      <li>표의 수수료율은 <b>엑솔라·마이카드 자체 수수료 + 카드 등 결제수단 수수료</b>가 하나로 합쳐진 올인 금액입니다. 여기에 별도로 더 붙는 수수료는 없습니다.</li>
+      <li>표의 수수료율은 <b>엑솔라·마이카드 자체 수수료 + 카드 등 결제수단 수수료</b>가 하나로 합쳐진 올인 금액입니다. 별도로 더 붙는 건 없습니다.</li>
+      <li><b>마이카드 수수료가 16.4%로 높은 편</b>입니다(대만 정산서 기준). 그만큼 자체결제 안에서 마진이 얇은 채널입니다 → 5번 참고.</li>
     </ul>
   </section>
 
   <!-- 3. 순절감액 계산 -->
   <section>
     <h2><span class="n">3</span>순절감액 계산 (정가 기준)</h2>
-    <p class="lead">자체결제 매출 120.6억은 쿠폰·마일리지 <b>할인이 적용된 후</b>의 금액입니다. 마켓에는 이 할인이 없으니(웹상점 전용), 마켓 수수료는 <b>할인 전 정가</b>에 매겨야 정확합니다.</p>
+    <p class="lead">자체결제 매출 73.4억은 쿠폰·마일리지 <b>할인이 적용된 후</b>의 금액입니다. 마켓에는 이 할인이 없으니(웹상점 전용), 마켓 수수료는 <b>할인 전 정가</b>에 매겨야 정확합니다.</p>
     <table>
       <tbody>
-        <tr><td>자체결제 현금매출 (할인 후)</td><td>120.6억</td></tr>
-        <tr><td>+ 유저가 쓴 혜택 (마일리지 8.0% + 쿠폰 6.1%)</td><td>+17.0억</td></tr>
-        <tr class="sum"><td>= 정가 환산 매출 (마켓이면 이 값에 팔림)</td><td>137.6억</td></tr>
-        <tr><td>마켓 수수료 (정가 × 32.8%)</td><td>45.1억</td></tr>
-        <tr><td>자체결제 실제 수수료</td><td>13.7억</td></tr>
-        <tr class="sum"><td>수수료 절감 (정가 기준)</td><td>31.4억</td></tr>
-        <tr><td>− 유저에게 실제 준 혜택</td><td>−17.0억</td></tr>
-        <tr class="final"><td>= 진짜 순절감액</td><td>≈ 14.3억</td></tr>
+        <tr><td>자체결제 현금매출 (할인 후)</td><td>73.4억</td></tr>
+        <tr><td>+ 유저가 쓴 혜택 (마일리지 8.0% + 쿠폰 6.1%)</td><td>+10.4억</td></tr>
+        <tr class="sum"><td>= 정가 환산 매출 (마켓이면 이 값에 팔림)</td><td>83.8억</td></tr>
+        <tr><td>마켓 수수료 (정가 × 32.8%)</td><td>27.5억</td></tr>
+        <tr><td>자체결제 실제 수수료</td><td>7.7억</td></tr>
+        <tr class="sum"><td>수수료 절감 (정가 기준)</td><td>19.8억</td></tr>
+        <tr><td>− 유저에게 실제 준 혜택</td><td>−10.4억</td></tr>
+        <tr class="final"><td>= 진짜 순절감액</td><td>≈ 9.5억</td></tr>
       </tbody>
     </table>
     <ul class="notelist">
       <li><b>✅ 정가 환산 검증 완료</b> — 데이터팀 확인 결과 태블루 '실매출'은 <b>쿠폰·마일리지 할인 후</b> 실제 결제금액입니다. 따라서 할인 전 정가로 되돌려(할인후 + 혜택) 마켓 수수료를 매기는 이 계산이 정확합니다.</li>
-      <li>구글·애플 <b>공식 수수료 30%</b>로 보수적으로 보면 진짜 순절감은 ≈ 10.5억입니다. (실제로 무는 32.8% 기준은 14.3억)</li>
-      <li>1년치 혜택 비율(14.6%)로 다시 계산해도 ≈ 14.0억으로 거의 같습니다.</li>
+      <li>구글·애플 <b>공식 수수료 30%</b>로 보수적으로 보면 진짜 순절감은 ≈ 7.1억입니다. (실제로 무는 32.8% 기준은 9.5억)</li>
       <li><b>계산 가정</b> — 이 매출이 마켓에서도 똑같은 수량으로 팔렸다고 봤습니다. (할인 때문에 늘어난 구매는 뺐으니 보수적)</li>
     </ul>
   </section>
@@ -190,17 +185,17 @@
   <!-- 4. 혜택 상세 -->
   <section>
     <h2><span class="n">4</span>혜택(마일리지·쿠폰) 상세</h2>
-    <p class="lead">위 계산에서 뺀 <b>"혜택 17.0억"의 근거</b>입니다. 마일리지는 적립한 전부가 아니라 <b>실제 쓴 만큼</b>만 비용으로 봅니다.</p>
+    <p class="lead">위 계산에서 뺀 <b>"혜택 10.4억"의 근거</b>입니다. 마일리지는 적립한 전부가 아니라 <b>실제 쓴 만큼</b>만 비용으로 봅니다.</p>
     <table>
       <thead><tr><th>혜택 항목</th><th>매출 대비 비율</th><th>6월 금액</th></tr></thead>
       <tbody>
-        <tr><td>마일리지 사용</td><td>8.0%</td><td>9.7억</td></tr>
-        <tr><td>쿠폰 할인</td><td>6.1%</td><td>7.4억</td></tr>
-        <tr class="sum"><td>혜택 합계</td><td>14.1%</td><td>17.0억</td></tr>
+        <tr><td>마일리지 사용</td><td>8.0%</td><td>5.9억</td></tr>
+        <tr><td>쿠폰 할인</td><td>6.1%</td><td>4.5억</td></tr>
+        <tr class="sum"><td>혜택 합계</td><td>14.1%</td><td>10.4억</td></tr>
       </tbody>
     </table>
     <ul class="notelist">
-      <li><b>혜택 비율은 어디서?</b> 6월 태블루 데이터에서 마일리지 8.0%·쿠폰 6.1%를 뽑아 매출에 적용했습니다.</li>
+      <li><b>혜택 비율은 어디서?</b> 6월 태블루 데이터에서 마일리지 8.0%·쿠폰 6.1%를 뽑아 자체결제 매출(73.4억)에 적용했습니다.</li>
       <li><b>믿을 만한가?</b> 1년치 데이터(마일리지 7.2%·쿠폰 7.4%)와도 거의 같아 신뢰할 수 있습니다.</li>
       <li><b>마일리지는 실제 쓴 것만 계산</b> — 적립한 포인트의 16%는 안 쓰고 소멸되므로 회사 부담이 아니라 뺐습니다.</li>
       <li><b>PC 결제는 혜택을 못 씁니다</b> — 그만큼 실제 혜택 비용은 조금 더 적어 순절감엔 오히려 유리합니다.</li>
@@ -210,20 +205,20 @@
   <!-- 5. 채널별 손익 & Level Up 민감도 -->
   <section>
     <h2><span class="n">5</span>채널별 손익 &amp; Level Up 민감도</h2>
-    <p class="lead">같은 자체결제라도 <b>엑솔라(수수료 8.7%)</b>와 <b>마이카드(13.8%)</b>는 손익 여유가 다릅니다. 마이카드는 수수료가 높아 마진이 얇고, <b>마켓 수수료가 낮아지는 미래</b>엔 주의가 필요합니다.</p>
+    <p class="lead">같은 자체결제라도 <b>엑솔라(수수료 8.7%)</b>와 <b>마이카드(16.4%)</b>는 손익 여유가 크게 다릅니다. 마이카드는 수수료가 높아 마진이 매우 얇고, <b>마켓 수수료가 낮아지는 미래</b>엔 손해로 뒤집힐 수 있습니다.</p>
     <table>
       <thead><tr><th>채널</th><th>실제 수수료</th><th>지금(마켓 32.8%)</th><th>공식 30%</th><th>Level Up 23.5%</th></tr></thead>
       <tbody>
         <tr><td>엑솔라</td><td>8.7%</td><td>+8.3억</td><td>+6.5억</td><td>+2.3억</td></tr>
-        <tr><td>마이카드</td><td>13.8%</td><td>+6.1억</td><td>+4.0억</td><td style="color:var(--red);font-weight:800">−0.7억 ⚠️</td></tr>
-        <tr class="sum"><td>합계 순절감</td><td>—</td><td>+14.4억</td><td>+10.5억</td><td>+1.6억</td></tr>
+        <tr><td>마이카드</td><td>16.4%</td><td>+1.1억</td><td>+0.6억</td><td style="color:var(--red);font-weight:800">−0.6억 ⚠️</td></tr>
+        <tr class="sum"><td>합계 순절감</td><td>—</td><td>+9.5억</td><td>+7.1억</td><td>+1.7억</td></tr>
       </tbody>
     </table>
     <div class="callout">
-      ⚠️ <b>마이카드 리스크</b> — 마이카드도 <b>+6.1억으로 안전</b>합니다(혜택 다 줘도 플러스). 하지만 <b>구글이 Level Up으로 수수료를 23.5%까지 내리면</b>, 지금처럼 혜택을 다 줄 경우 마이카드는 <b>−0.7억 손해</b>로 뒤집힙니다. 수수료 높은 채널일수록 마켓 인하에 취약합니다.
+      ⚠️ <b>마이카드 리스크</b> — 마이카드는 순절감 기여가 <b>+1.1억으로 매우 얇습니다</b>(수수료 16.4% 때문). <b>구글이 Level Up으로 수수료를 23.5%까지 내리면</b>, 지금처럼 혜택을 다 줄 경우 마이카드는 <b>−0.6억 손해</b>로 뒤집힙니다. 한나님이 늘 걱정하신 바로 그 지점입니다.
     </div>
     <ul class="notelist">
-      <li><b>마이카드 손익분기 혜택율</b> — 마켓 32.8%면 혜택 28%까지 줘도 본전. 그런데 Level Up 23.5%면 12.7%까지만 본전인데 <b>현재 14%라 이미 넘어섭니다.</b></li>
+      <li><b>마이카드 손익분기 혜택율</b> — 마켓 32.8%면 혜택 24%까지 본전. 그런데 Level Up 23.5%면 9.2%까지만 본전인데 <b>현재 14%라 이미 넘어섭니다.</b></li>
       <li><b>대응 방향</b> — 채널을 없애는 게 아니라 <b>혜택(특히 쿠폰)을 조절</b>. 손대는 순서는 마진 얇은 <b>마이카드/대만부터.</b></li>
       <li>Level Up 23.5%는 구글 기준 예시입니다(애플은 아직 30%대). 실제론 채널 믹스에 따라 조금 달라집니다.</li>
     </ul>
@@ -236,19 +231,19 @@
       <div class="prov">
         <h3>📂 사용 데이터</h3>
         <ul>
-          <li><b>NSIS 매출집계</b> — 사업계획용 매출 소스. 매출·수수료 실측치. <code>nsis_bd2_raw_cleaned</code></li>
+          <li><b>NSIS 매출집계</b> — 사업계획용 매출 소스. <code>nsis_bd2_raw_cleaned</code></li>
           <li><b>겜프스엔 5월 정산서</b> — NSIS 검증용 대조.</li>
+          <li><b>智冠(대만) 6월 MyCard 정산서</b> — 마이카드 실제 금액 확정.</li>
           <li><b>태블루 마일리지·쿠폰</b> — 혜택 비율(%) 산출용.</li>
         </ul>
       </div>
       <div class="prov">
-        <h3>✅ 정산서 대조 (5월)</h3>
+        <h3>✅ 검증 &amp; 정정</h3>
         <ul>
-          <li>아이템매출: 정산서 34.2억 = NSIS 34.2억</li>
-          <li>중개수수료: 정산서 9.4억 = NSIS 9.4억</li>
-          <li>실제 수수료율: 엑솔라 10.8 · 마이카드 14.4 · 구글 32.7 · 애플 32.8%</li>
+          <li>5월 정산서 = NSIS 원 단위 일치(엑솔라·구글·애플).</li>
+          <li>마이카드 6월: 智冠 정산서(면액 35.6M TWD)와 태블루가 <b>16.6억으로 일치</b>.</li>
         </ul>
-        <div class="verify"><span class="chk">✔</span><span>NSIS 수수료 = 정산서 수수료, <b>원 단위까지 일치</b>. 수수료율은 실측으로 확정.</span></div>
+        <div class="verify fix"><span class="chk">⚠</span><span><b>마이카드 정정</b> — NSIS 초기값 63.7억은 대만달러를 <b>홍콩달러 환율로 잘못 환산</b>해 4배 과대. 정산서 기준 <b>16.6억으로 정정</b>했습니다.</span></div>
       </div>
     </div>
   </section>
@@ -257,8 +252,8 @@
   <section>
     <h2><span class="n">7</span>한계 &amp; 주의사항</h2>
     <ul class="notelist">
-      <li><b>6월은 아직 잠정치입니다.</b> 6월 정산서가 나오기 전이라, 확정 시 숫자가 조금 조정될 수 있습니다.</li>
-      <li><b>마이카드 6월 급증(63.7억)은 "진짜 매출"로 검증 완료.</b> 6월 3주년 이벤트로 전 지역이 폭증했고(대만 9.6배), 대만 유저의 웹상점 결제 비중이 크게 올라간 결과입니다. 데이터 오류나 정산 이월이 아닙니다.</li>
+      <li><b>마이카드는 대만 정산서로 확정</b>했습니다. 다만 <b>겜프스엔(한국) 6월 정산서는 아직 미발행</b>이라 엑솔라·마켓 수치는 잠정이며, 확정 시 조금 조정될 수 있습니다.</li>
+      <li><b>NSIS 환율 버그 주의</b> — NSIS가 대만 마이카드를 홍콩달러 환율로 환산하는 오류가 있었습니다. 데이터팀 공유 권장(다른 리포트에도 영향 가능).</li>
       <li><b>PC 클라이언트(6/14~) 매출이 섞여 있습니다.</b> PC 결제도 엑솔라·마이카드라 웹상점과 구분이 안 됩니다. 둘 다 마켓 30%를 우회하므로 절감 계산엔 문제없습니다.</li>
       <li><b>원화 기준</b>입니다. 통화별(엑솔라 USD·마이카드 TWD) 정밀 분석은 화폐별 데이터로 후속 예정입니다.</li>
     </ul>
