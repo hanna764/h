@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BD2 웹상점(자체결제) 6월 순절감액 분석</title>
+<style>
+  :root{
+    --red:#E51937; --navy:#1A1A2E; --ink:#222; --sub:#666; --line:#e6e6e6;
+    --bg:#fff; --panel:#fafafa; --panel2:#f4f5f7; --good:#1b8a5a; --warn:#b26a00;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+    color:var(--ink);background:#eef0f3;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;background:var(--bg);min-height:100vh;
+    box-shadow:0 0 40px rgba(0,0,0,.06)}
+  header{padding:40px 48px 28px;border-bottom:1px solid var(--line);position:relative}
+  header::after{content:"";position:absolute;left:48px;bottom:-1px;width:64px;height:3px;background:var(--red)}
+  .eyebrow{font-size:12px;letter-spacing:.14em;color:var(--red);font-weight:700}
+  h1{font-size:27px;font-weight:800;color:var(--navy);margin:8px 0 6px;letter-spacing:-.02em}
+  .meta{font-size:13px;color:var(--sub)}
+  .prov-flag{display:inline-block;margin-left:8px;padding:2px 9px;border-radius:20px;
+    background:#fff4e5;color:var(--warn);font-size:11px;font-weight:700;border:1px solid #ffe0b2}
+  section{padding:34px 48px;border-bottom:1px solid var(--line)}
+  h2{font-size:19px;font-weight:800;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:9px}
+  h2 .n{display:inline-flex;width:26px;height:26px;background:var(--red);color:#fff;border-radius:6px;
+    align-items:center;justify-content:center;font-size:13px;font-weight:800}
+  .lead{color:var(--sub);font-size:13.5px;margin:6px 0 20px}
+  /* KPI */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:6px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 16px;text-align:center}
+  .kpi .lab{font-size:12px;color:var(--sub);font-weight:600}
+  .kpi .val{font-size:26px;font-weight:800;color:var(--navy);margin-top:6px;letter-spacing:-.02em}
+  .kpi .val.red{color:var(--red)}
+  .kpi .sub{font-size:11px;color:var(--sub);margin-top:3px}
+  /* big result */
+  .hero{background:linear-gradient(135deg,#1A1A2E,#2a2a4a);color:#fff;border-radius:14px;
+    padding:26px 30px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .hero .t{font-size:14px;opacity:.85}
+  .hero .big{font-size:44px;font-weight:800;letter-spacing:-.02em;line-height:1}
+  .hero .big small{font-size:18px;font-weight:600;opacity:.8}
+  .hero .range{font-size:12.5px;opacity:.8;margin-top:8px}
+  .hero .rt{text-align:right;font-size:12.5px;opacity:.9;line-height:1.8}
+  /* bar compare */
+  .bars{margin-top:22px}
+  .barrow{display:flex;align-items:center;gap:12px;margin:10px 0}
+  .barrow .name{width:150px;font-size:13px;font-weight:600;flex-shrink:0}
+  .bartrack{flex:1;background:#eef0f3;border-radius:8px;height:30px;position:relative;overflow:hidden}
+  .barfill{height:100%;border-radius:8px;display:flex;align-items:center;padding-left:12px;
+    color:#fff;font-size:12.5px;font-weight:700;white-space:nowrap}
+  .bf-mkt{background:#8a94a6}.bf-web{background:var(--red)}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+  th,td{padding:10px 12px;text-align:right;border-bottom:1px solid var(--line)}
+  th{background:var(--panel2);font-weight:700;color:var(--navy);font-size:12px;text-align:right}
+  th:first-child,td:first-child{text-align:left}
+  tr.sum td{font-weight:800;background:#fff7f8;border-top:2px solid var(--red)}
+  tr.sub-r td{color:var(--sub);font-size:12.5px}
+  .tag{display:inline-block;padding:1px 8px;border-radius:5px;font-size:11px;font-weight:700}
+  .tag.web{background:#fde8eb;color:var(--red)}.tag.mkt{background:#eef0f3;color:#556}
+  .note{font-size:12px;color:var(--sub);margin-top:12px}
+  .callout{background:#fff8f9;border:1px solid #f5d0d6;border-left:4px solid var(--red);
+    border-radius:8px;padding:14px 18px;margin-top:16px;font-size:13px}
+  .callout b{color:var(--red)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .prov{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;font-size:13px}
+  .prov h3{font-size:13px;color:var(--navy);margin-bottom:8px;font-weight:800}
+  .prov ul{list-style:none}.prov li{padding:5px 0;border-bottom:1px dashed var(--line);color:#444}
+  .prov li:last-child{border:0}.prov code{background:#eef0f3;padding:1px 6px;border-radius:4px;font-size:11.5px;color:#334}
+  .verify{display:flex;gap:10px;align-items:center;background:#eafaf1;border:1px solid #b7e4c7;
+    border-radius:8px;padding:12px 16px;margin-top:14px;font-size:13px;color:#155d3a}
+  .verify .chk{color:var(--good);font-weight:800;font-size:16px}
+  .caveats{list-style:none;font-size:13px}
+  .caveats li{padding:9px 0 9px 26px;position:relative;border-bottom:1px dashed var(--line)}
+  .caveats li:last-child{border:0}
+  .caveats li::before{content:"▹";position:absolute;left:4px;color:var(--red);font-weight:800}
+  .caveats b{color:var(--navy)}
+  footer{padding:22px 48px 40px;font-size:11.5px;color:#999;text-align:center;line-height:1.8}
+  @media(max-width:720px){
+    .kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}
+    header,section,footer{padding-left:24px;padding-right:24px}.hero .big{font-size:34px}
+    .barrow .name{width:96px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">BD2 · 결제 채널 효율 분석</div>
+    <h1>웹상점(자체결제) 6월 순절감액 분석</h1>
+    <div class="meta">분석 기준월: 2026년 6월 · 데이터: NSIS 매출집계(실측) + 겜프스엔 정산서 검증
+      <span class="prov-flag">⚠ 6월 정산 전 잠정치</span></div>
+  </header>
+
+  <!-- 1. 핵심 결과 -->
+  <section>
+    <h2><span class="n">1</span>핵심 결과</h2>
+    <p class="lead">엑솔라·마이카드(=자체결제)를 마켓(구글·애플)이 아닌 자체 채널로 태워서 아낀 수수료입니다. 수수료율은 <b>가정이 아니라 정산서로 검증된 실측치</b>입니다.</p>
+
+    <div class="kpis">
+      <div class="kpi"><div class="lab">자체결제 매출</div><div class="val">120.6<small>억</small></div><div class="sub">전체의 51.8% (잠정)</div></div>
+      <div class="kpi"><div class="lab">자체결제 실효 수수료</div><div class="val red">11.4%</div><div class="sub">엑솔라 8.7 / 마이카드 13.8</div></div>
+      <div class="kpi"><div class="lab">마켓 실효 수수료</div><div class="val">32.8%</div><div class="sub">구글 32.7 / 애플 33.0</div></div>
+      <div class="kpi"><div class="lab">순 수수료 절감</div><div class="val red">≈25.8<small>억</small></div><div class="sub">6월 한 달</div></div>
+    </div>
+
+    <div class="hero" style="margin-top:22px">
+      <div>
+        <div class="t">2026년 6월 순 수수료 절감액</div>
+        <div class="big">약 25.8<small>억 원</small></div>
+        <div class="range">보수 시나리오(명목 30% 적용) 22.4억 · <b style="color:#ffd0d6">MyCard 급증은 실제 매출로 검증됨(아래 6번)</b></div>
+      </div>
+      <div class="rt">
+        마켓에 냈을 수수료 <b>39.5억</b><br>
+        − 실제 자체결제 수수료 <b>13.7억</b><br>
+        <span style="border-top:1px solid rgba(255,255,255,.3);display:inline-block;margin-top:4px;padding-top:4px">= 순절감 <b style="color:#ff8a9a">25.8억</b></span>
+      </div>
+    </div>
+
+    <div class="bars">
+      <div class="barrow"><div class="name">마켓(구글·애플)</div>
+        <div class="bartrack"><div class="barfill bf-mkt" style="width:100%">실효 수수료 32.8%</div></div></div>
+      <div class="barrow"><div class="name">자체결제(웹상점)</div>
+        <div class="bartrack"><div class="barfill bf-web" style="width:34.8%">11.4%</div></div></div>
+    </div>
+    <p class="note">※ 같은 매출을 마켓에서 팔았다면 32.8%를, 자체결제로는 11.4%만 냅니다. 격차 <b>21.4%p</b>가 절감의 원천입니다.</p>
+  </section>
+
+  <!-- 2. 스토어별 실측 -->
+  <section>
+    <h2><span class="n">2</span>스토어별 매출·수수료 (NSIS 실측)</h2>
+    <p class="lead">2026년 6월, 스토어타입별 매출과 실제 부과된 중개수수료.</p>
+    <table>
+      <thead><tr><th>채널</th><th>구분</th><th>매출(억)</th><th>수수료(억)</th><th>실효 수수료율</th></tr></thead>
+      <tbody>
+        <tr><td>엑솔라 (XSOLLA)</td><td><span class="tag web">자체결제</span></td><td>56.84</td><td>4.94</td><td>8.7%</td></tr>
+        <tr><td>마이카드 (MYCARD)</td><td><span class="tag web">자체결제</span></td><td>63.72</td><td>8.80</td><td>13.8%</td></tr>
+        <tr class="sum"><td>자체결제 합계</td><td>—</td><td>120.56</td><td>13.74</td><td>11.4%</td></tr>
+        <tr><td>구글 (GOOGLE)</td><td><span class="tag mkt">마켓</span></td><td>75.00</td><td>24.49</td><td>32.7%</td></tr>
+        <tr><td>애플 (APPLE)</td><td><span class="tag mkt">마켓</span></td><td>34.84</td><td>11.51</td><td>33.0%</td></tr>
+        <tr class="sub-r"><td>원스토어 (ONE)</td><td><span class="tag mkt">마켓</span></td><td>2.39</td><td>0.48</td><td>20.0%</td></tr>
+        <tr class="sum"><td>마켓 합계</td><td>—</td><td>112.23</td><td>36.48</td><td>32.5%</td></tr>
+        <tr class="sub-r"><td>전체</td><td>—</td><td>232.79</td><td>50.22</td><td>21.6%</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      💡 <b>새 발견</b> — 구글·애플엔 알려진 30%가 아니라 <b>실제 ~32.8%</b>를 내고 있습니다(환전 스프레드 등 포함). 즉 자체결제와의 격차는 통념보다 더 큽니다.
+      또한 한나가 기억하던 "엑솔라·마이카드 수수료 + 자체 수수료"는 <b>정산서상 이미 하나(중개수수료)로 합산</b>되어 있어 별도로 더할 값이 없습니다.
+    </div>
+  </section>
+
+  <!-- 3. 순절감 시나리오 -->
+  <section>
+    <h2><span class="n">3</span>순절감액 시나리오</h2>
+    <p class="lead">자체결제 매출 120.56억이 마켓으로 갔다고 가정할 때의 수수료 차액.</p>
+    <table>
+      <thead><tr><th>시나리오</th><th>반사실 마켓 수수료</th><th>실제 자체결제 수수료</th><th>순절감액</th></tr></thead>
+      <tbody>
+        <tr><td>마켓 실효율 32.8% 적용 <b>(기준)</b></td><td>39.51억</td><td>13.74억</td><td><b style="color:var(--red)">25.8억</b></td></tr>
+        <tr><td>명목 30% 적용 (보수)</td><td>36.17억</td><td>13.74억</td><td>22.4억</td></tr>
+        <tr class="sub-r"><td>[참고] MyCard를 평상시 수준 가정 시 <span style="font-size:11px">(실제로는 3주년 실적으로 검증됨)</span></td><td>19.7억</td><td>5.4억</td><td>14.3억</td></tr>
+      </tbody>
+    </table>
+    <p class="note">※ 가정: 자체결제 매출 100%가 마켓으로 이전한다고 봄. 실제로는 웹상점 전용 할인 때문에 일부는 마켓에서 발생 안 했을 수 있어 절감액은 이론적 상한에 가깝습니다.</p>
+  </section>
+
+  <!-- 4. 마일리지·쿠폰 비중 -->
+  <section>
+    <h2><span class="n">4</span>마일리지·쿠폰 혜택 비중 <span style="font-size:12px;color:#999;font-weight:500">(참고 지표)</span></h2>
+    <p class="lead">NSIS 매출은 마일리지·쿠폰이 <b>이미 반영된 최종 실결과값</b>이므로 순절감액에서 다시 빼지 않습니다.
+      대신 태블루 데이터로 "매출 대비 혜택 비중(%)"만 산출했습니다.</p>
+    <table>
+      <thead><tr><th>혜택 항목</th><th>금액(억, 태블루)</th><th>웹상점 매출 대비 비중</th><th>NSIS 규모 환산</th></tr></thead>
+      <tbody>
+        <tr><td>마일리지 사용</td><td>6.00</td><td>8.0%</td><td>≈ 9.7억 상당</td></tr>
+        <tr><td>쿠폰 할인</td><td>4.58</td><td>6.1%</td><td>≈ 7.4억 상당</td></tr>
+        <tr class="sum"><td>혜택 합계</td><td>10.58</td><td>14.1%</td><td>≈ 17.0억 상당</td></tr>
+      </tbody>
+    </table>
+    <p class="note">※ 태블루 웹상점 실매출(VAT포함) 74.9억 기준 비중. PC 클라이언트 결제분은 마일리지·쿠폰 사용이 불가하므로, 자체결제 전체에 이 비중을 적용하면 실제보다 다소 과대 추정됩니다(근사).</p>
+  </section>
+
+  <!-- 5. 기반 데이터 & 검증 -->
+  <section>
+    <h2><span class="n">5</span>기반 데이터 &amp; 검증</h2>
+    <div class="grid2">
+      <div class="prov">
+        <h3>📂 사용 데이터</h3>
+        <ul>
+          <li><b>NSIS BD2 매출집계</b> — <code>nsis_bd2_raw_cleaned_upto20260701.csv</code><br><span style="color:#777;font-size:12px">매출=아이템매출(현금 결제, 혜택 반영 후) / 수수료=스토어 중개수수료. 사업계획용 소스.</span></li>
+          <li><b>겜프스엔 5월 정산서</b> — <code>겜프스엔_브라운더스트2_26년 5월 정산서_260608.xlsx</code><br><span style="color:#777;font-size:12px">NSIS 검증용(실측 대조).</span></li>
+          <li><b>태블루 마일리지·쿠폰</b> — <code>태블루 마일리지_쿠폰.xlsx</code><br><span style="color:#777;font-size:12px">혜택 비중(%) 산출용 (VAT포함).</span></li>
+        </ul>
+      </div>
+      <div class="prov">
+        <h3>✅ 정산서 대조 (5월)</h3>
+        <ul>
+          <li>아이템매출: 정산서 34.19억 = NSIS 34.19억</li>
+          <li>중개수수료: 정산서 9.38억 = NSIS 9.38억</li>
+          <li>5월 실효율: 엑솔라 10.8% · 마이카드 14.4% · 구글 32.7% · 애플 32.8%</li>
+        </ul>
+        <div class="verify"><span class="chk">✔</span> NSIS 수수료 = 정산서 스토어 중개수수료, <b>원 단위까지 일치</b>. 수수료율은 실측으로 확정.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 한계 & 주의 -->
+  <section>
+    <h2><span class="n">6</span>한계 &amp; 주의사항</h2>
+    <ul class="caveats">
+      <li><b>6월은 잠정치입니다.</b> 6월 정산서가 아직 발행되지 않아 NSIS 6월 데이터는 확정 전 수치입니다. 정산 확정 시 조정될 수 있습니다.</li>
+      <li><b>MyCard 6월 급증(63.72억) — raw 데이터로 "실제 매출" 검증 완료.</b> ①6월은 마이카드만이 아니라 전 지역이 폭증(대만 9.6배·일본 7배·북미 4.2배·한국 5.7배)한 3주년 피크월이고 5월은 비수기 바닥이라 "19배"가 과장돼 보였음. 작년 2주년 대비 대만 전체는 2.7배(정상). ②마이카드 행은 전부 정상 아이템구매(대만·수수료율 매일 13~14% 일정)로 소급·정산조정 흔적 없음. ③상위5일 집중도(57%)가 실시간 집계되는 구글(56%)·애플(54%)과 동일 → 정산 몰림 아님, 6월 판매분 확정. <b>특이점</b>: 대만 내 마이카드(웹상점) 비중이 9.5%(2주년)→74%(3주년)로 급등 = 웹상점 전환 극대화. → 순절감 25.8억 신뢰. 단 6월 정산서 확정 시 소폭 조정 가능.</li>
+      <li><b>PC 클라이언트(6/14 진입) 혼입.</b> PC 결제에도 엑솔라·마이카드가 붙어 NSIS상 웹상점과 구분되지 않습니다. 둘 다 마켓 30%를 우회하므로 <b>수수료 절감 계산엔 영향 없음</b>. 단 PC분은 마일리지·쿠폰 사용 불가.</li>
+      <li><b>원화 환산 기준.</b> 엑솔라(USD)·마이카드(TWD) 정산액을 원화로 환산한 값입니다. 통화별 정밀 분석은 화폐별 매출 파일로 후속 예정.</li>
+    </ul>
+  </section>
+
+  <footer>
+    NEOWIZ · GPX사업부 컨텐츠사업팀 · 이한나 &nbsp;|&nbsp; 작성일 2026-07-07 &nbsp;|&nbsp; 내부 분석용<br>
+    © NEOWIZ. All rights reserved. 본 문서는 대외비이며 무단 배포를 금합니다.
+  </footer>
+
+</div>
+</body>
+</html>
