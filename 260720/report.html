@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>서브컬처 게임 주간 리포트 — 2026-W30 (07.20)</title>
+<style>
+  :root { --red:#E51937; --navy:#0B1D3A; --gray:#F5F5F5; --border:#E0E0E0; --text:#1A1A1A; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Noto Sans KR',sans-serif; background:#fff; color:var(--text); font-size:14px; }
+  /* HEADER */
+  .header { background:var(--navy); color:#fff; padding:18px 24px 14px; border-bottom:4px solid var(--red); }
+  .header h1 { font-size:20px; font-weight:700; letter-spacing:.5px; }
+  .header .meta { font-size:12px; color:#aab; margin-top:4px; }
+  /* FLOATING ARCHIVE BTN */
+  .archive-btn { position:fixed; top:16px; right:20px; background:var(--red); color:#fff; border:none;
+    padding:8px 14px; border-radius:6px; font-size:12px; cursor:pointer; z-index:1000; font-weight:600; }
+  .archive-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:999; }
+  .archive-popup { display:none; position:fixed; top:60px; right:20px; width:320px; max-height:380px;
+    overflow-y:auto; background:#fff; border:1px solid var(--border); border-radius:8px;
+    box-shadow:0 4px 20px rgba(0,0,0,.15); z-index:1000; padding:14px 16px; }
+  .archive-popup h3 { font-size:13px; color:var(--navy); margin-bottom:10px; }
+  .archive-popup ul { list-style:none; }
+  .archive-popup li { margin-bottom:6px; }
+  .archive-popup a { color:var(--red); font-size:12px; text-decoration:none; }
+  .archive-popup a:hover { text-decoration:underline; }
+  /* TABS */
+  .tab-nav { display:flex; border-bottom:2px solid var(--border); background:var(--gray); padding:0 16px; flex-wrap:wrap; }
+  .tab-btn { padding:10px 16px; font-size:13px; font-weight:600; cursor:pointer; border:none;
+    background:none; color:#666; border-bottom:3px solid transparent; margin-bottom:-2px; white-space:nowrap; }
+  .tab-btn.active { color:var(--red); border-bottom-color:var(--red); }
+  .tab-content { display:none; padding:20px 20px; }
+  .tab-content.active { display:block; }
+  /* SECTION */
+  .section { margin-bottom:24px; }
+  .section h2 { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:12px;
+    display:flex; align-items:center; gap:8px; }
+  .section h2 .num { background:var(--red); color:#fff; border-radius:50%; width:22px; height:22px;
+    display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; }
+  /* GAME CARD */
+  .game-card { border:1px solid var(--border); border-radius:8px; padding:14px 16px; margin-bottom:14px; }
+  .game-card h4 { font-size:14px; font-weight:700; color:var(--navy); margin-bottom:8px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .game-card ul { padding-left:16px; }
+  .game-card li { font-size:13px; line-height:1.7; margin-bottom:3px; }
+  .tag { display:inline-block; font-size:10px; font-weight:700; padding:2px 7px; border-radius:10px; vertical-align:middle; }
+  .tag.hot { background:#FFE5E9; color:var(--red); }
+  .tag.new { background:#E3F0FF; color:#1565C0; }
+  .tag.global { background:#E8F5E9; color:#2E7D32; }
+  .tag.update { background:#FFF3E0; color:#E65100; }
+  .tag.trend { background:#F3E5F5; color:#6A1B9A; }
+  /* PUBLISHER BADGE */
+  .pub-group { margin-bottom:20px; }
+  .publisher-badge { display:inline-block; font-size:11px; font-weight:700; padding:3px 10px; border-radius:4px; margin-bottom:10px; }
+  .publisher-badge.cn { background:#FFF3CD; color:#856404; }
+  .publisher-badge.kr { background:#D1ECF1; color:#0C5460; }
+  .publisher-badge.jp { background:#F8D7DA; color:#721C24; }
+  /* SOURCE LINK */
+  .src-link { color:var(--red); font-size:11px; text-decoration:none; margin-left:4px; }
+  .src-link:hover { text-decoration:underline; }
+  /* SUMMARY BOX */
+  .summary-box { background:var(--navy); color:#fff; border-radius:8px; padding:16px 18px; margin-top:18px; }
+  .summary-box h3 { font-size:13px; color:#9AB0C8; margin-bottom:8px; font-weight:600; }
+  .summary-box p { font-size:13px; line-height:1.7; }
+  /* THREAT / OPP BOX */
+  .threat-box { background:#FFF5F5; border:1.5px solid var(--red); border-radius:8px; padding:14px 16px; margin-bottom:14px; }
+  .threat-box h3 { color:var(--red); font-size:13px; font-weight:700; margin-bottom:8px; }
+  .opp-box { background:#F0FAF0; border:1.5px solid #2E7D32; border-radius:8px; padding:14px 16px; margin-bottom:14px; }
+  .opp-box h3 { color:#2E7D32; font-size:13px; font-weight:700; margin-bottom:8px; }
+  .threat-box ol, .opp-box ol { padding-left:18px; }
+  .threat-box li, .opp-box li { font-size:13px; line-height:1.7; margin-bottom:4px; }
+  /* CALENDAR */
+  .calendar-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .calendar-table th { background:var(--navy); color:#fff; padding:8px 12px; text-align:left; }
+  .calendar-table td { border:1px solid var(--border); padding:8px 12px; vertical-align:top; }
+  .calendar-table tr:nth-child(even) td { background:var(--gray); }
+  /* SOURCES TABLE */
+  .sources-section { margin-top:32px; padding-top:16px; border-top:1px solid var(--border); }
+  .sources-section h3 { font-size:13px; color:#555; margin-bottom:10px; }
+  .sources-table { width:100%; border-collapse:collapse; font-size:12px; }
+  .sources-table th { background:#F0F0F0; padding:6px 10px; text-align:left; color:#444; border:1px solid var(--border); }
+  .sources-table td { border:1px solid var(--border); padding:6px 10px; vertical-align:top; }
+  /* FOOTER */
+  .footer { background:var(--navy); color:#aab; font-size:11px; text-align:center; padding:18px 20px; margin-top:32px; line-height:1.8; }
+  .footer a { color:#7a9cc4; text-decoration:none; }
+  .footer a:hover { text-decoration:underline; }
+  /* ENTITY NOTE */
+  .entity-note { background:#FFFDE7; border:1px solid #F9A825; border-radius:6px; padding:10px 14px; margin-bottom:14px; font-size:12px; color:#555; }
+  @media(max-width:640px){ .tab-btn{ padding:8px 10px; font-size:12px; } }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>🎴 서브컬처 게임 주간 리포트</h1>
+  <div class="meta">2026.07.20 (일) 기준 · KR &gt; TW &gt; CN · 30일 이슈 + 향후 전망 · GPX사업부 컨텐츠사업팀</div>
+</div>
+
+<!-- ARCHIVE BUTTON -->
+<button class="archive-btn" onclick="toggleArchive()">📁 지난 리포트</button>
+<div class="archive-overlay" id="archiveOverlay" onclick="toggleArchive()"></div>
+<div class="archive-popup" id="archivePopup">
+  <h3>지난 리포트 목록</h3>
+  <ul id="archiveList"><li style="color:#999;font-size:12px;">불러오는 중...</li></ul>
+</div>
+
+<!-- TABS -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('tab1',this)">① 시장 흐름</button>
+  <button class="tab-btn" onclick="showTab('tab2',this)">② 게임별 이슈</button>
+  <button class="tab-btn" onclick="showTab('tab3',this)">③ 1개월 전망</button>
+  <button class="tab-btn" onclick="showTab('tab4',this)">④ 2~6개월 전망</button>
+  <button class="tab-btn" onclick="showTab('tab5',this)">⑤ 브더2 시사점</button>
+</div>
+
+<!-- ① 시장 흐름 -->
+<div id="tab1" class="tab-content active">
+
+  <div class="section">
+    <h2><span class="num">1</span>호요버스 하반기 총공세 — KR/TW 상위권 독점 구조 강화</h2>
+    <div class="game-card">
+      <h4>호요버스 3연속 업데이트 드라이브 <span class="tag hot">HOT</span></h4>
+      <ul>
+        <li>붕괴:스타레일 v4.4 페이트/스테이나이트 2차 콜라보 7/15 출시 — 신규 5성 3종(길가메시·린 토오사카·히메코 노바) + KR 단독 오프라인 전시 연계. <a href="https://rpgamer.com/2026/07/honkai-star-rail-4-4-update-set-for-july-15/" target="_blank" class="src-link">[출처 🔗]</a></li>
+        <li>원신 v6.7 Phase 2 라이덴 쇼군 리런 + 신규 5성 콜럼비나 배너 7/21~8/11 — 주요 KR/TW 과금 이벤트. <a href="https://genshin-builds.com/en/blog/genshin-impact-6-7-columbina-arrives-and-raiden-shogun-returns" target="_blank" class="src-link">[출처 🔗]</a></li>
+        <li>젠레스 존 제로 v3.1 업데이트 7/29 예정 — 7월 내 3종 연속 메이저 업데이트로 KR 상위권 독점 심화. <a href="https://rpgamer.com/2026/07/zenless-zone-zero-version-3-1-update-releasing-later-this-month/" target="_blank" class="src-link">[출처 🔗]</a></li>
+      </ul>
+    </div>
+    <div class="game-card">
+      <h4>명조 WuWa — Xbox Series X|S 정식 진출, SP 캐릭터 신등급 도입 <span class="tag new">NEW</span></h4>
+      <ul>
+        <li>v3.5 (7/10) Xbox Series X|S 정식 출시 — 서브컬처 타이틀 콘솔 진출 첫 사례, KR 매출 상위권 유지. <a href="https://www.notebookcheck.net/Wuthering-Waves-version-3-5-launches-July-10-alongside-Xbox-Series-consoles.1329883.0.html" target="_blank" class="src-link">[출처 🔗]</a></li>
+        <li>SP(Special) 캐릭터 신등급 「양양:쉬안링」 첫 도입 — 기존 5성 이상 희귀도 차등, 향후 과금 구조 고도화 시그널.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">2</span>CN 서브컬처 KR 상륙 가속 — 명일방주 엔드필드 반년 기념 + 신작 진입</h2>
+    <div class="game-card">
+      <h4>명일방주 엔드필드 Homecoming 반년 기념 업데이트 <span class="tag update">UPDATE</span></h4>
+      <ul>
+        <li>v1.4 Homecoming 7/16 출시 — 출시 6개월 기념 대형 무료 업데이트. 역대 최대 스토리 맵 확장 + 신규 오퍼레이터 2명(아르칸·리노). <a href="https://monstervine.com/2026/07/arknights-endfield-homecoming-update-july-16/" target="_blank" class="src-link">[출처 🔗]</a></li>
+        <li>CN-origin KR 침투: kr_penetration 「신규(2026-01-22)」 → 반년 경과 후에도 무료 대형 업데이트로 유저 이탈 방어 전략 구사.</li>
+      </ul>
+    </div>
+    <div class="game-card">
+      <h4>CN 신작 KR 진입 가속 — 하반기 서브컬처 대전 <span class="tag trend">TREND</span></h4>
+      <ul>
+        <li>중국 빌리빌리 개발 서브컬처 수집형 RPG의 넥슨 KR 퍼블리싱 정식 출시 임박(7/23) — DB 신규 등재 검토 중. <a href="https://www.invenglobal.com/articles/23736/nexon-to-launch-subculture-rpg-higan-eruthyll-on-the-23rd" target="_blank" class="src-link">[출처 🔗]</a></li>
+        <li>2026 하반기 KR 주요 게임사(넥슨·엔씨·스마일게이트) 서브컬처 신작 연이어 출시 예정 — KR 서브컬처 시장 경쟁 최고조. <a href="https://www.betanews.net/article/view/beta202607010001" target="_blank" class="src-link">[출처 🔗]</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">3</span>KR 오리진 — 니케 오프라인 마케팅 선두, KR 로컬 타이틀 커뮤니티 방어</h2>
+    <div class="game-card">
+      <h4>니케 서머 오프라인 연계 이벤트 <span class="tag hot">HOT</span></h4>
+      <ul>
+        <li>Wave to You 서머 이벤트(7/2~) + 더현대 서울 팝업스토어(7/17~30) + Full Burst Live 밴드 콘서트(7/18~19) 동시 진행. <a href="https://www.inven.co.kr/webzine/news/?news=318344" target="_blank" class="src-link">[출처 🔗]</a></li>
+        <li>라플라스:얼티밋 히어로 신규 SSR 7/19 공개 — KR 커뮤니티 화제.</li>
+      </ul>
+    </div>
+    <div class="game-card">
+      <h4>트릭컬 리바이브·블루아카이브 커뮤니티 유지 <span class="tag update">UPDATE</span></h4>
+      <ul>
+        <li>트릭컬 리바이브 — 신규 캐릭터 「프로 감독」·「프로 다역배우」 7/19 공개, KR 팬덤 반응 활발. <a href="https://bbs.ruliweb.com/news/board/320108/read/2291699" target="_blank" class="src-link">[출처 🔗]</a></li>
+        <li>블루아카이브 — 밀레니엄 세미나 복각 이벤트 「비밀의 미드나잇 파티」 7/15 시작. <a href="https://gamejay.net/bluearchive-secret-midnight-party" target="_blank" class="src-link">[출처 🔗]</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>핵심 요약 (시장 관점)</h3>
+    <p>7월 KR 서브컬처 시장은 호요버스 3종 연속 업데이트·콜라보, 명조 Xbox 진출, CN 신작 진입으로 경쟁 밀도 최고조. CN-origin 타이틀이 KR 매출 상위 5위 내 3~4석을 차지하는 구조가 고착화되고 있으며, 오프라인 마케팅(롯데월드 전시·팝업)이 새로운 팬덤 결속 수단으로 정착 중. KR-origin 타이틀(니케·트릭컬·블루아카이브)은 로컬 커뮤니티 밀착 전략으로 상위권을 방어 중.</p>
+    <p style="margin-top:10px;"><strong>BD2 핵심 과제:</strong> CN 대작 업데이트 러시 속 기존 KR 팬덤 이탈 방어 + 오프라인 접점 강화가 최우선 과제.</p>
+  </div>
+</div>
+
+<!-- ② 게임별 이슈 -->
+<div id="tab2" class="tab-content">
+
+  <!-- CN 계열 -->
+  <div class="pub-group">
+    <span class="publisher-badge cn">🇨🇳 CN-origin (KR/TW 침투)</span>
+
+    <div class="game-card">
+      <h4>붕괴: 스타레일 <span class="tag hot">HOT</span> <span style="font-weight:400;font-size:12px;color:#888;">(호요버스 · kr_penetration: 최상 KR #3~4 · tw_penetration: 최상 TW #1)</span></h4>
+      <ul>
+        <li>v4.4 「In Ravages Does the Whistle Sound」 7/15 출시 — 페이트/스테이나이트 2차 콜라보: 신규 5성 길가메시·린 토오사카(콜라보) + 히메코 노바(자체 신규 5성). <a href="https://rpgamer.com/2026/07/honkai-star-rail-4-4-update-set-for-july-15/" target="_blank" class="src-link">[출처 🔗]</a></li>
+        <li>서울 잠실 롯데월드 몰입형 전시 「환조: 성배전쟁」 7/17~8/31 — Fate 콜라보 연계 KR 단독 오프라인 이벤트. <a href="https://www.gametoc.co.kr/news/articleView.html?idxno=109735" target="_blank" class="src-link">[출처 🔗]</a></li>
+        <li>7/24 이후 콜라보 라이트콘 획득 이벤트(200 패스 사용 시) — 중장기 과금 유지 장치.</li>
+      </ul>
+    </div>
+
+    <div class="game-card">
+      <h4>명조: 워더링 웨이브 <span class="tag new">NEW</span> <span style="font-weight:400;font-size:12px;color:#888;">(쿠로게임즈 · kr_penetration: 최상 KR #2 · tw_penetration: 상)</span></h4>
+      <ul>
+        <li>v3.5 7/10 출시 — 신규 SP 캐릭터 「양양:쉬안링」(게임 최초 Special 등급) + 서포터 수이수이 + 신규 지역 멍저우(Mengzhou) 오픈. <a href="https://gamemarket.gg/news/wuthering-waves/wuwa-3-5-everything-new-xuanling-sp-banner-special-rerun-mengzhou" target="_blank" class="src-link">[출처 🔗]</a></li>
+        <li>Xbox Series X|S 정식 출시(7/10) — 서브컬처 타이틀 콘솔 진출 첫 사례. <a href="https://www.notebookcheck.net/Wuthering-Waves-version-3-5-launches-July-10-alongside-Xbox-Series-consoles.1329883.0.html" target="_blank" class="src-link">[출처 🔗]</a></li>
+        <li>3.5 업데이트 후 KR 구글플레이 7월 2주차 매출 상위권 유지. <a href="https://www.betanews.net/article/view/beta202607130001" target="_blank" class="src-link">[출처 🔗]</a></li>
+      </ul>
+    </div>
+
+    <div class="game-card">
+      <h4>원신 <span class="tag update">UPDATE</span> <span style="font-weight:400;font-size:12px;color:#888;">(호요버스 · kr_penetration: 상 KR #6~7 · tw_penetration: 최상 TW #3)</span></h4>
+      <ul>
+        <li>v6.7 Phase 2 — 라이덴 쇼군(리런) + 신규 5성 콜럼비나 배너 7/21 출시(~8/11). <a href="https://genshin-builds.com/en/blog/genshin-impact-6-7-columbina-arrives-and-raiden-shogun-returns" target="_blank" class="src-link">[출처 🔗]</a></li>
+        <li>KR/TW 양 시장 라이덴 쇼군 인기 기반 매출 기대.</li>
+      </ul>
+    </div>
+
+    <div class="game-card">
+      <h4>젠레스 존 제로 <span class="tag update">UPDATE</span> <span style="font-weight:400;font-size:12px;color:#888;">(호요버스 · kr_penetration: 상 KR top-10 · tw_penetration: 상 TW #10)</span></h4>
+      <ul>
+        <li>v3.1 업데이트 7/29 출시 예정 — v3.0 현재 진행 중. <a href="https://rpgamer.com/2026/07/zenless-zone-zero-version-3-1-update-releasing-later-this-month/" target="_blank" class="src-link">[출처 🔗]</a></li>
+      </ul>
+    </div>
+
+    <div class="game-card">
+      <h4>명일방주: 엔드필드 <span class="tag update">UPDATE</span> <span style="font-weight:400;font-size:12px;color:#888;">(하이퍼그리프/GRYPHLINE · kr_penetration: 신규 2026-01-22 · tw_penetration: 신규)</span></h4>
+      <ul>
+        <li>v1.4 「Homecoming」 7/16 출시 — 반년 기념 무료 대형 업데이트. 역대 최대 스토리 맵 확장 + 신규 오퍼레이터 아르칸(6성 캐스터)·리노(6성 지원). <a href="https://monstervine.com/2026/07/arknights-endfield-homecoming-update-july-16/" target="_blank" class="src-link">[출처 🔗]</a></li>
+        <li>로그인 보상 7/10~7/24: Oroberyl 2000 등 복귀 유저 흡수 장치.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- KR 계열 -->
+  <div class="pub-group">
+    <span class="publisher-badge kr">🇰🇷 KR-origin</span>
+
+    <div class="game-card">
+      <h4>승리의 여신: 니케 <span class="tag hot">HOT</span> <span style="font-weight:400;font-size:12px;color:#888;">(시프트업/레벨인피니트 · kr_penetration: 최상 KR #1 3개월 연속)</span></h4>
+      <ul>
+        <li>「Wave to You」 서머 이벤트 7/2 출시 — 수영복 신규 5성 신데렐라:크리스탈웨이브 + 라플라스:얼티밋 히어로 SSR 7/19 공개. <a href="https://themagicrain.com/2026/07/goddess-of-victory-nikkes-new-wave-to-you-update-launches-july-2/" target="_blank" class="src-link">[출처 🔗]</a></li>
+        <li>더현대 서울 여름 팝업스토어 7/17~30(한정 굿즈 8종·포토존·미니게임). <a href="https://www.inven.co.kr/webzine/news/?news=318344" target="_blank" class="src-link">[출처 🔗]</a></li>
+        <li>Full Burst Live 밴드 콘서트 서울 예스24 라이브홀 2회 공연(7/18·7/19). <a href="https://m.ticket.yes24.com/Notice/17899" target="_blank" class="src-link">[출처 🔗]</a></li>
+      </ul>
+    </div>
+
+    <div class="game-card">
+      <h4>블루 아카이브 <span class="tag update">UPDATE</span> <span style="font-weight:400;font-size:12px;color:#888;">(넥슨게임즈·넥슨 · kr_penetration: 상)</span></h4>
+      <ul>
+        <li>「비밀의 미드나잇 파티 ~종이 울리는 술래잡기~」 복각 이벤트 7/15 시작 — 밀레니엄 세미나 파자마 콘텐츠. <a href="https://gamejay.net/bluearchive-secret-midnight-party" target="_blank" class="src-link">[출처 🔗]</a></li>
+      </ul>
+    </div>
+
+    <div class="game-card">
+      <h4>트릭컬 리바이브 <span class="tag new">NEW</span> <span style="font-weight:400;font-size:12px;color:#888;">(에피드게임즈 · kr_penetration: 상 top-10)</span></h4>
+      <ul>
+        <li>신규 캐릭터 「프로 감독」·「프로 다역 배우」 7/19 공개 — KR 커뮤니티 반응 활발. <a href="https://bbs.ruliweb.com/news/board/320108/read/2291699" target="_blank" class="src-link">[출처 🔗]</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- JP 계열 -->
+  <div class="pub-group">
+    <span class="publisher-badge jp">🇯🇵 JP-origin</span>
+
+    <div class="game-card">
+      <h4>우마무스메 <span class="tag update">UPDATE</span> <span style="font-weight:400;font-size:12px;color:#888;">(사이게임즈/카카오게임즈 · kr_penetration: 상)</span></h4>
+      <ul>
+        <li>글로벌(KR) 7/1 밸런스 패치: 2주년 대응 포지션 조정·선행형 단독 거동 수정. 7/14 일일 레이스 신규 상대 추가. <a href="https://gametora.com/umamusume/guides/july-2026-rebalance" target="_blank" class="src-link">[출처 🔗]</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 신규 entity 주석 -->
+  <div class="entity-note">
+    ⚠️ <strong>DB 등재 대기 신규 타이틀:</strong> 빌리빌리(CN) 개발·넥슨 KR 퍼블리싱 서브컬처 수집형 RPG 「히간: 이루실」 2026-07-23 KR 정식 출시 예정. CN-origin, KR 침투 신규.
+    현재 DB 미등재 상태로 추적 제외 — 다음 세션에서 한나 컨펌 후 등재 예정.
+    <a href="https://www.invenglobal.com/articles/23736/nexon-to-launch-subculture-rpg-higan-eruthyll-on-the-23rd" target="_blank" class="src-link">[출처 🔗]</a>
+  </div>
+
+</div>
+
+<!-- ③ 1개월 전망 -->
+<div id="tab3" class="tab-content">
+  <div class="section">
+    <h2><span class="num">1</span>7~8월 주요 일정</h2>
+    <table class="calendar-table">
+      <thead><tr><th>일정</th><th>타이틀</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td>7/21~8/11</td><td>원신</td><td>v6.7 Phase 2 — 라이덴 쇼군 리런 + 콜럼비나 배너</td></tr>
+        <tr><td>7/17~8/31</td><td>붕괴: 스타레일</td><td>서울 롯데월드 오프라인 전시 「환조: 성배전쟁」</td></tr>
+        <tr><td>7/15~8/26</td><td>붕괴: 스타레일</td><td>v4.4 페이트 2차 콜라보 지속 (길가메시·린 토오사카)</td></tr>
+        <tr><td>7/17~7/30</td><td>니케</td><td>더현대 서울 여름 팝업스토어</td></tr>
+        <tr><td>7/10~8/19</td><td>명조</td><td>v3.5 멍저우 지역 + SP 캐릭터 양양:쉬안링 배너</td></tr>
+        <tr><td>7/29</td><td>젠레스 존 제로</td><td>v3.1 업데이트 출시</td></tr>
+        <tr><td>~2026-08</td><td>아주르 프로밀리아</td><td>넥슨 KR 퍼블리싱, 하반기 정식 출시 목표 (CBT 완료)</td></tr>
+        <tr><td>~2026-08</td><td>리밋 제로 브레이커스</td><td>엔씨소프트 글로벌 퍼블리싱, 출시 초읽기</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="section">
+    <h2><span class="num">2</span>핵심 관전 포인트</h2>
+    <div class="game-card">
+      <ul>
+        <li>① <strong>젠레스 존 제로 v3.1</strong>(7/29) 성과 — 호요버스 3종 7월 업데이트 마무리. KR 매출 Top5 독점 유지 여부.</li>
+        <li>② <strong>명조 Xbox 진출</strong> 효과 — 콘솔 신규 유저 유입으로 KR 매출 순위 변동 가능성.</li>
+        <li>③ <strong>CN 신작 KR 정식 진입</strong>(7/23) — 빌리빌리 개발 신작 KR 초기 반응 및 매출 순위 진입 여부 (히간: 이루실 DB 등재 후 W31부터 추적 예정).</li>
+        <li>④ <strong>아주르 프로밀리아·리밋 제로 브레이커스</strong> 출시 시점 — 하반기 KR 서브컬처 대전 2라운드 개막 시그널.</li>
+        <li>⑤ <strong>BD2 관점</strong> — 7월 말 대작 러시 종료 직후(8월 초) 복귀 이벤트 및 신규 캐릭터 공개 타이밍 최적화 필요.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ④ 2~6개월 전망 -->
+<div id="tab4" class="tab-content">
+  <div class="section">
+    <h2><span class="num">1</span>2026 하반기 대형 신작 일정</h2>
+    <table class="calendar-table">
+      <thead><tr><th>출시 예정</th><th>타이틀</th><th>Origin</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td>2026-08~09</td><td>아주르 프로밀리아</td><td>CN(만쥬)/넥슨 KR</td><td>컴패니언 오픈월드 가챠 RPG. CBT 완료, KR 출시 유력</td></tr>
+        <tr><td>2026-08~09</td><td>리밋 제로 브레이커스</td><td>KR(빅게임스튜디오)/엔씨소프트</td><td>엔씨 첫 서브컬처 진출, 글로벌 동시 출시 목표</td></tr>
+        <tr><td>2026-08~</td><td>무한대 (ANANTA)</td><td>CN(넷이즈 Naked Rain)</td><td>도심 오픈월드 가챠, Q3 2026 글로벌 목표</td></tr>
+        <tr><td>TBD</td><td>귀환 (Rewinding Cadence)</td><td>CN(사로아시스/텐센트)</td><td>타임루프 오픈월드 ARPG, CN 서비스 중</td></tr>
+        <tr><td>TBD</td><td>실버 팰리스</td><td>SG(엘리멘타)</td><td>UE5 오픈월드 추리 ARPG, 사전예약 400만</td></tr>
+        <tr><td>TBD</td><td>미래시</td><td>KR(컨트롤나인/스마일게이트)</td><td>시간여행 수집형 RPG, 니케 출신 인력 개발</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="section">
+    <h2><span class="num">2</span>시장 구조 트렌드</h2>
+    <div class="game-card">
+      <ul>
+        <li><strong>콘솔 확장 경쟁:</strong> 명조 Xbox 진출(7/10)을 시작으로 2026 하반기 주요 서브컬처 타이틀의 콘솔 진출 가속 예상. 니케(PC 공식 지원 기존), 엔드필드(PC 전용 유지) 등 플랫폼 차별화 전략 분기.</li>
+        <li><strong>SP/특별 등급 캐릭터 도입:</strong> 명조 SP 캐릭터 도입은 과금 구조 고도화 신호. 니케·블루아카이브 등도 유사 메커니즘 도입 검토 가능성 상승.</li>
+        <li><strong>CN-origin 타이틀 KR 침투 심화:</strong> 2026 상반기 명일방주 엔드필드·이환 진입에 이어 하반기 아주르 프로밀리아·ANANTA 진출로 CN 타이틀 KR 매출 점유율 확대 지속.</li>
+        <li><strong>오프라인 팬 이벤트 표준화:</strong> 호요버스 롯데월드 전시, 니케 더현대 팝업·콘서트가 서브컬처 오프라인 마케팅 표준 모델로 정착. 2026 하반기 팝업 경쟁 심화 예상.</li>
+        <li><strong>글로벌 서브컬처 매출 순위 참고(2026-06):</strong> 명조·원신·스타레일·ZZZ 호요버스 4종이 글로벌 Top 5 점유. KR 로컬 순위는 니케(1위) 독주 지속.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ 브더2 시사점 -->
+<div id="tab5" class="tab-content">
+  <div class="section">
+    <h2><span class="num">⑤</span>브라운더스트 2 (BD2) — 경쟁 인텔리전스</h2>
+    <p style="font-size:12px;color:#888;margin-bottom:16px;">BD2는 2D 스토리·코스튬 서브컬처 수집형 RPG. 이하 시사점은 BD2 사업 관점에서의 위협·기회 분석.</p>
+
+    <div class="threat-box">
+      <h3>⚠️ 위협</h3>
+      <ol>
+        <li><strong>호요버스 KR 오프라인 마케팅 고도화</strong> — 롯데월드 몰입형 전시(7/17~8/31)·팝업스토어 등 대형 오프라인 이벤트가 KR 서브컬처 팬덤의 오프라인 기대치를 높이는 중. BD2 오프라인 팬 이벤트의 규모·밀도 격차 심화 위험.</li>
+        <li><strong>명조 SP 캐릭터 + 콘솔 진출로 서브컬처 과금·플랫폼 구조 가속</strong> — SP 신등급 도입이 KR 유저 과금 내성을 높이는 한편, Xbox 콘솔 진출로 BD2가 없는 콘솔 유저층 선점 위험.</li>
+        <li><strong>CN 신작 KR 집중 진입 — 7월~하반기</strong> — 엔드필드 반년 업데이트, CN 신작 KR 진입(7/23), 아주르 프로밀리아·ANANTA 예정으로 KR 서브컬처 유저 주의와 지갑이 분산. BD2 신규 유입 저하 위험.</li>
+      </ol>
+    </div>
+
+    <div class="opp-box">
+      <h3>✅ 기회</h3>
+      <ol>
+        <li><strong>니케 오프라인 연계 성공 사례 — BD2 전략화 가능</strong> — 니케 서머 팝업(더현대)+콘서트가 KR 팬덤 결속에 효과적임을 증명. BD2도 시즌(서머·가을) 이벤트 연계 오프라인 팝업을 기획하면 동일 효과 기대.</li>
+        <li><strong>7월 대작 러시 종료 직후 — 복귀·신규 유저 흡수 적기</strong> — 7/29 ZZZ v3.1 이후 8월 초는 KR 서브컬처 유저의 콘텐츠 소화 완료 시점. BD2 복귀 쿠폰·신규 캐릭터 공개를 8월 초 타이밍에 집중하면 이탈 방어 및 신규 유입 극대화 가능.</li>
+        <li><strong>페이트×스타레일 2차 콜라보 흥행 — JP IP 콜라보 ROI 레퍼런스</strong> — 페이트/스테이나이트 KR 신규 5성 2종 출시 + 오프라인 전시 흥행이 JP 애니 IP 콜라보의 KR 매출 기여를 재확인. BD2가 JP 인기 IP 콜라보 추진 시 설득력 있는 내부 레퍼런스로 활용 가능.</li>
+      </ol>
+    </div>
+
+    <div class="summary-box">
+      <h3>BD2 경쟁 인텔리전스 핵심 결론</h3>
+      <p>7월 KR 서브컬처 시장은 호요버스 콜라보 러시(스타레일 페이트 2차·원신 콜럼비나)와 CN 신작 진입으로 경쟁 밀도 최고조 — BD2는 8월 초 대작 러시 종료 직후를 타겟으로 기존 KR 팬덤 결속 이벤트와 JP IP 콜라보를 집중 편성하는 것이 최적 전략.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 기타 참고 출처 (인라인 미사용 보조 출처만) -->
+<div style="padding:0 20px;">
+  <div class="sources-section">
+    <h3>📚 기타 참고 출처</h3>
+    <table class="sources-table">
+      <thead><tr><th>게임</th><th>이슈 유형</th><th>기준일</th><th>출처</th></tr></thead>
+      <tbody>
+        <tr><td>붕괴: 스타레일</td><td>v4.4 업데이트 상세</td><td>2026-07-15</td><td><a href="https://www.sportskeeda.com/esports/honkai-star-rail-hsr-4-4-update-patch-notes-new-characters-fate-collab" target="_blank">sportskeeda.com</a></td></tr>
+        <tr><td>붕괴: 스타레일</td><td>v4.4 출시 확인</td><td>2026-07-15</td><td><a href="https://gamingonphone.com/news/honkai-star-rail-version-4-4-update-is-bringing-back-the-fate-collaboration-with-two-new-characters-from-the-fate-series-and-himeko-nova-on-july-15-2026" target="_blank">gamingonphone.com</a></td></tr>
+        <tr><td>명조: 워더링 웨이브</td><td>v3.5 출시 확인</td><td>2026-07-10</td><td><a href="https://www.gametrader.sg/blog/wuthering-waves-3-5-mengzhou-july-10-2026/" target="_blank">gametrader.sg</a></td></tr>
+        <tr><td>명일방주: 엔드필드</td><td>Homecoming 업데이트 확인</td><td>2026-07-16</td><td><a href="https://themagicrain.com/2026/07/arknights-endfield-celebrates-half-year-milestone-with-homecoming-update/" target="_blank">themagicrain.com</a></td></tr>
+        <tr><td>명일방주: 엔드필드</td><td>v1.4 오퍼레이터·시스템 상세</td><td>2026-07-10</td><td><a href="https://www.gematsu.com/2026/07/arknights-endfield-version-update-homecoming-launches-july-16" target="_blank">gematsu.com</a></td></tr>
+        <tr><td>승리의 여신: 니케</td><td>신데렐라 크리스탈웨이브 평가</td><td>2026-07-19</td><td><a href="https://nikke.gg/cinderella-crystal-wave-analysis-should-you-pull/" target="_blank">nikke.gg</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>서브컬처 게임 주간 리포트 | GPX사업부 컨텐츠사업팀 · 이한나 · © NEOWIZ</p>
+  <p style="margin-top:4px;">출처: Tavily·Brave 검색 집계 / events_db 30일 뷰 (W30, 2026-07-14~20 델타)</p>
+  <p style="margin-top:4px;"><a href="roster.html">📋 트래킹 게임·게임사 명단</a> · <a href="https://hanna764.github.io/h/subculture/weekly_report.html">📎 리포트 고정 URL</a></p>
+</div>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+function toggleArchive() {
+  const popup = document.getElementById('archivePopup');
+  const overlay = document.getElementById('archiveOverlay');
+  const open = popup.style.display === 'block';
+  popup.style.display = open ? 'none' : 'block';
+  overlay.style.display = open ? 'none' : 'block';
+  if(!open) loadArchive();
+}
+function loadArchive() {
+  const list = document.getElementById('archiveList');
+  const base = 'https://hanna764.github.io/h/subculture/archive/';
+  fetch(base + 'index.json')
+    .then(r=>r.json())
+    .then(data=>{
+      if(!data.length){ list.innerHTML='<li style="color:#999;font-size:12px;">지난 리포트 없음</li>'; return; }
+      list.innerHTML = data.slice().reverse().map(item=>
+        `<li><a href="${base}${item.dir}/report.html">${item.label||item.week_id}</a></li>`
+      ).join('');
+    })
+    .catch(()=>{ list.innerHTML='<li style="color:#999;font-size:12px;">불러오기 실패 (아카이브 없음)</li>'; });
+}
+</script>
+</body>
+</html>
