@@ -144,6 +144,14 @@ body{font-family:'Noto Sans KR','DM Sans',sans-serif;background:var(--surface-al
 .ctbl .rs .cg{color:var(--nw-red);}
 .ctbl .num{font-family:'DM Sans',sans-serif;text-align:right;}
 .ctbl .sep td{border-top:1px solid var(--border);}
+/* 구간 묶음 표 */
+.ctbl thead th.grp{text-align:center;color:var(--ink);border-bottom:2px solid var(--nw-red);font-size:10px;}
+.ctbl thead th.sub{font-size:9px;letter-spacing:.04em;text-transform:none;color:var(--ink-3);text-align:right;font-weight:600;}
+.ctbl .gsep{border-left:1px solid var(--border);}
+.ctbl th.base,.ctbl td.base{background:var(--surface-mute);}
+.ctbl td.base{font-weight:700;color:var(--ink);}
+.ctbl thead th.base{color:var(--ink);border-bottom:2px solid var(--ink-4);text-align:right;}
+.ctbl tbody tr:hover td.base{background:var(--surface-mute);}
 .bdg{display:inline-block;padding:2px 7px;border-radius:3px;font-size:11px;font-weight:700;}
 .bhi{background:var(--nw-red-tint);color:var(--nw-red);}
 .bmd{background:rgba(217,140,31,.12);color:var(--warn);}
@@ -349,23 +357,36 @@ body.dark .tab-bar{background:#161b2e;}
   <div class="card rv" style="padding:0;overflow:hidden;margin-bottom:16px;">
     <div class="tbl-scroll">
       <table class="ctbl">
-        <thead><tr><th>콜라보</th><th>지표</th><th class="num">직전 2주</th><th class="num">콜라보<br>1~2주차</th><th class="num">증감</th><th class="num">콜라보<br>3~4주차</th><th class="num">증감</th><th class="num">종료 후<br>2주</th><th class="num">증감</th></tr></thead>
+        <thead>
+          <tr>
+            <th rowspan="2">콜라보</th><th rowspan="2">지표</th>
+            <th rowspan="2" class="num base">직전 2주<br><span style="font-weight:400;text-transform:none;letter-spacing:0;">기준값</span></th>
+            <th colspan="2" class="grp gsep">콜라보 1~2주차</th>
+            <th colspan="2" class="grp gsep">콜라보 3~4주차</th>
+            <th colspan="2" class="grp gsep">종료 후 2주</th>
+          </tr>
+          <tr>
+            <th class="sub gsep">하루 평균</th><th class="sub">기준 대비</th>
+            <th class="sub gsep">하루 평균</th><th class="sub">기준 대비</th>
+            <th class="sub gsep">하루 평균</th><th class="sub">기준 대비</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr><td class="cg" rowspan="3">무직전생 2 (신규)</td><td>신규</td><td class="num">3,628</td><td class="num">6,724</td><td class="num"><span class="bdg blo">+85.3%</span></td><td class="num">7,251</td><td class="num"><span class="bdg blo">+99.9%</span></td><td class="num">8,991</td><td class="num"><span class="bdg blo">+147.8%</span></td></tr>
-          <tr><td>2주복귀</td><td class="num">1,806</td><td class="num">2,592</td><td class="num"><span class="bdg blo">+43.5%</span></td><td class="num">2,793</td><td class="num"><span class="bdg blo">+54.6%</span></td><td class="num">4,028</td><td class="num"><span class="bdg blo">+123.0%</span></td></tr>
-          <tr><td>AU</td><td class="num">64,144</td><td class="num">86,394</td><td class="num"><span class="bdg blo">+34.7%</span></td><td class="num">100,623</td><td class="num"><span class="bdg blo">+56.9%</span></td><td class="num">125,087</td><td class="num"><span class="bdg blo">+95.0%</span></td></tr>
-          <tr class="sep"><td class="cg" rowspan="3">섬란 카구라 (신규)</td><td>신규</td><td class="num">4,207</td><td class="num">5,574</td><td class="num"><span class="bdg blo">+32.5%</span></td><td class="num">4,003</td><td class="num"><span class="bdg bhi">−4.9%</span></td><td class="num">2,502</td><td class="num"><span class="bdg bhi">−40.5%</span></td></tr>
-          <tr><td>2주복귀</td><td class="num">2,134</td><td class="num">3,495</td><td class="num"><span class="bdg blo">+63.8%</span></td><td class="num">2,085</td><td class="num"><span class="bdg bhi">−2.3%</span></td><td class="num">1,646</td><td class="num"><span class="bdg bhi">−22.9%</span></td></tr>
-          <tr><td>AU</td><td class="num">105,187</td><td class="num">119,387</td><td class="num"><span class="bdg bmd">+13.5%</span></td><td class="num">105,762</td><td class="num"><span class="bdg bmd">+0.5%</span></td><td class="num">91,608</td><td class="num"><span class="bdg bhi">−12.9%</span></td></tr>
-          <tr class="sep"><td class="cg" rowspan="3">고블린 슬레이어 2 (신규)</td><td>신규</td><td class="num">5,188</td><td class="num">10,105</td><td class="num"><span class="bdg blo">+94.8%</span></td><td class="num">7,789</td><td class="num"><span class="bdg blo">+50.1%</span></td><td class="num">7,304</td><td class="num"><span class="bdg blo">+40.8%</span></td></tr>
-          <tr><td>2주복귀</td><td class="num">3,658</td><td class="num">6,537</td><td class="num"><span class="bdg blo">+78.7%</span></td><td class="num">4,386</td><td class="num"><span class="bdg bmd">+19.9%</span></td><td class="num">5,512</td><td class="num"><span class="bdg blo">+50.7%</span></td></tr>
-          <tr><td>AU</td><td class="num">138,802</td><td class="num">167,347</td><td class="num"><span class="bdg bmd">+20.6%</span></td><td class="num">164,746</td><td class="num"><span class="bdg bmd">+18.7%</span></td><td class="num">172,792</td><td class="num"><span class="bdg bmd">+24.5%</span></td></tr>
-          <tr class="sep"><td class="cg" rowspan="3">무직전생 2 (복각)</td><td>신규</td><td class="num">5,781</td><td class="num">6,442</td><td class="num"><span class="bdg bmd">+11.4%</span></td><td class="num">—</td><td class="num">—</td><td class="num">6,519</td><td class="num"><span class="bdg bmd">+12.8%</span></td></tr>
-          <tr><td>2주복귀</td><td class="num">5,312</td><td class="num">5,777</td><td class="num"><span class="bdg bmd">+8.8%</span></td><td class="num">—</td><td class="num">—</td><td class="num">4,998</td><td class="num"><span class="bdg bhi">−5.9%</span></td></tr>
-          <tr><td>AU</td><td class="num">189,390</td><td class="num">198,813</td><td class="num"><span class="bdg bmd">+5.0%</span></td><td class="num">—</td><td class="num">—</td><td class="num">196,829</td><td class="num"><span class="bdg bmd">+3.9%</span></td></tr>
-          <tr class="sep rs"><td class="cg" rowspan="3">섬란 카구라 (복각)</td><td>신규</td><td class="num">4,972</td><td class="num">5,990</td><td class="num"><span class="bdg bmd">+20.5%</span></td><td class="num">5,298</td><td class="num"><span class="bdg bmd">+6.6%</span></td><td class="num">5,643</td><td class="num"><span class="bdg bmd">+13.5%</span></td></tr>
-          <tr class="rs"><td>2주복귀</td><td class="num">6,058</td><td class="num">8,430</td><td class="num"><span class="bdg blo">+39.2%</span></td><td class="num">6,915</td><td class="num"><span class="bdg bmd">+14.1%</span></td><td class="num">6,197</td><td class="num"><span class="bdg bmd">+2.3%</span></td></tr>
-          <tr class="rs"><td>AU</td><td class="num">280,974</td><td class="num">293,995</td><td class="num"><span class="bdg bmd">+4.6%</span></td><td class="num">281,454</td><td class="num"><span class="bdg bmd">+0.2%</span></td><td class="num">279,204</td><td class="num"><span class="bdg bmd">−0.6%</span></td></tr>
+          <tr><td class="cg" rowspan="3">무직전생 2 (신규)</td><td>신규</td><td class="num base">3,628</td><td class="num gsep">6,724</td><td class="num"><span class="bdg blo">+85.3%</span></td><td class="num gsep">7,251</td><td class="num"><span class="bdg blo">+99.9%</span></td><td class="num gsep">8,991</td><td class="num"><span class="bdg blo">+147.8%</span></td></tr>
+          <tr><td>2주복귀</td><td class="num base">1,806</td><td class="num gsep">2,592</td><td class="num"><span class="bdg blo">+43.5%</span></td><td class="num gsep">2,793</td><td class="num"><span class="bdg blo">+54.6%</span></td><td class="num gsep">4,028</td><td class="num"><span class="bdg blo">+123.0%</span></td></tr>
+          <tr><td>AU</td><td class="num base">64,144</td><td class="num gsep">86,394</td><td class="num"><span class="bdg blo">+34.7%</span></td><td class="num gsep">100,623</td><td class="num"><span class="bdg blo">+56.9%</span></td><td class="num gsep">125,087</td><td class="num"><span class="bdg blo">+95.0%</span></td></tr>
+          <tr class="sep"><td class="cg" rowspan="3">섬란 카구라 (신규)</td><td>신규</td><td class="num base">4,207</td><td class="num gsep">5,574</td><td class="num"><span class="bdg blo">+32.5%</span></td><td class="num gsep">4,003</td><td class="num"><span class="bdg bhi">−4.9%</span></td><td class="num gsep">2,502</td><td class="num"><span class="bdg bhi">−40.5%</span></td></tr>
+          <tr><td>2주복귀</td><td class="num base">2,134</td><td class="num gsep">3,495</td><td class="num"><span class="bdg blo">+63.8%</span></td><td class="num gsep">2,085</td><td class="num"><span class="bdg bhi">−2.3%</span></td><td class="num gsep">1,646</td><td class="num"><span class="bdg bhi">−22.9%</span></td></tr>
+          <tr><td>AU</td><td class="num base">105,187</td><td class="num gsep">119,387</td><td class="num"><span class="bdg bmd">+13.5%</span></td><td class="num gsep">105,762</td><td class="num"><span class="bdg bmd">+0.5%</span></td><td class="num gsep">91,608</td><td class="num"><span class="bdg bhi">−12.9%</span></td></tr>
+          <tr class="sep"><td class="cg" rowspan="3">고블린 슬레이어 2 (신규)</td><td>신규</td><td class="num base">5,188</td><td class="num gsep">10,105</td><td class="num"><span class="bdg blo">+94.8%</span></td><td class="num gsep">7,789</td><td class="num"><span class="bdg blo">+50.1%</span></td><td class="num gsep">7,304</td><td class="num"><span class="bdg blo">+40.8%</span></td></tr>
+          <tr><td>2주복귀</td><td class="num base">3,658</td><td class="num gsep">6,537</td><td class="num"><span class="bdg blo">+78.7%</span></td><td class="num gsep">4,386</td><td class="num"><span class="bdg bmd">+19.9%</span></td><td class="num gsep">5,512</td><td class="num"><span class="bdg blo">+50.7%</span></td></tr>
+          <tr><td>AU</td><td class="num base">138,802</td><td class="num gsep">167,347</td><td class="num"><span class="bdg bmd">+20.6%</span></td><td class="num gsep">164,746</td><td class="num"><span class="bdg bmd">+18.7%</span></td><td class="num gsep">172,792</td><td class="num"><span class="bdg bmd">+24.5%</span></td></tr>
+          <tr class="sep"><td class="cg" rowspan="3">무직전생 2 (복각)</td><td>신규</td><td class="num base">5,781</td><td class="num gsep">6,442</td><td class="num"><span class="bdg bmd">+11.4%</span></td><td class="num gsep">—</td><td class="num">—</td><td class="num gsep">6,519</td><td class="num"><span class="bdg bmd">+12.8%</span></td></tr>
+          <tr><td>2주복귀</td><td class="num base">5,312</td><td class="num gsep">5,777</td><td class="num"><span class="bdg bmd">+8.8%</span></td><td class="num gsep">—</td><td class="num">—</td><td class="num gsep">4,998</td><td class="num"><span class="bdg bhi">−5.9%</span></td></tr>
+          <tr><td>AU</td><td class="num base">189,390</td><td class="num gsep">198,813</td><td class="num"><span class="bdg bmd">+5.0%</span></td><td class="num gsep">—</td><td class="num">—</td><td class="num gsep">196,829</td><td class="num"><span class="bdg bmd">+3.9%</span></td></tr>
+          <tr class="sep rs"><td class="cg" rowspan="3">섬란 카구라 (복각)</td><td>신규</td><td class="num base">4,972</td><td class="num gsep">5,990</td><td class="num"><span class="bdg bmd">+20.5%</span></td><td class="num gsep">5,298</td><td class="num"><span class="bdg bmd">+6.6%</span></td><td class="num gsep">5,643</td><td class="num"><span class="bdg bmd">+13.5%</span></td></tr>
+          <tr class="rs"><td>2주복귀</td><td class="num base">6,058</td><td class="num gsep">8,430</td><td class="num"><span class="bdg blo">+39.2%</span></td><td class="num gsep">6,915</td><td class="num"><span class="bdg bmd">+14.1%</span></td><td class="num gsep">6,197</td><td class="num"><span class="bdg bmd">+2.3%</span></td></tr>
+          <tr class="rs"><td>AU</td><td class="num base">280,974</td><td class="num gsep">293,995</td><td class="num"><span class="bdg bmd">+4.6%</span></td><td class="num gsep">281,454</td><td class="num"><span class="bdg bmd">+0.2%</span></td><td class="num gsep">279,204</td><td class="num"><span class="bdg bhi">−0.6%</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -559,7 +580,7 @@ body.dark .tab-bar{background:#161b2e;}
   <div class="card rv" style="padding:0;overflow:hidden;margin-bottom:16px;">
     <div class="tbl-scroll">
       <table class="ctbl">
-        <thead><tr><th>콜라보</th><th>지표</th><th class="num">직전 4주</th><th class="num">콜라보 기간</th><th class="num">증감<br>(평균)</th><th class="num">증감<br>(중앙값)</th><th class="num">종료 후 4주</th><th class="num">후/전</th></tr></thead>
+        <thead><tr><th>콜라보</th><th>지표</th><th class="num base">직전 4주<br><span style="font-weight:400;text-transform:none;letter-spacing:0;">기준값</span></th><th class="num">콜라보 기간</th><th class="num">증감<br>(평균)</th><th class="num">증감<br>(중앙값)</th><th class="num">종료 후 4주</th><th class="num">후/전</th></tr></thead>
         <tbody>
           <tr><td class="cg" rowspan="3">무직전생 2 (신규)</td><td>신규</td><td class="num">3,820</td><td class="num">6,987</td><td class="num">+82.9%</td><td class="num">+75.8%</td><td class="num">6,678</td><td class="num">+74.8%</td></tr>
           <tr><td>2주복귀</td><td class="num">1,776</td><td class="num">2,693</td><td class="num">+51.6%</td><td class="num">+64.6%</td><td class="num">3,019</td><td class="num">+70.0%</td></tr>
