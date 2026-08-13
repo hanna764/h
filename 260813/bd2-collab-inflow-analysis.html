@@ -221,7 +221,7 @@ body.dark .tab-bar{background:#161b2e;}
   <div class="tab-inner">
     <button class="t-btn on" onclick="go(0,this)"><span class="t-num">0</span>Executive Summary</button>
     <button class="t-btn"    onclick="go(1,this)"><span class="t-num">1</span>콜라보 일정 &amp; 정합성</button>
-    <button class="t-btn"    onclick="go(2,this)"><span class="t-num">2</span>유입 리프트 &amp; 전후 영향</button>
+    <button class="t-btn"    onclick="go(2,this)"><span class="t-num">2</span>유입 증가율 &amp; 전후 영향</button>
     <button class="t-btn"    onclick="go(3,this)"><span class="t-num">3</span>언어별 유입 구조</button>
     <button class="t-btn"    onclick="go(4,this)"><span class="t-num">4</span>결론 &amp; 시사점</button>
   </div>
@@ -234,12 +234,12 @@ body.dark .tab-bar{background:#161b2e;}
   <div class="hero rv">
     <div>
       <div class="hero-tag">Executive Summary</div>
-      <p class="hero-txt">2024년 5월 이후 진행된 인게임 IP 콜라보 <strong>5건(신규 3 · 복각 2)</strong>을 대상으로 신규 가입(NRU)과 2주 복귀 유저의 유입 변화를 분석했다. 콜라보 효과는 <strong>시작 후 7일에 집중</strong>되며, 4주 전체로 늘리면 절반 이하로 희석된다. 게임 규모가 4.5배 커지는 동안 콜라보의 <em>상대 리프트는 지속 하락</em>했고, 신규 유입보다 <em>복귀 유입 장치로서의 가치가 더 오래 유지</em>되고 있다.</p>
+      <p class="hero-txt">2024년 5월 이후 진행된 인게임 IP 콜라보 <strong>5건(신규 3 · 복각 2)</strong>을 대상으로 신규 가입(NRU)과 2주 복귀 유저의 유입 변화를 분석했다. 콜라보 효과는 <strong>시작 후 7일에 집중</strong>되며, 4주 전체로 늘리면 절반 이하로 희석된다. 게임 규모가 4.5배 커지는 동안 콜라보의 <em>평소 대비 증가율은 지속 하락</em>했고, 신규 유입보다 <em>복귀 유입 장치로서의 가치가 더 오래 유지</em>되고 있다.</p>
     </div>
     <div class="kpi-grid">
       <div class="kpi-c"><div class="kpi-v accent">5<sup>건</sup></div><div class="kpi-l">분석 대상 콜라보</div><div class="kpi-ch">신규 3 · 복각 2</div></div>
-      <div class="kpi-c"><div class="kpi-v">+68<sup>%</sup></div><div class="kpi-l">D1~D7 신규 리프트</div><div class="kpi-ch up">5건 중앙값</div></div>
-      <div class="kpi-c"><div class="kpi-v accent">+66<sup>%</sup></div><div class="kpi-l">D1~D7 2주복귀 리프트</div><div class="kpi-ch up">5건 중앙값</div></div>
+      <div class="kpi-c"><div class="kpi-v">+68<sup>%</sup></div><div class="kpi-l">첫 주 신규 증가율</div><div class="kpi-ch up">5건 중앙값</div></div>
+      <div class="kpi-c"><div class="kpi-v accent">+66<sup>%</sup></div><div class="kpi-l">첫 주 2주복귀 증가율</div><div class="kpi-ch up">5건 중앙값</div></div>
       <div class="kpi-c"><div class="kpi-v">±5<sup>%</sup></div><div class="kpi-l">종료 후 4주 AU</div><div class="kpi-ch dn">콜라보 전 수준 회귀</div></div>
     </div>
   </div>
@@ -247,27 +247,27 @@ body.dark .tab-bar{background:#161b2e;}
   <div class="sec-hd rv"><div class="sec-lbl">Terms</div><div class="sec-ttl">이 리포트에서 쓰는 용어</div></div>
   <hr class="nw-rule">
   <div class="g3 rv">
-    <div class="hl info"><strong>리프트 (Lift)</strong><b>직전 구간 대비 몇 % 늘었는가</b>. 콜라보 기간 일평균을 직전 4주 일평균으로 나눈 증감률이다. 예: 직전 4주 신규가 하루 평균 3,820명인데 콜라보 기간에 6,987명이면 리프트 +82.9%. 게임 규모가 계속 커져 절대 인원 비교가 왜곡되므로 이 지표를 주 기준으로 쓴다.</div>
+    <div class="hl info"><strong>유입 증가율</strong><b>평소보다 몇 % 더 들어왔는가</b>. 콜라보 기간 하루 평균을 직전 4주 하루 평균으로 나눈 값이다. 예: 직전 4주 신규가 하루 3,820명인데 콜라보 기간에 6,987명이면 증가율 +82.9%. 게임 규모가 계속 커져 절대 인원 비교가 왜곡되므로 이 지표를 주 기준으로 쓴다. (마케팅 용어로는 리프트 Lift)</div>
     <div class="hl"><strong>신규 / 2주복귀</strong><b>신규</b> = 그날 처음 가입한 유저(NRU). <b>2주복귀</b> = 신규는 아니면서 직전 접속 이후 15일 이상 비운 뒤 다시 들어온 유저. 두 지표 모두 어뷰징 계정 제외, 전체 AU 기준(팬AU 아님).</div>
-    <div class="hl warn"><strong>중앙값을 함께 쓰는 이유</strong>직전 4주 안에 하루짜리 신규 폭증이 섞이면 평균이 부풀려진다. 그 영향을 받지 않는 <b>일 중앙값</b> 기준 리프트를 나란히 놓아 과대·과소 해석을 막는다.</div>
+    <div class="hl warn"><strong>중앙값을 함께 쓰는 이유</strong>직전 4주 안에 하루짜리 신규 폭증이 섞이면 평균이 부풀려진다. 그 영향을 받지 않는 <b>일 중앙값</b> 기준 증가율을 나란히 놓아 과대·과소 해석을 막는다.</div>
   </div>
 
   <div class="sec-hd rv"><div class="sec-lbl">Key Findings</div><div class="sec-ttl">핵심 발견 4가지</div></div>
   <hr class="nw-rule">
   <div class="issue-row rv">
-    <div class="iss" style="--ic:#E51937"><div class="iss-num">01</div><div class="iss-ttl">효과는 첫 7일에 집중</div><div class="iss-body">D1~D7 신규 +7~91%, 2주복귀 +12~138%. 4주 평균으로 늘리면 신규 리프트는 −11~+83%로 급락한다.</div></div>
-    <div class="iss" style="--ic:#D98C1F"><div class="iss-num">02</div><div class="iss-ttl">규모는 커지고 리프트는 줄었다</div><div class="iss-body">직전 4주 AU 기준 6.4만(무직전생 2 신규) → 28.9만(섬란 카구라 복각)으로 4.5배. 같은 기간 신규 리프트는 +76% → −6%.</div></div>
+    <div class="iss" style="--ic:#E51937"><div class="iss-num">01</div><div class="iss-ttl">효과는 첫 7일에 집중</div><div class="iss-body">첫 7일 신규 +7~91%, 2주복귀 +12~138%. 4주 평균으로 늘리면 신규 증가율은 −11~+83%로 급락한다.</div></div>
+    <div class="iss" style="--ic:#D98C1F"><div class="iss-num">02</div><div class="iss-ttl">규모는 커지고 증가율은 줄었다</div><div class="iss-body">직전 4주 AU 기준 6.4만(무직전생 2 신규) → 28.9만(섬란 카구라 복각)으로 4.5배. 같은 기간 신규 증가율은 +76% → −6%.</div></div>
     <div class="iss" style="--ic:#2E5CE6"><div class="iss-num">03</div><div class="iss-ttl">복각도 신규 못지않다</div><div class="iss-body">무직전생 복각은 신규 +45%·복귀 +27%(중앙값)로 섬란 신규(−3%·−2%)를 앞선다. 신규/복각 구분보다 IP 적합도가 지배적.</div></div>
-    <div class="iss" style="--ic:#1E8E5A"><div class="iss-num">04</div><div class="iss-ttl">일본어·한국어가 반응한다</div><div class="iss-body">일본 IP 5건 모두 일본어 리프트가 최고(최대 +265%). 중국어(간체)는 최저(−29%~+56%)로 반응이 가장 약하다.</div></div>
+    <div class="iss" style="--ic:#1E8E5A"><div class="iss-num">04</div><div class="iss-ttl">일본어·한국어가 반응한다</div><div class="iss-body">일본 IP 5건 모두 일본어 증가율이 최고(최대 +265%). 중국어(간체)는 최저(−29%~+56%)로 반응이 가장 약하다.</div></div>
   </div>
 
   <div class="g2 rv">
-    <div class="cbox"><div class="ch-ttl">콜라보별 D1~D7 유입 리프트</div><div class="ch-sub">직전 7일 일평균 대비 · 단위 %</div><div class="cw"><canvas id="c0a" role="img" aria-label="콜라보별 첫 7일 신규 및 2주복귀 리프트 막대 차트"></canvas></div></div>
-    <div class="cbox"><div class="ch-ttl">콜라보 시점의 게임 규모</div><div class="ch-sub">직전 4주 일평균 AU · 단위 명</div><div class="cw"><canvas id="c0b" role="img" aria-label="콜라보 시점별 직전 4주 일평균 AU 막대 차트"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">콜라보 첫 주 유입 증가율</div><div class="ch-sub">시작 후 7일 일평균 ÷ 직전 7일 일평균 · 단위 %</div><div class="cw"><canvas id="c0a" role="img" aria-label="콜라보별 첫 7일 신규 및 2주복귀 증가율 막대 차트"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">콜라보 시작 시점의 게임 규모</div><div class="ch-sub">콜라보 직전 4주 일평균 접속자(AU) · 단위 명</div><div class="cw"><canvas id="c0b" role="img" aria-label="콜라보 시점별 직전 4주 일평균 AU 막대 차트"></canvas></div></div>
   </div>
 
   <div class="hl red rv" style="margin-bottom:18px;">
-    <strong>핵심 관찰</strong>콜라보끼리의 절대 유입 수치 비교는 의미가 없다. 게임 규모가 4.5배 커지는 동안 유입 절대량도 함께 커졌기 때문이다. 판단 기준은 <b>같은 시점의 직전 구간 대비 리프트</b>여야 하며, 그 기준으로 보면 콜라보의 신규 유입 효과는 무직전생 2 신규(+76%) 이후 계속 약해져 섬란 카구라 복각(−6%)에서는 사실상 소멸했다.
+    <strong>핵심 관찰</strong>콜라보끼리의 절대 유입 수치 비교는 의미가 없다. 게임 규모가 4.5배 커지는 동안 유입 절대량도 함께 커졌기 때문이다. 판단 기준은 <b>같은 시점의 직전 구간 대비 증가율</b>이어야 하며, 그 기준으로 보면 콜라보의 신규 유입 효과는 무직전생 2 신규(+76%) 이후 계속 약해져 섬란 카구라 복각(−6%)에서는 사실상 소멸했다.
   </div>
 
   <div class="fn rv"><div class="fn-lbl">데이터 기준</div><ul class="fn-ul">
@@ -318,7 +318,7 @@ body.dark .tab-bar{background:#161b2e;}
   <div class="card rv tb">
     <h4>콜라보 효과와 섞여 있는 이벤트</h4>
     <p><span class="nh n">무직전생 2 (신규)</span> — 종료 다음 날인 2024-06-20이 <strong>1주년 업데이트</strong>다. 따라서 "종료 후 4주" 구간의 상승(AU +82%)은 콜라보의 잔존 효과가 아니라 주년 효과다.</p>
-    <p><span class="nh n">고블린 슬레이어 2 (신규)</span> — 종료 2주 뒤인 2025-06-19가 <strong>2주년 업데이트</strong>다. 종료 후 4주 신규 +59%는 대부분 주년 효과다. 또한 직전 4주 구간에 2025-04-10~16 신규 폭증(7일간 4주 신규의 49%)이 포함되어 <strong>평균 기준 베이스라인이 부풀려져 있다</strong>. 이 리포트는 이를 보정하기 위해 평균과 함께 <b>중앙값 기준 리프트</b>를 병기한다.</p>
+    <p><span class="nh n">고블린 슬레이어 2 (신규)</span> — 종료 2주 뒤인 2025-06-19가 <strong>2주년 업데이트</strong>다. 종료 후 4주 신규 +59%는 대부분 주년 효과다. 또한 직전 4주 구간에 2025-04-10~16 신규 폭증(7일간 4주 신규의 49%)이 포함되어 <strong>평균 기준 베이스라인이 부풀려져 있다</strong>. 이 리포트는 이를 보정하기 위해 평균과 함께 <b>중앙값 기준 증가율</b>을 병기한다.</p>
     <p><span class="nh n">섬란 카구라 (복각)</span> — 직전 4주 중 2026-03-24 하루에 신규 21,889명이 집중 발생했다(평시 약 5,000명). 같은 날 AU·복귀는 거의 변동이 없어 실질 유입으로 보기 어렵다. 중앙값 기준을 함께 봐야 하는 이유다.</p>
   </div>
 
@@ -330,12 +330,12 @@ body.dark .tab-bar{background:#161b2e;}
 
 <!-- ================= TAB 2 ================= -->
 <div class="panel" id="p2">
-  <div class="sec-hd rv"><div class="sec-lbl">Inflow Lift</div><div class="sec-ttl">유입 리프트 &amp; 콜라보 전후 영향</div><div class="sec-sub">콜라보 시작일을 D+1로 정렬해 직전 4주 중앙값을 100으로 지수화 — 규모 차이를 제거한 비교</div></div>
+  <div class="sec-hd rv"><div class="sec-lbl">Inflow Lift</div><div class="sec-ttl">유입 증가율 &amp; 콜라보 전후 영향</div><div class="sec-sub">콜라보 시작일을 D+1로 정렬해 직전 4주 중앙값을 100으로 지수화 — 규모 차이를 제거한 비교</div></div>
   <hr class="nw-rule">
 
   <div class="g2 rv">
-    <div class="cbox"><div class="ch-ttl">신규 유입 — 상대일자 지수</div><div class="ch-sub">직전 4주 일 중앙값 = 100 · D−28 ~ D+28 · 좌측 D−28~D−20 구간의 급등 2건(고블린 슬레이어 2 신규·섬란 카구라 복각)은 콜라보와 무관한 베이스라인 이상치</div><div class="cw-lg"><canvas id="c2a" role="img" aria-label="콜라보별 신규 유입 상대일자 지수 선 차트"></canvas></div></div>
-    <div class="cbox"><div class="ch-ttl">2주복귀 유입 — 상대일자 지수</div><div class="ch-sub">직전 4주 일 중앙값 = 100 · D−28 ~ D+28</div><div class="cw-lg"><canvas id="c2b" role="img" aria-label="콜라보별 2주복귀 유입 상대일자 지수 선 차트"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">신규 유입 추이 — 콜라보 전후 4주</div><div class="ch-sub">각 날짜 값 ÷ 직전 4주 일 중앙값 × 100 · 가로축 D+1 = 콜라보 시작일 · 좌측 D−28~D−20의 급등 2건(고블린 슬레이어 2 신규·섬란 카구라 복각)은 콜라보와 무관한 베이스라인 이상치</div><div class="cw-lg"><canvas id="c2a" role="img" aria-label="콜라보별 신규 유입 상대일자 지수 선 차트"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">2주복귀 유입 추이 — 콜라보 전후 4주</div><div class="ch-sub">각 날짜 값 ÷ 직전 4주 일 중앙값 × 100 · 가로축 D+1 = 콜라보 시작일</div><div class="cw-lg"><canvas id="c2b" role="img" aria-label="콜라보별 2주복귀 유입 상대일자 지수 선 차트"></canvas></div></div>
   </div>
 
   <div class="g3 rv">
@@ -344,12 +344,12 @@ body.dark .tab-bar{background:#161b2e;}
     <div class="hl warn"><strong>섬란 카구라 복각은 예외</strong>신규 지수 정점이 158로 5건 중 최저이며 D+8부터 100 아래로 떨어진다. 신규 유입 효과가 사실상 없었다.</div>
   </div>
 
-  <div class="sec-hd rv"><div class="sec-lbl">Lift Table</div><div class="sec-ttl">콜라보 리프트 종합</div><div class="sec-sub">두 기준 병기 — 4주 전체(평균·중앙값) / 첫 7일(직전 7일 대비)</div></div>
+  <div class="sec-hd rv"><div class="sec-lbl">Lift Table</div><div class="sec-ttl">콜라보 유입 증가율 종합</div><div class="sec-sub">두 기준 병기 — 4주 전체(평균·중앙값) / 첫 7일(직전 7일 대비)</div></div>
   <hr class="nw-rule">
   <div class="card rv" style="padding:0;overflow:hidden;margin-bottom:16px;">
     <div class="tbl-scroll">
       <table class="ctbl">
-        <thead><tr><th>콜라보</th><th>지표</th><th class="num">직전 4주<br>일평균</th><th class="num">콜라보<br>일평균</th><th class="num">리프트<br>(평균)</th><th class="num">리프트<br>(중앙값)</th><th class="num">직전 7일<br>일평균</th><th class="num">D1~D7<br>일평균</th><th class="num">리프트<br>(첫 7일)</th></tr></thead>
+        <thead><tr><th>콜라보</th><th>지표</th><th class="num">직전 4주<br>일평균</th><th class="num">콜라보<br>일평균</th><th class="num">증가율<br>(평균)</th><th class="num">증가율<br>(중앙값)</th><th class="num">직전 7일<br>일평균</th><th class="num">D1~D7<br>일평균</th><th class="num">증가율<br>(첫 7일)</th></tr></thead>
         <tbody>
           <tr><td class="cg" rowspan="2">무직전생 2 (신규)</td><td>신규</td><td class="num">3,820</td><td class="num">6,987</td><td class="num"><span class="bdg blo">+82.9%</span></td><td class="num"><span class="bdg blo">+75.8%</span></td><td class="num">4,633</td><td class="num">7,774</td><td class="num"><span class="bdg blo">+67.8%</span></td></tr>
           <tr><td>2주복귀</td><td class="num">1,776</td><td class="num">2,693</td><td class="num"><span class="bdg blo">+51.6%</span></td><td class="num"><span class="bdg blo">+64.6%</span></td><td class="num">2,306</td><td class="num">2,980</td><td class="num"><span class="bdg blo">+29.2%</span></td></tr>
@@ -367,14 +367,14 @@ body.dark .tab-bar{background:#161b2e;}
   </div>
 
   <div class="hl info rv" style="margin-bottom:18px;">
-    <strong>무직전생 2 복각의 착시</strong>무직전생 2 복각의 첫 7일 리프트가 낮아 보이는 이유는 직전 7일(10/3~10/9)이 이미 10/2 정기 업데이트로 들뜬 구간이기 때문이다. 4주 기준으로 보면 신규 +45%·복귀 +27%(중앙값)로 <b>5건 중 2위</b>다. 복각 편성 자체를 부정적으로 볼 근거는 없다.
+    <strong>무직전생 2 복각의 착시</strong>무직전생 2 복각의 첫 7일 증가율이 낮아 보이는 이유는 직전 7일(10/3~10/9)이 이미 10/2 정기 업데이트로 들뜬 구간이기 때문이다. 4주 기준으로 보면 신규 +45%·복귀 +27%(중앙값)로 <b>5건 중 2위</b>다. 복각 편성 자체를 부정적으로 볼 근거는 없다.
   </div>
 
   <div class="sec-hd rv"><div class="sec-lbl">Before / During / After</div><div class="sec-ttl">콜라보 전 → 중 → 후 4주</div><div class="sec-sub">종료 후 4주가 콜라보 전 수준으로 돌아오는지 여부 — 잔존 효과 판정</div></div>
   <hr class="nw-rule">
   <div class="g2 rv">
-    <div class="cbox"><div class="ch-ttl">신규 — 전/중/후 일평균</div><div class="ch-sub">단위 명</div><div class="cw"><canvas id="c2c" role="img" aria-label="콜라보 전 중 후 신규 일평균 그룹 막대"></canvas></div></div>
-    <div class="cbox"><div class="ch-ttl">2주복귀 — 전/중/후 일평균</div><div class="ch-sub">단위 명</div><div class="cw"><canvas id="c2d" role="img" aria-label="콜라보 전 중 후 2주복귀 일평균 그룹 막대"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">신규 유입 — 콜라보 전 / 중 / 후</div><div class="ch-sub">구간별 하루 평균 인원 · 직전 4주 · 콜라보 기간 · 종료 후 4주</div><div class="cw"><canvas id="c2c" role="img" aria-label="콜라보 전 중 후 신규 일평균 그룹 막대"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">2주복귀 유입 — 콜라보 전 / 중 / 후</div><div class="ch-sub">구간별 하루 평균 인원 · 직전 4주 · 콜라보 기간 · 종료 후 4주</div><div class="cw"><canvas id="c2d" role="img" aria-label="콜라보 전 중 후 2주복귀 일평균 그룹 막대"></canvas></div></div>
   </div>
 
   <div class="card rv" style="padding:0;overflow:hidden;margin-bottom:16px;">
@@ -398,7 +398,7 @@ body.dark .tab-bar{background:#161b2e;}
 
   <div class="fn rv"><div class="fn-lbl">산출 기준</div><ul class="fn-ul">
     <li>직전 4주·종료 후 4주 = 각각 28일. 콜라보 기간은 공지 일정에서 종료일(점검일) 하루 전까지 — 무직전생 2 신규 28일 · 섬란 카구라 신규 29일 · 고블린 슬레이어 2 신규 28일 · 무직전생 2 복각 13일 · 섬란 카구라 복각 28일</li>
-    <li>기간 길이가 다르므로 모든 비교는 일평균 기준. 이상치 내성 확인을 위해 일 중앙값 기준 리프트를 병기</li>
+    <li>기간 길이가 다르므로 모든 비교는 일평균 기준. 이상치 내성 확인을 위해 일 중앙값 기준 증가율을 병기</li>
     <li>상대일자 지수 = 해당일 값 ÷ 직전 4주 일 중앙값 × 100</li>
   </ul></div>
 </div>
@@ -409,17 +409,17 @@ body.dark .tab-bar{background:#161b2e;}
   <hr class="nw-rule">
 
   <div class="g2 rv">
-    <div class="cbox"><div class="ch-ttl">언어별 신규 유입 리프트 (D1~D7)</div><div class="ch-sub">직전 7일 일평균 대비 · 단위 %</div><div class="cw-lg"><canvas id="c3a" role="img" aria-label="언어별 신규 유입 첫 7일 리프트 그룹 막대"></canvas></div></div>
-    <div class="cbox"><div class="ch-ttl">언어별 2주복귀 리프트 (D1~D7)</div><div class="ch-sub">직전 7일 일평균 대비 · 단위 %</div><div class="cw-lg"><canvas id="c3b" role="img" aria-label="언어별 2주복귀 첫 7일 리프트 그룹 막대"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">언어별 신규 유입 증가율 — 콜라보 첫 주</div><div class="ch-sub">시작 후 7일 일평균 ÷ 직전 7일 일평균 · 단위 %</div><div class="cw-lg"><canvas id="c3a" role="img" aria-label="언어별 신규 유입 첫 7일 증가율 그룹 막대"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">언어별 2주복귀 증가율 — 콜라보 첫 주</div><div class="ch-sub">시작 후 7일 일평균 ÷ 직전 7일 일평균 · 단위 %</div><div class="cw-lg"><canvas id="c3b" role="img" aria-label="언어별 2주복귀 첫 7일 증가율 그룹 막대"></canvas></div></div>
   </div>
 
   <div class="g3 rv">
-    <div class="hl pos"><strong>일본어가 압도적</strong>5건 전부 일본 IP인 만큼 일본어 리프트가 매번 최상위권. 신규 최대 +265%(섬란 카구라 복각), 복귀 최대 +217%(섬란 카구라 신규). 신규 유입이 전반적으로 죽은 섬란 카구라 복각에서도 일본어만 +265%로 강하게 반응했다.</div>
-    <div class="hl info"><strong>한국어는 복귀형</strong>한국어는 신규보다 복귀 리프트가 크다(섬란 카구라 신규 +259%, 고블린 슬레이어 2 신규 +179%, 섬란 카구라 복각 +154%). 한국 유저층은 이미 유입된 뒤 이탈·복귀를 반복하는 구조로 볼 수 있다.</div>
-    <div class="hl warn"><strong>중국어(간체)가 최약</strong>모든 콜라보에서 리프트 최하위. 무직전생 2 복각에서는 신규 −28.7%·복귀 −4.3%로 오히려 감소. 볼륨은 크지만 콜라보에 반응하지 않는 유저군이다.</div>
+    <div class="hl pos"><strong>일본어가 압도적</strong>5건 전부 일본 IP인 만큼 일본어 증가율이 매번 최상위권. 신규 최대 +265%(섬란 카구라 복각), 복귀 최대 +217%(섬란 카구라 신규). 신규 유입이 전반적으로 죽은 섬란 카구라 복각에서도 일본어만 +265%로 강하게 반응했다.</div>
+    <div class="hl info"><strong>한국어는 복귀형</strong>한국어는 신규보다 복귀 증가율이 크다(섬란 카구라 신규 +259%, 고블린 슬레이어 2 신규 +179%, 섬란 카구라 복각 +154%). 한국 유저층은 이미 유입된 뒤 이탈·복귀를 반복하는 구조로 볼 수 있다.</div>
+    <div class="hl warn"><strong>중국어(간체)가 최약</strong>모든 콜라보에서 증가율 최하위. 무직전생 2 복각에서는 신규 −28.7%·복귀 −4.3%로 오히려 감소. 볼륨은 크지만 콜라보에 반응하지 않는 유저군이다.</div>
   </div>
 
-  <div class="sec-hd rv"><div class="sec-lbl">Detail</div><div class="sec-ttl">언어별 리프트 상세</div><div class="sec-sub">콜라보 D1~D7 일평균 vs 직전 7일 일평균</div></div>
+  <div class="sec-hd rv"><div class="sec-lbl">Detail</div><div class="sec-ttl">언어별 증가율 상세</div><div class="sec-sub">콜라보 첫 7일 일평균 vs 직전 7일 일평균</div></div>
   <hr class="nw-rule">
   <div class="card rv" style="padding:0;overflow:hidden;margin-bottom:16px;">
     <div class="tbl-scroll">
@@ -442,7 +442,7 @@ body.dark .tab-bar{background:#161b2e;}
   </div>
 
   <div class="g2-6040 rv">
-    <div class="cbox"><div class="ch-ttl">콜라보 기간 유입 언어 구성비</div><div class="ch-sub">언어 확인불가·휴면 제외 후 정규화 · 단위 %</div><div class="cw-lg"><canvas id="c3c" role="img" aria-label="콜라보 기간 유입 언어 구성비 누적 막대"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">신규 유입은 어느 언어권에서 왔나</div><div class="ch-sub">콜라보 기간 신규 유저의 언어 구성비 · 확인불가·휴면 제외 후 100%로 환산</div><div class="cw-lg"><canvas id="c3c" role="img" aria-label="콜라보 기간 유입 언어 구성비 누적 막대"></canvas></div></div>
     <div class="card tb">
       <h4>구성비로 본 유입 구조 변화</h4>
       <p>신규 유입의 <span class="nh">중국어(간체)</span> 비중은 무직전생 2 신규 0% → 섬란 카구라 복각 <span class="nh">28.9%</span>로 급증했다. 2024년 6월 이후 간체 지원이 본격화되며 신규 유입의 축 자체가 이동한 것이다.</p>
@@ -452,7 +452,7 @@ body.dark .tab-bar{background:#161b2e;}
   </div>
 
   <div class="hl warn rv" style="margin-bottom:18px;">
-    <strong>데이터 한계 — 반드시 함께 읽을 것</strong>신규 유저의 <b>34~43%</b>는 인게임 언어가 확인되지 않는다(콜라보 기간 기준: 무직전생 2 신규 34.3% · 섬란 카구라 신규 40.9% · 고블린 슬레이어 2 신규 41.5% · 무직전생 2 복각 42.6% · 섬란 카구라 복각 42.5%). 언어는 계정이 아니라 <b>게임 캐릭터(owner)에 붙는 속성</b>이라, 가입만 하고 캐릭터를 만들지 않으면 값 자체가 생기지 않는다. 2026-04-09 실측 분해: 정상 계정 51.8% / <b>캐릭터 미생성 36.5%</b> / 튜토리얼 미완료 10.4% / 기타 1.3%. 이는 월간 브리프 정본에서도 <code>LANG_TYPE=999</code>(Owner_index 미매핑)로 동일하게 잡히는 <b>사내 표준 지표의 구조적 한계</b>이며 본 분석의 집계 오류가 아니다. 비율이 시간이 갈수록 커지고 있어 <b>언어별 신규 절대치의 시계열 비교는 신뢰도가 낮다</b>. 위 구성비는 확인불가를 제외하고 정규화한 값이며, 리프트는 같은 콜라보 안에서의 전후 비교라 이 편향의 영향이 작다. 2주복귀는 확인불가 비중이 <b>3.5~7.8%</b>로 낮아 언어 분석이 안정적이다. 가입 후 30일까지 소급해 언어를 채우면 확인불가를 46.9% → 25.2%까지 줄일 수 있으나(2026-04-09 실측), 월간 브리프와 기준이 달라지므로 본 리포트에는 적용하지 않았다.
+    <strong>데이터 한계 — 반드시 함께 읽을 것</strong>신규 유저의 <b>34~43%</b>는 인게임 언어가 확인되지 않는다(콜라보 기간 기준: 무직전생 2 신규 34.3% · 섬란 카구라 신규 40.9% · 고블린 슬레이어 2 신규 41.5% · 무직전생 2 복각 42.6% · 섬란 카구라 복각 42.5%). 언어는 계정이 아니라 <b>게임 캐릭터(owner)에 붙는 속성</b>이라, 가입만 하고 캐릭터를 만들지 않으면 값 자체가 생기지 않는다. 2026-04-09 실측 분해: 정상 계정 51.8% / <b>캐릭터 미생성 36.5%</b> / 튜토리얼 미완료 10.4% / 기타 1.3%. 이는 월간 브리프 정본에서도 <code>LANG_TYPE=999</code>(Owner_index 미매핑)로 동일하게 잡히는 <b>사내 표준 지표의 구조적 한계</b>이며 본 분석의 집계 오류가 아니다. 비율이 시간이 갈수록 커지고 있어 <b>언어별 신규 절대치의 시계열 비교는 신뢰도가 낮다</b>. 위 구성비는 확인불가를 제외하고 정규화한 값이며, 증가율은 같은 콜라보 안에서의 전후 비교라 이 편향의 영향이 작다. 2주복귀는 확인불가 비중이 <b>3.5~7.8%</b>로 낮아 언어 분석이 안정적이다. 가입 후 30일까지 소급해 언어를 채우면 확인불가를 46.9% → 25.2%까지 줄일 수 있으나(2026-04-09 실측), 월간 브리프와 기준이 달라지므로 본 리포트에는 적용하지 않았다.
   </div>
 
   <div class="fn rv"><div class="fn-lbl">산출 기준</div><ul class="fn-ul">
@@ -473,32 +473,32 @@ body.dark .tab-bar{background:#161b2e;}
   <div class="ins-list rv">
     <div class="ins-item">
       <div class="ins-n">01</div>
-      <div><div class="ins-ttl">콜라보 성과는 절대치가 아니라 직전 대비 리프트로 봐야 한다</div>
-      <div class="ins-txt">직전 4주 일평균 AU는 무직전생 2 신규 <strong>6.4만</strong> → 섬란 카구라 복각 <strong>28.9만</strong>으로 4.5배 커졌다. 이 상태에서 콜라보 기간 유입 절대치를 나란히 놓으면 최근 콜라보가 항상 이긴다. 실제로는 신규 리프트가 <strong>+76% → −6%</strong>로 계속 떨어졌다. <em>콜라보 KPI는 리프트(%)로 정의해야 한다.</em>
+      <div><div class="ins-ttl">콜라보 성과는 절대 인원이 아니라 직전 대비 증가율로 봐야 한다</div>
+      <div class="ins-txt">직전 4주 일평균 AU는 무직전생 2 신규 <strong>6.4만</strong> → 섬란 카구라 복각 <strong>28.9만</strong>으로 4.5배 커졌다. 이 상태에서 콜라보 기간 유입 절대치를 나란히 놓으면 최근 콜라보가 항상 이긴다. 실제로는 신규 증가율이 <strong>+76% → −6%</strong>로 계속 떨어졌다. <em>콜라보 KPI는 증가율(%)로 정의해야 한다.</em>
       <div class="clt cb">권고 — 콜라보 성과 목표를 "신규 N명"이 아니라 "직전 4주 일평균 대비 신규 +X% / 복귀 +Y%"로 설정</div></div></div>
     </div>
     <div class="ins-item">
       <div class="ins-n i">02</div>
       <div><div class="ins-ttl">콜라보는 신규 획득 장치가 아니라 복귀 회수 장치다</div>
-      <div class="ins-txt">첫 7일 기준 복귀 리프트가 신규 리프트를 앞서거나 비슷한 콜라보가 5건 중 4건이다(섬란 카구라 신규 +138% vs +86%, 고블린 슬레이어 2 신규 +104% vs +91%, 섬란 카구라 복각 +66% vs +44%). 상대일자 지수에서도 복귀 정점이 항상 더 높다. <strong>4주 전체로 봐도 복귀는 5건 모두 플러스</strong>인 반면 신규는 2건이 마이너스다.
+      <div class="ins-txt">첫 7일 기준 복귀 증가율이 신규 증가율을 앞서거나 비슷한 콜라보가 5건 중 4건이다(섬란 카구라 신규 +138% vs +86%, 고블린 슬레이어 2 신규 +104% vs +91%, 섬란 카구라 복각 +66% vs +44%). 상대일자 지수에서도 복귀 정점이 항상 더 높다. <strong>4주 전체로 봐도 복귀는 5건 모두 플러스</strong>인 반면 신규는 2건이 마이너스다.
       <div class="clt ct">권고 — 콜라보 사전 마케팅을 신규 UA보다 휴면 유저 리인게이지(푸시·메일·복귀 보상)에 우선 배분</div></div></div>
     </div>
     <div class="ins-item">
       <div class="ins-n p">03</div>
       <div><div class="ins-ttl">복각은 신규 콜라보보다 열등하지 않다 — IP 적합도가 지배 변수</div>
-      <div class="ins-txt">중앙값 기준 신규 리프트 순위는 무직전생 신규(+76%) &gt; 고블린 슬레이어(+47%) &gt; <strong>무직전생 복각(+45%)</strong> &gt; 섬란 신규(−3%) &gt; 섬란 복각(−6%)이다. <strong>같은 IP는 신규든 복각이든 같은 성적</strong>을 냈고, IP가 다르면 신규여도 성적이 갈렸다. 신규/복각 구분보다 <em>IP 자체의 유저층 적합도가 결정적</em>이다.
+      <div class="ins-txt">중앙값 기준 신규 증가율 순위는 무직전생 신규(+76%) &gt; 고블린 슬레이어(+47%) &gt; <strong>무직전생 복각(+45%)</strong> &gt; 섬란 신규(−3%) &gt; 섬란 복각(−6%)이다. <strong>같은 IP는 신규든 복각이든 같은 성적</strong>을 냈고, IP가 다르면 신규여도 성적이 갈렸다. 신규/복각 구분보다 <em>IP 자체의 유저층 적합도가 결정적</em>이다.
       <div class="clt ct">권고 — 무직전생 계열은 재복각 후보 1순위. 섬란 카구라는 3번째 편성 시 유입 목표를 보수적으로 설정</div></div></div>
     </div>
     <div class="ins-item">
       <div class="ins-n w">04</div>
       <div><div class="ins-ttl">유입 창은 7일 — 2주 편성은 손해가 아니다</div>
-      <div class="ins-txt">모든 콜라보의 유입 지수 정점은 <strong>D+2~D+3</strong>, D+8부터 지수 120 이하로 내려앉는다. 4주 편성이라도 실질 유입은 첫 주에 끝난다. 유일한 2주 편성이었던 무직전생 복각은 <strong>기간이 절반인데도 4주 리프트 2위</strong>를 기록했다. <em>기간 연장이 유입을 늘리지는 않는다.</em>
+      <div class="ins-txt">모든 콜라보의 유입 지수 정점은 <strong>D+2~D+3</strong>, D+8부터 지수 120 이하로 내려앉는다. 4주 편성이라도 실질 유입은 첫 주에 끝난다. 유일한 2주 편성이었던 무직전생 복각은 <strong>기간이 절반인데도 4주 증가율 2위</strong>를 기록했다. <em>기간 연장이 유입을 늘리지는 않는다.</em>
       <div class="clt ca">권고 — 4주 편성 시 2주차 이후를 유입이 아닌 잔존·과금 구간으로 재정의하고, 별도 후킹 이벤트를 D+8·D+15에 배치</div></div></div>
     </div>
     <div class="ins-item">
       <div class="ins-n">05</div>
       <div><div class="ins-ttl">언어권별로 콜라보의 역할이 다르다</div>
-      <div class="ins-txt">일본어는 <strong>신규·복귀 모두 최상위</strong>(최대 +265%), 한국어는 <strong>복귀 특화</strong>(최대 +259%), 중국어(간체)는 <strong>거의 무반응</strong>(−29%~+56%)이다. 영어권은 볼륨이 가장 크지만 리프트는 중간 수준으로, 콜라보 마케팅의 한계 효율이 낮다. 신규 유입의 축은 번체(무직전생 2 신규 36%)에서 간체(섬란 카구라 복각 29%)로 이동했으나, <em>간체 유입은 콜라보가 아니라 다른 요인으로 들어오고 있다.</em>
+      <div class="ins-txt">일본어는 <strong>신규·복귀 모두 최상위</strong>(최대 +265%), 한국어는 <strong>복귀 특화</strong>(최대 +259%), 중국어(간체)는 <strong>거의 무반응</strong>(−29%~+56%)이다. 영어권은 볼륨이 가장 크지만 증가율은 중간 수준으로, 콜라보 마케팅의 한계 효율이 낮다. 신규 유입의 축은 번체(무직전생 2 신규 36%)에서 간체(섬란 카구라 복각 29%)로 이동했으나, <em>간체 유입은 콜라보가 아니라 다른 요인으로 들어오고 있다.</em>
       <div class="clt cb">권고 — 콜라보 마케팅 예산은 JP &gt; KR &gt; TW 순 가중. 간체권은 콜라보 외 유입 경로(스토어 피처링·UA)를 별도 분석 필요</div></div></div>
     </div>
     <div class="ins-item">
@@ -510,12 +510,12 @@ body.dark .tab-bar{background:#161b2e;}
   </div>
 
   <div class="g2 rv" style="margin-top:18px;">
-    <div class="cbox"><div class="ch-ttl">콜라보 성과 종합 진단</div><div class="ch-sub">중앙값 리프트 기준 · 5건 비교</div><div class="cw-lg"><canvas id="c4a" role="img" aria-label="콜라보별 성과 레이더 차트"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">콜라보별 성과 비교</div><div class="ch-sub">콜라보 기간 일 중앙값 ÷ 직전 4주 일 중앙값 · 단위 %</div><div class="cw-lg"><canvas id="c4a" role="img" aria-label="콜라보별 성과 레이더 차트"></canvas></div></div>
     <div class="card tb">
       <h4>다음 콜라보 편성 체크리스트</h4>
-      <p><strong>① 목표를 리프트로 정의</strong> — 직전 4주 일평균 대비 신규·복귀 증감률. 절대 인원 목표는 규모 성장에 가려 판단을 흐린다.</p>
+      <p><strong>① 목표를 증가율로 정의</strong> — 직전 4주 일평균 대비 신규·복귀 증감률. 절대 인원 목표는 규모 성장에 가려 판단을 흐린다.</p>
       <p><strong>② 첫 7일에 자원 집중</strong> — 사전 예고·PV·쿠폰·복귀 푸시를 D−3~D+3에 몰아 배치. D+8 이후는 유입이 아닌 잔존 설계 구간.</p>
-      <p><strong>③ 복귀 타겟 캠페인 필수</strong> — 15일 이상 미접속 유저 대상 사전 푸시. 복귀 리프트가 신규 리프트보다 안정적으로 크다.</p>
+      <p><strong>③ 복귀 타겟 캠페인 필수</strong> — 15일 이상 미접속 유저 대상 사전 푸시. 복귀 증가율이 신규 증가율보다 안정적으로 크다.</p>
       <p><strong>④ 종료 직후 연결 콘텐츠 확보</strong> — 종료 후 4주 이내 대형 업데이트가 없으면 유입분이 그대로 이탈한다.</p>
       <p><strong>⑤ 언어권별 기대치 차등</strong> — JP는 신규+복귀, KR은 복귀, 간체권은 기대치 하향. 동일 목표율 적용 금지.</p>
     </div>
@@ -661,9 +661,9 @@ function bc(){
 
   /* TAB 4 */
   CM.init('c4a',{type:'bar',data:{labels:CNAME,datasets:[
-    {label:'신규 리프트',data:MED_NRU,backgroundColor:RED,borderRadius:3},
-    {label:'2주복귀 리프트',data:MED_RET,backgroundColor:INFO,borderRadius:3},
-    {label:'AU 리프트',data:MED_AU,backgroundColor:GRAY,borderRadius:3}]},
+    {label:'신규 증가율',data:MED_NRU,backgroundColor:RED,borderRadius:3},
+    {label:'2주복귀 증가율',data:MED_RET,backgroundColor:INFO,borderRadius:3},
+    {label:'AU 증가율',data:MED_AU,backgroundColor:GRAY,borderRadius:3}]},
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:Object.assign({display:true},leg),datalabels:Object.assign(DLV(pct),{align:function(c){return c.dataset.data[c.dataIndex]<0?'start':'end';},anchor:'end'})},
       scales:{x:sx,y:Object.assign({},sx,{grace:'25%',ticks:Object.assign({},sx.ticks,{callback:function(v){return v+'%';}})})}}});
 
