@@ -336,8 +336,12 @@ body.dark .tab-bar{background:#161b2e;}
   <hr class="nw-rule">
 
   <div class="g2 rv">
-    <div class="cbox"><div class="ch-ttl">신규 유입 추이 — 콜라보 전후</div><div class="ch-sub">각 날짜 값 ÷ 직전 2주 일 중앙값 × 100 · 가로축 D+1 = 콜라보 시작일</div><div class="cw-lg"><canvas id="c2a" role="img" aria-label="콜라보별 신규 유입 상대일자 지수 선 차트"></canvas></div></div>
-    <div class="cbox"><div class="ch-ttl">2주복귀 유입 추이 — 콜라보 전후</div><div class="ch-sub">각 날짜 값 ÷ 직전 2주 일 중앙값 × 100 · 가로축 D+1 = 콜라보 시작일</div><div class="cw-lg"><canvas id="c2b" role="img" aria-label="콜라보별 2주복귀 유입 상대일자 지수 선 차트"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">신규 유입 — 평소 대비 몇 배로 들어왔나</div><div class="ch-sub">콜라보 직전 2주의 하루 평균을 <b>100</b>으로 놓은 지수 · 200이면 평소의 2배 · 가로 점선이 평소 수준 · 가로축은 콜라보 시작일(D+1) 기준이며 오른쪽 끝 D+28이 4주 콜라보의 마지막 날</div><div class="cw-lg"><canvas id="c2a" role="img" aria-label="콜라보별 신규 유입 상대일자 지수 선 차트"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">2주복귀 유입 — 평소 대비 몇 배로 들어왔나</div><div class="ch-sub">콜라보 직전 2주의 하루 평균을 <b>100</b>으로 놓은 지수 · 200이면 평소의 2배 · 가로 점선이 평소 수준 · 가로축은 콜라보 시작일(D+1) 기준이며 오른쪽 끝 D+28이 4주 콜라보의 마지막 날</div><div class="cw-lg"><canvas id="c2b" role="img" aria-label="콜라보별 2주복귀 유입 상대일자 지수 선 차트"></canvas></div></div>
+  </div>
+
+  <div class="hl info rv" style="margin-bottom:18px;">
+    <strong>이 그래프 읽는 법</strong>콜라보마다 게임 규모가 달라(6.4만~28만) 실제 인원을 겹쳐 그리면 최근 콜라보 선만 위로 가서 모양 비교가 안 된다. 그래서 <b>각 콜라보가 자기 평소치를 100으로 맞춘 지수</b>로 그렸다. 선이 200이면 그날 평소의 2배가 들어왔다는 뜻이고, 100 아래로 내려가면 평소보다도 적게 들어온 것이다. 왼쪽 D−14~D−1이 비교 기준인 <b>직전 2주</b>, 첫 세로선(D+1)이 <b>콜라보 시작일</b>, 두 번째 세로선(D+14)이 <b>1~2주차의 끝</b>이다. 오른쪽 끝을 D+28에서 끊은 이유는 4주 콜라보가 딱 그날 끝나기 때문이다. 그 뒤(종료 후 2주)를 넣으면 무직전생 2 신규의 1주년 업데이트 급등이 다른 선을 눌러버려 모양 비교가 깨진다 — 종료 후 구간은 아래 <b>4구간 표</b>에서 확인한다.
   </div>
 
   <div class="g3 rv">
@@ -662,14 +666,35 @@ function bc(){
   CM.init('c0b',{type:'bar',data:{labels:CNAME,datasets:[{data:BASE_AU,backgroundColor:['#E5E5EA','#D6D6DC','#A0A0A6','#717174','#E51937'],borderRadius:4}]},
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:DL(function(v){return (v/10000).toFixed(1)+'만';})},scales:{x:sx,y:Object.assign({},sy,GR,{ticks:Object.assign({},sy.ticks,{callback:function(v){return (v/10000)+'만';}})})}}});
 
-  /* TAB 2 */
+  /* TAB 2 — 기준선(100) + 구간 구분선 */
+  var GUIDE={id:'guide',afterDraw:function(c,args,o){
+    if(!o||!o.on)return;
+    var ctx=c.ctx, ya=c.scales.y, xa=c.scales.x;
+    var y100=ya.getPixelForValue(100);
+    ctx.save();
+    ctx.setLineDash([5,4]);ctx.strokeStyle=o.gray;ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(xa.left,y100);ctx.lineTo(xa.right,y100);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle=o.gray;ctx.font="10px 'Noto Sans KR',sans-serif";ctx.textAlign='left';
+    ctx.fillText('평소 수준 100',xa.left+4,y100-4);
+    [{i:14,t:'콜라보 시작'},{i:27,t:'1~2주차 끝'}].forEach(function(m){
+      var x=xa.getPixelForValue(m.i);
+      if(x==null||isNaN(x))return;
+      ctx.beginPath();ctx.setLineDash([3,3]);ctx.strokeStyle=o.red;ctx.lineWidth=1;
+      ctx.moveTo(x,ya.top);ctx.lineTo(x,ya.bottom);ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle=o.red;ctx.textAlign='center';ctx.fillText(m.t,x,ya.top-4);
+    });
+    ctx.restore();
+  }};
+
   function relLine(id,metric){
     var ds=[];
     for(var i=1;i<=5;i++){
       ds.push({label:CNAME1[i-1],data:REL[i].idx[metric],borderColor:SER[i-1],backgroundColor:SER[i-1],borderWidth:i===5?2.4:1.6,pointRadius:0,tension:.25,spanGaps:true});
     }
-    CM.init(id,{type:'line',data:{labels:XLAB,datasets:ds},options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:Object.assign({display:true},leg),tooltip:{mode:'index',intersect:false},datalabels:{display:false}},
+    CM.init(id,{type:'line',plugins:[GUIDE],data:{labels:XLAB,datasets:ds},options:{responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:16}},
+      plugins:{legend:Object.assign({display:true},leg),tooltip:{mode:'index',intersect:false},datalabels:{display:false},guide:{on:true,gray:lbl,red:RED}},
       scales:{x:Object.assign({},sx,{ticks:Object.assign({},sx.ticks,{maxTicksLimit:11})}),
               y:Object.assign({},sy,{ticks:Object.assign({},sy.ticks,{callback:function(v){return v;}})})}}});
   }
