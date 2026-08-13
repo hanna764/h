@@ -344,8 +344,8 @@ body.dark .tab-bar{background:#161b2e;}
   <hr class="nw-rule">
 
   <div class="g2 rv">
-    <div class="cbox"><div class="ch-ttl">신규 유입 — 4구간 하루 평균</div><div class="ch-sub">직전 2주 · 콜라보 1~2주차 · 콜라보 3~4주차 · 종료 후 2주 · 단위 명</div><div class="cw-lg"><canvas id="c2c" role="img" aria-label="신규 유입 4구간 하루 평균 그룹 막대"></canvas></div></div>
-    <div class="cbox"><div class="ch-ttl">2주복귀 유입 — 4구간 하루 평균</div><div class="ch-sub">직전 2주 · 콜라보 1~2주차 · 콜라보 3~4주차 · 종료 후 2주 · 단위 명</div><div class="cw-lg"><canvas id="c2d" role="img" aria-label="2주복귀 유입 4구간 하루 평균 그룹 막대"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">신규 유입 — 4구간 하루 평균</div><div class="ch-sub">직전 2주 · 콜라보 1~2주차 · 콜라보 3~4주차 · 종료 후 2주 · 단위 명 · 무직전생 2 복각은 2주 편성이라 3~4주차 자체가 없다</div><div class="cw-lg"><canvas id="c2c" role="img" aria-label="신규 유입 4구간 하루 평균 그룹 막대"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">2주복귀 유입 — 4구간 하루 평균</div><div class="ch-sub">직전 2주 · 콜라보 1~2주차 · 콜라보 3~4주차 · 종료 후 2주 · 단위 명 · 무직전생 2 복각은 2주 편성이라 3~4주차 자체가 없다</div><div class="cw-lg"><canvas id="c2d" role="img" aria-label="2주복귀 유입 4구간 하루 평균 그룹 막대"></canvas></div></div>
   </div>
 
   <div class="hl red rv" style="margin-bottom:18px;">
@@ -649,6 +649,7 @@ var CM={ch:new Map(),init:function(id,cfg){if(typeof Chart==='undefined')return 
 
 /* ===== DATA (2주 4구간 기준) ===== */
 var CNAME=[['무직전생 2 (신규)','24.05'],['섬란 카구라 (신규)','24.10'],['고블린 슬레이어 2 (신규)','25.05'],['무직전생 2 (복각)','25.10'],['섬란 카구라 (복각)','26.04']];
+var CNAME_P=[['무직전생 2 (신규)','24.05'],['섬란 카구라 (신규)','24.10'],['고블린 슬레이어 2 (신규)','25.05'],['무직전생 2 (복각)','25.10 · 2주 편성'],['섬란 카구라 (복각)','26.04']];
 var CNAME1=['무직전생 2 (신규) 24.05','섬란 카구라 (신규) 24.10','고블린 슬레이어 2 (신규) 25.05','무직전생 2 (복각) 25.10','섬란 카구라 (복각) 26.04'];
 var LIFT_NRU=[85.3,32.5,94.8,11.4,20.5];
 var LIFT_RET=[43.5,63.8,78.7,8.8,39.2];
@@ -734,13 +735,30 @@ function bc(){
   relLine('c2a','nru');
   relLine('c2b','ret2w');
 
+  var NAMARK={id:'namark',afterDatasetsDraw:function(c,a,o){
+    if(!o||!o.on)return;
+    var meta=c.getDatasetMeta(o.ds), data=c.data.datasets[o.ds].data;
+    var ctx=c.ctx, yb=c.scales.y.getPixelForValue(0);
+    data.forEach(function(v,i){
+      if(v!==null&&v!==undefined)return;
+      var el=meta.data[i]; if(!el||el.x==null||isNaN(el.x))return;
+      ctx.save();
+      ctx.translate(el.x, yb-8);
+      ctx.rotate(-Math.PI/2);
+      ctx.fillStyle=o.color;ctx.font="9px 'Noto Sans KR',sans-serif";
+      ctx.textAlign='left';ctx.textBaseline='middle';
+      ctx.fillText(o.text,0,0);
+      ctx.restore();
+    });
+  }};
+
   function phaseBar(id,pre,c12,c34,post){
-    CM.init(id,{type:'bar',data:{labels:CNAME,datasets:[
+    CM.init(id,{type:'bar',plugins:[NAMARK],data:{labels:CNAME_P,datasets:[
       {label:'직전 2주',data:pre,backgroundColor:GRAY,borderRadius:3},
       {label:'콜라보 1~2주차',data:c12,backgroundColor:RED,borderRadius:3},
       {label:'콜라보 3~4주차',data:c34,backgroundColor:WARN,borderRadius:3},
       {label:'종료 후 2주',data:post,backgroundColor:INK,borderRadius:3}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:Object.assign({display:true},leg),datalabels:DLV(comma)},scales:{x:sx,y:Object.assign({},sy,{grace:'24%'})}}});
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:Object.assign({display:true},leg),datalabels:DLV(comma),namark:{on:true,ds:2,color:lbl,text:'3~4주차 없음'}},scales:{x:sx,y:Object.assign({},sy,{grace:'24%'})}}});
   }
   phaseBar('c2c',PRE_NRU,C12_NRU,C34_NRU,POST_NRU);
   phaseBar('c2d',PRE_RET,C12_RET,C34_RET,POST_RET);
