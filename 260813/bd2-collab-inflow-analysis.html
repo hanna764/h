@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BD2 콜라보 신규·복귀 유입 분석</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{max-width:100%;overflow-x:hidden;}
+body{font-family:'Noto Sans KR','DM Sans',sans-serif;background:var(--surface-alt);color:var(--ink);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+:root{
+  --nw-red:#E51937; --nw-red-deep:#B8142C; --nw-red-soft:#FBE8EC;
+  --nw-red-tint:rgba(229,25,55,0.08);
+  --white:#FFFFFF; --surface:#FFFFFF;
+  --surface-alt:#F7F7F9; --surface-mute:#F0F0F3;
+  --border:#D6D6DC; --divider:#E5E5EA;
+  --ink:#1C1C20; --ink-2:#4A4A52; --ink-3:#717174; --ink-4:#A0A0A6;
+  --positive:#1E8E5A; --negative:#E51937;
+  --warn:#D98C1F; --info:#2E5CE6;
+  --shadow-sm:0 1px 2px rgba(20,20,30,.04);
+  --shadow-md:0 2px 6px rgba(20,20,30,.06);
+  --shadow-card:0 1px 3px rgba(20,20,30,.05);
+}
+
+.top-bar{background:var(--white);border-bottom:1px solid var(--divider);}
+.top-bar-inner{max-width:1280px;margin:0 auto;padding:20px 40px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.bar-eye{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;}
+.bar-title{font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.2;}
+.bar-title span{color:var(--nw-red);}
+.bar-title-rule{display:block;width:60px;height:1px;background:var(--nw-red);border:0;margin-top:10px;}
+.bar-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.hbadge{font-size:10px;font-weight:600;letter-spacing:.08em;padding:3px 9px;border-radius:3px;border:1px solid var(--border);color:var(--ink-3);text-transform:uppercase;}
+.hbadge.accent{border-color:var(--nw-red);color:var(--nw-red);}
+.bar-date{font-size:11px;color:var(--ink-3);}
+.dark-btn{background:var(--surface-alt);border:1px solid var(--border);color:var(--ink-2);font-size:11px;font-family:inherit;padding:5px 12px;border-radius:4px;cursor:pointer;transition:all .15s;}
+.dark-btn:hover{background:var(--surface-mute);color:var(--ink);}
+
+.tab-bar{background:var(--white);border-bottom:1px solid var(--border);z-index:50;box-shadow:var(--shadow-sm);}
+.tab-bar.pinned{position:fixed;top:0;left:0;right:0;}
+.tab-inner{max-width:1280px;margin:0 auto;padding:0 40px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+.tab-inner::-webkit-scrollbar{display:none;}
+.t-btn{padding:0 22px;height:46px;border:none;background:transparent;color:var(--ink-3);font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all .15s;flex-shrink:0;display:flex;align-items:center;gap:6px;}
+.t-num{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;background:var(--surface-mute);color:var(--ink-3);font-size:9px;font-weight:700;transition:all .15s;}
+.t-btn:hover{color:var(--ink);background:var(--surface-alt);}
+.t-btn.on{color:var(--ink);border-bottom-color:var(--nw-red);font-weight:600;}
+.t-btn.on .t-num{background:var(--nw-red);color:#fff;}
+
+.body-wrap{max-width:1280px;margin:0 auto;padding:28px 40px 72px;background:var(--surface-alt);}
+@media(max-width:768px){.top-bar-inner,.tab-inner,.body-wrap{padding-left:18px;padding-right:18px;}.t-btn{padding:0 14px;font-size:12px;}}
+
+.panel{display:none;}.panel.on{display:block;}
+
+.page-ttl{font-size:19px;font-weight:700;color:var(--ink);letter-spacing:-.02em;}
+.page-sub{font-size:12px;color:var(--ink-3);margin-top:3px;}
+
+.sec-hd{margin-bottom:0;padding-bottom:10px;}
+.sec-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px;}
+.sec-ttl{font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.02em;}
+.sec-sub{font-size:12px;color:var(--ink-3);margin-top:3px;}
+.nw-rule{display:block;width:100%;height:1px;background:var(--nw-red);border:0;margin:0 0 16px;}
+
+.card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:24px 28px;box-shadow:var(--shadow-card);overflow-x:auto;-webkit-overflow-scrolling:touch;}
+
+.hero{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:28px 32px;margin-bottom:18px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:start;position:relative;box-shadow:var(--shadow-card);}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--nw-red);border-radius:8px 8px 0 0;}
+@media(max-width:900px){.hero{grid-template-columns:1fr;}}
+.hero-tag{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--nw-red);margin-bottom:8px;}
+.hero-txt{font-size:15px;font-weight:400;color:var(--ink-2);line-height:1.7;}
+.hero-txt strong{color:var(--ink);font-weight:600;}
+.hero-txt em{font-style:normal;color:var(--nw-red);font-weight:600;}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,124px);gap:1px;background:var(--divider);border:1px solid var(--divider);border-radius:6px;overflow:hidden;flex-shrink:0;}
+@media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+.kpi-c{background:var(--white);padding:14px 16px;text-align:center;}
+.kpi-v{font-family:'DM Sans',sans-serif;font-size:26px;font-weight:700;color:var(--ink);line-height:1;letter-spacing:-.02em;}
+.kpi-v.accent{color:var(--nw-red);}
+.kpi-v sup{font-size:13px;}
+.kpi-l{font-size:10px;color:var(--ink-3);margin-top:5px;line-height:1.35;}
+.kpi-ch{font-size:10px;font-weight:600;margin-top:3px;}
+.up{color:var(--positive);}.dn{color:var(--nw-red);}
+
+.issue-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+@media(max-width:1024px){.issue-row{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.issue-row{grid-template-columns:1fr;}}
+.iss{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:18px 20px;position:relative;overflow:hidden;box-shadow:var(--shadow-card);}
+.iss::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ic,var(--nw-red));}
+.iss-num{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;color:var(--ink-3);letter-spacing:.1em;margin-bottom:8px;}
+.iss-ttl{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px;line-height:1.3;}
+.iss-body{font-size:12px;color:var(--ink-2);line-height:1.6;}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;}
+.g2-6040{display:grid;grid-template-columns:6fr 5fr;gap:16px;margin-bottom:18px;}
+@media(max-width:900px){.g2,.g2-6040{grid-template-columns:1fr;}}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:18px;}
+@media(max-width:900px){.g3{grid-template-columns:1fr;}}
+
+.tb h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid var(--divider);}
+.tb p{font-size:13px;color:var(--ink-2);line-height:1.75;margin-bottom:9px;}
+.tb p:last-child{margin-bottom:0;}
+.nh{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.05em;color:var(--ink);}
+.nh.n{color:var(--nw-red);}.nh.p{color:var(--positive);}
+
+.hl{border-left:3px solid var(--nw-red);background:var(--nw-red-tint);padding:12px 16px;border-radius:0 4px 4px 0;font-size:12px;line-height:1.6;color:var(--ink-2);}
+.hl strong{color:var(--ink);font-weight:700;display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;}
+.hl.red{border-left-color:var(--nw-red);background:var(--nw-red-tint);}
+.hl.pos{border-left-color:var(--positive);background:rgba(30,142,90,.07);}
+.hl.warn{border-left-color:var(--warn);background:rgba(217,140,31,.08);}
+.hl.info{border-left-color:var(--info);background:rgba(46,92,230,.07);}
+
+.cbox{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:18px 22px;box-shadow:var(--shadow-card);}
+.ch-ttl{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.ch-sub{font-size:11px;color:var(--ink-3);margin-bottom:14px;}
+.cw{position:relative;height:220px;}
+.cw-lg{position:relative;height:290px;}
+.cw-sm{position:relative;height:180px;}
+
+.tl-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;}
+@media(max-width:900px){.tl-grid{grid-template-columns:1fr;gap:12px;}}
+.tl-grid::before{content:'';position:absolute;top:20px;left:9%;right:9%;height:1px;background:var(--divider);}
+@media(max-width:900px){.tl-grid::before{display:none;}}
+.tli{padding:0 8px;text-align:center;position:relative;}
+.tli-dot{display:flex;justify-content:center;margin-bottom:10px;position:relative;z-index:1;}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--border);border:3px solid var(--white);box-shadow:0 0 0 1px var(--border);}
+.dot.done{background:var(--ink);box-shadow:0 0 0 1px var(--ink);}
+.dot.now{background:var(--nw-red);box-shadow:0 0 0 3px var(--nw-red-tint);}
+.dot.warn{background:var(--warn);box-shadow:0 0 0 3px rgba(217,140,31,.18);}
+.tl-per{font-size:10px;font-weight:700;letter-spacing:.07em;color:var(--ink-3);margin-bottom:5px;}
+.tl-per.a{color:var(--nw-red);}
+.tl-ttl{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px;line-height:1.3;}
+.tl-bd{font-size:11px;color:var(--ink-2);line-height:1.5;}
+
+.tbl-scroll{overflow-x:auto;border-radius:6px;border:1px solid var(--border);}
+.ctbl{width:100%;border-collapse:collapse;font-size:13px;background:var(--white);}
+.ctbl thead th{background:var(--surface-alt);color:var(--ink-3);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:10px 13px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;}
+.ctbl tbody td{padding:11px 13px;border-bottom:1px solid var(--divider);color:var(--ink-2);vertical-align:middle;white-space:nowrap;}
+.ctbl tbody tr:last-child td{border-bottom:none;}
+.ctbl tbody tr:hover td{background:rgba(28,28,32,.03);}
+.ctbl .cg{font-weight:700;color:var(--ink);}
+.ctbl .rs td{background:var(--nw-red-tint);}
+.ctbl .rs .cg{color:var(--nw-red);}
+.ctbl .num{font-family:'DM Sans',sans-serif;text-align:right;}
+.ctbl .sep td{border-top:1px solid var(--border);}
+.bdg{display:inline-block;padding:2px 7px;border-radius:3px;font-size:11px;font-weight:700;}
+.bhi{background:var(--nw-red-tint);color:var(--nw-red);}
+.bmd{background:rgba(217,140,31,.12);color:var(--warn);}
+.blo{background:rgba(30,142,90,.12);color:var(--positive);}
+.bna{background:rgba(46,92,230,.10);color:var(--info);}
+.bself{background:var(--surface-mute);color:var(--ink);}
+.sts{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500;}
+.sts::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;}
+.slive{color:var(--positive);}.spre{color:var(--warn);}.sdev{color:var(--info);}
+
+.ins-list{display:flex;flex-direction:column;gap:10px;}
+.ins-item{display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start;background:var(--white);border:1px solid var(--border);border-radius:8px;padding:18px 20px;box-shadow:var(--shadow-card);position:relative;}
+.ins-item::before{content:'';position:absolute;top:0;left:0;bottom:0;width:2px;background:var(--nw-red);border-radius:2px 0 0 2px;}
+.ins-n{width:40px;height:40px;border-radius:7px;background:var(--nw-red);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;flex-shrink:0;}
+.ins-n.i{background:var(--info);}.ins-n.p{background:var(--positive);}.ins-n.w{background:var(--warn);}
+.ins-ttl{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.3;}
+.ins-txt{font-size:13px;color:var(--ink-2);line-height:1.7;}
+.ins-txt strong{color:var(--ink);font-weight:600;}
+.ins-txt em{font-style:normal;color:var(--nw-red);font-weight:600;}
+.clt{display:flex;align-items:flex-start;gap:6px;margin-top:10px;padding:9px 12px;border-radius:4px;font-size:12px;line-height:1.5;font-weight:500;}
+.clt::before{content:'→';flex-shrink:0;}
+.cb{background:rgba(46,92,230,.08);color:var(--info);}
+.cr{background:var(--nw-red-tint);color:var(--nw-red);}
+.ct{background:rgba(30,142,90,.08);color:var(--positive);}
+.ca{background:rgba(217,140,31,.10);color:var(--warn);}
+
+.fn{background:var(--surface-alt);border:1px solid var(--divider);border-radius:6px;padding:13px 18px;margin-top:18px;}
+.fn-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px;}
+.fn-ul{list-style:none;counter-reset:fn;}
+.fn-ul li{counter-increment:fn;font-size:11px;color:var(--ink-3);padding:3px 0 3px 14px;position:relative;border-bottom:1px dashed var(--divider);}
+.fn-ul li:last-child{border-bottom:none;}
+.fn-ul li::before{content:counter(fn);position:absolute;left:0;font-size:9px;font-weight:700;color:var(--nw-red);top:5px;}
+
+.rv{opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease;}
+.rv.vis{opacity:1;transform:translateY(0);}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none;}}
+
+body.dark{background:#0e111a;color:#E8ECF5;}
+body.dark{
+  --white:#161b2e; --surface:#161b2e; --surface-alt:#1a2035; --surface-mute:#222840;
+  --border:#2e3650; --divider:#2e3650;
+  --ink:#E8ECF5; --ink-2:#A0ABC8; --ink-3:#5C6B8C; --ink-4:#5C6B8C;
+  --nw-red-tint:rgba(229,25,55,.14);
+}
+body.dark .top-bar{background:#0e111a;}
+body.dark .tab-bar{background:#161b2e;}
+
+@media print{
+  .tab-bar,.dark-btn{display:none!important;}
+  .panel{display:block!important;}
+  .card,.cbox,.ins-item{break-inside:avoid;}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="top-bar-inner">
+    <div class="bar-left">
+      <div class="bar-eye">NEOWIZ · 사업PM · BrownDust2 User Inflow Report</div>
+      <h1 class="bar-title">브라운더스트2 콜라보 <span>신규·복귀 유입 분석</span></h1>
+      <hr class="bar-title-rule">
+    </div>
+    <div class="bar-right">
+      <span class="hbadge accent">Internal</span>
+      <span class="hbadge">Collab 5건</span>
+      <span class="bar-date">2026.08.13</span>
+      <button class="dark-btn" onclick="toggleDark()">Dark</button>
+    </div>
+  </div>
+</header>
+
+<nav class="tab-bar">
+  <div class="tab-inner">
+    <button class="t-btn on" onclick="go(0,this)"><span class="t-num">0</span>Executive Summary</button>
+    <button class="t-btn"    onclick="go(1,this)"><span class="t-num">1</span>콜라보 일정 &amp; 정합성</button>
+    <button class="t-btn"    onclick="go(2,this)"><span class="t-num">2</span>유입 리프트 &amp; 전후 영향</button>
+    <button class="t-btn"    onclick="go(3,this)"><span class="t-num">3</span>언어별 유입 구조</button>
+    <button class="t-btn"    onclick="go(4,this)"><span class="t-num">4</span>결론 &amp; 시사점</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+<!-- ================= TAB 0 ================= -->
+<div class="panel on" id="p0">
+  <div class="hero rv">
+    <div>
+      <div class="hero-tag">Executive Summary</div>
+      <p class="hero-txt">2024년 5월 이후 진행된 인게임 IP 콜라보 <strong>5건(신규 3 · 복각 2)</strong>을 대상으로 신규 가입(NRU)과 2주 복귀 유저의 유입 변화를 분석했다. 콜라보 효과는 <strong>시작 후 7일에 집중</strong>되며, 4주 전체로 늘리면 절반 이하로 희석된다. 게임 규모가 4.5배 커지는 동안 콜라보의 <em>상대 리프트는 지속 하락</em>했고, 신규 유입보다 <em>복귀 유입 장치로서의 가치가 더 오래 유지</em>되고 있다.</p>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-c"><div class="kpi-v accent">5<sup>건</sup></div><div class="kpi-l">분석 대상 콜라보</div><div class="kpi-ch">신규 3 · 복각 2</div></div>
+      <div class="kpi-c"><div class="kpi-v">+68<sup>%</sup></div><div class="kpi-l">D1~D7 신규 리프트</div><div class="kpi-ch up">5건 중앙값</div></div>
+      <div class="kpi-c"><div class="kpi-v accent">+66<sup>%</sup></div><div class="kpi-l">D1~D7 2주복귀 리프트</div><div class="kpi-ch up">5건 중앙값</div></div>
+      <div class="kpi-c"><div class="kpi-v">±5<sup>%</sup></div><div class="kpi-l">종료 후 4주 AU</div><div class="kpi-ch dn">콜라보 전 수준 회귀</div></div>
+    </div>
+  </div>
+
+  <div class="sec-hd rv"><div class="sec-lbl">Key Findings</div><div class="sec-ttl">핵심 발견 4가지</div></div>
+  <hr class="nw-rule">
+  <div class="issue-row rv">
+    <div class="iss" style="--ic:#E51937"><div class="iss-num">01</div><div class="iss-ttl">효과는 첫 7일에 집중</div><div class="iss-body">D1~D7 신규 +7~91%, 2주복귀 +12~138%. 4주 평균으로 늘리면 신규 리프트는 −11~+83%로 급락한다.</div></div>
+    <div class="iss" style="--ic:#D98C1F"><div class="iss-num">02</div><div class="iss-ttl">규모는 커지고 리프트는 줄었다</div><div class="iss-body">직전 4주 AU 기준 6.4만(1호) → 28.9만(5호)으로 4.5배. 같은 기간 신규 리프트는 +76% → −6%.</div></div>
+    <div class="iss" style="--ic:#2E5CE6"><div class="iss-num">03</div><div class="iss-ttl">복각도 신규 못지않다</div><div class="iss-body">무직전생 복각은 신규 +45%·복귀 +27%(중앙값)로 섬란 신규(−3%·−2%)를 앞선다. 신규/복각 구분보다 IP 적합도가 지배적.</div></div>
+    <div class="iss" style="--ic:#1E8E5A"><div class="iss-num">04</div><div class="iss-ttl">일본어·한국어가 반응한다</div><div class="iss-body">일본 IP 5건 모두 일본어 리프트가 최고(최대 +273%). 중국어(간체)는 최저(−29%~+57%)로 반응이 가장 약하다.</div></div>
+  </div>
+
+  <div class="g2 rv">
+    <div class="cbox"><div class="ch-ttl">콜라보별 D1~D7 유입 리프트</div><div class="ch-sub">직전 7일 일평균 대비 · 단위 %</div><div class="cw"><canvas id="c0a" role="img" aria-label="콜라보별 첫 7일 신규 및 2주복귀 리프트 막대 차트"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">콜라보 시점의 게임 규모</div><div class="ch-sub">직전 4주 일평균 AU · 단위 명</div><div class="cw"><canvas id="c0b" role="img" aria-label="콜라보 시점별 직전 4주 일평균 AU 막대 차트"></canvas></div></div>
+  </div>
+
+  <div class="hl red rv" style="margin-bottom:18px;">
+    <strong>핵심 관찰</strong>콜라보끼리의 절대 유입 수치 비교는 의미가 없다. 게임 규모가 4.5배 커지는 동안 유입 절대량도 함께 커졌기 때문이다. 판단 기준은 <b>같은 시점의 직전 구간 대비 리프트</b>여야 하며, 그 기준으로 보면 콜라보의 신규 유입 효과는 1호(무직전생 +76%) 이후 계속 약해져 5호(섬란 복각 −6%)에서는 사실상 소멸했다.
+  </div>
+
+  <div class="fn rv"><div class="fn-lbl">데이터 기준</div><ul class="fn-ul">
+    <li>유저 지표: Snowflake <code>DH_DW.KPI_NEON.M_NEON_MEMBER_AU</code> (APP_ID 5063 · LOGIN_SORT=1 · ABUSE_YN='N', 어뷰징 제외). 전체 AU 기준이며 팬AU 체계와 무관.</li>
+    <li>신규 = MEMBER_NRU_YN='Y' · 2주복귀 = 신규 아님 &amp; 직전 접속 간격 &gt; 14일 (<code>V_BD2_MEMBER_AU_D</code> ACTIVITY_2W 정의와 동일)</li>
+    <li>콜라보 일정: Snowflake <code>DH_NWZ.NEON.FD_GAME_NOTICE</code> 공지 원문 + 웹 기사 교차검증 (탭 01 참조)</li>
+  </ul></div>
+</div>
+
+<!-- ================= TAB 1 ================= -->
+<div class="panel" id="p1">
+  <div class="sec-hd rv"><div class="sec-lbl">Schedule Verification</div><div class="sec-ttl">콜라보 일정 &amp; 정합성 검증</div><div class="sec-sub">Snowflake 공지 DB에서 추출한 일정을 언론 보도·공식 공지로 교차검증 — 5건 전부 일치</div></div>
+  <hr class="nw-rule">
+
+  <div class="card rv" style="margin-bottom:18px;">
+    <div class="tl-grid">
+      <div class="tli"><div class="tli-dot"><div class="dot done"></div></div><div class="tl-per">2024.05.23~06.20</div><div class="tl-ttl">무직전생 II (신규 1호)</div><div class="tl-bd">4주 · 록시/에리스. 시즌 2종(ULTIMATE MAGIC, SCARLET SWORD).</div></div>
+      <div class="tli"><div class="tli-dot"><div class="dot done"></div></div><div class="tl-per">2024.10.02~10.31</div><div class="tl-ttl">섬란 카구라 (신규 2호)</div><div class="tl-bd">4주 · 요미/히카게/요자쿠라/유미. 시즌 2종(시노비의 길, 여명).</div></div>
+      <div class="tli"><div class="tli-dot"><div class="dot done"></div></div><div class="tl-per">2025.05.08~06.05</div><div class="tl-ttl">고블린 슬레이어 II (신규 3호)</div><div class="tl-bd">4주 · 고블린 슬레이어 외 3인. 성능 의도적 하향 설계 명시.</div></div>
+      <div class="tli"><div class="tli-dot"><div class="dot warn"></div></div><div class="tl-per">2025.10.10~10.23</div><div class="tl-ttl">무직전생 II 복각</div><div class="tl-bd">2주 · 유일한 2주 편성. 신규 캐릭터 없이 코스튬 4종 복각.</div></div>
+      <div class="tli"><div class="tli-dot"><div class="dot now"></div></div><div class="tl-per a">2026.04.09~05.07</div><div class="tl-ttl">섬란 카구라 복각</div><div class="tl-bd">4주 · 복각 최초로 신규 캐릭터(이카루가) 동시 추가.</div></div>
+    </div>
+  </div>
+
+  <div class="card rv" style="padding:0;overflow:hidden;margin-bottom:16px;">
+    <div class="tbl-scroll">
+      <table class="ctbl">
+        <thead><tr><th>#</th><th>IP</th><th>구분</th><th>Snowflake 공지 기준 일정</th><th>공지 근거</th><th>외부 교차검증</th><th>판정</th></tr></thead>
+        <tbody>
+          <tr><td class="cg">1</td><td class="cg">무직전생 Ⅱ</td><td><span class="bdg bhi">신규</span></td><td>2024-05-23 ~ 06-20 (4주)</td><td>개발자 노트 20호 · 5/23 정기점검 공지</td><td>뉴스핌·게임톡 2024-05-23 보도 "5.23~6.20"</td><td><span class="sts slive">일치</span></td></tr>
+          <tr><td class="cg">2</td><td class="cg">시노비 마스터 섬란 카구라 NEW LINK</td><td><span class="bdg bhi">신규</span></td><td>2024-10-02 ~ 10-31 (약 4주)</td><td>개발자 노트 24호 · 10/2 정기점검 공지</td><td>글로벌이코노믹·인벤 "10/2~31, 4주"</td><td><span class="sts slive">일치</span></td></tr>
+          <tr><td class="cg">3</td><td class="cg">고블린 슬레이어 Ⅱ</td><td><span class="bdg bhi">신규</span></td><td>2025-05-08 ~ 06-05 (약 4주)</td><td>개발자 노트 31호 · 5/8 정기점검 공지</td><td>베타뉴스·게임인 "5/8~6/5 약 4주"</td><td><span class="sts slive">일치</span></td></tr>
+          <tr><td class="cg">4</td><td class="cg">무직전생 Ⅱ</td><td><span class="bdg bmd">복각</span></td><td>2025-10-10 ~ 10-23 (2주)</td><td>10/2 "10/10 콜라보 복각 예고" 공지</td><td>네오위즈 보도자료·디스이즈게임 "10/10~23"</td><td><span class="sts slive">일치</span></td></tr>
+          <tr class="rs"><td class="cg">5</td><td class="cg">시노비 마스터 섬란 카구라 NEW LINK</td><td><span class="bdg bmd">복각</span></td><td>2026-04-09 ~ 05-07 (4주)</td><td>4/3 복각 예고 · 4/9 정기점검 공지</td><td>루리웹·나무위키 "4/9 복각 + 이카루가 신규"</td><td><span class="sts slive">일치</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="g3 rv">
+    <div class="hl pos"><strong>검증 결과</strong>Snowflake 공지 DB의 일정이 5건 모두 외부 보도·공식 공지와 일치. 별도 보정 없이 분석 기준으로 사용 가능하다.</div>
+    <div class="hl info"><strong>집계 기준 보정</strong>공지의 종료일은 "해당일 점검 전까지"를 의미하므로, 유저 집계는 <b>종료 전일까지</b>로 잡았다. 예: 1호 = 5/23~6/19(28일).</div>
+    <div class="hl warn"><strong>제외 대상</strong>디저트39·ANIPLUS 카페·MAXIM·한미마이크로닉스·위스키 테일즈 등은 오프라인·굿즈 콜라보로, 인게임 유입 분석 대상에서 제외했다.</div>
+  </div>
+
+  <div class="sec-hd rv"><div class="sec-lbl">Caveat</div><div class="sec-ttl">해석 시 반드시 고려할 외부 요인</div></div>
+  <hr class="nw-rule">
+  <div class="card rv tb">
+    <h4>콜라보 효과와 섞여 있는 이벤트</h4>
+    <p><span class="nh n">1호(무직전생 신규)</span> — 종료 다음 날인 2024-06-20이 <strong>1주년 업데이트</strong>다. 따라서 "종료 후 4주" 구간의 상승(AU +82%)은 콜라보의 잔존 효과가 아니라 주년 효과다.</p>
+    <p><span class="nh n">3호(고블린 슬레이어)</span> — 종료 2주 뒤인 2025-06-19가 <strong>2주년 업데이트</strong>다. 종료 후 4주 신규 +59%는 대부분 주년 효과다. 또한 직전 4주 구간에 2025-04-10~16 신규 폭증(7일간 4주 신규의 49%)이 포함되어 <strong>평균 기준 베이스라인이 부풀려져 있다</strong>. 이 리포트는 이를 보정하기 위해 평균과 함께 <b>중앙값 기준 리프트</b>를 병기한다.</p>
+    <p><span class="nh n">5호(섬란 복각)</span> — 직전 4주 중 2026-03-24 하루에 신규 21,889명이 집중 발생했다(평시 약 5,000명). 같은 날 AU·복귀는 거의 변동이 없어 실질 유입으로 보기 어렵다. 중앙값 기준을 함께 봐야 하는 이유다.</p>
+  </div>
+
+  <div class="fn rv"><div class="fn-lbl">출처</div><ul class="fn-ul">
+    <li>Snowflake <code>DH_NWZ.NEON.FD_GAME_NOTICE</code> — 개발자 노트 20·24·31호, 정기점검 공지, 복각 예고 공지 원문</li>
+    <li>웹 교차검증: 뉴스핌·게임톡(2024.05), 글로벌이코노믹·인벤(2024.10), 베타뉴스·게임인(2025.05), 네오위즈 보도자료·디스이즈게임(2025.10), 루리웹(2026.04)</li>
+  </ul></div>
+</div>
+
+<!-- ================= TAB 2 ================= -->
+<div class="panel" id="p2">
+  <div class="sec-hd rv"><div class="sec-lbl">Inflow Lift</div><div class="sec-ttl">유입 리프트 &amp; 콜라보 전후 영향</div><div class="sec-sub">콜라보 시작일을 D+1로 정렬해 직전 4주 중앙값을 100으로 지수화 — 규모 차이를 제거한 비교</div></div>
+  <hr class="nw-rule">
+
+  <div class="g2 rv">
+    <div class="cbox"><div class="ch-ttl">신규 유입 — 상대일자 지수</div><div class="ch-sub">직전 4주 일 중앙값 = 100 · D−28 ~ D+28 · 좌측 D−28~D−20 구간의 급등 2건(3호·5호)은 콜라보와 무관한 베이스라인 이상치</div><div class="cw-lg"><canvas id="c2a" role="img" aria-label="콜라보별 신규 유입 상대일자 지수 선 차트"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">2주복귀 유입 — 상대일자 지수</div><div class="ch-sub">직전 4주 일 중앙값 = 100 · D−28 ~ D+28</div><div class="cw-lg"><canvas id="c2b" role="img" aria-label="콜라보별 2주복귀 유입 상대일자 지수 선 차트"></canvas></div></div>
+  </div>
+
+  <div class="g3 rv">
+    <div class="hl red"><strong>발견</strong>모든 콜라보에서 정점은 D+2~D+3. D+8을 지나면 지수 120 이하로 내려앉는다. 콜라보의 유입 창은 사실상 <b>1주</b>다.</div>
+    <div class="hl pos"><strong>복귀가 더 잘 튄다</strong>복귀 지수 정점은 신규보다 높다(3호 310 vs 223, 2호 265 vs 163). 콜라보는 신규 획득보다 <b>휴면 유저 재활성화</b>에 강하다.</div>
+    <div class="hl warn"><strong>5호는 예외</strong>섬란 복각은 신규 지수 정점이 158로 5건 중 최저이며 D+8부터 100 아래로 떨어진다. 신규 유입 효과가 사실상 없었다.</div>
+  </div>
+
+  <div class="sec-hd rv"><div class="sec-lbl">Lift Table</div><div class="sec-ttl">콜라보 리프트 종합</div><div class="sec-sub">두 기준 병기 — 4주 전체(평균·중앙값) / 첫 7일(직전 7일 대비)</div></div>
+  <hr class="nw-rule">
+  <div class="card rv" style="padding:0;overflow:hidden;margin-bottom:16px;">
+    <div class="tbl-scroll">
+      <table class="ctbl">
+        <thead><tr><th>콜라보</th><th>지표</th><th class="num">직전 4주<br>일평균</th><th class="num">콜라보<br>일평균</th><th class="num">리프트<br>(평균)</th><th class="num">리프트<br>(중앙값)</th><th class="num">직전 7일<br>일평균</th><th class="num">D1~D7<br>일평균</th><th class="num">리프트<br>(첫 7일)</th></tr></thead>
+        <tbody>
+          <tr><td class="cg" rowspan="2">무직전생Ⅱ (신규)</td><td>신규</td><td class="num">3,820</td><td class="num">6,987</td><td class="num"><span class="bdg blo">+82.9%</span></td><td class="num"><span class="bdg blo">+75.8%</span></td><td class="num">4,633</td><td class="num">7,774</td><td class="num"><span class="bdg blo">+67.8%</span></td></tr>
+          <tr><td>2주복귀</td><td class="num">1,776</td><td class="num">2,693</td><td class="num"><span class="bdg blo">+51.6%</span></td><td class="num"><span class="bdg blo">+64.6%</span></td><td class="num">2,306</td><td class="num">2,980</td><td class="num"><span class="bdg blo">+29.2%</span></td></tr>
+          <tr class="sep"><td class="cg" rowspan="2">섬란카구라 (신규)</td><td>신규</td><td class="num">4,931</td><td class="num">4,761</td><td class="num"><span class="bdg bhi">−3.5%</span></td><td class="num"><span class="bdg bhi">−3.0%</span></td><td class="num">3,485</td><td class="num">6,465</td><td class="num"><span class="bdg blo">+85.5%</span></td></tr>
+          <tr><td>2주복귀</td><td class="num">2,332</td><td class="num">2,766</td><td class="num"><span class="bdg bmd">+18.6%</span></td><td class="num"><span class="bdg bhi">−2.4%</span></td><td class="num">1,930</td><td class="num">4,598</td><td class="num"><span class="bdg blo">+138.2%</span></td></tr>
+          <tr class="sep"><td class="cg" rowspan="2">고블린슬레이어Ⅱ (신규)</td><td>신규</td><td class="num">8,110</td><td class="num">8,946</td><td class="num"><span class="bdg bmd">+10.3%</span></td><td class="num"><span class="bdg blo">+47.4%</span></td><td class="num">5,481</td><td class="num">10,475</td><td class="num"><span class="bdg blo">+91.1%</span></td></tr>
+          <tr><td>2주복귀</td><td class="num">4,229</td><td class="num">5,461</td><td class="num"><span class="bdg bmd">+29.1%</span></td><td class="num"><span class="bdg blo">+39.9%</span></td><td class="num">3,935</td><td class="num">8,044</td><td class="num"><span class="bdg blo">+104.4%</span></td></tr>
+          <tr class="sep"><td class="cg" rowspan="2">무직전생Ⅱ (복각)</td><td>신규</td><td class="num">4,870</td><td class="num">6,442</td><td class="num"><span class="bdg blo">+32.3%</span></td><td class="num"><span class="bdg blo">+45.4%</span></td><td class="num">6,617</td><td class="num">7,059</td><td class="num"><span class="bdg bmd">+6.7%</span></td></tr>
+          <tr><td>2주복귀</td><td class="num">4,615</td><td class="num">5,777</td><td class="num"><span class="bdg bmd">+25.2%</span></td><td class="num"><span class="bdg bmd">+26.6%</span></td><td class="num">5,751</td><td class="num">6,425</td><td class="num"><span class="bdg bmd">+11.7%</span></td></tr>
+          <tr class="sep rs"><td class="cg" rowspan="2">섬란카구라 (복각)</td><td>신규</td><td class="num">6,322</td><td class="num">5,644</td><td class="num"><span class="bdg bhi">−10.7%</span></td><td class="num"><span class="bdg bhi">−6.0%</span></td><td class="num">4,775</td><td class="num">6,869</td><td class="num"><span class="bdg blo">+43.9%</span></td></tr>
+          <tr class="rs"><td>2주복귀</td><td class="num">7,118</td><td class="num">7,673</td><td class="num"><span class="bdg bmd">+7.8%</span></td><td class="num"><span class="bdg bmd">+7.2%</span></td><td class="num">5,985</td><td class="num">9,956</td><td class="num"><span class="bdg blo">+66.3%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="hl info rv" style="margin-bottom:18px;">
+    <strong>4호 복각의 착시</strong>무직전생 복각의 첫 7일 리프트가 낮아 보이는 이유는 직전 7일(10/3~10/9)이 이미 10/2 정기 업데이트로 들뜬 구간이기 때문이다. 4주 기준으로 보면 신규 +45%·복귀 +27%(중앙값)로 <b>5건 중 2위</b>다. 복각 편성 자체를 부정적으로 볼 근거는 없다.
+  </div>
+
+  <div class="sec-hd rv"><div class="sec-lbl">Before / During / After</div><div class="sec-ttl">콜라보 전 → 중 → 후 4주</div><div class="sec-sub">종료 후 4주가 콜라보 전 수준으로 돌아오는지 여부 — 잔존 효과 판정</div></div>
+  <hr class="nw-rule">
+  <div class="g2 rv">
+    <div class="cbox"><div class="ch-ttl">신규 — 전/중/후 일평균</div><div class="ch-sub">단위 명</div><div class="cw"><canvas id="c2c" role="img" aria-label="콜라보 전 중 후 신규 일평균 그룹 막대"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">2주복귀 — 전/중/후 일평균</div><div class="ch-sub">단위 명</div><div class="cw"><canvas id="c2d" role="img" aria-label="콜라보 전 중 후 2주복귀 일평균 그룹 막대"></canvas></div></div>
+  </div>
+
+  <div class="card rv" style="padding:0;overflow:hidden;margin-bottom:16px;">
+    <div class="tbl-scroll">
+      <table class="ctbl">
+        <thead><tr><th>콜라보</th><th class="num">AU 직전4주</th><th class="num">AU 콜라보</th><th class="num">AU 종료후4주</th><th class="num">후/전</th><th>종료 후 구간 성격</th></tr></thead>
+        <tbody>
+          <tr><td class="cg">무직전생Ⅱ (신규)</td><td class="num">64,282</td><td class="num">93,508</td><td class="num">116,926</td><td class="num"><span class="bdg blo">+81.9%</span></td><td>1주년 업데이트(6/20) 구간 — 콜라보 효과로 해석 불가</td></tr>
+          <tr><td class="cg">섬란카구라 (신규)</td><td class="num">105,330</td><td class="num">112,340</td><td class="num">88,792</td><td class="num"><span class="bdg bhi">−15.7%</span></td><td>외부 이벤트 없음 — 콜라보 전보다 낮은 수준으로 하락</td></tr>
+          <tr><td class="cg">고블린슬레이어Ⅱ (신규)</td><td class="num">142,771</td><td class="num">166,046</td><td class="num">216,347</td><td class="num"><span class="bdg blo">+51.5%</span></td><td>2주년 업데이트(6/19) 구간 — 콜라보 효과로 해석 불가</td></tr>
+          <tr><td class="cg">무직전생Ⅱ (복각)</td><td class="num">188,512</td><td class="num">198,813</td><td class="num">179,158</td><td class="num"><span class="bdg bmd">−5.0%</span></td><td>콜라보 전 수준으로 회귀</td></tr>
+          <tr class="rs"><td class="cg">섬란카구라 (복각)</td><td class="num">289,102</td><td class="num">287,735</td><td class="num">288,091</td><td class="num"><span class="bdg bmd">−0.3%</span></td><td>콜라보 전 수준 유지 — 상승도 하락도 없음</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="hl red rv" style="margin-bottom:18px;">
+    <strong>잔존 효과 판정</strong>외부 이벤트가 섞이지 않은 3건(2·4·5호)에서 종료 후 4주 AU는 모두 콜라보 전 수준(−16%~−0.3%)으로 돌아왔다. <b>콜라보가 끌어온 유저는 콜라보와 함께 빠진다.</b> 콜라보 자체를 유저 기반 확대 수단으로 기대하기보다, 콜라보 기간 중 확보한 유저를 다음 상시 콘텐츠로 넘기는 <b>이어붙이기 설계</b>가 실제 성과를 좌우한다.
+  </div>
+
+  <div class="fn rv"><div class="fn-lbl">산출 기준</div><ul class="fn-ul">
+    <li>직전 4주·종료 후 4주 = 각각 28일. 콜라보 기간은 공지 일정에서 종료일(점검일) 하루 전까지 — 1호 28일 · 2호 29일 · 3호 28일 · 4호 13일 · 5호 28일</li>
+    <li>기간 길이가 다르므로 모든 비교는 일평균 기준. 이상치 내성 확인을 위해 일 중앙값 기준 리프트를 병기</li>
+    <li>상대일자 지수 = 해당일 값 ÷ 직전 4주 일 중앙값 × 100</li>
+  </ul></div>
+</div>
+
+<!-- ================= TAB 3 ================= -->
+<div class="panel" id="p3">
+  <div class="sec-hd rv"><div class="sec-lbl">Language Breakdown</div><div class="sec-ttl">언어별 유입 구조</div><div class="sec-sub">인게임 설정 언어 5종 기준 — 어느 언어권이 콜라보에 반응하는가</div></div>
+  <hr class="nw-rule">
+
+  <div class="g2 rv">
+    <div class="cbox"><div class="ch-ttl">언어별 신규 유입 리프트 (D1~D7)</div><div class="ch-sub">직전 7일 일평균 대비 · 단위 %</div><div class="cw-lg"><canvas id="c3a" role="img" aria-label="언어별 신규 유입 첫 7일 리프트 그룹 막대"></canvas></div></div>
+    <div class="cbox"><div class="ch-ttl">언어별 2주복귀 리프트 (D1~D7)</div><div class="ch-sub">직전 7일 일평균 대비 · 단위 %</div><div class="cw-lg"><canvas id="c3b" role="img" aria-label="언어별 2주복귀 첫 7일 리프트 그룹 막대"></canvas></div></div>
+  </div>
+
+  <div class="g3 rv">
+    <div class="hl pos"><strong>일본어가 압도적</strong>5건 전부 일본 IP인 만큼 일본어 리프트가 매번 최상위권. 신규 최대 +273%(섬란 신규), 복귀 최대 +219%. 5호에서도 신규 +265%로 유일하게 강하게 반응했다.</div>
+    <div class="hl info"><strong>한국어는 복귀형</strong>한국어는 신규보다 복귀 리프트가 크다(2호 +256%, 3호 +180%, 5호 +154%). 한국 유저층은 이미 유입된 뒤 이탈·복귀를 반복하는 구조로 볼 수 있다.</div>
+    <div class="hl warn"><strong>중국어(간체)가 최약</strong>모든 콜라보에서 리프트 최하위. 4호에서는 신규 −29%·복귀 −4%로 오히려 감소. 볼륨은 크지만 콜라보에 반응하지 않는 유저군이다.</div>
+  </div>
+
+  <div class="sec-hd rv"><div class="sec-lbl">Detail</div><div class="sec-ttl">언어별 리프트 상세</div><div class="sec-sub">콜라보 D1~D7 일평균 vs 직전 7일 일평균</div></div>
+  <hr class="nw-rule">
+  <div class="card rv" style="padding:0;overflow:hidden;margin-bottom:16px;">
+    <div class="tbl-scroll">
+      <table class="ctbl">
+        <thead><tr><th>콜라보</th><th>지표</th><th class="num">한국어</th><th class="num">영어</th><th class="num">일본어</th><th class="num">중국어(번체)</th><th class="num">중국어(간체)</th></tr></thead>
+        <tbody>
+          <tr><td class="cg" rowspan="2">무직전생Ⅱ (신규)</td><td>신규</td><td class="num">+30.7%</td><td class="num">+73.0%</td><td class="num"><span class="bdg blo">+208.8%</span></td><td class="num">+47.4%</td><td class="num">—</td></tr>
+          <tr><td>2주복귀</td><td class="num">+36.4%</td><td class="num">+23.5%</td><td class="num"><span class="bdg blo">+65.5%</span></td><td class="num">+21.8%</td><td class="num">—</td></tr>
+          <tr class="sep"><td class="cg" rowspan="2">섬란카구라 (신규)</td><td>신규</td><td class="num">+169.7%</td><td class="num">+75.4%</td><td class="num"><span class="bdg blo">+273.0%</span></td><td class="num">+96.3%</td><td class="num">+29.8%</td></tr>
+          <tr><td>2주복귀</td><td class="num"><span class="bdg blo">+255.5%</span></td><td class="num">+116.9%</td><td class="num">+219.1%</td><td class="num">+110.4%</td><td class="num">+71.6%</td></tr>
+          <tr class="sep"><td class="cg" rowspan="2">고블린슬레이어Ⅱ (신규)</td><td>신규</td><td class="num"><span class="bdg blo">+219.2%</span></td><td class="num">+63.6%</td><td class="num">+166.4%</td><td class="num">+108.0%</td><td class="num">+56.6%</td></tr>
+          <tr><td>2주복귀</td><td class="num"><span class="bdg blo">+179.5%</span></td><td class="num">+98.8%</td><td class="num">+144.0%</td><td class="num">+82.8%</td><td class="num">+52.6%</td></tr>
+          <tr class="sep"><td class="cg" rowspan="2">무직전생Ⅱ (복각)</td><td>신규</td><td class="num">+79.4%</td><td class="num">+6.9%</td><td class="num"><span class="bdg blo">+81.3%</span></td><td class="num">+44.7%</td><td class="num"><span class="bdg bhi">−28.6%</span></td></tr>
+          <tr><td>2주복귀</td><td class="num">+21.7%</td><td class="num"><span class="bdg bhi">−1.8%</span></td><td class="num"><span class="bdg blo">+42.9%</span></td><td class="num">+35.3%</td><td class="num"><span class="bdg bhi">−4.3%</span></td></tr>
+          <tr class="sep rs"><td class="cg" rowspan="2">섬란카구라 (복각)</td><td>신규</td><td class="num">+74.8%</td><td class="num">+30.0%</td><td class="num"><span class="bdg blo">+264.8%</span></td><td class="num">+17.8%</td><td class="num">+12.0%</td></tr>
+          <tr class="rs"><td>2주복귀</td><td class="num"><span class="bdg blo">+154.4%</span></td><td class="num">+35.2%</td><td class="num">+138.3%</td><td class="num">+85.2%</td><td class="num">+36.7%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="g2-6040 rv">
+    <div class="cbox"><div class="ch-ttl">콜라보 기간 유입 언어 구성비</div><div class="ch-sub">언어 확인불가·휴면 제외 후 정규화 · 단위 %</div><div class="cw-lg"><canvas id="c3c" role="img" aria-label="콜라보 기간 유입 언어 구성비 누적 막대"></canvas></div></div>
+    <div class="card tb">
+      <h4>구성비로 본 유입 구조 변화</h4>
+      <p>신규 유입의 <span class="nh">중국어(간체)</span> 비중은 1호 0% → 5호 <span class="nh">29.1%</span>로 급증했다. 2024년 6월 이후 간체 지원이 본격화되며 신규 유입의 축 자체가 이동한 것이다.</p>
+      <p>반대로 <span class="nh">중국어(번체)</span> 신규 비중은 1호 <span class="nh">36.3%</span> → 5호 <span class="nh n">7.2%</span>로 급락했다. 대만·홍콩권은 이미 유입이 포화되어 신규 확보 여지가 줄었다는 신호다.</p>
+      <p><span class="nh">한국어</span> 신규 비중은 5건 내내 7~14%대로 가장 낮지만, 복귀 비중은 10~17%로 항상 신규보다 높다. 콜라보를 한국 시장에 쓸 때의 기대 효과는 <em>신규 획득이 아니라 복귀 회수</em>다.</p>
+    </div>
+  </div>
+
+  <div class="hl warn rv" style="margin-bottom:18px;">
+    <strong>데이터 한계 — 반드시 함께 읽을 것</strong>신규 유저의 30~43%는 인게임 언어가 확인되지 않는다(콜라보별: 1호 29.9% · 2호 36.4% · 3호 41.4% · 4호 42.6% · 5호 41.6%). 캐릭터를 만들기 전(튜토리얼 미완료) 또는 계정 생성 직후 이탈한 계정으로, 언어 정보가 아예 남지 않는다. 이 비율이 시간이 갈수록 커지고 있어 <b>언어별 신규 절대치의 시계열 비교는 신뢰도가 낮다</b>. 위 구성비는 확인불가를 제외하고 정규화한 값이며, 리프트는 같은 콜라보 안에서의 전후 비교라 이 편향의 영향이 작다. 2주복귀는 확인불가 비중이 1~5%로 낮아 언어 분석이 안정적이다.
+  </div>
+
+  <div class="fn rv"><div class="fn-lbl">산출 기준</div><ul class="fn-ul">
+    <li>언어 = 인게임 설정 언어(<code>V_BD2_MEMBER_LANG_D</code> · <code>M_BD2_MEMBER_OWNER_INDEX</code> 기준, 정상 계정 우선). 디바이스 로케일이 아니다.</li>
+    <li>1호(무직전생 신규) 시점에는 중국어(간체) 서비스가 사실상 없어 비교 대상에서 제외</li>
+    <li>구성비는 확인불가·휴면 제외 후 5개 언어 합계를 100%로 정규화</li>
+  </ul></div>
+</div>
+
+<!-- ================= TAB 4 ================= -->
+<div class="panel" id="p4">
+  <div class="sec-hd rv"><div class="sec-lbl">Conclusions</div><div class="sec-ttl">결론 &amp; 시사점</div><div class="sec-sub">분석 종합 — 다음 콜라보 편성·목표 설정에 반영할 판단 기준</div></div>
+  <hr class="nw-rule">
+
+  <div class="ins-list rv">
+    <div class="ins-item">
+      <div class="ins-n">01</div>
+      <div><div class="ins-ttl">콜라보 성과는 절대치가 아니라 직전 대비 리프트로 봐야 한다</div>
+      <div class="ins-txt">직전 4주 일평균 AU는 1호 <strong>6.4만</strong> → 5호 <strong>28.9만</strong>으로 4.5배 커졌다. 이 상태에서 콜라보 기간 유입 절대치를 나란히 놓으면 최근 콜라보가 항상 이긴다. 실제로는 신규 리프트가 <strong>+76% → −6%</strong>로 계속 떨어졌다. <em>콜라보 KPI는 리프트(%)로 정의해야 한다.</em>
+      <div class="clt cb">권고 — 콜라보 성과 목표를 "신규 N명"이 아니라 "직전 4주 일평균 대비 신규 +X% / 복귀 +Y%"로 설정</div></div></div>
+    </div>
+    <div class="ins-item">
+      <div class="ins-n i">02</div>
+      <div><div class="ins-ttl">콜라보는 신규 획득 장치가 아니라 복귀 회수 장치다</div>
+      <div class="ins-txt">첫 7일 기준 복귀 리프트가 신규 리프트를 앞서거나 비슷한 콜라보가 5건 중 4건이다(2호 +138% vs +86%, 3호 +104% vs +91%, 5호 +66% vs +44%). 상대일자 지수에서도 복귀 정점이 항상 더 높다. <strong>4주 전체로 봐도 복귀는 5건 모두 플러스</strong>인 반면 신규는 2건이 마이너스다.
+      <div class="clt ct">권고 — 콜라보 사전 마케팅을 신규 UA보다 휴면 유저 리인게이지(푸시·메일·복귀 보상)에 우선 배분</div></div></div>
+    </div>
+    <div class="ins-item">
+      <div class="ins-n p">03</div>
+      <div><div class="ins-ttl">복각은 신규 콜라보보다 열등하지 않다 — IP 적합도가 지배 변수</div>
+      <div class="ins-txt">중앙값 기준 신규 리프트 순위는 무직전생 신규(+76%) &gt; 고블린 슬레이어(+47%) &gt; <strong>무직전생 복각(+45%)</strong> &gt; 섬란 신규(−3%) &gt; 섬란 복각(−6%)이다. <strong>같은 IP는 신규든 복각이든 같은 성적</strong>을 냈고, IP가 다르면 신규여도 성적이 갈렸다. 신규/복각 구분보다 <em>IP 자체의 유저층 적합도가 결정적</em>이다.
+      <div class="clt ct">권고 — 무직전생 계열은 재복각 후보 1순위. 섬란 카구라는 3번째 편성 시 유입 목표를 보수적으로 설정</div></div></div>
+    </div>
+    <div class="ins-item">
+      <div class="ins-n w">04</div>
+      <div><div class="ins-ttl">유입 창은 7일 — 2주 편성은 손해가 아니다</div>
+      <div class="ins-txt">모든 콜라보의 유입 지수 정점은 <strong>D+2~D+3</strong>, D+8부터 지수 120 이하로 내려앉는다. 4주 편성이라도 실질 유입은 첫 주에 끝난다. 유일한 2주 편성이었던 무직전생 복각은 <strong>기간이 절반인데도 4주 리프트 2위</strong>를 기록했다. <em>기간 연장이 유입을 늘리지는 않는다.</em>
+      <div class="clt ca">권고 — 4주 편성 시 2주차 이후를 유입이 아닌 잔존·과금 구간으로 재정의하고, 별도 후킹 이벤트를 D+8·D+15에 배치</div></div></div>
+    </div>
+    <div class="ins-item">
+      <div class="ins-n">05</div>
+      <div><div class="ins-ttl">언어권별로 콜라보의 역할이 다르다</div>
+      <div class="ins-txt">일본어는 <strong>신규·복귀 모두 최상위</strong>(최대 +273%), 한국어는 <strong>복귀 특화</strong>(최대 +256%), 중국어(간체)는 <strong>거의 무반응</strong>(−29%~+57%)이다. 영어권은 볼륨이 가장 크지만 리프트는 중간 수준으로, 콜라보 마케팅의 한계 효율이 낮다. 신규 유입의 축은 번체(1호 36%)에서 간체(5호 29%)로 이동했으나, <em>간체 유입은 콜라보가 아니라 다른 요인으로 들어오고 있다.</em>
+      <div class="clt cb">권고 — 콜라보 마케팅 예산은 JP &gt; KR &gt; TW 순 가중. 간체권은 콜라보 외 유입 경로(스토어 피처링·UA)를 별도 분석 필요</div></div></div>
+    </div>
+    <div class="ins-item">
+      <div class="ins-n i">06</div>
+      <div><div class="ins-ttl">콜라보 유저는 콜라보와 함께 빠진다 — 이어붙이기가 관건</div>
+      <div class="ins-txt">외부 이벤트가 섞이지 않은 3건에서 종료 후 4주 AU는 모두 콜라보 전 수준(−16%~−0.3%)으로 회귀했다. 특히 섬란 신규는 종료 후 AU가 콜라보 전보다 <strong>−16%</strong> 낮았다. 반대로 1호·3호가 종료 후 크게 오른 것은 각각 1주년·2주년이 바로 이어졌기 때문이다. <em>콜라보의 실제 순증 효과는 다음 대형 업데이트와의 연결 설계에서 나온다.</em>
+      <div class="clt cr">주의 — 종료 후 4주 지표를 콜라보 성과로 보고할 때 주년·대형 업데이트 중복 여부를 반드시 표기</div></div></div>
+    </div>
+  </div>
+
+  <div class="g2 rv" style="margin-top:18px;">
+    <div class="cbox"><div class="ch-ttl">콜라보 성과 종합 진단</div><div class="ch-sub">중앙값 리프트 기준 · 5건 비교</div><div class="cw-lg"><canvas id="c4a" role="img" aria-label="콜라보별 성과 레이더 차트"></canvas></div></div>
+    <div class="card tb">
+      <h4>다음 콜라보 편성 체크리스트</h4>
+      <p><strong>① 목표를 리프트로 정의</strong> — 직전 4주 일평균 대비 신규·복귀 증감률. 절대 인원 목표는 규모 성장에 가려 판단을 흐린다.</p>
+      <p><strong>② 첫 7일에 자원 집중</strong> — 사전 예고·PV·쿠폰·복귀 푸시를 D−3~D+3에 몰아 배치. D+8 이후는 유입이 아닌 잔존 설계 구간.</p>
+      <p><strong>③ 복귀 타겟 캠페인 필수</strong> — 15일 이상 미접속 유저 대상 사전 푸시. 복귀 리프트가 신규 리프트보다 안정적으로 크다.</p>
+      <p><strong>④ 종료 직후 연결 콘텐츠 확보</strong> — 종료 후 4주 이내 대형 업데이트가 없으면 유입분이 그대로 이탈한다.</p>
+      <p><strong>⑤ 언어권별 기대치 차등</strong> — JP는 신규+복귀, KR은 복귀, 간체권은 기대치 하향. 동일 목표율 적용 금지.</p>
+    </div>
+  </div>
+
+  <div class="fn rv"><div class="fn-lbl">출처 &amp; 고지</div><ul class="fn-ul">
+    <li>유저 데이터: Snowflake <code>DH_DW.KPI_NEON.M_NEON_MEMBER_AU</code> (2024-04-25~2026-06-03 중 분석 구간 406일), 어뷰징 제외 기준</li>
+    <li>2주 복귀 정의 = 직전 접속 간격 15일 이상. 4주 복귀(29일 이상) 기준으로 재집계 시 수치는 달라지며, 본 리포트는 한나 지정에 따라 2주 기준으로 통일</li>
+    <li>콜라보 일정: <code>DH_NWZ.NEON.FD_GAME_NOTICE</code> 공지 원문 + 언론 보도 교차검증 완료(탭 01)</li>
+    <li>1호·3호의 종료 후 4주 지표는 1주년·2주년 업데이트와 중첩되어 콜라보 단독 효과가 아니다</li>
+  </ul></div>
+</div>
+
+</div>
+
+<script>
+(function(){
+  var nav=document.querySelector('.tab-bar');
+  var ph=document.createElement('div');ph.style.display='none';ph.style.height=nav.offsetHeight+'px';
+  nav.parentNode.insertBefore(ph,nav.nextSibling);
+  var navTop=nav.offsetTop;
+  window.addEventListener('scroll',function(){
+    if(window.scrollY>=navTop){nav.classList.add('pinned');ph.style.display='block';}
+    else{nav.classList.remove('pinned');ph.style.display='none';}
+  },{passive:true});
+})();
+
+var dark=localStorage.getItem('rd')==='1';
+if(dark){document.body.classList.add('dark');document.querySelector('.dark-btn').textContent='Light';}
+function toggleDark(){dark=!dark;document.body.classList.toggle('dark',dark);localStorage.setItem('rd',dark?'1':'0');document.querySelector('.dark-btn').textContent=dark?'Light':'Dark';if(built){built=false;bc();}}
+
+var panels=document.querySelectorAll('.panel');
+function go(i,b){
+  panels.forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.t-btn').forEach(function(x){x.classList.remove('on');});
+  panels[i].classList.add('on');b.classList.add('on');
+  window.scrollTo({top:0,behavior:'instant'});
+  panels[i].querySelectorAll('.rv:not(.vis)').forEach(function(el){ro.observe(el);});
+  if(!built)bc();
+}
+
+var ro=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target);}});},{threshold:.08});
+document.querySelectorAll('.rv').forEach(function(el){ro.observe(el);});
+
+var built=false;
+var CM={ch:new Map(),init:function(id,cfg){if(typeof Chart==='undefined')return null;try{if(this.ch.has(id)){this.ch.get(id).destroy();this.ch.delete(id);}var el=document.getElementById(id);if(!el)return null;var c=new Chart(el,cfg);this.ch.set(id,c);return c;}catch(e){return null;}}};
+
+/* ===== DATA ===== */
+var CNAME=['무직전생Ⅱ(신규)','섬란카구라(신규)','고블린Ⅱ(신규)','무직전생Ⅱ(복각)','섬란카구라(복각)'];
+var LIFT7_NRU=[67.8,85.5,91.1,6.7,43.9];
+var LIFT7_RET=[29.2,138.2,104.4,11.7,66.3];
+var BASE_AU=[64282,105330,142771,188512,289102];
+var MED_NRU=[75.8,-3.0,47.4,45.4,-6.0];
+var MED_RET=[64.6,-2.4,39.9,26.6,7.2];
+var MED_AU=[47.1,8.2,18.7,5.0,-1.0];
+var PRE_NRU=[3820,4931,8110,4870,6322], DUR_NRU=[6987,4761,8946,6442,5644], POST_NRU=[6678,2643,12896,5966,5994];
+var PRE_RET=[1776,2332,4229,4615,7118], DUR_RET=[2693,2766,5461,5777,7673], POST_RET=[3019,1742,7301,4468,7473];
+var LANGS=['한국어','영어','일본어','중국어(번체)','중국어(간체)'];
+var L7_NRU={'한국어':[30.7,169.7,219.2,79.4,74.8],'영어':[73.0,75.4,63.6,6.9,30.0],'일본어':[208.8,273.0,166.4,81.3,264.8],'중국어(번체)':[47.4,96.3,108.0,44.7,17.8],'중국어(간체)':[null,29.8,56.6,-28.6,12.0]};
+var L7_RET={'한국어':[36.4,255.5,179.5,21.7,154.4],'영어':[23.5,116.9,98.8,-1.8,35.2],'일본어':[65.5,219.1,144.0,42.9,138.3],'중국어(번체)':[21.8,110.4,82.8,35.3,85.2],'중국어(간체)':[null,71.6,52.6,-4.3,36.7]};
+var SHARE_NRU={'한국어':[8.0,12.8,14.4,11.5,6.8],'영어':[46.9,34.1,39.7,33.0,41.1],'일본어':[8.7,17.3,12.0,12.7,15.8],'중국어(번체)':[36.3,11.5,15.0,12.5,7.2],'중국어(간체)':[0.0,24.2,18.9,30.3,29.1]};
+var REL={"1": {"name": "무직전생II(신규)", "base": {"nru": 3960.0, "ret2w": 1575.5, "au": 64782.5}, "idx": {"nru": [134.7, 116.8, 101.8, 105.1, 101.2, 98.3, 123.3, 109.6, 99.8, 100.2, 107.9, 86.8, 67.4, 65.3, 72.7, 67.4, 73.3, 73.7, 68.3, 55.7, 52.6, 50.4, 61.2, 192.8, 159.4, 128.6, 114.4, 112.2, 260.2, 262.3, 234.4, 206.4, 156.3, 134.5, 120.0, 108.1, 100.9, 118.5, 138.7, 129.8, 146.4, 260.6, 229.0, 184.2, 190.7, 186.7, 163.9, 144.7, 143.0, 193.1, 203.7, 188.8, 186.9, 160.4, 167.4, 220.9, 307.1], "ret2w": [164.3, 144.5, 134.8, 126.2, 116.6, 105.0, 122.4, 107.3, 94.8, 92.0, 98.3, 89.8, 77.6, 77.4, 90.7, 86.5, 85.1, 94.4, 76.9, 70.3, 76.5, 77.4, 101.7, 250.1, 186.2, 143.1, 126.2, 139.9, 248.9, 243.7, 221.6, 206.5, 147.6, 132.2, 123.4, 115.3, 114.8, 138.7, 146.8, 120.5, 123.6, 220.1, 220.2, 163.0, 188.6, 181.7, 154.6, 138.6, 133.5, 193.3, 219.7, 189.4, 184.5, 147.6, 166.2, 201.0, 373.0], "au": [104.9, 100.7, 101.3, 102.0, 101.4, 100.4, 103.6, 101.5, 98.8, 97.6, 99.7, 98.1, 92.1, 90.2, 96.5, 92.1, 97.3, 94.3, 91.6, 93.3, 93.1, 90.1, 100.3, 107.3, 106.2, 105.2, 107.2, 111.6, 126.1, 137.7, 129.6, 141.5, 125.5, 131.6, 135.2, 130.5, 126.2, 124.2, 133.4, 134.8, 137.0, 153.7, 151.5, 153.9, 146.8, 149.3, 148.4, 147.4, 148.1, 155.1, 164.3, 157.6, 160.8, 160.8, 159.4, 171.1, 187.5]}}, "2": {"name": "섬란카구라(신규)", "base": {"nru": 4724.0, "ret2w": 2334.5, "au": 104929.0}, "idx": {"nru": [98.3, 114.4, 149.1, 164.0, 163.5, 128.1, 120.1, 116.4, 122.6, 97.9, 99.1, 107.2, 102.5, 92.7, 96.7, 138.5, 113.2, 107.4, 100.9, 92.1, 81.6, 74.0, 69.7, 70.5, 73.2, 72.1, 69.8, 87.1, 139.6, 162.7, 138.6, 140.4, 143.0, 128.2, 105.5, 107.7, 97.2, 87.3, 106.1, 111.1, 95.2, 89.1, 93.1, 104.0, 97.0, 100.5, 105.3, 89.4, 85.4, 77.9, 69.1, 65.2, 88.7, 87.6, 70.1, 68.6, 68.9], "ret2w": [82.2, 109.0, 121.7, 132.9, 134.7, 106.7, 100.7, 103.2, 120.2, 109.7, 105.9, 102.7, 98.9, 88.8, 94.6, 143.3, 103.6, 99.5, 99.7, 81.9, 78.2, 74.9, 82.9, 70.3, 78.0, 88.9, 83.4, 100.3, 218.2, 264.7, 222.4, 197.7, 194.6, 152.1, 129.2, 121.8, 108.5, 93.4, 105.5, 108.9, 91.8, 87.3, 86.9, 109.6, 97.6, 101.2, 107.8, 90.9, 87.7, 82.2, 80.8, 75.3, 92.1, 94.3, 81.0, 79.2, 72.9], "au": [99.0, 102.9, 99.1, 102.7, 102.3, 99.5, 98.7, 99.5, 103.4, 100.5, 101.7, 99.8, 99.9, 98.1, 97.8, 103.1, 101.4, 100.3, 102.5, 101.4, 101.6, 100.1, 98.9, 99.4, 97.5, 99.2, 98.9, 101.3, 109.9, 120.8, 121.0, 120.0, 119.6, 118.0, 114.4, 112.9, 112.5, 109.2, 108.7, 109.4, 108.4, 108.2, 106.5, 113.3, 106.0, 108.2, 103.7, 103.4, 102.2, 99.3, 97.2, 96.1, 95.0, 96.2, 95.0, 95.3, 94.5]}}, "3": {"name": "고블린슬레이어II(신규)", "base": {"nru": 5988.0, "ret2w": 3579.5, "au": 140210.5}, "idx": {"nru": [414.0, 435.9, 337.9, 220.3, 168.8, 152.6, 128.5, 109.5, 98.7, 101.3, 114.0, 113.0, 98.2, 86.8, 93.9, 82.3, 82.7, 87.9, 75.5, 74.7, 75.3, 105.6, 117.7, 104.9, 88.0, 77.7, 72.8, 73.9, 138.2, 202.6, 223.2, 204.7, 171.4, 151.1, 133.3, 149.5, 168.0, 204.0, 188.2, 141.4, 128.9, 157.9, 156.9, 153.0, 178.2, 182.9, 139.0, 136.5, 145.2, 124.8, 121.1, 110.4, 107.6, 94.9, 86.2, 84.4, 114.4], "ret2w": [233.3, 216.0, 181.0, 139.3, 125.8, 176.7, 193.4, 95.3, 83.3, 90.2, 96.5, 86.5, 77.6, 82.2, 105.8, 88.1, 88.4, 90.7, 99.5, 88.3, 100.5, 146.4, 118.8, 113.7, 104.4, 108.7, 89.2, 88.4, 226.0, 309.7, 299.8, 246.9, 192.7, 159.3, 138.7, 179.7, 148.3, 160.2, 148.9, 114.8, 109.9, 121.9, 126.1, 141.0, 163.8, 160.2, 131.8, 135.3, 141.9, 130.0, 110.5, 104.1, 102.5, 89.1, 90.7, 88.1, 180.6], "au": [111.5, 115.2, 112.8, 108.5, 108.1, 107.6, 103.4, 102.9, 100.4, 98.1, 99.3, 98.9, 99.6, 98.8, 105.4, 99.2, 97.0, 95.7, 95.3, 95.1, 94.9, 102.9, 101.1, 99.6, 98.9, 99.4, 100.4, 101.0, 118.8, 123.7, 122.8, 122.3, 118.5, 117.4, 118.1, 117.9, 118.3, 118.3, 119.4, 117.6, 118.1, 119.7, 127.2, 119.7, 121.0, 121.3, 118.9, 119.2, 120.5, 119.6, 114.8, 113.1, 113.5, 112.0, 111.2, 112.9, 124.4]}}, "4": {"name": "무직전생II(복각)", "base": {"nru": 4317.5, "ret2w": 4339.0, "au": 188031.0}, "idx": {"nru": [100.5, 109.6, 118.9, 91.1, 85.7, 78.3, 79.1, 79.4, 99.5, 101.8, 83.4, 77.2, 86.1, 93.1, 98.0, 98.4, 112.7, 96.0, 93.0, 150.7, 152.8, 210.3, 171.8, 159.1, 136.2, 144.8, 134.8, 116.0, 159.7, 197.9, 216.1, 171.6, 145.4, 131.0, 122.8, 132.4, 168.3, 173.0, 111.2, 106.1, 104.2, 152.9, 166.4, 156.4, 170.6, 136.4, 150.4, 147.4, 146.0, 128.3, 157.1, 174.5, 186.0, 123.2, 118.1, 131.7, 123.4], "ret2w": [94.9, 110.4, 125.2, 85.9, 77.1, 73.1, 79.8, 77.2, 87.6, 89.3, 76.1, 78.3, 85.7, 123.9, 112.9, 108.9, 130.3, 98.6, 93.8, 100.4, 141.2, 184.4, 157.0, 142.9, 126.8, 111.9, 105.3, 99.6, 174.4, 190.0, 178.8, 144.3, 126.6, 113.2, 109.4, 110.5, 152.1, 139.3, 98.5, 93.0, 100.8, 179.2, 156.0, 144.7, 137.8, 109.2, 102.4, 103.0, 110.6, 93.5, 103.0, 103.2, 96.6, 87.9, 85.7, 91.2, 88.8], "au": [106.8, 103.5, 103.1, 100.4, 100.6, 99.1, 100.4, 95.1, 97.3, 97.3, 96.2, 96.5, 95.9, 104.8, 99.7, 98.6, 99.1, 99.7, 97.5, 97.7, 103.9, 106.4, 103.0, 101.8, 101.3, 103.0, 100.3, 98.1, 105.0, 104.3, 105.7, 105.2, 109.4, 104.8, 108.4, 104.9, 105.9, 107.1, 104.8, 104.4, 104.8, 114.7, 110.5, 108.1, 108.6, 105.6, 106.1, 104.4, 106.6, 101.2, 100.2, 100.9, 100.7, 99.2, 98.7, 98.3, 88.4]}}, "5": {"name": "섬란카구라(복각)", "base": {"nru": 5642.0, "ret2w": 6582.0, "au": 288067.5}, "idx": {"nru": [129.4, 163.2, 147.6, 139.3, 110.1, 99.3, 99.5, 103.3, 104.3, 107.8, 107.8, 122.4, 388.0, 81.6, 91.5, 101.0, 102.9, 100.5, 79.9, 81.1, 84.3, 84.2, 84.7, 92.8, 98.5, 86.2, 74.1, 71.9, 105.2, 158.2, 155.5, 134.6, 106.1, 100.0, 92.6, 95.1, 92.1, 104.1, 104.8, 86.2, 76.8, 74.9, 88.9, 94.6, 105.3, 103.5, 90.9, 91.5, 88.4, 84.2, 93.4, 126.9, 103.3, 92.7, 78.8, 72.2, 87.5], "ret2w": [164.7, 170.1, 158.5, 153.5, 121.8, 101.2, 98.6, 122.0, 133.9, 123.4, 110.2, 108.0, 74.9, 98.8, 93.1, 101.3, 97.4, 97.1, 79.8, 76.5, 106.7, 108.5, 94.4, 96.1, 93.5, 82.9, 84.1, 77.0, 153.4, 210.1, 195.0, 160.4, 123.0, 116.3, 100.6, 103.6, 128.6, 166.3, 109.7, 80.4, 74.5, 71.2, 98.6, 104.6, 111.5, 112.1, 94.4, 86.5, 82.9, 79.4, 128.1, 101.4, 142.4, 163.0, 88.8, 77.1, 149.8], "au": [108.0, 109.1, 107.8, 107.9, 105.4, 103.2, 101.9, 101.5, 100.5, 99.7, 100.2, 99.1, 102.5, 97.7, 101.7, 100.5, 99.8, 99.4, 97.5, 97.3, 100.7, 98.1, 95.4, 94.4, 94.1, 94.4, 96.8, 95.4, 105.2, 111.3, 107.3, 107.8, 101.4, 102.1, 100.6, 98.5, 98.3, 100.9, 100.0, 98.7, 98.6, 98.0, 101.1, 102.3, 102.2, 99.4, 99.3, 96.0, 98.0, 92.6, 98.0, 92.3, 95.6, 97.5, 97.1, 96.6, 100.2]}}};
+var XLAB=[];for(var _i=-28;_i<=28;_i++){XLAB.push(_i<0?('D'+_i):('D+'+(_i+1)));}
+
+function bc(){
+  if(built)return;
+  if(typeof Chart==='undefined'){setTimeout(bc,200);return;}
+  Chart.defaults.animation=false;
+  var d=document.body.classList.contains('dark');
+  var INK='#1C1C20', RED='#E51937', REDDEEP='#B8142C';
+  var POS='#1E8E5A', WARN='#D98C1F', INFO='#2E5CE6';
+  var GRAY='#A0A0A6';
+  if(d){INK='#E8ECF5';GRAY='#5C6B8C';}
+  var grid=d?'rgba(255,255,255,.06)':'rgba(20,20,30,.06)';
+  var lbl=d?'#A0ABC8':'#717174';
+  var ink=INK;
+  var ink2=d?'#A0ABC8':'#4A4A52';
+  var sx={grid:{color:grid},ticks:{color:lbl,font:{size:10,family:"'Noto Sans KR',sans-serif"}}};
+  var sy=Object.assign({},sx,{beginAtZero:true});
+  var leg={labels:{color:ink2,font:{size:11,family:"'Noto Sans KR',sans-serif"},padding:10,boxWidth:12}};
+  var SER=[RED,INFO,POS,WARN,INK];
+  function pct(v){return v+'%';}
+
+  /* TAB 0 */
+  CM.init('c0a',{type:'bar',data:{labels:CNAME,datasets:[
+    {label:'신규',data:LIFT7_NRU,backgroundColor:INK,borderRadius:3},
+    {label:'2주복귀',data:LIFT7_RET,backgroundColor:RED,borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:Object.assign({display:true},leg)},scales:{x:sx,y:Object.assign({},sy,{ticks:Object.assign({},sy.ticks,{callback:function(v){return '+'+v+'%';}})})}}});
+  CM.init('c0b',{type:'bar',data:{labels:CNAME,datasets:[{data:BASE_AU,backgroundColor:['#E5E5EA','#D6D6DC','#A0A0A6','#717174','#E51937'],borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:sx,y:Object.assign({},sy,{ticks:Object.assign({},sy.ticks,{callback:function(v){return (v/10000)+'만';}})})}}});
+
+  /* TAB 2 — relative index lines */
+  function relLine(id,metric){
+    var ds=[];
+    for(var i=1;i<=5;i++){
+      ds.push({label:CNAME[i-1],data:REL[i].idx[metric],borderColor:SER[i-1],backgroundColor:SER[i-1],borderWidth:i===5?2.4:1.6,pointRadius:0,tension:.25,spanGaps:true});
+    }
+    CM.init(id,{type:'line',data:{labels:XLAB,datasets:ds},options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:Object.assign({display:true},leg),tooltip:{mode:'index',intersect:false}},
+      scales:{x:Object.assign({},sx,{ticks:Object.assign({},sx.ticks,{maxTicksLimit:10})}),
+              y:Object.assign({},sy,{ticks:Object.assign({},sy.ticks,{callback:function(v){return v;}})})}}});
+  }
+  relLine('c2a','nru');
+  relLine('c2b','ret2w');
+
+  CM.init('c2c',{type:'bar',data:{labels:CNAME,datasets:[
+    {label:'직전 4주',data:PRE_NRU,backgroundColor:GRAY,borderRadius:3},
+    {label:'콜라보 기간',data:DUR_NRU,backgroundColor:RED,borderRadius:3},
+    {label:'종료 후 4주',data:POST_NRU,backgroundColor:INK,borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:Object.assign({display:true},leg)},scales:{x:sx,y:sy}}});
+  CM.init('c2d',{type:'bar',data:{labels:CNAME,datasets:[
+    {label:'직전 4주',data:PRE_RET,backgroundColor:GRAY,borderRadius:3},
+    {label:'콜라보 기간',data:DUR_RET,backgroundColor:RED,borderRadius:3},
+    {label:'종료 후 4주',data:POST_RET,backgroundColor:INK,borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:Object.assign({display:true},leg)},scales:{x:sx,y:sy}}});
+
+  /* TAB 3 */
+  function langBar(id,src){
+    var ds=LANGS.map(function(l,i){return {label:l,data:src[l],backgroundColor:SER[i],borderRadius:3};});
+    CM.init(id,{type:'bar',data:{labels:CNAME,datasets:ds},options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:Object.assign({display:true},leg)},
+      scales:{x:sx,y:Object.assign({},sy,{beginAtZero:true,ticks:Object.assign({},sy.ticks,{callback:function(v){return v+'%';}})})}}});
+  }
+  langBar('c3a',L7_NRU);
+  langBar('c3b',L7_RET);
+
+  CM.init('c3c',{type:'bar',data:{labels:CNAME,datasets:LANGS.map(function(l,i){return {label:l,data:SHARE_NRU[l],backgroundColor:SER[i],borderRadius:2};})},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:Object.assign({display:true},leg)},
+      scales:{x:Object.assign({},sx,{stacked:true}),y:Object.assign({},sy,{stacked:true,max:100,ticks:Object.assign({},sy.ticks,{callback:function(v){return v+'%';}})})}}});
+
+  /* TAB 4 */
+  CM.init('c4a',{type:'bar',data:{labels:CNAME,datasets:[
+    {label:'신규 리프트',data:MED_NRU,backgroundColor:RED,borderRadius:3},
+    {label:'2주복귀 리프트',data:MED_RET,backgroundColor:INFO,borderRadius:3},
+    {label:'AU 리프트',data:MED_AU,backgroundColor:GRAY,borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:Object.assign({display:true},leg)},
+      scales:{x:sx,y:Object.assign({},sx,{ticks:Object.assign({},sx.ticks,{callback:function(v){return v+'%';}})})}}});
+
+  built=true;
+}
+document.addEventListener('DOMContentLoaded',function(){setTimeout(bc,100);});
+</script>
+</body>
+</html>
