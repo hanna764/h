@@ -45,9 +45,9 @@ h1{color:var(--primary);margin-bottom:14px;font-size:1.3rem;}
 <body>
 <h1>&#x1F4CB; Hanna Weekly Board</h1>
 <div class='toolbar'>
-  <span class='last-updated'>마지막 갱신: 2026-08-10 09:01 KST</span>
+  <span class='last-updated'>마지막 갱신: 2026-08-17 09:01 KST</span>
 </div>
-<div class='tab-bar'><button class='tab-btn active' data-tab='run-2026-08-10' onclick='switchTab("run-2026-08-10")'>8/10</button></div><div class='tab-content'><div id='run-2026-08-10-panel' class='tab-panel' style='display:block'>
+<div class='tab-bar'><button class='tab-btn active' data-tab='run-2026-08-17' onclick='switchTab("run-2026-08-17")'>8/17</button></div><div class='tab-content'><div id='run-2026-08-17-panel' class='tab-panel' style='display:block'>
     <table class="task-table">
       <colgroup>
         <col style="width:135px">
@@ -66,12 +66,12 @@ h1{color:var(--primary);margin-bottom:14px;font-size:1.3rem;}
       </thead>
       <tbody>
         <tr class="task-row" onclick="toggleEvidence('ev-0', this)">
-          <td><span class="cat-badge" style="background:#4a5568">내부 행정</span></td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
           <td class="stars">★★★★★</td>
-          <td class="task-name">BD2 PC 버전 구글 게임 통계 항목 정의 — 업적 레벨 대체 및 뽑기 카운트 기준 협의</td>
+          <td class="task-name">BD2 PC 런처 아이콘 변경 테스트 — 빌드 준비 및 9/10 배포 전 QA 일정 조율</td>
           <td><span class="src-badge" style="background:#3498db">chat</span> [BD2] PC 버전 준비</td>
-          <td class="ts-cell">08/03 12:06</td>
-          <td class="cnt-cell">2건</td>
+          <td class="ts-cell">08/10 14:47</td>
+          <td class="cnt-cell">4건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-0" class="evidence-row" style="display:none">
@@ -83,30 +83,34 @@ h1{color:var(--primary);margin-bottom:14px;font-size:1.3rem;}
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/04 14:11</td><td class='ev-sender'>usr_771226</td><td class='ev-content'>@이한나 (Hanna) 님
+              <tbody><tr><td class='ev-ts'>08/11 16:15</td><td class='ev-sender'>usr_963353</td><td class='ev-content'>1. 현재 이미 설치된 사용자로 게임을 켜보고 실행이나 아이콘에 아무 문제가 없으면 -&gt; 기존 사용자들 설정업데이트 에 영향없음 확인완료
 
-위에서 공유 드린 게임통계 리스트 중에서 &quot;추가 플레이어 진행 통계&quot;를 마스터팩 진행도에서 업적레벨로 변경하려고 하는데 괜찮으신지 문의 드립니다.
+2. 제거하고 완전히 새로 설치후 아이콘이 exe를 따라가는지 확인한다. exe는 
+설치 드라이브\Neowiz\BrownDust2\BrownDust2_10000002
+에 있고, 그 exe파일을 제거하거나 아이콘이 다른 exe파일로 교체 후 바탕화면에서 f5,또는 컴퓨터 재시작 등으로 아이콘이 변경되는지 확인한다. (-&gt; 해당위치의 exe파일이 가진 아이콘을 따라가는지 확인)
 
-이유는 currentProgress 보통 &quot;대표적인 주 진행도&quot;를 정의하는데, 마스터 팩 보다 업적레벨이 이것에 적합하다고 생각되어 공유드립니다.
-https://developer.android.com/games/pgs/gamestats?hl=ko#expandable-2
+이정도면 될것같습니</td></tr>
+<tr><td class='ev-ts'>08/11 16:11</td><td class='ev-sender'>한나</td><td class='ev-content'>@정문환  테스트 하려고 보니 이거 QA를 하려면 아이콘이 서로 다른 빌드가 3개 있어야 할 것 같은데요.
+이 테스트 때문에 아이콘 바꾼 빌드를 2번 더 뽑기는 좀 그렇고 내일 아이콘이 한번 바뀌고 9/10에 한번 더 바뀔 예정이니,
+이번 주에 준비 해두고 9월 10일 업데이트 하기 전에 테스트 하고 9/10 라이브 배포 흐름으로 할까 싶습니다.
 
-(아 참고로, 통계는 한번 개시되면 삭제 할수 없다고 하네요..
-https://devel</td></tr>
-<tr><td class='ev-ts'>08/04 15:09</td><td class='ev-sender'>한나</td><td class='ev-content'>@강태호[GSN] 
-장비 강화 성공 : 이 업적은 점수 재련으로 생각하고 작성 헀는데 혹시 옵션 재련도 카운트 되나요? 
+혹시 아래 흐름 말고 다른 편법(?) 으로 테스트 할 수 있는 방법이 있을지, 
+QA 하고 진행 되도록 용건님 모시고 모임 가지면 어떨까 싶기도 하고요. 
 
-뽑기 : 선별 + 장비뽑기 + 코스튬 뽑기 등 각종 뽑기가 모두 카운트되었으면 하는데요. 
-초기 유저 무한 뽑기와 무제한 뽑기(유료상품) 이것도 혹시 카운드가 될까요? 이 2개는 사실 카운트 되면 안될 것 같습니다.</td></tr></tbody>
+----------------</td></tr>
+<tr><td class='ev-ts'>08/12 17:26</td><td class='ev-sender'>usr_245548</td><td class='ev-content'>저는 바라보기 미 설정 상태에서 게임스타터 아이콘만 변경 되며 바로가기는 변경 않 되는 부분 및 바라보기 경로 반영 시 아이콘 이미지 적용 확인 하였습니다.
+관련 확인 작업은 종료 하겠습니다.</td></tr>
+<tr><td class='ev-ts'>08/12 13:22</td><td class='ev-sender'>usr_757316</td><td class='ev-content'>환경과 상관없을겁니다. 문환님께서 답변해주실 사항입니다만...</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-1', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
           <td class="stars">★★★★★</td>
-          <td class="task-name">BD2 시즌패스 상품명 오기 등 데이터 이슈 68B 업데이트 동시 패치 여부 협의</td>
-          <td><span class="src-badge" style="background:#3498db">chat</span> B2_버그_공유방</td>
-          <td class="ts-cell">08/04 11:20</td>
-          <td class="cnt-cell">6건</td>
+          <td class="task-name">구글 레벨업 가이드라인 심사 요건 확인 — 게임 통계 API 반영·배포 일정 점검</td>
+          <td><span class="src-badge" style="background:#3498db">chat</span> [BD2] PC 버전 준비</td>
+          <td class="ts-cell">08/10 15:39</td>
+          <td class="cnt-cell">3건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-1" class="evidence-row" style="display:none">
@@ -118,27 +122,29 @@ https://devel</td></tr>
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/04 11:25</td><td class='ev-sender'>usr_184220</td><td class='ev-content'>@허혁[GSN] 님 확인 부탁드려요.</td></tr>
-<tr><td class='ev-ts'>08/04 11:28</td><td class='ev-sender'>usr_271518</td><td class='ev-content'>넵 이전 데이터가 잘못 들어간 이슈로 파악되었고, 수정을 위해서는 데이터 패치가 필요합니다. 
+              <tbody><tr><td class='ev-ts'>08/10 15:39</td><td class='ev-sender'>한나</td><td class='ev-content'>@강태호[GSN] 게임 통계 답변이 오긴 했는데요. 
 
-이슈 사안이 작아서 68.B 업데이트에 수정하는 것으로 성준님과 방금 얘기했습니다. 혹시 다른 의견 있으시면 말씀 부탁드릴게요.</td></tr>
-<tr><td class='ev-ts'>08/04 11:57</td><td class='ev-sender'>usr_147983</td><td class='ev-content'>@이한솔 @최석영 (Seok Yeong) @이한나 (Hanna) 님, 해당 내용 문제 없을지 의견 부탁드립니다.
+레벨업 가이드라인 심사는 이미 공개된 게임일 경우 서비스되고 있는 게임을 기준으로 진행됩니다. 따라서 레벨업 가이드라인 심사를 요청해주시기 전에 배포가 완료되어 있어야 합니다.
 
-해당 시즌 패스가 과금 상품이라, 따지고보면 판매 상품의 이름이 다르게 들어가있는 이슈라서요.</td></tr>
-<tr><td class='ev-ts'>08/04 12:01</td><td class='ev-sender'>usr_457555</td><td class='ev-content'>저것만 때문에 패치하긴 애매해서, 
-다른 번들 이슈 혹시 생기면 그 때 같이 올리고, 없으면 말씀주신대로 68B에 하면 될 것 같습니다.</td></tr>
-<tr><td class='ev-ts'>08/04 12:07</td><td class='ev-sender'>usr_742951</td><td class='ev-content'>위 텍스트 이슈와 더불어 
-길드레이드 보스 네이밍, 어제 준식님이 공유주신 습득물 % 이슈 모두 데이터 건입니다. (패치 시 해당 내용들 함께 패치 될 예정)</td></tr>
-<tr><td class='ev-ts'>08/04 12:05</td><td class='ev-sender'>한나</td><td class='ev-content'>제가 잘 몰라서 여쭤 보는건데 텍스트만 수정하면 한 150메가 정도 다운 받으면 되지 않나요?</td></tr></tbody>
+Game Stats API 기능은 공식적으로 사용이 가능한 상태이며, 심사 전까지 반영 및 배포가 완료되면 문제 없을 것이라 생각됩니다. Game Stats API를 서버쪽에서 호출하실 경우, 성공 실패 여부를 반환 받으실 수 있습니다. 따라서 서버쪽에서 해당 기능을 사용하신다면 우선은 반환 받은 값으</td></tr>
+<tr><td class='ev-ts'>08/11 11:24</td><td class='ev-sender'>usr_207936</td><td class='ev-content'>체크리스트
+
+업적 실제수치 롤백
+아이콘
+빌드시마다 사이드킥 키기
+구글 리워드 기획팀 확인필요
+
+바이탈 기기 구글플레이 안정성 쪽 확인 필요</td></tr>
+<tr><td class='ev-ts'>08/11 10:35</td><td class='ev-sender'>usr_771226</td><td class='ev-content'>넵 가능합니다.</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-2', this)">
-          <td><span class="cat-badge" style="background:#718096">기타</span></td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
           <td class="stars">★★★★★</td>
-          <td class="task-name">컨텐츠사업팀 팀원 간 간식 나눔 관련 사내 채널 일상 대화</td>
-          <td><span class="src-badge" style="background:#3498db">chat</span> [끼요옷]컨텐츠사업팀</td>
-          <td class="ts-cell">08/04 12:26</td>
+          <td class="task-name">구글 레벨업 업데이트 일정 협의 — QA 진행 및 8/27(68.C) 라이브 적용 확정</td>
+          <td><span class="src-badge" style="background:#3498db">chat</span> [BD2] PC 버전 준비</td>
+          <td class="ts-cell">08/11 10:25</td>
           <td class="cnt-cell">3건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -151,18 +157,24 @@ https://devel</td></tr>
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/04 12:26</td><td class='ev-sender'>한나</td><td class='ev-content'>한솔님 5 입니다 타이밍 맞으면 같이.. ㅎㅎ</td></tr>
-<tr><td class='ev-ts'>08/04 12:36</td><td class='ev-sender'>usr_457555</td><td class='ev-content'>ㅋㅋㅋ 따로 먹겠습니당...</td></tr>
-<tr><td class='ev-ts'>08/04 12:37</td><td class='ev-sender'>한나</td><td class='ev-content'>넹 ㅎ</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/11 10:26</td><td class='ev-sender'>usr_060345</td><td class='ev-content'>@이한나 (Hanna) 
+안녕하세요 한나님 �
+Google Level Up 업데이트 일정 관련하여 확인차 스레드 열었습니다
+
+큰 이변이 없다면 오늘 중으로 작업이 마무리되고 내일부터 QA를 진행할 수 있을 것으로 보이는데, 저희 다음 점검이 당장 이번주 목요일로 예정되어 있다보니 실제 라이브 적용은 다음 업데이트인 68.C (8/27) 때 될 것 같습니다
+해당 일정으로 문제 없을지 확인 부탁드리겠습니다</td></tr>
+<tr><td class='ev-ts'>08/11 10:28</td><td class='ev-sender'>한나</td><td class='ev-content'>안 그래도 오늘 태호님과 일정 문의 드리는 미팅 진행하려고 했는데요. 
+말씀해주신건 업적만 말씀해주신 것 같고 그 외 통계나 리워드 같은 것들도 논의 드리려구 했습니다.</td></tr>
+<tr><td class='ev-ts'>08/11 10:31</td><td class='ev-sender'>usr_771226</td><td class='ev-content'>네 맞습니다.</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-3', this)">
-          <td><span class="cat-badge" style="background:#1a6e44">BD2 글로벌</span></td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
           <td class="stars">★★★★★</td>
-          <td class="task-name">3주년 성장 지원 이벤트 배너 잔존 노출 이슈 원인 확인 및 지라 대응</td>
-          <td><span class="src-badge" style="background:#3498db">chat</span> B2_버그_공유방</td>
-          <td class="ts-cell">08/05 10:23</td>
+          <td class="task-name">구글 PGS 업적 테스트 — 계정인증 옵션 확인 및 업적별 카운트 로그 검증</td>
+          <td><span class="src-badge" style="background:#3498db">chat</span> [BD2] PC 버전 준비</td>
+          <td class="ts-cell">08/12 10:29</td>
           <td class="cnt-cell">4건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -175,32 +187,43 @@ https://devel</td></tr>
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 10:23</td><td class='ev-sender'>usr_147983</td><td class='ev-content'>일부 유저에게서 6월에 진행한 3주년 성장 지원 이벤트 배너가 계속 노출된다고 합니다. 확인 부탁드립니다.
+              <tbody><tr><td class='ev-ts'>08/12 15:35</td><td class='ev-sender'>한나</td><td class='ev-content'>넵 부탁드릴게요. 가이드 같이 비교하면서 보고 있는데 이거랑 관게는 없지만 ㅎㅎ 
 
-우편함 확인해보니 실제 보상도 수령하고 있는 것으로 확인됩니다.
+https://developer.android.com/games/pgs/console/publish?hl=ko#publishing_your_game_changes
 
-27185650
-11451072</td></tr>
-<tr><td class='ev-ts'>08/05 10:25</td><td class='ev-sender'>한나</td><td class='ev-content'>결제를 한 유저는 2배를 받는거라.. 결제한 유저인지 알 수 있을까여</td></tr>
-<tr><td class='ev-ts'>08/05 10:28</td><td class='ev-sender'>usr_662702</td><td class='ev-content'>해당 지라로 다루고 있는 내용이라 공유드립니다.
+Play Console에서 이루어진 Play 게임즈 서비스 변경사항이 최종 사용자에게 제공될 때까지 최대 2시간이 걸릴 수 있습니다. Play 게임즈 서비스 게임 프로젝트가 게임이 Play 스토어에 게시되기 최소 2시간 전에 게시되도록 하세요. 그러지 않으면 사용자가 Play 게임즈 서비</td></tr>
+<tr><td class='ev-ts'>08/13 10:05</td><td class='ev-sender'>usr_771226</td><td class='ev-content'>@이한나 (Hanna) 님
 
-기간 종료 후 서버에서 유저가 얼만큼 보상을 받았는지 넘겨주고 있지 않아 발생하는 오류입니다.
+pgs 계정인증 관련해서 정리한 내용 공유드립니다.
 
-https://neowiz.atlassian.net/browse/BROWNDUST2-37008</td></tr>
-<tr><td class='ev-ts'>08/05 10:36</td><td class='ev-sender'>usr_865973</td><td class='ev-content'>유료 상품 구매 시 이벤트 기간 자체가 늘어나는 것이라, (이벤트가 끝나지 않음)
-배너가 내려가지는 않을 것으로 보이고, 위 지라 이슈 라이브 반영 시 모든 보상이 체크된 상태로 변경, 오해는 없을 것으로 보입니다.
+1. 설정 &gt; google &gt; play games 에서 계정에서 설정가능
 
-모든 보상을 수령해도 이벤트 기간이 남아 있어 배너 유지되는 다른 이벤트 케이스 함께 참고차 공유드립니다.</td></tr></tbody>
+2. 옵션은 크게 3가지이다.
+ - 개별계정 선택
+ - 항상확인
+ - 로그아웃
+
+3. 옵션은 한번 선택되면 앱을 제거하고 재설치해도 그대로 유지된다. (별도의 캐싱이 되는것으로 추정)
+
+4. 계별계정 로그인 상태에서 로그아웃을 하고 앱을 실행하면 pgs 프로필 설정 네이티브 팝업이 1회 뜬다.
+ - 1회 뜨고, 로그인을 안하거나 무시하면 앞으로 그대로 로그아웃 상태로 게임플레이</td></tr>
+<tr><td class='ev-ts'>08/14 17:15</td><td class='ev-sender'>usr_275609</td><td class='ev-content'>감사합니다.
+현재 해당 부분 테스트는 진행 중이지 않은데 빌드 QA 때 각 업적 별 카운트 횟수 확인할 수 있도록 하겠습니다.
+결정된 업적별 카운트 횟수 공유 가능하신가요?</td></tr>
+<tr><td class='ev-ts'>08/14 11:30</td><td class='ev-sender'>usr_580045</td><td class='ev-content'>한나님 확인한 내용 공유드립니다.
+우선 말씀 주신 로그 BD2_EQUIP_GET_USE_LOG 는 place type이 장비제작으로만 구분이 되었는지 여쭙고 싶습니다. 뽑기/필드 획득/장비 제작 등이 전부 로그에 쌓인다고 전달 받았습니다.
+
+그리고 따로 장비 제작(재능 스킬) 사용 로그가 쌓이고 있기는 한데, 로그를 누적할 때는 장비 제작을 한 번에 100개 이상 진행할 때 100단위로 끊기 때문에 로그가 제가 말씀드린 것처럼 장비 제작 개수만큼 쌓이진 않고 있었습니다. ( 예시로 350개 제작 시 로그 4개 누적 ) 이 부분은 혼</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-4', this)">
-          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
+          <td><span class="cat-badge" style="background:#4a5568">내부 행정</span></td>
           <td class="stars">★★★★★</td>
-          <td class="task-name">iOS 홍련 실비아 스킨 가격 오설정 결제 건 — 환불 및 다이아 차액 보상안 논의</td>
-          <td><span class="src-badge" style="background:#3498db">chat</span> [B2] 사업-개발및기획</td>
-          <td class="ts-cell">08/05 13:49</td>
-          <td class="cnt-cell">7건</td>
+          <td class="task-name">TGS 출장 에어비앤비 숙소 공유 모집 — 팀별 숙소 위치 이슈로 취소</td>
+          <td><span class="src-badge" style="background:#3498db">chat</span> ★팬사+컨사+글사+디미사</td>
+          <td class="ts-cell">08/12 16:11</td>
+          <td class="cnt-cell">3건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-4" class="evidence-row" style="display:none">
@@ -212,39 +235,19 @@ https://neowiz.atlassian.net/browse/BROWNDUST2-37008</td></tr>
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 13:49</td><td class='ev-sender'>usr_147983</td><td class='ev-content'>실제로 16.99$에 판매가 되어야하는데, 25.99$로 판매가 되고있으며
-실제 결제도 25.99$로 진행되었다고 합니다.</td></tr>
-<tr><td class='ev-ts'>08/05 14:03</td><td class='ev-sender'>한나</td><td class='ev-content'>저희가 환불 신청을 받는건 안되고 유저가 직접 애플에 연락해서 환불을 신청 해야 합니다. 
-그리고 다시 저희한테 환불 했따고 말을 해줘야, 스페셜 스킨 회수 처리를 할 수 있습니다. 
-저희한테 아이템 회수 요청 안하고 그냥 애플을 통해 환불 처리하면 이 후 환불 악용자로 블럭 처리됩니다.</td></tr>
-<tr><td class='ev-ts'>08/05 13:59</td><td class='ev-sender'>usr_369800</td><td class='ev-content'>1. 초과 금액만큼 계좌 이체 (모두 일이 많아 지고 수수료 발생) 2. 초과 금액만큼 다이아로 보상 (원치 않게 사용자에게 더 비싸게 판 만큼 보상은 &#x27;차액 + 추가 보상 (10% 또는 20%)&#x27;이 있어야 불만이 발생하지 않을 것 같습니다.)</td></tr>
-<tr><td class='ev-ts'>08/05 14:17</td><td class='ev-sender'>usr_457555</td><td class='ev-content'>환불 신청자 최소화하기 위해 차액 보상을 좀 더 넉넉하게 해도 될 것 같습니다. 5000 다이아 정도면 13000원에 뽑기권 25 장인 셈이라 효율 괜찮은 상품 정도라서 BU라면 굳이 환불 안하는 방향으로 유도할 수 있을 것 같아요.</td></tr>
-<tr><td class='ev-ts'>08/05 14:16</td><td class='ev-sender'>usr_998299</td><td class='ev-content'>@이기덕 @윤준식 @이한나 (Hanna) @이한솔 
-
-1. iOS xxx권역의 실비아 스페셜 스킨 가격이 잘못 기재되었다
-2. 가격은 수정하였으나, 잘못된 가격으로 구매한 마스터님께는 xx월 xx일에 다이아 3000개를 추가 증정 예정이다
-3. 다이아 추가 보상을 원하지 않고 그냥 정상 가격으로 스페셜 스킨을 구매하고 싶은 마스터님은 애플에 환불 요청하신 후 CS로 알려주시면 정상 가격으로 재결제할 수 있도록 안내 드리겠다
-
-로 우선 공지와 가격 변경 반영을 빠르게 부탁드리겠습니다</td></tr>
-<tr><td class='ev-ts'>08/05 14:21</td><td class='ev-sender'>usr_074637</td><td class='ev-content'>기존 동일 &amp; 유사 사례로 인해 보상 나갔던 적 혹시 없었나 미리 체크해 보면 좋겠습니다. @이기덕</td></tr>
-<tr><td class='ev-ts'>08/05 14:46</td><td class='ev-sender'>usr_742951</td><td class='ev-content'>원인 체크 및 해결 방안 모색을 해야할 것 같습니다.
-
-1) 주요 권역 상품 구매 1차 테스트가 된건지?
- ㄴ 구입 테스트만 진행이 된건지, 가격 확인까지 완료 된건지?
-
-빌드 마감 기간동안 겜프스 내부 QA에서 상품 QA는 아래와 같이 진행하고 있었습니다. 참고차 공유드립니다.
-
-https://docs.google.com/spreadsheets/d/1ttqYOY6qkwYjyKd48jjjTd1peARchXonL9kwmIo4VfY/edit?gid=351224750#gid=351224750&amp;range=D44:H48</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/12 16:11</td><td class='ev-sender'>한나</td><td class='ev-content'>Tgs가는 여자 사람분들 중 에어비엔비 방 3 침대 6 갠춘하신분~같이 방써요</td></tr>
+<tr><td class='ev-ts'>08/12 16:12</td><td class='ev-sender'>usr_115006</td><td class='ev-content'>저 목금토 갈까 고민중인데 일정 맞으면 전 무조건이요</td></tr>
+<tr><td class='ev-ts'>08/13 10:41</td><td class='ev-sender'>한나</td><td class='ev-content'>이거 팀바팀으로 숙소 위치 갈릴 듯해서 취소하곘습니다. 겹치면 재논의..</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-5', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
           <td class="stars">★★★★★</td>
-          <td class="task-name">홍련 실비아 가격 오류 유저 공지문 작성 및 국가별 보상 규모 결정</td>
+          <td class="task-name">8/13 점검 이슈 공지 검토 — PC 런처 아이콘 미변경 안내 문구·핫픽스 협의</td>
           <td><span class="src-badge" style="background:#3498db">chat</span> [B2] 사업-개발및기획</td>
-          <td class="ts-cell">08/05 14:25</td>
-          <td class="cnt-cell">7건</td>
+          <td class="ts-cell">08/13 11:06</td>
+          <td class="cnt-cell">6건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-5" class="evidence-row" style="display:none">
@@ -256,55 +259,47 @@ https://docs.google.com/spreadsheets/d/1ttqYOY6qkwYjyKd48jjjTd1peARchXonL9kwmIo4
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 14:25</td><td class='ev-sender'>usr_147983</td><td class='ev-content'>안녕하세요. 가슴 벅찬 RPG 브라운더스트2입니다.
+              <tbody><tr><td class='ev-ts'>08/13 11:06</td><td class='ev-sender'>usr_933810</td><td class='ev-content'>📢8월 13일(목) 확인된 이슈 안내
 
-글로벌 iOS 환경에서 스페셜 스킨 &#x27;홍련 실비아&#x27;의 가격이
-잘못 설정되어 판매가 진행되고 있는 현상을 확인하였습니다.
+안녕하세요. 가슴 벅찬 RPG 브라운더스트2입니다.
 
-마스터님들께 불편을 끼쳐드려 대단히 죄송합니다.
+8월 13일(목) 확인된 이슈를 안내드립니다.
+자세한 사항은 아래 내용을 참고해 주시기 바랍니다.
 
-현재는 잘못 설정되어 있던 스페셜 스킨의 가격을
-최초 안내해 드린 정상가로 수정 완료하였으니, 이 점 이용에 참고해 주시기 바랍니다.
+[확인된 이슈]
+8월 13일(목) 업데이트 이후 일부 PC 환경에서 바탕화면의 [브라운더스트2 PC 클라이언트] 런처 바로가기 아이콘 이미지가 변경되지 않는 현상
+  ㄴ바탕화면의 런처 바로가기를 우클릭하여 [속성] &gt; [웹 문서] &gt; [아이콘 변경] &gt; [찾아보기]로 &#x27;BrownDust II.exe&#x27; 파일을 참조할 수 있도록 변경해 주시면 이</td></tr>
+<tr><td class='ev-ts'>08/13 11:08</td><td class='ev-sender'>한나</td><td class='ev-content'>설치 경로가 PC랑 GPG랑 달라서 
+[[C:\Neowiz\Browndust2] 요까지만 설명해도 될것 같습니다.
 
-또한, 오류가 발생한 가격으로 스페셜 스킨을 구매하신 마스터님들께는
-x월 x일(x)에 초과 지불된 금액에 대한 보상으로 5,000 다이아를 지급해 드릴 예정입니다.
+추가로 재설치를 해도 해결되긴 합니다. 업데이트 유저만 발생하는 현상이라서요.</td></tr>
+<tr><td class='ev-ts'>08/13 11:48</td><td class='ev-sender'>usr_852426</td><td class='ev-content'>확인했습니다. @박성준[GSN] @허혁[GSN] 라이브 이슈 잘 팔로우업해주세요.</td></tr>
+<tr><td class='ev-ts'>08/13 12:33</td><td class='ev-sender'>usr_742951</td><td class='ev-content'>@정승호 님 아래와 같은 이슈가 현재 라이브에서도 발생중인데 유저 입장에서는 거의 크리티컬 확률이 풀세팅된 상황이라 체감을 못하고 인지조차 못하고 있는 것 같습니다.
+관련해서 마추에서는 꾸준히 나올 수 있는 부분을 감안, 금일 핫픽스로 수정하려고 합니다. 
+ㄴ 이번 복귀 오류 시즌엔 밴이라서 무방 
+ㄴ 이후 마추에 등장할 수 있는 여지가 많음 정식 시즌전에 패치 진행 
 
-만약 다이</td></tr>
-<tr><td class='ev-ts'>08/05 15:09</td><td class='ev-sender'>한나</td><td class='ev-content'>정상 가격으로 판매된 국가 
 
-대만(TWD)
-대한민국(KRW)
-덴마크(DKK)
-라오스(USD)
-멕시코(MXN)
-세네갈(USD)
-영국(GBP)
-인도(INR)
-일본(JPY)
-체코(CZK)
-칠레(CLP)
-콜롬비아(COP)
-튀르키예(TRY)
-폴란드(PLN)
-헝가리(HUF)</td></tr>
-<tr><td class='ev-ts'>08/05 14:26</td><td class='ev-sender'>usr_074637</td><td class='ev-content'>이거 보상 규모는 기존 진행했던 사례 체크해 보고 정하는 게 좋겠어요</td></tr>
-<tr><td class='ev-ts'>08/05 15:44</td><td class='ev-sender'>usr_998299</td><td class='ev-content'>사업에서 발생한 이슈라 개발에서 대응해 주실 부분은 없기에 우선 사업과 운영에서 대응 중이며, 공지 및 대응 후 추후 체크 강화와 재발 방지 프로세스를 결정해서 최종 보고 드릴 수 있도록 하겠습니다</td></tr>
-<tr><td class='ev-ts'>08/05 14:34</td><td class='ev-sender'>usr_369800</td><td class='ev-content'>@이한솔 님 과거 대만은 저렇게 처리가 되었는데요. 꼭 동일하지는 않더라도 저 기준이면 이번에 몇 다이아를 지급해야 할까요?</td></tr>
-<tr><td class='ev-ts'>08/05 15:06</td><td class='ev-sender'>usr_457555</td><td class='ev-content'>화폐도 많고 국가별 가격도 다르다보니 직접 숫자를 쓰는 건 조심스럽지만 잘못된 가격과 정상 가격을 알려는 주는게 좋지 않을까요? 
+[이슈 내용]
+천수의 계승자 글레이시아로 3체인 이상 체인 유지된 상태에서 첫 타격 시, 크리티컬이 발생하지 않는 현상
+https://neowiz.atlassia</td></tr>
+<tr><td class='ev-ts'>08/13 13:39</td><td class='ev-sender'>usr_271518</td><td class='ev-content'>@정승호 
+글레이시아 스킬이 걸려있으면 첫번째 타격에서 무조건 치명타가 안뜬다고 오해할 수도 있을 것 같아서 내용 수정했습니다.
 
-예시) 국가마다 환율이 달라서 현재 판매중인 상품 기준으로 설명 드린다. &#x27;Weekly 뽑기권 패키지1&#x27; 과 같은 가격이 정상 가격인데, 일부 국가에서 &#x27;여름 축제 스페셜 시즌 패스&#x27;와 같은 가격으로 잘못 설정됐다.  등등</td></tr>
-<tr><td class='ev-ts'>08/05 15:45</td><td class='ev-sender'>usr_742951</td><td class='ev-content'>아 넵, 확인 감사드립니다. 인원이 생각보다 많아서 혹 개발측 대응도 필요할까 문의드렸었습니다..ㅎ 
-넵 알겠습니다!</td></tr></tbody>
+-
+
+천수의 계승자 글레이시아의 체인 유지 효과로 약점 부위에  체인이 유지된 경우, 해당 부위에 3체인 이상이 유지되어 있음에도 첫 번째 타격에 확정 치명 피해가 적용되지 않는 오류.</td></tr>
+<tr><td class='ev-ts'>08/13 15:08</td><td class='ev-sender'>usr_601338</td><td class='ev-content'>종료 공지에 같이 내는것도 방법일것 같아요</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-6', this)">
-          <td><span class="cat-badge" style="background:#1a6e44">BD2 글로벌</span></td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
           <td class="stars">★★★★★</td>
-          <td class="task-name">데이터서비스실 지라 스페이스 접근 권한 초대 진행 상황 확인</td>
-          <td><span class="src-badge" style="background:#3498db">chat</span> [B2] 사업-개발및기획</td>
-          <td class="ts-cell">08/06 15:37</td>
-          <td class="cnt-cell">3건</td>
+          <td class="task-name">targetApiLevel 36 미반영 현황 확인 — 원복 원인 파악 및 핫픽스 빌드 반영</td>
+          <td><span class="src-badge" style="background:#3498db">chat</span> [BD2] PC 버전 준비</td>
+          <td class="ts-cell">08/14 15:22</td>
+          <td class="cnt-cell">5건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-6" class="evidence-row" style="display:none">
@@ -316,20 +311,22 @@ x월 x일(x)에 초과 지불된 금액에 대한 보상으로 5,000 다이아�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/06 15:37</td><td class='ev-sender'>한나</td><td class='ev-content'>@김염광[GSN] 염광님 데이터 서비스실 지라 스페이스에 지라 초대 제가 드려봤는데 혹시 초대 가셨나요?</td></tr>
-<tr><td class='ev-ts'>08/06 15:38</td><td class='ev-sender'>usr_060345</td><td class='ev-content'>데이터서비스실 성민님 통해서 초대를 받았는데, 해당 초대를 받아도 지라 접근이 안되서..
-성민님이 안내해주신 황우님께 문의 드린 상태입니다</td></tr>
-<tr><td class='ev-ts'>08/06 15:39</td><td class='ev-sender'>한나</td><td class='ev-content'>아 넵 초대도 안간줄 알았어요. 네넵</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/14 15:22</td><td class='ev-sender'>한나</td><td class='ev-content'>@남원기[GSN]  원기님 targetApiLevel 36 이거 연장 신청 들어 갔던데 이번 업데이트 때 진행이 안 된건가여? 현황 파악차 문의 드려요</td></tr>
+<tr><td class='ev-ts'>08/14 15:24</td><td class='ev-sender'>usr_325593</td><td class='ev-content'>연장 신청이 된 이유는 잘 모르겠습니다. 이번 마일스톤에 반영했는데 어제 안되어있다는 공유를 받고, 확인해보니 다시 35로 원복이 되어 있었습니다.
+현재 핫픽스가 예정되어 있어 해당 빌드에 반영했습니다.</td></tr>
+<tr><td class='ev-ts'>08/14 15:24</td><td class='ev-sender'>한나</td><td class='ev-content'>아 넵 알겠습니다.</td></tr>
+<tr><td class='ev-ts'>08/14 17:02</td><td class='ev-sender'>usr_325593</td><td class='ev-content'>버전 확인 했습니다.</td></tr>
+<tr><td class='ev-ts'>08/14 17:02</td><td class='ev-sender'>한나</td><td class='ev-content'>오넵 감사합니다</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-7', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
           <td class="stars">★★★★★</td>
-          <td class="task-name">BD2 PC·GPG 바탕화면 아이콘 병렬 운용 제거 — 8/13 점검 작업 사항 확인</td>
-          <td><span class="src-badge" style="background:#3498db">chat</span> [BD2] PC 버전 준비</td>
-          <td class="ts-cell">08/06 16:56</td>
-          <td class="cnt-cell">3건</td>
+          <td class="task-name">BD2 개인정보처리방침 개정 다국어 검수 — L10N팀 8/19 번역 일정 조율</td>
+          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
+          <td class="ts-cell">08/11 15:46</td>
+          <td class="cnt-cell">5건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-7" class="evidence-row" style="display:none">
@@ -341,23 +338,66 @@ x월 x일(x)에 초과 지불된 금액에 대한 보상으로 5,000 다이아�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/07 12:18</td><td class='ev-sender'>한나</td><td class='ev-content'>원래는 PC와 GPG 가 서로 다른 디자인의 바탕화면 바로가기 아이콘으로 보이게 하기 위해서,  어드민툴에 아이콘 이미지 파일 등록하기 기능을 요청 드렸던 건인데요. 
+              <tbody><tr><td class='ev-ts'>08/13 13:32</td><td class='ev-sender'>cs.choi@neowiz.com</td><td class='ev-content'>@김성우 (Nick) &lt;voiceactor@neowiz.com&gt; 님, 안녕하세요.
+정보보안실 Privacy파트 최창선입니다.
 
-관리랑 개발 공수가 너무 큰 것 같아서, 그냥 PC와 GPG 모두 같은 아이콘을 사용하는 걸로 결정 했습니다. 
+지난 8/11 브라운더스트2 개인정보처리방침 개정본 검토요청 메일 관련하여, 8/12 이기덕님과 함께 후속 미팅을 진행한 결과를
+공유드리며 한국어 버전 업데이트하여 구글 드라이브에 공유하였으니 확인 부탁드립니다.
 
-PC와 GPG가 모두 같은 아이콘 (exe에 설정된 아이콘)을 사용하게 하는 작업을 지금 문환님께서 해주시고 계신 부분입니다.</td></tr>
-<tr><td class='ev-ts'>08/07 12:12</td><td class='ev-sender'>usr_963353</td><td class='ev-content'>현재 설정에서 제거하고 exe아이콘 이미를 사용하는것으로 설정해놓겠습니다. 단, 새로 설치하는 유저들만 적용되고 기 설치된 유저는 현재상태로 남아있게됩니다.</td></tr>
-<tr><td class='ev-ts'>08/07 12:14</td><td class='ev-sender'>usr_757316</td><td class='ev-content'>그럼 기존처럼 바탕화면 바로가기 아이콘(png -&gt; ico) 파일은 계속 업데이트 필요하다는 뜻인가요?</td></tr></tbody>
+*1. 8/11 논의 이후 진행 사항 공유*
+검토 과정에서 영문 HTML판에는 있으나 한국어판에는 없던 &quot;L. EU/UK 거주자를 위한 추가 안내&quot;(GDPR 대표자 안내) 섹션을
+한국어 개인정보처</td></tr>
+<tr><td class='ev-ts'>08/12 13:56</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요 기덕님
+컨텐츠 사업팀 이한나 입니다.
+
+개인정보 처리방침 개정안을 전달 받아 공유 드립니다.
+본 메일은 수신인 확장 목적이며, 검토 및 공지 안내 등 후속 업무는 별도로 논의 드리겠습니다.
+
+감사합니다.
+이한나 드림</td></tr>
+<tr><td class='ev-ts'>08/12 14:16</td><td class='ev-sender'>seaez@neowiz.com</td><td class='ev-content'>안녕하세요 이지스운영팀 이기덕입니다.
+
+L10N팀에 요청드렸습니다.
+
+일정 상 창선님께서 말씀하신 8월 2주차 일정은 어렵고 8월 19일까지 진행하는 것으로 논의했으며,
+창선님께는 별도로 말씀드렸습니다.
+
+참고 부탁드립니다.
+
+고맙습니다.
+
+2026년 8월 12일 (수) 오후 1:56, 이한나 &lt;hanna@neowiz.com&gt;님이 작성:</td></tr>
+<tr><td class='ev-ts'>08/12 15:23</td><td class='ev-sender'>dhjang@neowiz.com</td><td class='ev-content'>안녕하세요.
+
+일본어의 경우 일본팀에서 별도 체크 진행해야 하는지 확인 부탁드립니다.
+확인 필요한 문서도 별도 전달주시면 감사하겠습니다.
+
+잘 부탁드립니다.
+
+2026년 8월 12일 (수) 오후 2:16, 이기덕 &lt;seaez@neowiz.com&gt;님이 작성:</td></tr>
+<tr><td class='ev-ts'>08/13 14:05</td><td class='ev-sender'>voiceactor@neowiz.com</td><td class='ev-content'>안녕하세요, 창선 님.
+
+업로드 해주신 한국어 최신 버전 확인했습니다.
+이전에 전달해 주셨던 간/번체, 영어 및 일본어 버전 참고하여 작업 진행하겠습니다.
+최종본은 차주 수요일(8/19일)까지 준비하도록 하겠습니다.
+일정 및 기타 궁금하신 내용은 언제든지 편한 방법으로 말씀해 주십시오.
+
+
+감사합니다.
+김성우 드림
+&lt;https://www.neowiz.com&gt; *김성우* | (주)네오위즈 / FD사업본부 / 사업지원실 / L10N팀 / 팀장
+voiceactor@neowiz.com / Mobile 010-4704-0976
+13487 경</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-8', this)">
-          <td><span class="cat-badge" style="background:#8b4000">파트너십</span></td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
           <td class="stars">★★★★★</td>
-          <td class="task-name">8월 13일 빌드 앱 아이콘 유리 유지 여부 확인 및 콜라보 시 쿄카 교체 일정 공유</td>
-          <td><span class="src-badge" style="background:#3498db">chat</span> [B2] 사업-개발및기획</td>
-          <td class="ts-cell">08/07 12:10</td>
-          <td class="cnt-cell">3건</td>
+          <td class="task-name">스마트폰 앱 접근권한 모니터링 개선 대응 완료 — 정보보안실 회신 및 공유</td>
+          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
+          <td class="ts-cell">08/10 11:14</td>
+          <td class="cnt-cell">2건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-8" class="evidence-row" style="display:none">
@@ -369,19 +409,35 @@ PC와 GPG가 모두 같은 아이콘 (exe에 설정된 아이콘)을 사용하�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/07 12:10</td><td class='ev-sender'>한나</td><td class='ev-content'>@김염광[GSN] 8월 13일 빌드 아이콘 유리 그대로 유지 인가요? 테플 메일에서 보긴 했는데 혹시나해서 문의 드려요</td></tr>
-<tr><td class='ev-ts'>08/07 12:11</td><td class='ev-sender'>usr_060345</td><td class='ev-content'>넵 콜라보 시기에 쿄카 아이콘으로 바뀔 예정입니다</td></tr>
-<tr><td class='ev-ts'>08/07 12:12</td><td class='ev-sender'>한나</td><td class='ev-content'>넵 확인 감사합니다.</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/10 11:14</td><td class='ev-sender'>jh.cho@neowiz.com</td><td class='ev-content'>안녕하세요.
+
+네오위즈 정보보안실 Privacy 파트 조진호입니다.
+
+스마트폰 앱 접근권한 모니터링에 따른 개선안내 및 개선요청서 작성하여 전달 드립니다.
+
+애플 앱스토어의 경우 8월 13일 업데이트 예정 입니다.
+
+이상입니다.
+
+조진호 드림.</td></tr>
+<tr><td class='ev-ts'>08/10 16:21</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요.
+컨텐츠사업팀 이한나 입니다.
+
+네오위즈 스마트폰 앱 접근권한 모니터링 대응 작업 완료 되었습니다.
+관련 메일 참조인 확장 드리니 연결된 내용 참고 부탁 드립니다.
+
+감사합니다.
+이한나드림</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-9', this)">
           <td><span class="cat-badge" style="background:#718096">기타</span></td>
           <td class="stars">★★★★★</td>
-          <td class="task-name">팬사·컨사·글사 합동 채널 내 짧은 인사성 일상 대화</td>
-          <td><span class="src-badge" style="background:#3498db">chat</span> ★팬사+컨사+글사+디미사</td>
-          <td class="ts-cell">08/07 20:09</td>
-          <td class="cnt-cell">3건</td>
+          <td class="task-name">구글 레벨업 컨트롤러 입력 대응 이의제기 — 구글 회신 진행 상황 사내 공유</td>
+          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
+          <td class="ts-cell">08/10 11:43</td>
+          <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-9" class="evidence-row" style="display:none">
@@ -393,18 +449,27 @@ PC와 GPG가 모두 같은 아이콘 (exe에 설정된 아이콘)을 사용하�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/07 20:09</td><td class='ev-sender'>한나</td><td class='ev-content'>ㅇㅅㅇ</td></tr>
-<tr><td class='ev-ts'>08/07 20:09</td><td class='ev-sender'>한나</td><td class='ev-content'>오잉.삭제되었나?</td></tr>
-<tr><td class='ev-ts'>08/07 20:10</td><td class='ev-sender'>usr_408702</td><td class='ev-content'>꺄항 감샴다</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/10 11:43</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요.
+컨텐츠 사업팀 이한나 입니다.
+
+구글 레벨업 가이드 라인 중 컨트롤러 입력 대응 건 메일 포워딩 드립니다.
+
+구글 지원요청(1:1 문의)로만 이의 제기를 요청할 수 있어서 저만 답변을 받고 있었는데요.
+진행 상황 참고하실 수 있도록 메일 전달 드립니다.
+
+구글로부터 추가 회신 도착하면 다시 한번 공유 드리도록 하겠습니다.
+
+감사합니다.
+이한나드림</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-10', this)">
           <td><span class="cat-badge" style="background:#718096">기타</span></td>
           <td class="stars">★★★★★</td>
-          <td class="task-name">컨텐츠사업팀 명의 발신 메일 — 본문 없이 서명만 포함된 빈 메일</td>
+          <td class="task-name">컨텐츠사업팀 발신 메일 — 본문 없는 서명만 포함된 메일 (내용 미상)</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/08 21:22</td>
+          <td class="ts-cell">08/10 10:26</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -417,7 +482,7 @@ PC와 GPG가 모두 같은 아이콘 (exe에 설정된 아이콘)을 사용하�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/08 21:22</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요.
+              <tbody><tr><td class='ev-ts'>08/10 10:26</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요.
 컨텐츠사업팀 이한나 입니다.
 
 
@@ -436,11 +501,11 @@ hanna@neowiz.com / Mobile 010-4867-3308
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-11', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">네온 약관·운영정책 등록 배포 시스템 개편 회의록 공유 및 개선 의견 요청</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/07 19:00</td>
-          <td class="cnt-cell">1건</td>
+          <td class="stars">★★★★☆</td>
+          <td class="task-name">주간 점검 타임테이블 갱신 — 웹상점 세팅·테스트 시간 수정 및 작성 안내</td>
+          <td><span class="src-badge" style="background:#3498db">chat</span> [B2] 협업 - 전체</td>
+          <td class="ts-cell">08/11 18:28</td>
+          <td class="cnt-cell">3건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-11" class="evidence-row" style="display:none">
@@ -452,30 +517,32 @@ hanna@neowiz.com / Mobile 010-4867-3308
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/07 19:00</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요,
-GPX사업부 컨텐츠사업팀 이한나입니다.
+              <tbody><tr><td class='ev-ts'>08/11 18:28</td><td class='ev-sender'>usr_074637</td><td class='ev-content'>@모두 이번 주 점검 시트에 작업 리스트에만 작성하시고 타임테이블에 작성 안되신 부서들이 있습니다. 작업 예정 시간도 확인 부탁 드립니다. B2 점검 시트</td></tr>
+<tr><td class='ev-ts'>08/11 18:41</td><td class='ev-sender'>한나</td><td class='ev-content'>시간 업데이트 했습니다. 
+웹상점 세팅은 운영툴 세팅 끝난 이후에 합니다.
+@최용건 용건님 웹상점 테스트 시간도 제가 수정 했으니 참고 부탁드려요</td></tr>
+<tr><td class='ev-ts'>08/12 11:49</td><td class='ev-sender'>usr_933810</td><td class='ev-content'>@모두 안녕하세요. 점검 관련 타임 테이블 작성 내용이라 여기에 스레드 추가하여 공유드립니다.
 
-네온 플랫폼의 약관 및 개인정보처리방침 등록 시스템 개선 작업에 따른 배경 안내와 함께 협조 요청을 드리고자 메일드립니다.
+여러 담당자분들께서 동일한 시트에 각 작업 내용을 작성 및 수정해 오신 과정에서, 현재 테이블에 기입된 작업 시간, 진행 담당자 및 부서, 타임라인 정보가 서로 맞지 않는 문제가 확인되었습니다.
 
-*[배경]*
-현재 각 게임의 이용약관, 개인정보처리방침, 운영정책 등은 네온 플랫폼에 등록되어 노출되고 있습니다.
-그동안 해당 문서들의 HTML 퍼블리싱과 등록은 플랫폼기획팀에서 지원해 왔으나, 최근 조직 개편으로 담당 R&amp;R 재정리가
-필요해졌습니다.
-이에 지난 8월 6일 유관 부서(플랫폼실, 정책팀, 정보보안실, 플랫폼기획팀)가 모여 논의한 결과, 앞으로는 등록 담당 부서가 코딩
-없이 직접 등록·검수·승인을 거쳐 자동 배포할 수 있도록 연내 시스템을 개선하기로 했습니다.
-자세한 내용은 첨부된 회의록을 참조해 주시기 바랍니다.
+이에 따라 이후의 점검 타임 테이블 내용을 추가하실 때에는, 이미 기입되어 있는 다른 담당자의 작업 내용을 조정하시기보다는(셀 이동) 새로운 열을 추가하여 작업 내용을 기입해 주시면 감사하겠습니다.
 
-*</td></tr></tbody>
+모든 담당자분들의 작업 내용 입력이 완료되었다고 판단되면, 진행 순서에 맞춰 타임라인을 재정렬하겠습니다.
+
+내용 참고 부탁드리며, 앞으로도 잘 부탁드립니다. (_ _)
+감사합니다.
+
+B2 점검 시트</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-12', this)">
-          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">BD2 웹상점 장바구니 도입 — 엑솔라·마이카드 PG 복수상품 결제 지원 범위 확인</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/07 16:00</td>
-          <td class="cnt-cell">1건</td>
+          <td><span class="cat-badge" style="background:#718096">기타</span></td>
+          <td class="stars">★★★★☆</td>
+          <td class="task-name">웹상점 상품·쿠폰·배너 세팅 완료 — 원스토어·자체PC 결제 테스트 확인</td>
+          <td><span class="src-badge" style="background:#3498db">chat</span> [B2] 협업 - 전체</td>
+          <td class="ts-cell">08/13 11:42</td>
+          <td class="cnt-cell">3건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-12" class="evidence-row" style="display:none">
@@ -487,29 +554,20 @@ GPX사업부 컨텐츠사업팀 이한나입니다.
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/07 16:00</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요, 컨텐츠사업팀 이한나입니다.
-
-BD2 웹상점에 장바구니 기능(결제 1건에 여러 상품 동시 구매) 도입을 준비 중입니다.
-스펙 확정 전에 양사 PG의 지원 범위 확인이 필요하여, 아래 항목을 엑솔라·마이카드 측에 확인 요청드립니다.
-
-[확인 요청 항목 - 공통]
-1. 결제 1건에 복수 상품(SKU)을 담는 결제 지원 여부
-   - 엑솔라: Store API의 카트/주문(복수 아이템) 기능을 당사 계약·연동 방식에서 사용 가능한지 포함
-2. 결제 1건당 최대 상품(라인) 수 제한
-3. 상품(라인) 단위 부분 환불 지원 여부 및 환불 가능 기간
-4. 부분 환불 시 수수료 처리 방식
-5. 복수 상품 결제 시 정산 데이터 포맷 (상품별 라인 분해 제공 여부)
-6. 결제 웹훅 정책 (이벤트 ID 제공 여부,</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/13 11:42</td><td class='ev-sender'>한나</td><td class='ev-content'>@최용건 웹상점 상품 , 쿠폰, 배너 세팅 완료 입니다.</td></tr>
+<tr><td class='ev-ts'>08/13 11:44</td><td class='ev-sender'>usr_245548</td><td class='ev-content'>네 알겠습니다.</td></tr>
+<tr><td class='ev-ts'>08/13 12:40</td><td class='ev-sender'>usr_245548</td><td class='ev-content'>웹 상점, 원스토어, 자체PC 환경에서 결제 테스트 특이사항 없었습니다.
+관련 테스트 종료 하겠습니다.</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-13', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">구글플레이 일본 GTM 컨설팅 분석 공유 및 통신사·편의점 결제 프로모션 지원 확인</td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">DevVPN 권한 정책 3개월 연장 여부 승인 요청 — Jira 자동 알림</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/07 12:06</td>
-          <td class="cnt-cell">2건</td>
+          <td class="ts-cell">08/15 11:10</td>
+          <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-13" class="evidence-row" style="display:none">
@@ -521,43 +579,32 @@ BD2 웹상점에 장바구니 기능(결제 1건에 여러 상품 동시 구매)
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/07 12:06</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요 수민님,
-컨텐츠사업팀 이한나입니다.
+              <tbody><tr><td class='ev-ts'>08/15 11:10</td><td class='ev-sender'>jira@neowiz.atlassian.net</td><td class='ev-content'>Automation for Jira 님이 댓글을 추가:
 
-지난 논의 때 공유해주셨던 Google Play Pass 온보딩 절차 및 일본 통신사·편의점 결제 프로모션 지원 가능 여부와 관련하여,
-혹시 구글 측 업데이트된 내용이나 공유해주실 만한 사항이 있을까 하여 문의 드립니다.
+이 코멘트는 Automation 에 의해 생성되었습니다.
+이한나 님, 정책 연장 여부 확인 부탁드립니다.
+*승인* 시 정책이 3개월 연장됩니다.
+*반려* 시 정책이 만료되어 삭제됩니다.
 
-구글측 프로모션 지원 여부에 따라 9월 10일 예정된 IP 콜라보 일정에 맞춰 저희 쪽에서 준비가 필요한 사항이 있을지 검토해보고자
-합니다.
+일부 정책만 삭제 또는 연장 필요한 경우 코멘트 부탁드립니다.
 
-바쁘시겠지만 편하신 때에 확인 부탁드리겠습니다.
+※ “승인” 또는 “반려”를 하시려면 안내 메일이나 [1]승인 페이지 에서 해당 버튼을 눌러 주셔야 처리가 완료됩니다.
 
-감사합니다.
-이한나 드림
-
-
-2026년 7월 1일 (수) 오후 4:25, 이한나 &lt;hanna@neowiz.com&gt;님이 작성:</td></tr>
-<tr><td class='ev-ts'>08/07 12:13</td><td class='ev-sender'>realsoomin@neowiz.com</td><td class='ev-content'>안녕하세요, @이한나 (Hanna) &lt;hanna@neowiz.com&gt; 님.
-사업제휴실 김수민입니다.
-
-문의주신 내용과 관련하여 구글 플레이 담당자에게 문의한 후 한 차례 더 리마인드하였으나, 아직까지 회신을 받지 못한 상태입니다.
-
-금일 추가로 리마인드를 진행할 예정이며, 구글 측으로부터 회신을 받는 대로 바로 업데이트 드리겠습니다.
+🚨수신 후 연장 여부가 확인이 진행되지 않은 정책은 미 사용 정책으로 간주되어 삭제되는 점 참고 부탁드립니다.
+👉정보보안실 협업 Jira 를 통해 신청한 정책 목록은 [2]Dashboard 에서 확인하실 수 있습니다.
 
 감사합니다.
-김수민 드림
-
-2026년 8월 7일 (금) 오후 12:07, 이한나 &lt;hanna@neowiz.com&gt;님이 작성:</td></tr></tbody>
+-----------------------------</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-14', this)">
-          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">마도정병의 슬레이브 콜라보 원스토어 피처드 — IP홀더 감수 및 앱아이콘 제작 조율</td>
+          <td><span class="cat-badge" style="background:#1a6e44">BD2 글로벌</span></td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">SECSD-1050 VPN 정책 연장 확인 요청 — 승인/반려 처리 필요</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/06 13:43</td>
-          <td class="cnt-cell">3건</td>
+          <td class="ts-cell">08/15 11:09</td>
+          <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-14" class="evidence-row" style="display:none">
@@ -569,49 +616,31 @@ BD2 웹상점에 장바구니 기능(결제 1건에 여러 상품 동시 구매)
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/06 13:43</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요. @안성호 (Alex Ahn) &lt;alexahn@neowiz.com&gt; 님
-컨텐츠사업팀 이한나 입니다.
+              <tbody><tr><td class='ev-ts'>08/15 11:09</td><td class='ev-sender'>jira@neowiz.atlassian.net</td><td class='ev-content'>이 코멘트는 Automation 에 의해 생성되었습니다.
+이한나 님, 정책 연장 여부 확인 부탁드립니다.
 
-이번 &lt;마도정병의 슬레이브&gt; 콜라보레이션 기간 중, 원스토어 측으로부터 30% 페이백 프로모션 및 피처드 지면 노출 제안을 받아 진행을
-검토하고 있습니다.
-이에 따라 원스토어 관련 마케팅 진행을 위한 승인 및 감수 필요 항목들을 정리하여 문의 드리오니, 확인 후 피드백을 부탁드립니다.
+승인 시 정책이 3개월 연장됩니다.
+반려 시 정책이 만료되어 삭제됩니다.
 
+일부 정책만 삭제 또는 연장 필요한 경우 코멘트 부탁드립니다.
 
-
-*[검토 요청 사항]*
-*1. 원스토어 피처드 노출 진행 승인 및 감수 요청*
-원스토어 피처드는 네오위즈가 전달한 캐릭터 일러스트 리</td></tr>
-<tr><td class='ev-ts'>08/06 16:44</td><td class='ev-sender'>alexahn@neowiz.com</td><td class='ev-content'>안녕하세요 한나님
-IP사업팀 안성호 입니다.
-
-전달주신 내용 구두로 크로스체크 하여, 확인된 내용 전달드립니다.
-
-1) 출시노트 감수 제출 시 노출처로 (구글, 애플, 원스토어, PC 및 프로모션과 마케팅에 사용) 으로 노출범위를 넓게 설정하여
-감수제출 하겠습니다.
-2) PV 등의 경우에도, 영상제작팀이 제작하여 감수를 받아야 하는데, 해당 감수 제출 시 1)과 같이 노출범위를 넓게 설정하여
-감수제출 하도록 하겠습니다.
-3) IP사용의 경우 &#x27;마도정병의 슬레이브2&#x27; 로 사용이 필요합니다. (감수 진행 시 한번 더 체크 하겠습니다.)</td></tr>
-<tr><td class='ev-ts'>08/06 16:24</td><td class='ev-sender'>dasomi@neowiz.com</td><td class='ev-content'>안녕하세요, 한나님.
-팬브랜드팀 김다소미입니다.
-
-전달주신 내용 확인하여 회신드립니다.
-
-앱아이콘은 콜라보용으로 2종 제작한 아이콘이 있어서,
-사이즈 전달주시면 해당 사이즈로 베리해서 IP홀더 감수까지 진행하도록 하겠습니다.
-
-그럼 확인 부탁드립니다.
+※ “승인” 또는 “반려”를 하시려면 안내 메일이나
+승인 페이지
+[https://neowiz.atlassian.net/servicedesk/customer/portal/200/SECSD-1050]에서 해당
+버튼을 눌러 주셔야 처리가 완료됩니다.
 감사합니다.
 
-2026년 8월 6일 (목) 오후 4:13, 이한나 &lt;hanna@neowiz.com&gt;님이 작성:</td></tr></tbody>
+View request
+[https://neowiz.atlassian.net/servicedesk/customer/portal/200/SECSD-1050?sda_source=notification-email]</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-15', this)">
-          <td><span class="cat-badge" style="background:#1a6e44">BD2 글로벌</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">구글 Game Stats API 출시 공유 및 Level Up 일본 조기적용(9/30) 조건 확인</td>
+          <td><span class="cat-badge" style="background:#718096">기타</span></td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">정보보안실 백신 이벤트 탐지 알림 — PC 실행 파일 의도 여부 확인 요청</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/04 15:09</td>
+          <td class="ts-cell">08/14 19:52</td>
           <td class="cnt-cell">2건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -624,42 +653,46 @@ IP사업팀 안성호 입니다.
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/04 15:09</td><td class='ev-sender'>realsoomin@neowiz.com</td><td class='ev-content'>안녕하세요,
-사업제휴실 김수민입니다.
+              <tbody><tr><td class='ev-ts'>08/14 19:52</td><td class='ev-sender'>nw_002169_101@neowiz.com</td><td class='ev-content'>안녕하세요 정보보안실 입니다. 
+본 메일은 hanna님의 PC ( 혹은 노트북 )에 백신 이벤트가 발생하여 자동 전송된 메일 입니다. 
+아래 내용 확인 하시어 의도하지 않은 실행 파일 이거나 파일 다운로드, 웹 트레픽 이라면 정보보안실(nw_002169_101@neowiz.com)으로 회신을 요청드리며,
+ 의도된 실행이라해도 탐지가 발생한 사항에 대해서는 이후 주의를 부탁 드립니다.
 
-Google Play 담당자로부터 Game Stats API의 공식 출시 소식을 전달받아 관련 정보를 아래와 같이 공유드립니다.
 
-아래 내용 확인하신 후, 구현 과정에서 문의 사항이나 기술 지원이 필요한 부분이 있으시다면 Q&amp;A 시트
-&lt;https://docs.google.com/spreadsheets/d/1koH1rU2llCjSMtCSlaz_FXkzhWkRH5gkP8y0vZHU9bQ/edit?gid=0#gid=0&gt;를
-통해 전달 부탁드립니다.</td></tr>
-<tr><td class='ev-ts'>08/06 19:17</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요.
-컨텐츠사업팀 이한나입니다.
 
-Level Up 대응 관련하여 확인 및 협조 요청드릴 사항이 있어 메일 드립니다.
+[========백신(SentinelOne) Event======]
+시작 : 2026-08-14 10:52:22
+사용자 : hanna
+호스트 : NWZ-hanna-rr
+로컬 호스트 IP : [&#x27;10.30.145.97&#x27;, &#x27;fe80::7c0b:ff87:b9f3:59e9&#x27;]
 
----------------
+응용프로그램 : TEFScreen64.sys
+응용프</td></tr>
+<tr><td class='ev-ts'>08/15 04:13</td><td class='ev-sender'>nw_002169_101@neowiz.com</td><td class='ev-content'>안녕하세요 정보보안실 입니다. 
+본 메일은 hanna님의 PC ( 혹은 노트북 )에 백신 이벤트가 발생하여 자동 전송된 메일 입니다. 
+아래 내용 확인 하시어 의도하지 않은 실행 파일 이거나 파일 다운로드, 웹 트레픽 이라면 정보보안실(nw_002169_101@neowiz.com)으로 회신을 요청드리며,
+ 의도된 실행이라해도 탐지가 발생한 사항에 대해서는 이후 주의를 부탁 드립니다.
 
-*1. 일본 조기 적용(9/30) 조건 및 일정 확인 요청*
-일본 시장 일정 변경(12/31 → 9/30) 안내 확인했습니다.
-다만 리워드(Rewards) 기능의 경우 아래와 같이 구글 측 기능 제공 시점과 심사 신청 가능 시점이 같아, 실제 기획·개발·테스트를
-거쳐 심사까지 진행하기 일정이 타이트한 편입니다.
 
-Rewards 콘솔 기능 제공 시점: 2026-09-01
-Level Up 심사 신청 가능 시점: 2026년 9월 초
-심사 소요 기간: 약 1~2주
-일본 적용 마감: 2026-09-30
 
-혹시 일본 시장 조기 적용 대상에 한해 준비 기간을 고려한 </td></tr></tbody>
+[========백신(SentinelOne) Event======]
+시작 : 2026-08-14 19:12:50
+사용자 : hanna
+호스트 : NWZ-hanna-rr
+로컬 호스트 IP : [&#x27;10.30.145.97&#x27;, &#x27;fe80::7c0b:ff87:b9f3:59e9&#x27;]
+
+응용프로그램 : TEFScreen64.sys
+응용프</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-16', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">원스토어 8월 라이브옵스 일정 회신 및 9월 콜라보 피처드 진행 보류 통보</td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">FD사업본부 전체 모임(9/2) 일정 초대 수신</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 11:36</td>
-          <td class="cnt-cell">5건</td>
+          <td class="ts-cell">08/14 16:05</td>
+          <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-16" class="evidence-row" style="display:none">
@@ -671,85 +704,35 @@ Level Up 심사 신청 가능 시점: 2026년 9월 초
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 11:36</td><td class='ev-sender'>kimmiran@neowiz.com</td><td class='ev-content'>안녕하세요. 사업제휴실 김미란입니다.
+              <tbody><tr><td class='ev-ts'>08/14 16:05</td><td class='ev-sender'>dayfly@neowiz.com</td><td class='ev-content'>[공지] FD사업본부 전체 모임 (9/2일)
+2026년 9월 2일 (수요일) ⋅ 오후 2시 – 오후 2:30
+한국 표준시 - 서울
 
-원스토어에서 브라운더스트2의 8월 라이브 옵스 일정 및 주요 항목에 대한 문의가 왔습니다.
-바쁘시겠지만 확인 부탁 드립니다.</td></tr>
-<tr><td class='ev-ts'>08/05 13:36</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요. 미란님
-컨텐츠 사업팀 이한나 입니다.
-
-요청하신 브라운더스트2의 8월 라이브 옵스 일정을 공유해 드립니다.
-이번 8월은 통상 업데이트로 진행되며, 주요 내역은 아래와 같습니다.
-
-------------------------------
-
-*[8월 업데이트 일정]*
-
-   - 8월 13일
-      - 신규 픽업: 객잔의 햇살 헬레나
-      - 스페셜 스킨: 축제의상 달비(가칭)
-      - 시크릿 이벤트: 명월 달비
-
-      - 8월 27일
-      - 신규 스토리팩: 마스터팩 2
-      - 신규 픽업 : 아킬라(가칭)
-      - 스페셜 스킨: 란제리 블레이드(가칭)
+위치
+판교-5층-5A01(아레나) (100)	
+https://www.google.com/maps/search/%ED%8C%90%EA%B5%90-5%EC%B8%B5-5A01(%EC%95%84%EB%A0%88%EB%82%98)+(100)?hl=ko
 
 
-------------------------------
 
-참고로* 9월 10일에 대규모 콜라보 업데이트가 예정</td></tr>
-<tr><td class='ev-ts'>08/06 08:30</td><td class='ev-sender'>kimmiran@neowiz.com</td><td class='ev-content'>한나님
+안녕하세요 김도현입니다.
 
-안녕하세요.김미란입니다.
+FD사업본부 조직개편 이후 본부 전체가 모이는 자리를 마련했습니다. 
 
-말씀해주신 내용으로 원스토어와 협의 하였습니다, 8월은 스킵하고 9월 콜라보 건으로 내용 정리 부탁 드립니다.
-에셋 작업등을 위해 상세 내용 등의 전달을 차주 초 기한으로 회신 요청 받았습니다.
-저희 콜라보 타이틀 공유는 어려워도 업데이트 상세 내용 만이라도 차주 초까지 정리 가능하실까요?
-그럼 일정 확인 부탁 드립니다.
-감사합니다.
+현재 본부의 현황과 앞으로 향후 우리 본부의 방향에 대해서 공유하고 궁금하신  
+부분에 대해서 이야기 나누는 시간을 갖고자 합니다.
 
-김미란
+업무로 인해 바쁘시겠지만 잠시 시간 내서 참석해 주시면 감사하겠습니다.
 
-2026년 8월 5일 (수) 오후 1:36, 이한나 &lt;hanna@neowiz.com&gt;님이 작성:</td></tr>
-<tr><td class='ev-ts'>08/06 13:50</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요 미란님
-컨텐츠 사업팀 이한나 입니다.
-
-원스토어 피쳐드 지면에 콜라보 캐릭터를 노출하는 것과 관련하여 추가로 확인이 필요한 사항이 있어 공유해 드립니다.
-
-원스토어 피처드 배너의 경우 네오위즈 뿐만 아니라 IP 홀더 측의 감수가 필요한 것으로 예상되어 담당자를 통해 확인 중에 있습니다.
-콜라보의 경우 마케팅용 모든 소스를 승인받고 사용해야 하기 때문에, 경우에 따라 콜라보 이미지를 아예 사용하지 못할 수도 있습니다.
-
-이 부분은 정확히 확인되는 대로 다시 말씀드리겠습니다.
-
-참고로 만약 이미지 사용 허가를 받게 된다면, 일본 측에 확인 요청을 하기 위해 8월 14일 전까지 원스토어 측에서 배너 제작을 완료해
-주셔야 합니다.
-관련하여 변동 사항이나 확인된 내용이 나오는 대로 다시 연락드리겠습니다.
-</td></tr>
-<tr><td class='ev-ts'>08/06 17:17</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요, 미란님
-컨텐츠 사업팀 이한나 입니다.
-
-먼저, 앞서 공유해 주신 원스토어 피처드 관련 협의와 빠른 대응에 진심으로 감사드립니다.
-
-다만, 국내 서비스 방향성에 대해 재검토를 진행한 결과, 원스토어 피처드 진행과 관련하여 급히 방향을 수정하게 되어 메일을 드립니다.
-
-현재 사업부 내부 논의를 거쳐 당분간 원스토어 피처드 노출 및 관련 프로모션을 진행하지 않는 것으로 방침이 결정되었습니다.
-이에 따라 당초 요청드렸던 9월 콜라보 소재 기반의 피처드 신청 건은 전면 취소하는 것으로 정정 부탁드립니다.
-
-빠르게 원스토어 측과 소통해 주시고 일정까지 확인해 주셨는데,
-내부 사정으로 인해 번복하게 되어 죄송하다는 말씀 드립니다.
-
-추후에는 내부 방침 및 공유 사항을 보다 면밀히 검토하고 소통하여,
-유사한 </td></tr></tbody>
+** 본부 전체로 모임 요청</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-17', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">KISA 앱 접근권한 개선 요청 — 애플 안내 문구 8/13 반영 가능 여부 리마인드</td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">브라운더스트2 주간회의(8/14) 취소 — 부재자 다수로 서면 보고 대체</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/06 15:03</td>
+          <td class="ts-cell">08/14 13:22</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -762,32 +745,28 @@ Level Up 심사 신청 가능 시점: 2026년 9월 초
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/06 15:03</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요 진호님,
-컨텐츠사업팀 이한나입니다.
+              <tbody><tr><td class='ev-ts'>08/14 13:22</td><td class='ev-sender'>snow5093@neowiz.com</td><td class='ev-content'>일정이 취소되어 캘린더에서 삭제되었습니다. 메모를 확인하세요
+&quot;금일 부재자가 많아 서면 대체하도록 하겠습니다. 문서는 꼭 갱신  
+부탁드립니다.&quot;
 
-지난 7월 30일에 메일로 문의드린 브라운더스트2 앱 접근 권한 설명 수정 관련하여 다시 한번 확인을 요청드리고자 리마인드 메일
-드립니다.
+[반복] 브라운더스트2 주간회의
+2026년 8월 14일 (금요일) ⋅ 오후 2시 – 오후 4시
+한국 표준시 - 서울
 
-애플 앱스토어의 접근 권한 안내 문구 반영과 관련하여, 소명서 제출 기한(8월 11일) 이후인
-차기 정기 업데이트일(8월 13일)에 반영해도 괜찮을지 확인을 부탁드렸습니다.
-
-KISA 기한 연장 가능여부 확인 후 의견을 공유해 주시면 감사하겠습니다.
-
-감사합니다.
-이한나 드림
-
-
-2026년 7월 30일 (목) 오후 5:12, 이한나 &lt;hanna@neowiz.com&gt;님이 작성:</td></tr></tbody>
+위치
+판교-4층-4R02 (20) [화상 회의], GameOn-7F-PMO 703 (8), GameOn-7F-PREX-West【 
+個室ブース】 (1)	
+https://www.google.com/maps/search/%ED%8C%90%EA%B5%90-4%EC%B8%B5-4R02+(20)+%5B%ED%99%94%EC%83%81+%ED%9A%8C%EC%9D%98%5D,+GameOn-7F-PMO+703+(8),+GameOn-7F-PREX-West%E3%</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-18', this)">
-          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">추석 미니 시즌 외주 일러스트 리터칭 요청 및 구글 피쳐드 심사 일정 조율</td>
+          <td><span class="cat-badge" style="background:#6b2fa0">BD2 마케팅</span></td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">MyCard 7월 거래 상태 조회 대응 — 환불 대상 거래 확인 및 회신</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 17:35</td>
-          <td class="cnt-cell">3건</td>
+          <td class="ts-cell">08/14 12:07</td>
+          <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-18" class="evidence-row" style="display:none">
@@ -799,57 +778,30 @@ KISA 기한 연장 가능여부 확인 후 의견을 공유해 주시면 감사�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 17:35</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요 창범님,
-컨텐츠사업팀 이한나입니다.
+              <tbody><tr><td class='ev-ts'>08/14 12:07</td><td class='ev-sender'>jane24@soft-world.com.tw</td><td class='ev-content'>Hello,
 
-브라운더스트2 추석 미니 시즌 이벤트의 일러스트 외주 제작 및 활용과 관련하여 문의 및 요청 사항이 있어 메일 드립니다.
+Thank you for your reply and the verification file.
+Regarding the transaction statuses, please see our updates below:
 
-현재 저희 팀에서는 2026년 9월 23일부터 시작되는 구글 추석 피쳐드 심사를 준비하고 있으며,
-최근 작업 중이신 외주 일러스트와 컨셉이 잘 어울릴 것 같아 해당 일러스트를 활용하고자 합니다.
-
-다만 심사용 프로모션 이미지는 8월 28일까지 등록이 완료되어야만 구글로부터 피쳐드 심사를 받을 수 있는데요.
-이번 추석 외주 일러스트 제작 완료일이 8월 27일이라, 일정이 다소 촉박하여, 혹시 처음부터 의상의 노출을 커버한 버전도 함께 받아볼
-수 있을지 확인을 부탁드립니다.
-
-평시 일정에 여유가 있을 때에는 기존 일러스트에 효과를 추가하여 선</td></tr>
-<tr><td class='ev-ts'>08/05 17:42</td><td class='ev-sender'>changbeom.park@neowiz.com</td><td class='ev-content'>안녕하세요. 한나님
-팬덤사업팀 박창범입니다.
-
-여름 수영복 이벤트 외주 일러스트의 경우 사전에 기획 및 의뢰 단계에서 리터칭버전까지 사업측에서 제작 요청한 케이스이며,
-추석 미니 시즌 이벤트의 경우 개발측 니즈로 제작 진행하는 케이스로 리터칭 작업에 대한 일정이 배정되어있지 않은 상태입니다.
-
-추가 일정 내에 무상으로 리터칭 가능여부는 작가를 통해 확인해보겠습니다.
-
-감사합니다.
-박창범 드림
-
-2026년 8월 5일 (수) 오후 5:36, 이한나 &lt;hanna@neowiz.com&gt;님이 작성:</td></tr>
-<tr><td class='ev-ts'>08/06 13:57</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요 창범님,
-컨텐츠사업팀 이한나입니다.
-
-외주 일러스트 관련하여 갑작스러운 요청임에도 빠르게 확인해 주셔서 감사드립니다.
-
-구글 피쳐드 심사 일정을 다시 확인해보니 8월 28일은 초안 제출일이고,
-*최종본 제출 완료일은 9월 4일*으로 확인되었습니다.
-
-일정 조정이나 마감일 산정에 참고 부탁 드립니다.
-추가 변동 사항이 있으면 내용 업데이트 드리겠습니다.
-
-감사합니다.
-이한나 드림
-
-
-2026년 8월 5일 (수) 오후 5:42, 박창범 &lt;changbeom.park@neowiz.com&gt;님이 작성:</td></tr></tbody>
+1.      For transactions marked with &quot;O&quot; (Require Refund): We have received your request, and the cancellation for these transactions is currently in progress.
+Vender
+Product Name
+MyCard PIN Code
+Transaction Seq. NO. from Vendor
+Unit Price
+Currency
+Transaction Date
+Transac</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-19', this)">
-          <td><span class="cat-badge" style="background:#1a6e44">BD2 글로벌</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">구글플레이 Games Insiders Day 겜프스엔 측 참석자 명단 확인 및 회신</td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">MyCard 7/30 결제 실패 거래 처리 — 지급 아이템 회수 결정 및 회신</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 13:47</td>
-          <td class="cnt-cell">5건</td>
+          <td class="ts-cell">08/13 14:46</td>
+          <td class="cnt-cell">4건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-19" class="evidence-row" style="display:none">
@@ -861,71 +813,44 @@ KISA 기한 연장 가능여부 확인 후 의견을 공유해 주시면 감사�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 13:47</td><td class='ev-sender'>ezkiro@neowiz.com</td><td class='ev-content'>@김수민 (Soomin) &lt;realsoomin@neowiz.com&gt; 님
-안녕하세요. 플랫폼실 이기로입니다.
+              <tbody><tr><td class='ev-ts'>08/13 14:46</td><td class='ev-sender'>jane24@soft-world.com.tw</td><td class='ev-content'>Hello,
 
-플랫폼실에서는  플랫폼개발1팀 권영진님이 참석할 예정입니다.
+We haven&#x27;t yet received your response, please help to confirm the following situations and reply the mail.
+We would be grateful if you could make this top priority. Thank you!
 
-감사합니다.
+From: 林瑜真 &lt;jane24@soft-world.com.tw&gt;
+Sent: Friday, July 31, 2026 4:41 PM
+To: 서하윤 &lt;yumki@neowiz.com&gt;
+Cc: kuo@neowiz.com; nw_005661_101@neowiz.com; nw_002927_101@neowiz.com; hanna@neowiz.com; 營運客服信箱 &lt;OP.service@soft-w</td></tr>
+<tr><td class='ev-ts'>08/13 16:14</td><td class='ev-sender'>yumki@neowiz.com</td><td class='ev-content'>Hello.
+This item was delivered successfully and has been used by the player.
+Therefore, it cannot be refunded.
 
-2026년 7월 30일 (목) 오후 12:03, 김수민 &lt;realsoomin@neowiz.com&gt;님이 작성:</td></tr>
-<tr><td class='ev-ts'>08/05 17:08</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요, 수민 님.
-컨텐츠사업팀 이한나입니다.
+Thank you.
 
-요청하신 구글 플레이 게임즈 &#x27;Games Insiders Day&#x27; 행사 참석자 명단을 확인해 공유해 드립니다.
-이번 행사에는 권태현 기술이사님께서만 참석하실 예정이며, 겜프스엔 측 추가 참석자는 없는 것으로 확인되었습니다.
+2026년 8월 13일 (목) 오후 2:47, 林瑜真 &lt;jane24@soft-world.com.tw&gt;님이 작성:</td></tr>
+<tr><td class='ev-ts'>08/13 17:45</td><td class='ev-sender'>jane24@soft-world.com.tw</td><td class='ev-content'>Hi
 
-감사합니다.
-이한나 드림
+Thank you for your reply.
+Just to clarify, this is not a refund request. Payment for this transaction was never received or collected on the MyCard side because the transaction failed.
 
-2026년 8월 5일 (수) 오후 1:48, 이기로 &lt;ezkiro@neowiz.com&gt;님이 작성:</td></tr>
-<tr><td class='ev-ts'>08/05 18:04</td><td class='ev-sender'>seheon@neowiz.com</td><td class='ev-content'>안녕하세요 수민님
-블루사업팀 이세헌입니다.
+Since you confirmed that the item/points were delivered, please revoke/claw back the delivered points/items from the player&#x27;s account and update your records accordingly so that the transaction report aligns.
+T</td></tr>
+<tr><td class='ev-ts'>08/13 18:12</td><td class='ev-sender'>yumki@neowiz.com</td><td class='ev-content'>I understand the situation.
+I will retrieve the item from the game.
 
-이번 행사에 대한 블루사업실내 참석자는 없습니다.
+Thank you for sharing.
 
-감사합니다.
-
-이세헌 드림
-
-
-
-2026년 8월 5일 (수) 오후 5:09, 이한나 &lt;hanna@neowiz.com&gt;님이 작성:</td></tr>
-<tr><td class='ev-ts'>08/06 12:54</td><td class='ev-sender'>dongha.lee@neowiz.com</td><td class='ev-content'>수민님 안녕하세요.
-CNS 사업부 사업 1팀 이동하입니다.
-
-요청하신 구글 플레이 게임즈 &#x27;Games Insiders Day&#x27; 관련 고양이와 스프 / 마레 행사 참석 희망자 명단 공유 드립니다.
-
-**박준서님, 김정훈님*  (이상 BlackCat팀)
-**권용철님 *  (이상 CnS프로그램팀)
-
-이상 확인 부탁드리며
-혹시 참석 인원 변경 등 조정이 필요한 경우 말씀 주시면 감사하겠습니다.
-
-감사합니다
-이동하 드림
-
-
-2026년 8월 5일 (수) 오후 6:04, 이세헌 &lt;seheon@neowiz.com&gt;님이 작성:</td></tr>
-<tr><td class='ev-ts'>08/06 13:09</td><td class='ev-sender'>realsoomin@neowiz.com</td><td class='ev-content'>안녕하세요, @이기로 (kiro) &lt;ezkiro@neowiz.com&gt; 님. @이세헌 (Lee Seheon)
-&lt;seheon@neowiz.com&gt; 님. @이한나 (Hanna) &lt;hanna@neowiz.com&gt; 님. @이동하
-&lt;dongha.lee@neowiz.com&gt; 님.
-사업제휴실 김수민입니다.
-
-요청드린 참석 담당자 정보 확인 감사드립니다. 행사 정보 전달을 위해 참석 예정이신 담당자분들을 수신인에 추가하겠습니다.
-
-@권태현 (Chris) &lt;xogusgalaxy@neowiz.com&gt; 님, @권영진 &lt;pening@neowiz.com&gt; 님.
-어제 별도로 행사 등록 정보 안내드렸고, 금일 구글 플레이 담당팀으로부터 등록이 완료되었다는 안내를 받았습니다. 구글 캘린더 초대장을
-정상적으로 수신하셨는지 확인 부탁드립니다</td></tr></tbody>
+2026년 8월 13일 (목) 오후 5:45, 林瑜真 &lt;jane24@soft-world.com.tw&gt;님이 작성:</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-20', this)">
-          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">구글플레이 게임즈 업적 아이콘 제작용 원본 이미지 리소스 개발팀 요청</td>
+          <td><span class="cat-badge" style="background:#718096">기타</span></td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">LDAP 계정 비밀번호 만료(8/25) 안내 — 변경 필요</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 18:38</td>
+          <td class="ts-cell">08/13 08:00</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -938,25 +863,17 @@ CNS 사업부 사업 1팀 이동하입니다.
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 18:38</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요 진원님
-컨텐츠사업팀 이한나 입니다.
-
-다름이 아니오라, 최근 구글 Level up 도입을 위해  준비 중인 Google Play 게임즈 서비스의 업적 아이콘 제작을 위해
-원본 이미지 리소스를 요청드리고자 메일 드립니다.
-
-현재 업적 아이콘 컨셉은 &#x27;BD2_LevelUp_요건 및 일정_20260623
-&lt;https://docs.google.com/spreadsheets/d/1V4aGR2atCUlDMz_B3gM1zzPvbQplqBaXLFMsxRpN0_k/edit?gid=1291954421#gid=1291954421&amp;range=A1&gt;&#x27;
-문서의 &#x27;업적&#x27; 시트</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/13 08:00</td><td class='ev-sender'>nw_it_infra@neowiz.com</td><td class='ev-content'>[알림] 패스워드 만료 안내 (Notice: LDAP Password Expiration) To. 이한나님 LDAP 비밀번호 만료 안내 메일입니다. 사용하고 계시는 계정 hanna 의 암호가 곧 만료되니, 비밀번호를 변경해주시기 바랍니다. ※ 윈도우PC 비밀번호도 함께 변경됩니다 만료일 : 2026-08-25 LDAP 비밀번호 변경 : https://iam.</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-21', this)">
-          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">AI 코멘트 Weekly Report 수신 DL 추가 및 참조 데이터 조회 권한 요청</td>
+          <td><span class="cat-badge" style="background:#718096">기타</span></td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">정보보안실 백신 이벤트 탐지 자동 알림 — 탐지 내역 확인 요청</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 15:54</td>
-          <td class="cnt-cell">4건</td>
+          <td class="ts-cell">08/13 00:06</td>
+          <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-21" class="evidence-row" style="display:none">
@@ -968,80 +885,31 @@ CNS 사업부 사업 1팀 이동하입니다.
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 15:54</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요, 임진원님.
-컨텐츠사업팀 이한나입니다.
-
-공유해 주신 AI 코멘트 리포트 감사히 잘 보았습니다.
-관련하여 수신 DL 추가 및 데이터 권한에 대해 추가 문의 드립니다.
-
-*1. 수신 DL 추가 요청*
-hanna@neowiz.com 으로 Daily / Weekly 리포트 모두 수신 부탁드립니다.
-
-*2. AI 코멘트 참조 데이터 조회 권한 문의*
-아울러 리포트에 활용된 원천 데이터(업데이트 패치노트 / 커뮤니티 / 웹검색 데이터)가 잘 구축되어 있는 것 같아
-사업팀에서도 해당 데이터를 활용할 수 있다면 업무에 크게 도움이 될 것으로 보입니다.
-
-저희 팀 사내 AI 도구(스노우플레이크) 활용 시 해당 원천 데이터를 함께 참조하고자 하는데,
-혹시 데이터 적재 위치와 조회 권한을 공유받을 수 있을지 문의드</td></tr>
-<tr><td class='ev-ts'>08/05 16:06</td><td class='ev-sender'>toedland80@neowiz.com</td><td class='ev-content'>네 한나님 안녕하세요,
-
-fd_ai_commented_kpi_report_bd2
-&lt;https://groups.google.com/a/neowiz.com/g/fd_ai_commented_kpi_report_bd2/members&gt;
-DL에
-관리자 권한으로 초대 드렸습니다.
-이후 다른 수신인 추가해 주셔도 됩니다 :)
+              <tbody><tr><td class='ev-ts'>08/13 00:06</td><td class='ev-sender'>nw_002169_101@neowiz.com</td><td class='ev-content'>안녕하세요 정보보안실 입니다. 
+본 메일은 hanna님의 PC ( 혹은 노트북 )에 백신 이벤트가 발생하여 자동 전송된 메일 입니다. 
+아래 내용 확인 하시어 의도하지 않은 실행 파일 이거나 파일 다운로드, 웹 트레픽 이라면 정보보안실(nw_002169_101@neowiz.com)으로 회신을 요청드리며,
+ 의도된 실행이라해도 탐지가 발생한 사항에 대해서는 이후 주의를 부탁 드립니다.
 
 
-참조 데이터는 아래와 같이 테이블 공유 드립니다.
-접근 권한은 아마 갖고 계실 것으로 생각합니다.
 
+[========백신(SentinelOne) Event======]
+시작 : 2026-08-12 15:06:15
+사용자 : hanna
+호스트 : NWZ-hanna-rr
+로컬 호스트 IP : [&#x27;10.30.145.97&#x27;, &#x27;fe80::7c0b:ff87:b9f3:59e9&#x27;]
 
-*1. KPI 데이터*</td></tr>
-<tr><td class='ev-ts'>08/05 18:23</td><td class='ev-sender'>jonghokim@neowiz.com</td><td class='ev-content'>잘 발전시키면 업무 효율에 많은 도움이 될 것 같은데요-
-
-앞으로 다음 사항들을 더 반영할 수 있을지 문의 드립니다.
-
-1. 현재 비교는 직전 주간과 단순 비교하고 있는 것 같은데, 브더2의 업데이트 패턴을 반영할 수 있으면 좋겠습니다.
-- 1달 단위로 주요 컨텐츠 업데이트 되고 그 사이에 2주마다 빌드 업데이트가 있어서 빌드 업데이트 때 신규 코스튬이 나오고 사이에
-끼인 주는 복각 코스튬 중심이라 업데이트 내용이랄게 거의 없는 점
-- 또 지난주는 신규 프레스티지 스킨이 들어간 주간이어서 6/4 업데이트와 비교하는 것도 있으면 좋겠습니다.
-
-2. 관련해서 업데이트 공지를 ai에게 학습시켜서 이런 비교를 좀 더 현실적으로? 도움이 되는 비교가 되게 할 수 있을까요?
-
-2026년 8월 5일 (수) 오후 4:06</td></tr>
-<tr><td class='ev-ts'>08/05 18:33</td><td class='ev-sender'>toedland80@neowiz.com</td><td class='ev-content'>종호님 안녕하세요,
-말씀해주신 사항도 반영될 수 있도록 고민 중에 있습니다.
-
-
-업데이트 영향을 고려하여 분석하고 코멘트를 생성하기 위해
-- 패치노트
-- 업데이트에 대한 반응이 드러나는 커뮤니티 동향
-을 함께 제공하여
-테스트 과정에서 생성한 리포트들 중에서는 업데이트 스펙과 연관지어서 코멘트가 생성되는 것도 볼 수 있었는데요,
-
-실제로 업데이트 전후에도 리포트를 보면서
-코멘트 생성을 위한 데이터와 지시문을 튜닝하려고 합니다.
-브더2 및 다른 게임의 리포트도 함께 결과물을 확인하면서 발전시켜보겠습니다.
-
-
-&#x27;지난 업데이트와의 비교&#x27; 도 고민해 보겠습니다.
-(이건 스펙을 좀 깊게 파고들어야 할 것 같아서 별도로 처리하는 것이 좋을 듯 합니다)
-
-
-감사합니다.
-
-
-2026년 8월 5일 (수) 오후 6:23, 김종</td></tr></tbody>
+응용프로그램 : TEFScreen64.sys
+응용프</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-22', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">구글플레이 Full Moon 2026 캠페인 참여 신청서 작성 및 추석 이벤트 일정 회신</td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">BD2 아이콘 테스트 방법 논의 회의(8/12) — 최용건 참석 수락</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/04 10:56</td>
-          <td class="cnt-cell">3건</td>
+          <td class="ts-cell">08/12 11:28</td>
+          <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-22" class="evidence-row" style="display:none">
@@ -1053,56 +921,37 @@ DL에
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/04 10:56</td><td class='ev-sender'>realsoomin@neowiz.com</td><td class='ev-content'>안녕하세요, @이한나 (Hanna) &lt;hanna@neowiz.com&gt; 님.
-사업제휴실 김수민입니다.
+              <tbody><tr><td class='ev-ts'>08/12 11:28</td><td class='ev-sender'>ruri1gun@neowiz.com</td><td class='ev-content'>최용건님이 초대를 수락했습니다.
 
-구글 플레이로부터 브라운더스트2가 Full Moon 2026 캠페인 피처링 검토 대상으로 선정되었다는 안내 메일을 받아 공유드립니다.
+[BD2] 아이콘 테스트 방법 논의
+2026년 8월 12일 (수요일) ⋅ 오전 11:30 – 오후 12:30
+한국 표준시 - 서울
 
-아래의 상세 내용을 확인하신 후 참가 진행을 위한 필요 액션 하기 데드라인에 맞춰 진행 부탁드립니다. 안정적인 프로모션 준비를 위해
-구글 플레이 측에서 요청한 일자 대비 1영업일 여유롭게 데드라인 전달드리는 점 참고 부탁드립니다.
+위치
+판교-4층-4B06(G.Meet) (12) [화상 회의]	
+https://www.google.com/maps/search/%ED%8C%90%EA%B5%90-4%EC%B8%B5-4B06(G.Meet)+(12)+%5B%ED%99%94%EC%83%81+%ED%9A%8C%EC%9D%98%5D?hl=ko
 
-더불어, 이번 피처드 선정 안내 메일을 통해 기존 프로세스와 일부 달라진 부분이 있는 점 노티 드리오니 메일 내 세부 내용을 상세하게
-확인 부탁드립니다.
+Google Meet으로 참여하기
+https://meet.google.com/ctr-obfp-mfg?hs=224
 
-*[캠페인 세부 정보]*
 
-   - *캠페인 기간: *2026년 9월 23일~9월 30일
-</td></tr>
-<tr><td class='ev-ts'>08/05 17:51</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요, 수민님
-컨텐츠사업팀 이한나입니다.
+	
+휴대전화로 참여하기
+(US) +1 252-922-0219
+PIN: 826302811
 
-Full Moon 2026 캠페인 참여 신청서
-&lt;https://docs.google.com/spreadsheets/d/1gOvXd7rf5QhbaXg-xxHSvodDhJbfXuI3k0PNky9YoJs/edit?usp=sharing&gt;작성
-완료하여 회신드립니다.
-브더2 추석 이벤트 기간은 2026년 9월 23일 ~ 10월 8일로 구글 캠페인 기간(9월 23일~30일) 전 구간을 포함합니다.
-
-말씀해주신 대로 전권역 노출로 세팅 예정이며, ‘Full Moon 2026&#x27; 프로모션 콘텐츠 카드 8월 27일까지 준비 진행하도록
-하겠습니다.
-
-감사합니다.
-이한나 드림</td></tr>
-<tr><td class='ev-ts'>08/05 18:06</td><td class='ev-sender'>realsoomin@neowiz.com</td><td class='ev-content'>(동일 스레드를 통한 업무 내용 공유를 위해 본 메일 스레드를 통해 회신드리는 점 참고 부탁드립니다.)
-
-안녕하세요, @이한나 (Hanna) &lt;hanna@neowiz.com&gt; 님.
-사업제휴실 김수민입니다.
-
-요청드린 내용 확인하신 후 빠르게 진행해주셔서 감사드립니다.
-전달주신 참여 신청서 내용 기반으로 구글 플레이 담당팀에 폼 제출을 완료한 점 공유드립니다.
-
-프로모션 콘텐츠 카드 세팅 시, 메일로 전달드린 유의사항 참고 부탁드리겠습니다.
-
-감사합니다.
-김수민 드림</td></tr></tbody>
+전화번호 더보기
+https://tel.m</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-23', this)">
-          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">Play Age Signals API 업데이트 대응 필요 여부 개발사 확인 요청</td>
+          <td><span class="cat-badge" style="background:#718096">기타</span></td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">웹상점 배너 지라(DESIGN-2669) 확인 — 디자인 담당자 최연우 지정</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 18:02</td>
-          <td class="cnt-cell">2건</td>
+          <td class="ts-cell">08/12 10:46</td>
+          <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-23" class="evidence-row" style="display:none">
@@ -1114,33 +963,19 @@ Full Moon 2026 캠페인 참여 신청서
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 18:02</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요 영진님,
-컨텐츠사업팀 이한나입니다.
+              <tbody><tr><td class='ev-ts'>08/12 10:46</td><td class='ev-sender'>jira@neowiz.atlassian.net</td><td class='ev-content'>@이한나 내용 확인했습니다.
 
-구글 플레이로부터 수신된 &#x27;Play Age Signals API 업데이트 예정&#x27; 안내 메일과 관련하여 문의드립니다.
-
-본문에 언급된 API가 현재 &#x27;브라운더스트2&#x27;에서 글로벌 연령 확인을 위해 사용 중인 API가 맞는지 확인을 부탁드립니다.
-혹시 이미 내용 파악하시고 대응을 준비 중이실 수도 있겠지만, 개발사층 대응도 필요할 것 같아 더블 체크 차원에서 문의 드립니다.
-
-확인 부탁드리겠습니다.
-
-감사합니다.
-이한나드림</td></tr>
-<tr><td class='ev-ts'>08/05 18:05</td><td class='ev-sender'>pening@neowiz.com</td><td class='ev-content'>안녕하세요 한나님 공유 감사드립니다.
-
-출시시 빠르게 대응하도록 하겠습니다.
-
-감사합니다.</td></tr></tbody>
+담당자 : @최연우 님</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-24', this)">
-          <td><span class="cat-badge" style="background:#1a6e44">BD2 글로벌</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">마이카드 신규 결제수단 WPTHB01 코드·수수료율 확인 및 NSIS 매출 집계 재개</td>
+          <td><span class="cat-badge" style="background:#718096">기타</span></td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">정보보안실 백신 이벤트 탐지 알림 재수신 — 확인 요청</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 11:17</td>
-          <td class="cnt-cell">5건</td>
+          <td class="ts-cell">08/11 23:56</td>
+          <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-24" class="evidence-row" style="display:none">
@@ -1152,81 +987,30 @@ Full Moon 2026 캠페인 참여 신청서
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 11:17</td><td class='ev-sender'>keun1202@neowiz.com</td><td class='ev-content'>안녕하세요 한나님,
-
-마이카드 관련 신규 결제 수단이 등록되어, NSIS 상 매출 집계가 중단되었습니다.
-
-결제 수단 코드 등록을 위해 아래 결제수단 내역 요청드립니다.
-
-결제수단 : WPTHB01
-
-이전 7월 13일에 전달 주신 결제수단 코드에 해당 코드가 존재하지 않아,
-다시 요청드리는 건입니다.
-
-확인해주시면 감사드리겠습니다.
-
-감사합니다
-김근범 드림.</td></tr>
-<tr><td class='ev-ts'>08/05 16:00</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요. 근범 님,
-컨텐츠사업팀 이한나 입니다.
-
-요청하신 마이카드 신규 결제수단 관련 내용을 공유 받아 전달 드립니다.
-
-첨부 문서나 아래의 링크를 통해 확인해 주시기 바랍니다.
-https://docs.google.com/spreadsheets/d/1rU2ulBLsrZ6aMwDe06to5Oqi8N7toP97/edit?usp=sharing&amp;ouid=111574022838250385594&amp;rtpof=true&amp;sd=true
-
-관련하여 추가 확인 필요사항이 있으시면 편하게 말씀해주세요.
-
-감사합니다.
-이한나 드림
+              <tbody><tr><td class='ev-ts'>08/11 23:56</td><td class='ev-sender'>nw_002169_101@neowiz.com</td><td class='ev-content'>안녕하세요 정보보안실 입니다. 
+본 메일은 hanna님의 PC ( 혹은 노트북 )에 백신 이벤트가 발생하여 자동 전송된 메일 입니다. 
+아래 내용 확인 하시어 의도하지 않은 실행 파일 이거나 파일 다운로드, 웹 트레픽 이라면 정보보안실(nw_002169_101@neowiz.com)으로 회신을 요청드리며,
+ 의도된 실행이라해도 탐지가 발생한 사항에 대해서는 이후 주의를 부탁 드립니다.
 
 
-2026년 8월 5일 (수) 오전 11:17, 김근범 &lt;keun1202@neowiz.com&gt;님이 작성:</td></tr>
-<tr><td class='ev-ts'>08/05 16:19</td><td class='ev-sender'>keun1202@neowiz.com</td><td class='ev-content'>안녕하세요, 한나님,
 
-각 결제 수단별 수수료율은 어떻게 확인할수 있을까요?
+[========백신(SentinelOne) Event======]
+시작 : 2026-08-11 14:56:43
+사용자 : hanna
+호스트 : NWZ-hanna-rr
+로컬 호스트 IP : [&#x27;10.30.145.97&#x27;, &#x27;fe80::7c0b:ff87:b9f3:59e9&#x27;]
 
-수수료율 내역 같이 포함된 자료가 있으시다면 부탁드리겠습니다.
-
-감사합니다.
-김근범 드림.
-
-2026년 8월 5일 (수) 오후 4:01, 이한나 &lt;hanna@neowiz.com&gt;님이 작성:</td></tr>
-<tr><td class='ev-ts'>08/05 16:58</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요 근범 님,
-컨텐츠사업팀 이한나입니다.
-
-문의하신 결제 수단별 수수료율은 계약서로 확인하고 있으며, 해당 계약서는 대만 계약서와 홍콩 및 해외 계약서(HK Agreement)
-2종으로 나누어져 있습니다.
-그중 WPTHB01(태국 신용카드)의 수수료율 조건은 홍콩 및 해외 계약서의 &#x27;Table D (THB 기준)&#x27;에 명시되어 있으며 내용은
-다음과 같습니다.
-
-  - 배분율 (Payout Rate): 92%
-  - 정률 수수료: 8%
-  - 건당 고정 수수료 (Transaction Fee): 건당 15 THB
-
-계약서 내 예시(거래 금액 500,000 THB 기준, 배분율 92% 적용 및 건당 수수료 15 THB 차감 후 459,985 THB
-배분)도 함께 참고 부탁드립니다.
-
-관련 계약서 2부는 아래</td></tr>
-<tr><td class='ev-ts'>08/05 17:09</td><td class='ev-sender'>keun1202@neowiz.com</td><td class='ev-content'>안녕하세요 한나님,
-
-내용 확인하였습니다.
-
-해당 내용 참고하여 마이카드 결제수단 등록하도록 하겠습니다.
-
-감사합니다.
-김근범 드림.
-
-2026년 8월 5일 (수) 오후 4:59, 이한나 &lt;hanna@neowiz.com&gt;님이 작성:</td></tr></tbody>
+응용프로그램 : TEFScreen64.sys
+응용프</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-25', this)">
-          <td><span class="cat-badge" style="background:#1a4f70">사업 기획</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">AI 코멘트 Weekly Report 정기 수신인 명단 추가 요청 메일 발송</td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">BD2 아이콘 테스트 방법 논의 회의(8/12) — 정문환 참석 수락</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 15:17</td>
+          <td class="ts-cell">08/11 20:35</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1239,29 +1023,36 @@ https://docs.google.com/spreadsheets/d/1rU2ulBLsrZ6aMwDe06to5Oqi8N7toP97/edit?us
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 15:17</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요 임진원 님,  
-  
-[부서명/팀명]의 이한나입니다.  
-  
-업무 수행에 있어 데이터 참고 및 비즈니스 인사이트 도출을 위해 &#x27;AI 코멘트 Weekly Report&#x27;를 정기적으로 모니터링하고자 합니다.   
-  
-해당 리포트의 내용이 향후 업무 기획 및 레퍼런스 활용에 큰 도움이 될 것으로 생각되어, 실례가 되지 않는다면 수신인 명단에 저를 추가해 주실 수 있을지 여쭈어봅니다.  
-  
-바쁘시겠지만 확인해 주시면 감사하겠습니다.  
-  
-좋은 하루 보내세요.  
-  
-감사합니다.  
-이한나 드림</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/11 20:35</td><td class='ev-sender'>gromit@neowiz.com</td><td class='ev-content'>정문환님이 초대를 수락했습니다.
+
+[BD2] 아이콘 테스트 방법 논의
+2026년 8월 12일 (수요일) ⋅ 오전 11:30 – 오후 12:30
+한국 표준시 - 서울
+
+위치
+판교-4층-4B06(G.Meet) (12) [화상 회의]	
+https://www.google.com/maps/search/%ED%8C%90%EA%B5%90-4%EC%B8%B5-4B06(G.Meet)+(12)+%5B%ED%99%94%EC%83%81+%ED%9A%8C%EC%9D%98%5D?hl=ko
+
+Google Meet으로 참여하기
+https://meet.google.com/ctr-obfp-mfg?hs=224
+
+
+	
+휴대전화로 참여하기
+(US) +1 252-922-0219
+PIN: 826302811
+
+전화번호 더보기
+https://tel.m</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-26', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">AI 코멘트 리포트 수신 DL 추가 및 데이터 권한 요청 메일 초안 작성</td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">팬덤회의체 시즌2 격주 수요일 정기회의 초대 수신</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 15:16</td>
+          <td class="ts-cell">08/11 16:02</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1274,29 +1065,38 @@ https://docs.google.com/spreadsheets/d/1rU2ulBLsrZ6aMwDe06to5Oqi8N7toP97/edit?us
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 15:16</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요, 임진원님.    
-컨텐츠사업팀 이한나입니다.    
-    
-BrownDust2 AI 코멘트 리포트를 공유해 주셔서 감사합니다.    
-리포트 관련하여 수신 DL 추가와 데이터 권한에 대해 두 가지 요청을 드립니다.    
-    
-**1. 수신 DL 추가 요청**    
-hanna@neowiz.com 으로 Daily / Weekly 리포트 모두 수신 부탁드립니다.    
-    
-**2. AI 코멘트 참조 데이터 조회 권한 문의**    
-AI 코멘트에서 참조하는 원천 데이터(업데이트 패치노트 / 커뮤니티 / 웹검색 데이터)의 적재 위치 및 해당 데이터 조회 권한 공유가 가능하실지 문의드립니다. 사업팀 내 사내 AI 도구 활용 시 해당 데이터를 참조하고자 합니다.    
-    
-확인 부탁드립</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/11 16:02</td><td class='ev-sender'>sabo@neowiz.com</td><td class='ev-content'>팬덤회의체(시즌2)
+2주마다 수요일, 오전 11시 ~ 오후 12시 -
+한국 표준시 - 서울
+
+위치
+판교-4층-4R02 (20) [화상 회의]	
+https://www.google.com/maps/search/%ED%8C%90%EA%B5%90-4%EC%B8%B5-4R02+(20)+%5B%ED%99%94%EC%83%81+%ED%9A%8C%EC%9D%98%5D?hl=ko
+
+Google Meet으로 참여하기
+https://meet.google.com/ubk-xjwz-cck?hs=224
+
+
+	
+휴대전화로 참여하기
+(US) +1 573-605-0089
+PIN: 588079494
+
+전화번호 더보기
+https://tel.meet/ubk-xjwz-cck?pin=7813996530558&amp;hs=0
+
+
+기존 매주 수요일 진행하던 </td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-27', this)">
-          <td><span class="cat-badge" style="background:#1a6e44">BD2 글로벌</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">AI 코멘트 Weekly Report 리포트 양식에 대한 사용 소감 및 피드백 회신</td>
+          <td><span class="cat-badge" style="background:#6b2fa0">BD2 마케팅</span></td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">MyCard 결제 성공·지급 실패 거래 확인 — 검증 문서 업데이트 회신</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 15:15</td>
-          <td class="cnt-cell">1건</td>
+          <td class="ts-cell">08/11 11:44</td>
+          <td class="cnt-cell">3건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-27" class="evidence-row" style="display:none">
@@ -1308,26 +1108,43 @@ AI 코멘트에서 참조하는 원천 데이터(업데이트 패치노트 / 커
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 15:15</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>진원님, 안녕하세요. 사업지원실의 이한나입니다.   
-  
-전달해주신 &#x27;AI 코멘트 Weekly Report&#x27; 양식을 확인해 보았습니다. 시스템 구축하시느라 정말 고생 많으셨습니다.  
-  
-이번 리포트는 전체적인 구성이 매우 체계적이고 직관적이어서, 실무선에서 주요 지표와 특이사항을 신속하게 파악하는 데 정말 유용할 것 같습니다. 지표 변화에 대한 코멘트가 깔끔하게 정리되어 있어 큰 도움이 됩니다.  
-  
-앞으로도 이 리포트를 정기적으로 받아보고 업무에 참고하고 싶습니다. 괜찮으시다면 저도 수신 DL(배포 리스트)에 추가를 부탁드려도 될까요?   
-  
-좋은 시스템을 다듬고 공유해주셔서 다시 한번 감사드립니다. 오늘도 좋은 하루 보내세요!  
-  
-이한나 드림</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/11 11:44</td><td class='ev-sender'>jane24@soft-world.com.tw</td><td class='ev-content'>Hello,
+
+The transaction in the attachment is that the user successfully completed the payment, but the &quot;Redemption Status&quot; in the MyCard backend shows failure. Please help confirm whether the product has been delivered.
+
+If you have delivered the point for the transaction; please remember to process the technical document 3.3-&gt; 3.4 request work.
+if you hasn&#x27;t delivered the point, we can send the 3</td></tr>
+<tr><td class='ev-ts'>08/11 14:42</td><td class='ev-sender'>yumki@neowiz.com</td><td class='ev-content'>Hello.
+
+We have updated the document.
+Please check the attached file.
+
+Thank you.
+
+2026년 8월 11일 (화) 오전 11:45, 林瑜真 &lt;jane24@soft-world.com.tw&gt;님이 작성:</td></tr>
+<tr><td class='ev-ts'>08/11 15:03</td><td class='ev-sender'>jane24@soft-world.com.tw</td><td class='ev-content'>Hello,
+Thank you for your reply and the verification file.
+Regarding the transaction statuses, please see our updates below:
+
+
+l   For transactions marked with &quot;O&quot; (Require Refund): We have received your request, and the cancellation for these transactions is currently in progress.
+Vender
+Product Name
+MyCard PIN Code
+Transaction Seq. NO. from Vendor
+Unit Price
+Currency
+Transaction Date
+Transaction</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-28', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">구글 플레이 업적 아이콘 원본 이미지 요청 메일 초안 작성 및 검토</td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">BD2 업적 아이콘 제작 논의 회의(8/11) — 양귀연 참석 수락</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 10:35</td>
+          <td class="ts-cell">08/11 10:15</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1340,36 +1157,37 @@ AI 코멘트에서 참조하는 원천 데이터(업데이트 패치노트 / 커
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 10:35</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요.
-컨텐츠사업팀 이한나 입니다.
+              <tbody><tr><td class='ev-ts'>08/11 10:15</td><td class='ev-sender'>gyeon@neowiz.com</td><td class='ev-content'>양귀연님이 초대를 수락했습니다.
+
+[BD2] 업적 아이콘 제작 관련
+2026년 8월 11일 (화요일) ⋅ 오후 1:30 – 오후 2시
+한국 표준시 - 서울
+
+위치
+판교-4층-4B09 (6) [화상 회의]	
+https://www.google.com/maps/search/%ED%8C%90%EA%B5%90-4%EC%B8%B5-4B09+(6)+%5B%ED%99%94%EC%83%81+%ED%9A%8C%EC%9D%98%5D?hl=ko
+
+Google Meet으로 참여하기
+https://meet.google.com/tkc-riru-hgv?hs=224
 
 
-*제목: [BD2/요청] 구글 플레이 업적 아이콘 제작용 원본 이미지 파일 요청*
+	
+휴대전화로 참여하기
+(US) +1 414-858-6032
+PIN: 299296484
 
-안녕하세요 개발팀,
-
-컨텐츠사업팀 이한나입니다.
-
-다름이 아니오라, 도입 준비 중인 Google Play 게임즈 서비스의 업적 아이콘 제작을 위해 원본 이미지 리소스를 요청드리고자 메일 
-드립니다.
-
-현재 *&#x27;BD2_LevelUp_요건 및 일정_20260623의 사본2222&#x27;* 문서의 *&#x27;업적&#x27;* 시트에 첨부된 이미지들은 게임 내 
-화면을 캡처하여 임시로 넣어둔 상태입니다.
-
-구글 스토어 및 플레이 게임즈 서비스에 등록할 고해상도의 깔끔한 아이콘 제작을 위해, 해당 시트에 있는 이미지(초상화, 아이템, UI 
-아이콘 등)들의 원본 파일을 공유해 주시면 감사하겠습니다.
-
-확인 부탁드</td></tr></tbody>
+전화번호 더보기
+https://tel.meet/tkc-riru-hgv?pin=83</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-29', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★★★★</td>
-          <td class="task-name">구글 플레이 게임즈 서비스 도입 관련 스토어 에셋 수정 및 상시 동기화 요청</td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">BD2 업적 아이콘 제작 논의 회의(8/11) — 최연우 참석 수락</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 18:00</td>
-          <td class="cnt-cell">2건</td>
+          <td class="ts-cell">08/10 17:39</td>
+          <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-29" class="evidence-row" style="display:none">
@@ -1381,39 +1199,37 @@ AI 코멘트에서 참조하는 원천 데이터(업데이트 패치노트 / 커
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 18:00</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>안녕하세요 지수님,
-컨텐츠 사업팀 이한나입니다.
+              <tbody><tr><td class='ev-ts'>08/10 17:39</td><td class='ev-sender'>cywoo@neowiz.com</td><td class='ev-content'>최연우님이 초대를 수락했습니다.
 
-다름이 아니라, 조만간 Google Play 게임즈 서비스를 도입할 예정이라 관련 안내 및 요청 사항이 있어 메일 드립니다.
-Google Play 게임즈 서비스는 모바일과 GPG(PC)를 통합하는 플랫폼 입니다. (관련 정보가 필요하시다면 내용은 링크
-&lt;https://developer.android.com/games/pgs/overview?hl=ko&gt;를 참고해 주세요.
+[BD2] 업적 아이콘 제작 관련
+2026년 8월 11일 (화요일) ⋅ 오후 1:30 – 오후 2시
+한국 표준시 - 서울
 
-해당 서비스 도입에 따라, 앞으로는 구글 플레이 스토어와 플레이 게임즈 서비스의 설명 및 아이콘, 그래픽 이미지가 서로 일치해야 합니다.
+위치
+판교-4층-4B09 (6) [화상 회의]	
+https://www.google.com/maps/search/%ED%8C%90%EA%B5%90-4%EC%B8%B5-4B09+(6)+%5B%ED%99%94%EC%83%81+%ED%9A%8C%EC%9D%98%5D?hl=ko
 
-따라서 향후 스토어 등록 정보를 변경하실 때는 아래 링크의 페이지도 함께 수정해 주시기를 부탁드립니다.
-(Play Games 서비스 &gt; 설정 및 관리 &gt;</td></tr>
-<tr><td class='ev-ts'>08/03 18:08</td><td class='ev-sender'>jisooj9@neowiz.com</td><td class='ev-content'>안녕하세요 한나님,
-팬브랜드팀 정지수입니다.
+Google Meet으로 참여하기
+https://meet.google.com/tkc-riru-hgv?hs=224
 
-요청주신 내용 확인하였습니다.
-이후 업데이트 어셋 변경시마다 해당 페이지도 함께 변경하도록 하겠습니다.
 
-진행 중 문의 사항 있을 경우 연락드리겠습니다.
+	
+휴대전화로 참여하기
+(US) +1 414-858-6032
+PIN: 299296484
 
-감사합니다.
-정지수 드림
-
-2026년 8월 3일 (월) 오후 6:01, 이한나 &lt;hanna@neowiz.com&gt;님이 작성:</td></tr></tbody>
+전화번호 더보기
+https://tel.meet/tkc-riru-hgv?pin=83</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-30', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★★★☆</td>
-          <td class="task-name">69B 업데이트 추석 연휴로 9/23 앞당김 공유 및 스펙 시트 날짜 반영 요청</td>
-          <td><span class="src-badge" style="background:#3498db">chat</span> [B2] 사업-개발및기획</td>
-          <td class="ts-cell">08/04 17:00</td>
-          <td class="cnt-cell">5건</td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">BM/이벤트 정기 논의 일정 변경 — 이번 주만 화요일 16시·4R02로 조정</td>
+          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
+          <td class="ts-cell">08/10 11:59</td>
+          <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-30" class="evidence-row" style="display:none">
@@ -1425,27 +1241,36 @@ Google Play 게임즈 서비스는 모바일과 GPG(PC)를 통합하는 플랫�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/04 17:00</td><td class='ev-sender'>usr_060345</td><td class='ev-content'>69B 업데이트 일정 관련 공유</td></tr>
-<tr><td class='ev-ts'>08/04 17:00</td><td class='ev-sender'>usr_060345</td><td class='ev-content'>@한경철 @최석영 (Seok Yeong) @이한솔 @이기덕 @정승호 @윤준식 
-안녕하세요 �
-69B 업데이트 일정 관련 공유 드립니다
+              <tbody><tr><td class='ev-ts'>08/10 11:59</td><td class='ev-sender'>elshier@neowiz.com</td><td class='ev-content'>일정이 업데이트되었습니다. 메모를 확인하세요
+&quot;BM회의 이번 주만 화요일 오후 4시로 변경합니다. 회의실 4R02&quot;
+변경됨: 시간, 위치
 
-아시다시피 올해 추석 연휴가 9/24(목)~9/25(금)으로 예정되어 있습니다
-기존 69B 업데이트의 경우 9/24(목)에 진행될 예정이었으나, 연휴로 인해 하루 앞당긴 9/23(수)에 진행하고자 합니다
-심사용 빌드 전달 일정 등의 변화는 없으며, 업데이트 날짜만 수요일로 변경된 것으로 이해해주시면 감사하겠습니다!</td></tr>
-<tr><td class='ev-ts'>08/04 17:01</td><td class='ev-sender'>usr_998299</td><td class='ev-content'>네 알겠습니다. 일본 쪽에도 공유해 두겠습니다</td></tr>
-<tr><td class='ev-ts'>08/05 13:27</td><td class='ev-sender'>한나</td><td class='ev-content'>스펙/업데이트 요기도 날짜 바꿔 주시면 감사하겠습니다. 여기 주로 확인하는데 헷갈릴 까봐서요 ㄷㄷ</td></tr>
-<tr><td class='ev-ts'>08/05 13:32</td><td class='ev-sender'>usr_060345</td><td class='ev-content'>앗 수식이 걸려있네요..
-대신 밑에 코멘트를 달아두겠습니다 �</td></tr></tbody>
+
+[B2] BM/이벤트 정기 논의
+2026년 8월 11일 (화요일) ⋅ 오후 4시 – 오후 5시
+한국 표준시 - 서울
+
+위치
+판교-4층-4R02 (20) [화상 회의]	
+https://www.google.com/maps/search/%ED%8C%90%EA%B5%90-4%EC%B8%B5-4R02+(20)+%5B%ED%99%94%EC%83%81+%ED%9A%8C%EC%9D%98%5D?hl=ko
+
+Google Meet으로 참여하기
+https://meet.google.com/det-jmzp-vri?hs=224
+
+
+	
+휴대전화로 참여하기
+(US) +1 347-508-5972
+PI</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-31', this)">
-          <td><span class="cat-badge" style="background:#718096">기타</span></td>
-          <td class="stars">★★★★☆</td>
-          <td class="task-name">Gmail 자동 생성 수신거부(unsubscribe) 처리 메일 확인</td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">KISA 앱 접근권한 개선 소명서 제출 — 8/13 정기 업데이트 반영 확인</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 19:13</td>
+          <td class="ts-cell">08/10 09:34</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1458,16 +1283,35 @@ Google Play 게임즈 서비스는 모바일과 GPG(PC)를 통합하는 플랫�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 19:13</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>This message was automatically generated by Gmail.</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/10 09:34</td><td class='ev-sender'>jh.cho@neowiz.com</td><td class='ev-content'>안녕하세요, 한나님.
+
+정보보안실 Privacy 파트 조진호입니다.
+
+먼저 회신이 늦어진 점 죄송합니다.
+
+KISA에 문의한 결과, 소명서는 8월 11일까지 제출해야 하나 소명서 내 반영 예정일을 8월 13일로 기재하여 제출하면 되는 것으로
+확인했습니다.
+
+소명서는 금일 작성하여 제출할 예정입니다.
+
+따라서 해당 사항은 차기 정기 업데이트일인 8월 13일에 반영해 주셔도 됩니다.
+
+감사합니다.
+
+조진호 드림
+
+
+
+2026년 8월 6일 (목) 오후 3:03, 이한나 &lt;hanna@neowiz.com&gt;님이 작성:</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-32', this)">
           <td><span class="cat-badge" style="background:#718096">기타</span></td>
-          <td class="stars">★★★★☆</td>
-          <td class="task-name">Gmail 자동 생성 수신거부(unsubscribe) 처리 메일 확인</td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="task-name">NeoFlex 8월 근태 확인 — 8/6 근무종료 기록 누락 수정 요청</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 18:48</td>
+          <td class="ts-cell">08/10 08:30</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1480,16 +1324,16 @@ Google Play 게임즈 서비스는 모바일과 GPG(PC)를 통합하는 플랫�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 18:48</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>This message was automatically generated by Gmail.</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/10 08:30</td><td class='ev-sender'>neo-flex@neowiz.com</td><td class='ev-content'>[NeoFlex] 2026년 08월 근무 확인을 부탁 드립니다. 안녕하세요 이한나님 NeoFlex 입니다. 2026년 08월 근태현황에서 근무종료 누락이 확인 되었습니다. 날짜 누락 2026-08-06 근무종료 근무기록이 누락되셨다면 시스템 내 근태활동 수정하기 기능을 활용하여 작성 부탁 드리겠습니다. [NeoFlex 바로가기] [시스템가이드 바로가기] 근무</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-33', this)">
           <td><span class="cat-badge" style="background:#718096">기타</span></td>
-          <td class="stars">★★★★☆</td>
-          <td class="task-name">지관과기 마이카드 빌링 테스트 발송 메일 수신 및 열람 확인</td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">CN 유저 계정 삭제 문의 — QQ 메일 재연동 요청 접수</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 18:34</td>
+          <td class="ts-cell">08/14 16:36</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1502,22 +1346,20 @@ Google Play 게임즈 서비스는 모바일과 GPG(PC)를 통합하는 플랫�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 18:34</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>메시지
+              <tbody><tr><td class='ev-ts'>08/14 16:36</td><td class='ev-sender'>943865891@qq.com</td><td class='ev-content'>我的账号被删除了，可以帮我换绑成我的QQ邮箱嘛
 
-  받는사람: ting312340@soft-world.com.tw님
-  제목: 【智冠科技】網通行銷課(文)1150165-Test by Billing-NEOWIZ Corporation-20260615
-  보낸 날짜: 26. 6. 17. 오후 6시 54분 47초 GMT+9
 
-읽은 날짜: 26. 8. 3. 오후 6시 34분 14초 GMT+9</td></tr></tbody>
+
+发自我的iPhone</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-34', this)">
-          <td><span class="cat-badge" style="background:#718096">기타</span></td>
-          <td class="stars">★★★★☆</td>
-          <td class="task-name">Gmail 자동 생성 수신거부(unsubscribe) 처리 메일 확인</td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">네오위즈 글로벌 홈페이지 개편 — BD2 소개 문구·대표 이미지 검토 요청</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 18:19</td>
+          <td class="ts-cell">08/14 13:19</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1530,16 +1372,27 @@ Google Play 게임즈 서비스는 모바일과 GPG(PC)를 통합하는 플랫�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 18:19</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>This message was automatically generated by Gmail.</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/14 13:19</td><td class='ev-sender'>inmo.sung@neowiz.com</td><td class='ev-content'>안녕하세요 B&amp;C 성인모입니다.
+
+현재 네오위즈 글로벌 홈페이지 개편 초반 작업 중에 있는데요.
+추후 게임 타이틀별 소개 내용을 강화하려고 계획중입니다.
+(현행 페이지는 타이틀, 장르만 표시하고 있으나 소개 문구 추가 계획 중)
+
+아래 링크 드린 구글 시트 들어가셔서 내용 검토 부탁드리고,
+만일 수정 의견 있으실 경우 아래 안내에 따라 기재해주시면 반영하겠습니다.
+
+*작업 파일 (구글 시트): **NEOWIZ_HP Revamp_Phase1_카피워크시트_V3*
+&lt;https://docs.google.com/spreadsheets/d/1VOqNxzri00Qoi4j_953YwX51fy5S0QqZFuk65EUMmu8/edit?usp=sharing&gt;
+(관리할 정보량이 많아 부득이 온라인 시트 초대 드린 점 양해 부탁드</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-35', this)">
-          <td><span class="cat-badge" style="background:#718096">기타</span></td>
-          <td class="stars">★★★★☆</td>
-          <td class="task-name">Gmail 자동 생성 수신거부(unsubscribe) 처리 메일 확인</td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">Android 17 메모리 제한 대응 — 구글 현장 엔지니어링 지원 제안 협조 요청</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 14:01</td>
+          <td class="ts-cell">08/14 10:23</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1552,16 +1405,25 @@ Google Play 게임즈 서비스는 모바일과 GPG(PC)를 통합하는 플랫�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 14:01</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>This message was automatically generated by Gmail.</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/14 10:23</td><td class='ev-sender'>kimmiran@neowiz.com</td><td class='ev-content'>안녕하세요, 사업제휴실 김미란입니다.
+
+지난번 진행되었던 구글 플레이 기술팀과의 미팅 이후, 구글 측에서 &#x27;브라운더스트2&#x27;의 메모리 최적화를 위한 현장 엔지니어링 지원 및
+글로벌 케이스 스터디 추진을 제안해 와 관련 내용을 공유드리고 협조를 요청드리고자 합니다.
+
+구글 내부적으로도 브더2 개발팀에서 전달해 주신 메모리 정책 피드백을 매우 무게감 있게 다루고 있습니다. 파견근무는 일반적인 지원
+형태가 아닌 매우 특별한 케이스로, 이번 협업을 통해 기술적 성과를 도출할 경우 &#x27;Android Developers Official
+Site&#x27;에 글로벌 성공 사례(Case Study)로 등재하는 것까지 적극적으로 추진하고 싶다는 의사를 밝혀왔습니다.
+
+상세 내용 및 요청 사항을 검토해 보시고, 진행 여부 및 일정에 대한</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-36', this)">
-          <td><span class="cat-badge" style="background:#718096">기타</span></td>
-          <td class="stars">★★★★☆</td>
-          <td class="task-name">Gmail 자동 생성 수신거부(unsubscribe) 처리 메일 확인</td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">Jira 주간 업데이트 요약 자동 수신 (8/13)</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 14:01</td>
+          <td class="ts-cell">08/13 20:53</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1574,16 +1436,30 @@ Google Play 게임즈 서비스는 모바일과 GPG(PC)를 통합하는 플랫�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 14:01</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>This message was automatically generated by Gmail.</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/13 20:53</td><td class='ev-sender'>jira@neowiz.atlassian.net</td><td class='ev-content'>Jira
+[https://post-office-rml-frontend.prod-east.frontend.public.atl-paas.net/assets/jira-logo-white.fbfe2e86.png]
+
+
+주간 업데이트
+
+Spaces
+[https://post-office-rml-frontend.prod-east.frontend.public.atl-paas.net/assets/space-icon.e00b373f.png]스페이스
+업데이트
+
+작업한 스페이스에서 업무 항목 3개 할당
+
+Issue type
+[https://post-office-rml-frontend.prod-east.frontend.public.atl-paas.net/assets/task-icon.7cc043c2.png]PLATFORM-94
+[M</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-37', this)">
           <td><span class="cat-badge" style="background:#718096">기타</span></td>
-          <td class="stars">★★★★☆</td>
-          <td class="task-name">Gmail 자동 생성 수신거부(unsubscribe) 처리 메일 확인</td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">플랫폼개발1팀 권영진 부재 공유 — 8/14~8/18 전일 부재</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 14:01</td>
+          <td class="ts-cell">08/13 19:10</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1596,16 +1472,22 @@ Google Play 게임즈 서비스는 모바일과 GPG(PC)를 통합하는 플랫�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 14:01</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>This message was automatically generated by Gmail.</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/13 19:10</td><td class='ev-sender'>pening@neowiz.com</td><td class='ev-content'>안녕하세요 플랫폼 개발 1팀 권영진입니다.
+
+8월 14일 금요일부터 8월 18일 화요일까지 전일 부재 공유드립니다.
+
+급한 용무는 chat 또는 전화로 문의 부탁드립니다.
+
+감사합니다.</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-38', this)">
-          <td><span class="cat-badge" style="background:#718096">기타</span></td>
-          <td class="stars">★★★★☆</td>
-          <td class="task-name">Gmail 자동 생성 수신거부(unsubscribe) 처리 메일 확인</td>
+          <td><span class="cat-badge" style="background:#6b2fa0">BD2 마케팅</span></td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">MyCard 분쟁 가능 거래 상태 조회 요청 접수 — 확인 필요</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 14:00</td>
+          <td class="ts-cell">08/13 18:10</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1618,17 +1500,18 @@ Google Play 게임즈 서비스는 모바일과 GPG(PC)를 통합하는 플랫�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 14:00</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>This message was automatically generated by Gmail.</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/13 18:10</td><td class='ev-sender'>mycard.cs@soft-world.com.tw</td><td class='ev-content'>Dear Partner,
+We have received a notification from the payment service provider regarding a transaction in which a user purchased goods through a payment method provided by MyCard. Due to concerns surrounding the transaction (such as the user not recognizing the purchase, unauthorized use of the payment method, or the user claiming that the purchased goods were not received), the payment service p</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-39', this)">
-          <td><span class="cat-badge" style="background:#1a6e44">BD2 글로벌</span></td>
-          <td class="stars">★★★★☆</td>
-          <td class="task-name">마이카드 7월 거래 지급 실패 건 확인 요청에 대한 후속 업데이트 수신</td>
+          <td><span class="cat-badge" style="background:#6b2fa0">BD2 마케팅</span></td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">MyCard 지급 실패 거래 재확인 — 검증 문서 갱신 회신</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 13:43</td>
-          <td class="cnt-cell">1건</td>
+          <td class="ts-cell">08/13 14:46</td>
+          <td class="cnt-cell">2건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-39" class="evidence-row" style="display:none">
@@ -1640,16 +1523,29 @@ Google Play 게임즈 서비스는 모바일과 GPG(PC)를 통합하는 플랫�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 13:43</td><td class='ev-sender'>hanna@neowiz.com</td><td class='ev-content'>2026년 7월 20일 (월) 오후 4:46, 林瑜真 &lt;jane24@soft-world.com.tw&gt;님이 작성:</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/13 14:46</td><td class='ev-sender'>jane24@soft-world.com.tw</td><td class='ev-content'>Hello,
+
+The transaction in the attachment is that the user successfully completed the payment, but the &quot;Redemption Status&quot; in the MyCard backend shows failure. Please help confirm whether the product has been delivered.
+
+If you have delivered the point for the transaction; please remember to process the technical document 3.3-&gt; 3.4 request work.
+if you hasn&#x27;t delivered the point, we can send the 3</td></tr>
+<tr><td class='ev-ts'>08/13 16:01</td><td class='ev-sender'>yumki@neowiz.com</td><td class='ev-content'>Hello.
+
+We have updated the document.
+Please check the attached file.
+
+Thank you.
+
+2026년 8월 13일 (목) 오후 2:46, 林瑜真 &lt;jane24@soft-world.com.tw&gt;님이 작성:</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-40', this)">
-          <td><span class="cat-badge" style="background:#718096">기타</span></td>
-          <td class="stars">★★☆☆☆</td>
-          <td class="task-name">정보보안실 백신 이벤트 탐지 알림 — 실행 파일 의도 여부 확인 요청</td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">8/13 웹상점·자체PC·원스토어 신규 상품 라이브 구매 테스트 완료 공유</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/08 04:12</td>
+          <td class="ts-cell">08/13 12:40</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1662,30 +1558,29 @@ Google Play 게임즈 서비스는 모바일과 GPG(PC)를 통합하는 플랫�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/08 04:12</td><td class='ev-sender'>nw_002169_101@neowiz.com</td><td class='ev-content'>안녕하세요 정보보안실 입니다. 
-본 메일은 hanna님의 PC ( 혹은 노트북 )에 백신 이벤트가 발생하여 자동 전송된 메일 입니다. 
-아래 내용 확인 하시어 의도하지 않은 실행 파일 이거나 파일 다운로드, 웹 트레픽 이라면 정보보안실(nw_002169_101@neowiz.com)으로 회신을 요청드리며,
- 의도된 실행이라해도 탐지가 발생한 사항에 대해서는 이후 주의를 부탁 드립니다.
+              <tbody><tr><td class='ev-ts'>08/13 12:40</td><td class='ev-sender'>ruri1gun@neowiz.com</td><td class='ev-content'>안녕하세요.  FDQA팀 최용건 입니다.
 
+8월 13일 업데이트 점검과 관련하여 웹상점 및 자체PC와 원스토어 등록 상품에 대한 Live 환경 확인 테스트가 완료되어  메일 공유
+드립니다.
+확인 된 특이사항은 없습니다.
 
-
-[========백신(SentinelOne) Event======]
-시작 : 2026-08-07 19:12:26
-사용자 : hanna
-호스트 : NWZ-hanna-rr
-로컬 호스트 IP : [&#x27;10.30.145.97&#x27;, &#x27;fe80::7c0b:ff87:b9f3:59e9&#x27;]
-
-응용프로그램 : TEFScreen64.sys
-응용프</td></tr></tbody>
+*[테스트 정보]*
+ - 테스트 환경: Live 환경
+ - 테스트 빌드: 2.32.7
+ - 검증 페이지 정보
+ : 웹상점 URL: https://webshop.browndust2.global/ko-KR/
+&lt;https://webshop.dq.browndust2.global/ko-KR/&gt;
+ - 확인 리스트: 확인 리스트
+&lt;https://docs.google.com/spreadsheets/d/1lKfkNVaA-sDHaUScI7wF988HdSa_gPRpRJhPVoTFtdg/edit?gid=3837</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-41', this)">
-          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★☆☆☆</td>
-          <td class="task-name">일본 자금결제법 신고 대응 — 네온 일본 약관 표기 수정 필요 사항 확인</td>
+          <td><span class="cat-badge" style="background:#6b2fa0">BD2 마케팅</span></td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">MyCard 결제 완료·지급 실패 거래 확인 요청 수신</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/07 17:10</td>
+          <td class="ts-cell">08/12 12:34</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1698,33 +1593,22 @@ Google Play 게임즈 서비스는 모바일과 GPG(PC)를 통합하는 플랫�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/07 17:10</td><td class='ev-sender'>elshier@neowiz.com</td><td class='ev-content'>안녕하세요 다현님, 컨텐츠사업팀 이한솔입니다.
+              <tbody><tr><td class='ev-ts'>08/12 12:34</td><td class='ev-sender'>jane24@soft-world.com.tw</td><td class='ev-content'>Hello,
 
-빠르게 작업해 주셔서 감사합니다! 보내주신 스크린샷 확인 했습니다.
+The transaction in the attachment is that the user successfully completed the payment, but the &quot;Redemption Status&quot; in the MyCard backend shows failure. Please help confirm whether the product has been delivered.
 
-@이한나 (Hanna) &lt;hanna@neowiz.com&gt; 님, 일본 네온 약관 쪽 수정이 필요할 것 같습니다.
-
-https://www.neonapi.com/api/mobile/global/terms?app_id=5063&amp;nation_cd=JP
-
-위 페이지 최하단에 브라운더스트 표가 있어야 하는데, 오마이앤만 남아있는 것 같습니다.
-브라운더스트2 추가 및 주소 업데이트를 부탁 드립니다 (_ _)
-
-*※ 신규 게임온 주소*
-
-*〒113-0033 東京都文京区本郷1ｰ4ｰ5 後楽園PREX 3階(3F Korakuen PREX, 1-4-5 Hongo,
-Bunkyo-ku, Tokyo 113-0033)*
-
-</td></tr></tbody>
+If you have delivered the point for the transaction; please remember to process the technical document 3.3-&gt; 3.4 request work.
+if you hasn&#x27;t delivered the point, we can send the 3</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-42', this)">
-          <td><span class="cat-badge" style="background:#6b2fa0">BD2 마케팅</span></td>
-          <td class="stars">★★☆☆☆</td>
-          <td class="task-name">마이카드 결제 성공·지급 실패 거래 검증 파일 회신 및 환불 대상 처리</td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">9월 업데이트 기념 웹상점 배너 지라(DESIGN-2669) 진행 상황 갱신</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/07 11:17</td>
-          <td class="cnt-cell">3건</td>
+          <td class="ts-cell">08/12 10:42</td>
+          <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-42" class="evidence-row" style="display:none">
@@ -1736,45 +1620,25 @@ Bunkyo-ku, Tokyo 113-0033)*
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/07 11:17</td><td class='ev-sender'>jane24@soft-world.com.tw</td><td class='ev-content'>Hello,
+              <tbody><tr><td class='ev-ts'>08/12 10:42</td><td class='ev-sender'>jira@neowiz.atlassian.net</td><td class='ev-content'>양귀연 님이 1개 항목을 업데이트했습니다
 
-The transaction in the attachment is that the user successfully completed the payment, but the &quot;Redemption Status&quot; in the MyCard backend shows failure. Please help confirm whether the product has been delivered.
+--------------------------------------------------------------------------------
 
-If you have delivered the point for the transaction; please remember to process the technical document 3.3-&gt; 3.4 request work.
-if you hasn&#x27;t delivered the point, we can send the 3</td></tr>
-<tr><td class='ev-ts'>08/07 15:31</td><td class='ev-sender'>yumki@neowiz.com</td><td class='ev-content'>Hello.
+[NEW]디자인팀
+[https://neowiz.atlassian.net/browse/DESIGN?atlOrigin=eyJpIjoiN2RiMmMwN2ZhYzY3NGI1MWI4NDk2ZmIwMjcyMTBiNTUiLCJwIjoiaiJ9] / DESIGN-2669
+[https://neowiz.atlassian.net/browse/DESIGN-2669?atlOrigin=eyJpIjoiN2RiMmMwN2ZhYzY3NGI1MWI4NDk2ZmIwMjcyMTBiNTUiLCJwIjoiaiJ9]
 
-We have updated the document.
-Please check the attached file.
-
-Thank you.
-
-2026년 8월 7일 (금) 오전 11:18, 林瑜真 &lt;jane24@soft-world.com.tw&gt;님이 작성:</td></tr>
-<tr><td class='ev-ts'>08/07 15:48</td><td class='ev-sender'>jane24@soft-world.com.tw</td><td class='ev-content'>Hello,
-Thank you for your reply and the verification file.
-Regarding the transaction statuses, please see our updates below:
-
-
-l   For transactions marked with &quot;O&quot; (Require Refund): We have received your request, and the cancellation for these transactions is currently in progress.
-Vender
-Product Name
-MyCard PIN Code
-Cancellation
-NEOWIZ Corporation
-棕色塵埃2
-MAT260728121097
-O
-NEOWIZ Corporation
-棕色塵埃2P</td></tr></tbody>
+[브더2] 9월 업데이트 기념 웹상점 배너
+</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-43', this)">
-          <td><span class="cat-badge" style="background:#718096">기타</span></td>
-          <td class="stars">★★☆☆☆</td>
-          <td class="task-name">NeoFlex 8월 6일 근무종료 기록 누락 확인 및 근태 수정 요청</td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">Xsolla 퍼블리셔 카탈로그 관리 인터페이스 업데이트(8/10~14) 안내</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/07 08:30</td>
+          <td class="ts-cell">08/10 16:43</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1787,17 +1651,30 @@ NEOWIZ Corporation
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/07 08:30</td><td class='ev-sender'>neo-flex@neowiz.com</td><td class='ev-content'>[NeoFlex] 2026년 08월 근무 확인을 부탁 드립니다. 안녕하세요 이한나님 NeoFlex 입니다. 2026년 08월 근태현황에서 근무종료 누락이 확인 되었습니다. 날짜 누락 2026-08-06 근무종료 근무기록이 누락되셨다면 시스템 내 근태활동 수정하기 기능을 활용하여 작성 부탁 드리겠습니다. [NeoFlex 바로가기] [시스템가이드 바로가기] 근무</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/10 16:43</td><td class='ev-sender'>apac_ops@xsolla.com</td><td class='ev-content'>파트너 여러분께,
+
+Publisher Account의 카탈로그 관리(Catalog Management) 인터페이스가 2026년 8월 10일부터 8월
+14일까지 업데이트될 예정임을 안내드립니다.
+
+*주요 개선 사항*
+
+   - 아이템 및 번들 생성/편집 화면을 통합하고, 실시간 미리보기 기능을 추가했습니다.
+   - &quot;전체 아이템&quot; 목록을 개편하여 탐색이 더욱 편리해졌습니다.
+   - 그룹 및 표시 순서를 관리하는 전용 섹션을 신설하여, 그룹 우선 보기, 알아보기 쉬운 그룹 이름, 그리고 그룹 생성·편집·순서
+   변경 기능을 제공합니다.
+   - 여러 이미지와 동영상을 지원하는 새로운 미디어 블록을 추가했습니다.
+
+API 변경 사항은 없습니다. 기존 연동은 이전과 동일하게 작동하며, 별도의 마이그레이션 작업</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-44', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★☆☆☆</td>
-          <td class="task-name">브더2 팬덤 회의체 일정 변경 및 8월부터 TFT장 한경철 교체 안내</td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">BD2 7월 마케팅 비용 분담금 정산 — 겜프스엔 내역 확인·세금계산서 발행</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 00:44</td>
-          <td class="cnt-cell">1건</td>
+          <td class="ts-cell">08/10 13:09</td>
+          <td class="cnt-cell">4건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-44" class="evidence-row" style="display:none">
@@ -1809,31 +1686,72 @@ NEOWIZ Corporation
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 00:44</td><td class='ev-sender'>jonghokim@neowiz.com</td><td class='ev-content'>일정이 업데이트되었습니다. 메모를 확인하세요
-&quot;8월부터 TFT장이 한경철님으로 변경되었으며, 이후 TFT 미팅 일정은 경철님께서  
-새롭게 잡아주시기 바랍니다. 감사합니다.&quot;
-변경됨: 시간
+              <tbody><tr><td class='ev-ts'>08/10 13:09</td><td class='ev-sender'>yoyosj@neowiz.com</td><td class='ev-content'>안녕하세요. 유라님
+네오위즈 김수진입니다.
+
+26년 7월 마케팅 비용 분담금 공유 드립니다.
+
+*[7월 마케팅 비용 분담금 정산]*
+*- 총 비용: 1,837,886,903원*
+*  ㄴ 인보이스 소계: 1,215,202,299원 *
+*  ㄴ 세금계산서 소계: 622,684,604원 (공급가액 기준)*
+
+내역 확인 부탁 드리며,
+특이사항 없으면 세금계산서 및 인보이스 발행하여 전달 드리겠습니다.
+
+고맙습니다.
+김수진드림
+ 26년7월MKT증빙.zip
+&lt;https://drive.google.com/file/d/1_666GvfaE6VEd7xIb6QPasDzpCJJeVij/view?usp=drive_web&gt;</td></tr>
+<tr><td class='ev-ts'>08/10 15:01</td><td class='ev-sender'>yoyosj@neowiz.com</td><td class='ev-content'>안녕하세요. 유라님
+네오위즈 김수진입니다.
+
+정산서 파일이 누락되어 추가 메일 드립니다.
+번거롭게 한 점 양해 부탁 드리며, 첨부파일로 확인 부탁 드립니다!
+
+고맙습니다.
+김수진드림
 
 
-[브더2] 팬덤 회의체
-매주 수요일, 오전 10:30 ~ 오후 12:30 - 5월 20일 (수요일) ~ 8월 11일 (화요일)
-한국 표준시 - 서울
+2026년 8월 10일 (월) 오후 1:09, 김수진 &lt;yoyosj@neowiz.com&gt;님이 작성:</td></tr>
+<tr><td class='ev-ts'>08/10 16:14</td><td class='ev-sender'>kimyura1004@neowiz.com</td><td class='ev-content'>수진님, 안녕하세요.
+겜프스엔 경영지원팀 김유라입니다.
 
-위치
-판교-4층-4R02 (20) [화상 회의], GameOn-7F-PMO 703 (8)	
-https://www.google.com/maps/search/%ED%8C%90%EA%B5%90-4%EC%B8%B5-4R02+(20)+%5B%ED%99%94%EC%83%81+%ED%9A%8C%EC%9D%98%5D,+GameOn-7F-PMO+703+(8)?hl=ko
+26년 7월 마케팅 비용 분담내역 확인했습니다.
+세금계산서 및 인보이스 발행 부탁드리겠습니다.
 
-Google M</td></tr></tbody>
+감사합니다.
+
+
+
+2026년 8월 10일 (월) 오후 3:01, 김수진 &lt;yoyosj@neowiz.com&gt;님이 작성:</td></tr>
+<tr><td class='ev-ts'>08/10 16:27</td><td class='ev-sender'>yoyosj@neowiz.com</td><td class='ev-content'>안녕하세요. 유라님
+네오위즈 김수진입니다.
+
+빠르게 내역 확인해주셔서 감사합니다.
+
+7월 마케팅 비용 인보이스 첨부파일로 전달 드리며,
+세금계산서 발행 신청 내역도 첨부파일로 참고 부탁 드립니다.
+
+7월 모바일 매출 / 굿즈 / 로열티 수익 분배금은
+지난번 메신저로 말씀드린대로 8/26 자금일자에 맞춰 지급 예정인 점 참고 부탁 드립니다.
+
+고맙습니다.
+김수진드림
+
+
+
+2026년 8월 10일 (월) 오후 4:14, 김유라[GSN] &lt;kimyura1004@neowiz.com&gt;님이 작성:</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-45', this)">
-          <td><span class="cat-badge" style="background:#1a6e44">BD2 글로벌</span></td>
-          <td class="stars">★★☆☆☆</td>
-          <td class="task-name">NEO IAM 업무시간 외 KeyCloak 로그인 성공 보안 탐지 알림 확인</td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">BD2 7월 로열티 정산 — 정산액 확정 및 세금계산서 발행 완료</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 00:02</td>
-          <td class="cnt-cell">1건</td>
+          <td class="ts-cell">08/10 14:58</td>
+          <td class="cnt-cell">3건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-45" class="evidence-row" style="display:none">
@@ -1845,17 +1763,63 @@ Google M</td></tr></tbody>
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 00:02</td><td class='ev-sender'>service@sumologic.com</td><td class='ev-content'>&lt;p&gt;* 감시 유형:  [NWZ-KC-002] KeyCloak - Successful login during non-business hours&lt;/p&gt;&lt;p&gt;* 시간: 2026-08-04 23:59:00(KST)&lt;/p&gt;&lt;p&gt;* 접속IP : 116.123.94.185 &lt;/p&gt;&lt;p&gt;* 접속자 : hanna&lt;/p&gt;&lt;p&gt;* 액션 : LOGIN&lt;/p&gt;&lt;p&gt;* 이메일: hanna@neowiz.com&lt;/p&gt;&lt;p&gt; &lt;/p&gt;&lt;p&gt;본인이 아닌경우 정보보안실에 신고하여 주시기 바랍니다.&lt;/p&gt;</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/10 14:58</td><td class='ev-sender'>yoyosj@neowiz.com</td><td class='ev-content'>안녕하세요, 유라님
+네오위즈 김수진입니다.
+
+2026년 7월 로열티 관련 매출 정산 내역서 전달 드립니다.
+하기 내용 및 첨부파일 확인 부탁 드리며, 특이사항 없으실 경우 세금계산서 발행 부탁 드립니다.
+
+*[7월 로열티 정산]*
+- 정산 지급액은 *160,253,160원*입니다.
+- 특이사항
+   1. CTRL Media 매출 조정
+      -&gt; 계약 상 5,000 USD까지 미정산으로, 1,2분기 반영 분 매출 제거
+   2. BKB 수수료 반영
+      -&gt; BiliBili 매출과 관련하여 BKB 수수료에 대한 분담 반영
+
+[image: image.png]
+[image: image.png]
+
+ 26년7월_로열티.zip
+&lt;https://drive.google.com/file/d/1YdztWjGTRaw</td></tr>
+<tr><td class='ev-ts'>08/10 15:16</td><td class='ev-sender'>yoyosj@neowiz.com</td><td class='ev-content'>안녕하세요, 유라님
+
+번거롭게 하여 죄송하며,
+기전달드린 정산 자료 2개간 원단위 차이가 발생하여 다시 공유 드립니다.
+
+아래 금액으로 세금계산서 발행 부탁 드립니다.
+
+*[7월 로열티 정산]*
+- 정산 지급액은 *160,253,161원*입니다.
+
+[image: image.png]
+
+고맙습니다.
+김수진드림
+
+
+2026년 8월 10일 (월) 오후 2:58, 김수진 &lt;yoyosj@neowiz.com&gt;님이 작성:</td></tr>
+<tr><td class='ev-ts'>08/10 15:27</td><td class='ev-sender'>kimyura1004@neowiz.com</td><td class='ev-content'>수진님, 안녕하세요.
+겜프스엔 경영지원팀 김유라입니다.
+
+26년 7월 로열티관련 정산내역 확인 및 세금계산서 발행하였습니다.
+관련 XML 파일을 첨부드리오니 확인 부탁드립니다.
+
+감사합니다.
+
+
+
+2026년 8월 10일 (월) 오후 3:16, 김수진 &lt;yoyosj@neowiz.com&gt;님이 작성:</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-46', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★☆☆☆</td>
-          <td class="task-name">지라 DESIGN-2650 웹상점 8월 헬레나 쿠폰배너 디자인 및 베리에이션 공유</td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">BD2 7월 굿즈 정산 내역 확인 — 세금계산서 발행 및 XML 공유</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/04 14:01</td>
-          <td class="cnt-cell">2건</td>
+          <td class="ts-cell">08/10 15:26</td>
+          <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-46" class="evidence-row" style="display:none">
@@ -1867,41 +1831,26 @@ Google M</td></tr></tbody>
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/04 14:01</td><td class='ev-sender'>jira@neowiz.atlassian.net</td><td class='ev-content'>@이한나 님, 안녕하세요!
+              <tbody><tr><td class='ev-ts'>08/10 15:26</td><td class='ev-sender'>kimyura1004@neowiz.com</td><td class='ev-content'>수진님, 안녕하세요.
+겜프스엔 경영지원팀 김유라입니다.
 
-[BD2] 웹상점_8월 쿠폰배너 1종 : 헬레나 KR 디자인 공유드립니다.
+26년 7월 굿즈 관련 정산내역 확인 및 세금계산서 발행하였습니다.
+관련 XML 파일을 첨부드리오니 확인 부탁드립니다.
 
- https://drive.google.com/drive/folders/1Jf3uxwnqQySgNcOXmwjFy-nUr45K3JvO 
-[https://drive.google.com/drive/folders/1Jf3uxwnqQySgNcOXmwjFy-nUr45K3JvO]
+감사합니다.
 
- * 배경 리소스(담벼락) 배경 연장하여 리터치한 내역 업로드 하였습니다.
 
- * KR 배너 확인 후 권역 별 베리에이션 예정입니다.
 
-확인 후 회신 부탁드립니다.
-감사합니다!</td></tr>
-<tr><td class='ev-ts'>08/04 14:20</td><td class='ev-sender'>jira@neowiz.atlassian.net</td><td class='ev-content'>@이한나 님,
-
-[BD2] 웹상점_8월 쿠폰배너 1종 : 헬레나 베리에이션 공유드립니다.
-
- https://drive.google.com/drive/folders/1jr_dboBXVVx5HX3uK4hn3W94Gyocysyq 
-[https://drive.google.com/drive/folders/1jr_dboBXVVx5HX3uK4hn3W94Gyocysyq]
-
- * 언어 5종 / 사이즈 2종 : 총 10종
-
- * 각 언어 별 폴더 내 업로드
-
-확인 부탁드립니다.
-감사합니다 😆</td></tr></tbody>
+2026년 8월 7일 (금) 오후 9:10, 김수진 &lt;yoyosj@neowiz.com&gt;님이 작성:</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-47', this)">
-          <td><span class="cat-badge" style="background:#6b2fa0">BD2 마케팅</span></td>
-          <td class="stars">★★☆☆☆</td>
-          <td class="task-name">구글플레이 3분기 특별 피쳐드 Full Moon 프로모션 콘텐츠 세팅 기한 안내</td>
+          <td><span class="cat-badge" style="background:#718096">기타</span></td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">BD2 전용 Jira 프로젝트 구성안 설계 — 워크플로·입력 항목 정의</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 16:05</td>
+          <td class="ts-cell">08/10 14:30</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1914,27 +1863,42 @@ Google M</td></tr></tbody>
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 16:05</td><td class='ev-sender'>realsoomin@neowiz.com</td><td class='ev-content'>안녕하세요, @이한나 (Hanna) &lt;hanna@neowiz.com&gt; 님, @이보름 &lt;joodaby@neowiz.com&gt; 님.
-사업제휴실 김수민입니다.
+              <tbody><tr><td class='ev-ts'>08/10 14:30</td><td class='ev-sender'>jira@neowiz.atlassian.net</td><td class='ev-content'>신규 프로젝트의 기본 구성안을 설계합니다.
 
-FullMoon2026 신청 관련하여 확정된 내용 회신 리마인드 드립니다.
+작업 요청부터 완료까지 필요한 상태와 관리 항목을 정의하고,
 
-원활한 피쳐드 신청을 위해 *8월 21일(금)까지* 아래 유의사항을 참고하여 프로모션 콘텐츠를 세팅하신 후, 관련 정보를 시트
-&lt;https://docs.google.com/spreadsheets/d/17_7CaVXhlVNgPIQLJ9qJAhtOe4LZPP6-tpnIfQkb52o/edit?gid=664678615#gid=664678615&gt;
-내에 기입하여 회신 부탁드립니다.
+실제 사용자들이 복잡하지 않게 사용할 수 있는 수준으로 프로젝트 구조를 구성합니다.
 
-*[유의사항]*
+주요 검토 사항
 
-   - 타겟하는 캠페인 시작일 기준 최소 1개월 전에 프로모션 콘텐츠 세팅이 완료되어야 합</td></tr></tbody>
+ * 작업 요청 시 필요한 기본 입력 항목
+
+ * 작업 진행 상태 및 Workflow
+
+ * QA 필요 여부 및 QA 진행 방식
+
+ * 작업 유형 및 분류 기준
+
+ * 담당자 지정 방식
+
+ * Board에서 확인해야 할 주요 정보
+
+완료 기준
+
+ * Jira 프로젝트 기본 구성안이 정리되어 있을 것
+
+ * Workflow 및 주요 입력 항목이 정의되어 있을 것
+
+ * 프로젝트 구축에 필요한 설정 항목이 확정되어 있을 것</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-48', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★★☆☆☆</td>
-          <td class="task-name">네온플랫폼 퍼블리싱 R&amp;R 및 시스템 개편 논의 회의 참석 초대</td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">BD2 작업요청 통합 Jira 프로젝트 구축 — 요청부터 QA·완료까지 일원화</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 11:45</td>
+          <td class="ts-cell">08/10 14:29</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1947,34 +1911,31 @@ FullMoon2026 신청 관련하여 확정된 내용 회신 리마인드 드립니�
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 11:45</td><td class='ev-sender'>cs.choi@neowiz.com</td><td class='ev-content'>네온플랫폼 퍼블리싱 R&amp;R 및 시스템 개편 논의
-2026년 8월 6일 (목요일) ⋅ 오후 2시 – 오후 3시
-한국 표준시 - 서울
+              <tbody><tr><td class='ev-ts'>08/10 14:29</td><td class='ev-sender'>jira@neowiz.atlassian.net</td><td class='ev-content'>브라운더스트2 관련 작업 요청이 메일, 메신저, 개별 Jira 프로젝트 등 다양한 채널을 통해 관리되고 있어 전체 작업 현황과 진행 이력을
+한곳에서 확인하기 어려운 상황입니다.
 
-위치
-판교-11층-11R05(G.Meet) (20) [화상 회의]	
-https://www.google.com/maps/search/%ED%8C%90%EA%B5%90-11%EC%B8%B5-11R05(G.Meet)+(20)+%5B%ED%99%94%EC%83%81+%ED%9A%8C%EC%9D%98%5D?hl=ko
+작업 요청부터 작업 처리, QA, 완료까지의 과정을 하나의 Jira 프로젝트에서 관리할 수 있도록 브라운더스트2 전용 Jira 프로젝트를
+구성합니다.
 
-Google Meet으로 참여하기
-https://meet.google.com/ooa-qoyo-gbw?hs=224
+기존 브라운더스트2 디자인팀의 Jira 운영 방식을 참고하여 사용자가 쉽게 적응할 수 있는 구조로 설계하고,
 
+실제 업무에 적용 가능한 수준까지 구축 및 검증합니다.
 
-	
-휴대전화로 참여하기
-(US) +1 260-897-1876
-PIN: 199011508
-
-전화번호 더보기
-https://tel.meet/ooa-qoyo-gb</td></tr></tbody>
+ * 논의 문서 :
+   
+   *  https://neowiz.atlassian.net/wiki/x/LwTUG 
+     [https://neowiz.atlassian.net/wiki/x/LwTUG]
+   
+   *</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-49', this)">
-          <td><span class="cat-badge" style="background:#1a6e44">BD2 글로벌</span></td>
-          <td class="stars">★★☆☆☆</td>
-          <td class="task-name">사내 VPN 접속 알림 — 새벽 시간대 계정 로그인 기록 확인</td>
+          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
+          <td class="stars">★☆☆☆☆</td>
+          <td class="task-name">PGS 업적 아이콘 제작 요청 지라(DESIGN-2668) 진행 상황 갱신</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 10:43</td>
+          <td class="ts-cell">08/10 14:09</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -1987,19 +1948,24 @@ https://tel.meet/ooa-qoyo-gb</td></tr></tbody>
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 10:43</td><td class='ev-sender'>nw_002169_101@neowiz.com</td><td class='ev-content'>*[VPN Connection Alarm!!]*
-*Login Time* : [2026-08-03T01:43:36]  
-*User* : hanna  
-*IP*: 175.192.116.66</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/10 14:09</td><td class='ev-sender'>jira@neowiz.atlassian.net</td><td class='ev-content'>양귀연 님이 1개 항목을 업데이트했습니다
+
+--------------------------------------------------------------------------------
+
+[NEW]디자인팀
+[https://neowiz.atlassian.net/browse/DESIGN?atlOrigin=eyJpIjoiZjkyMDI1ZWI1MmU0NDhiOGI5ODIzZWFkNTdlYTk0MDgiLCJwIjoiaiJ9] / DESIGN-2668
+[https://neowiz.atlassian.net/browse/DESIGN-2668?atlOrigin=eyJpIjoiZjkyMDI1ZWI1MmU0NDhiOGI5ODIzZWFkNTdlYTk0MDgiLCJwIjoiaiJ9]
+
+[BD2] PGS(구글플레이서비스) 업적 아</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-50', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
           <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">BD2 26년 7월 굿즈 정산 내역서 공유 및 세금계산서 발행 요청</td>
+          <td class="task-name">네온 약관·운영정책 등록/배포 시스템 개편 — 회의록 공유·개선 의견 수렴</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/07 21:09</td>
+          <td class="ts-cell">08/10 13:26</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -2012,32 +1978,27 @@ https://tel.meet/ooa-qoyo-gb</td></tr></tbody>
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/07 21:09</td><td class='ev-sender'>yoyosj@neowiz.com</td><td class='ev-content'>안녕하세요. 유라님
-네오위즈 IP사업팀 김수진입니다.
+              <tbody><tr><td class='ev-ts'>08/10 13:26</td><td class='ev-sender'>ruthman@neowiz.com</td><td class='ev-content'>안녕하세요 AION실 이경주 입니다.
 
-2026년 7월 굿즈 관련 매출 정산 내역서 전달 드립니다.
-하기 내용 및 첨부파일 확인 부탁 드리며, 특이사항 없으실 경우 세금계산서 발행 부탁 드립니다.
+수신자 축소하여 공유 드립니다.
 
-*[7월 굿즈 정산]*
-- 정산 지급액은 *89,702,295원*입니다.
+플랫폼기획팀에서 네온 약관/정책 업데이트 시스템 기획과, 시스템 구축 전 업무 지원이 예정되어 있어
+관련한 업무에 대한 MM산입이 발생할 수 있어 사전에 공유 드립니다.
 
-설명 정산 대상 금액 최종 정산 금액
-북미 3주년 굿즈 판매_Anime Expo ₩75,528,420
-₩89,702,295
-대만 3주년 굿즈 판매_CAPSULE ₩15,633,246
-대만 3주년 온리전 포토카드 판매 _GameFirst ₩15,055,956
-중국 코스어 의상 판매_WIUHAN GEWUPAI ₩491,509
-한국 상시판매_브이스퀘어(롯데컬처웍스) ₩203,481
-한국 3주년 팬페스티벌 굿즈 판매 ₩72,491</td></tr></tbody>
+그럼 내용 참고 부탁 드리겠습니다 :)
+
+
+감사합니다
+이경주 드림 :)</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-51', this)">
           <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
           <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">엑솔라 브라운더스트2 테스트 결제 영수증 수신 및 거래 내역 확인</td>
+          <td class="task-name">6/25부터 CN 지역 웹사이트 로그인 장애 — 진행 상황 확인·조치 요청</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/07 17:56</td>
+          <td class="ts-cell">08/10 12:23</td>
           <td class="cnt-cell">1건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
@@ -2050,17 +2011,43 @@ https://tel.meet/ooa-qoyo-gb</td></tr></tbody>
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/07 17:56</td><td class='ev-sender'>mailer@xsolla.com</td><td class='ev-content'>Purchase Confirmation 브라운더스트2 테스트 Transaction number 2112678537 Transaction date 08/07/2026 Country South Korea User 413039139 Merchant Xsolla (USA), Inc. 15260 Ventura Boulevard, Suite 2230, Sherman</td></tr></tbody>
+              <tbody><tr><td class='ev-ts'>08/10 12:23</td><td class='ev-sender'>roki.fu@neowiz.com</td><td class='ev-content'>안녕하세요.
+BD2 CN팀 Roki입니다.
+
+해당 메일이 약 한 달 전 전달된 이후 아직 회신이 없는 것으로 확인되어, 관련 건의 진행 상황을 문의드리고자 메일드립니다.
+
+가능하시다면 빠른 시일 내에 수정이 완료될 경우 CN 유저분들의 이용 편의성 개선에 도움이 될 것으로 생각합니다.
+
+확인 및 후속 조치 부탁드리며, 도움 주셔서 감사합니다.
+
+Best regards,
+Roki
+
+————————————————————————————————————————
+Dear all，
+您好 我是BD2 CN组的roki
+
+我查看到由于一个月前该邮件暂未得到回复，
+因此我来询问一下此事进度。
+如果能够早一点维修完成，将能给CN用户带来一些便利。
+
+感谢您的跟进
+
+Best regards，
+roki
+
+
+ro ki &lt;roki.fu@neowiz.co</td></tr></tbody>
             </table>
           </td>
         </tr>
         <tr class="task-row" onclick="toggleEvidence('ev-52', this)">
-          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
+          <td><span class="cat-badge" style="background:#718096">기타</span></td>
           <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">브라운더스트2 주간회의 자동 생성 회의록 공유 — 매출 감소·콘텐츠 전략 논의</td>
+          <td class="task-name">Neon 웹샵 로그인 후 게임 연동 안 되는 이슈 — 지라 진행 상황 추적</td>
           <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/07 15:20</td>
-          <td class="cnt-cell">1건</td>
+          <td class="ts-cell">08/10 09:45</td>
+          <td class="cnt-cell">2건</td>
           <td class="arrow-cell">&#x25BC;</td>
         </tr>
         <tr id="ev-52" class="evidence-row" style="display:none">
@@ -2072,440 +2059,14 @@ https://tel.meet/ooa-qoyo-gb</td></tr></tbody>
                 <col>
               </colgroup>
               <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/07 15:20</td><td class='ev-sender'>gemini-notes@google.com</td><td class='ev-content'>“[반복] 브라운더스트2 주간회의” 회의록
-
-회의록이 조직의 초대된 참석자님에게 전송되었습니다.
-
-회의록 열기
-
-이 콘텐츠는 August 7, 2026, 3:18 PM KST에 자동 생성되었으며, 오류가 있을 수  
-있습니다.
+              <tbody><tr><td class='ev-ts'>08/10 09:45</td><td class='ev-sender'>jira@neowiz.atlassian.net</td><td class='ev-content'>진행사항 코멘트 해주세요.</td></tr>
+<tr><td class='ev-ts'>08/10 09:53</td><td class='ev-sender'>jira@neowiz.atlassian.net</td><td class='ev-content'>@이기로 님
 
 
-요약
-Meeting discussions addressed declining revenue and content strategy  
-adjustments amidst growing community dissatisfaction regarding censorship  
-and operations.
+ https://neowiz.atlassian.net/browse/PMPLATFORM-2188 
+[https://neowiz.atlassian.net/browse/PMPLATFORM-2188]
 
-
-매출 분석 및 업데이트
-8월 매출 목표 달성 실패 원인으로 캐릭터 매력도 부족과 업데이트 컨셉  
-부조화가 지목되었습니다. 콘텐츠와 수익 모델의 조화를 위해 추가적인 밸런스  
-검토 회</td></tr></tbody>
-            </table>
-          </td>
-        </tr>
-        <tr class="task-row" onclick="toggleEvidence('ev-53', this)">
-          <td><span class="cat-badge" style="background:#1a4f70">사업 기획</span></td>
-          <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">일본 자금결제법·특정상거래법 고지 표기 수정 과거 히스토리 메일 전달받음</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/07 13:27</td>
-          <td class="cnt-cell">1건</td>
-          <td class="arrow-cell">&#x25BC;</td>
-        </tr>
-        <tr id="ev-53" class="evidence-row" style="display:none">
-          <td colspan="7" class="evidence-wrap">
-            <table class="evidence-table">
-              <colgroup>
-                <col style="width:90px">
-                <col style="width:160px">
-                <col>
-              </colgroup>
-              <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/07 13:27</td><td class='ev-sender'>leoncho@neowiz.com</td><td class='ev-content'>안녕하세요. 한솔님.
-IP 사업팀 조치형입니다.
-
-예전에 자금결제법 및 특정상거래법 표기 수정할 때 히스토리 담겨있는 메일 전달 드립니다.
-
-기존에 플랫폼 기획팀에서 했었던 것 같긴 한데,
-지금 저 약관 쪽 수정을 어디서 하는지는 모르겠네요.
-
-NEON 관리하는 조직 쪽에 물어봐야 하는 것 같습니다.
-
-참고 부탁드립니다.
-
-감사합니다.
-조치형 드림.</td></tr></tbody>
-            </table>
-          </td>
-        </tr>
-        <tr class="task-row" onclick="toggleEvidence('ev-54', this)">
-          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">BD2 26년 7월 수익분배금 내역서 공유 및 세금계산서 발행 완료 처리</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/06 18:36</td>
-          <td class="cnt-cell">2건</td>
-          <td class="arrow-cell">&#x25BC;</td>
-        </tr>
-        <tr id="ev-54" class="evidence-row" style="display:none">
-          <td colspan="7" class="evidence-wrap">
-            <table class="evidence-table">
-              <colgroup>
-                <col style="width:90px">
-                <col style="width:160px">
-                <col>
-              </colgroup>
-              <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/06 18:36</td><td class='ev-sender'>yoyosj@neowiz.com</td><td class='ev-content'>안녕하세요. 유라님
-네오위즈 글로벌사업관리팀 김수진입니다.
-
-2026년 7월 수익분배금 내역서 전달 드립니다.
-
-*[7월 수익분배금 정산]*
- - 정산 지급액은 *4,440,498,682원*입니다.
- - GPG 인센티브 금액이 조정 금액으로 반영되었습니다.
-   관련 상세 정산서도 같이 첨부해 드리니 참고 부탁 드립니다.
-
-
-구분 Jul-26
-1. 아이템매출 11,209,038,353
-2. 채널코스트 2,664,319,008
-3. 정산대상금액 8,544,719,345
-4. RS 50% 4,272,359,673
-5. 조정 금액 168,139,009
-6. 최종 지급액 4,440,498,682
-
-*[참고]*
-GPG 정산 금액 PC Earnback(매출인식금액) Eligible Consumer Spend %
-브라운</td></tr>
-<tr><td class='ev-ts'>08/07 11:50</td><td class='ev-sender'>kimyura1004@neowiz.com</td><td class='ev-content'>수진님, 안녕하세요.
-겜프스엔 경영지원팀 김유라입니다.
-
-26년 7월 수익분배금 정산내역 확인 및 세금계산서 발행하였습니다.
-관련 XML 파일을 첨부드리오니 확인 부탁드립니다.
-
-감사합니다.
-
-
-
-2026년 8월 6일 (목) 오후 6:36, 김수진 &lt;yoyosj@neowiz.com&gt;님이 작성:</td></tr></tbody>
-            </table>
-          </td>
-        </tr>
-        <tr class="task-row" onclick="toggleEvidence('ev-55', this)">
-          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">8월 13일 브라운더스트2 정기점검 파트별 작업 리스트 취합 요청</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/07 11:17</td>
-          <td class="cnt-cell">1건</td>
-          <td class="arrow-cell">&#x25BC;</td>
-        </tr>
-        <tr id="ev-55" class="evidence-row" style="display:none">
-          <td colspan="7" class="evidence-wrap">
-            <table class="evidence-table">
-              <colgroup>
-                <col style="width:90px">
-                <col style="width:160px">
-                <col>
-              </colgroup>
-              <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/07 11:17</td><td class='ev-sender'>foolscat@neowiz.com</td><td class='ev-content'>안녕하세요. 이지스운영팀 윤준식입니다.
-
-8월 13일(목) 정기점검 진행을 위해
-각 파트별 담당자 님들께서는 아래 시트에
-8월 13일(목) 점검 중 필요한 작업 정보를 기재해 주시기 바랍니다.
-
-260813_작업 List 취합
-&lt;https://docs.google.com/spreadsheets/d/1tIXHRzwXAd-YvfeYBfC5LxmA-uEmZzlmM9cefreoMuA/edit?gid=2070903767#gid=2070903767&amp;range=A1&gt;
-
-작업 개요, 목적, 예상 소요시간, 작업담당자, 상세 내용 등을 기재 부탁드립니다.
-
-감사합니다.</td></tr></tbody>
-            </table>
-          </td>
-        </tr>
-        <tr class="task-row" onclick="toggleEvidence('ev-56', this)">
-          <td><span class="cat-badge" style="background:#1a6e44">BD2 글로벌</span></td>
-          <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">구글 파트너데이 스레드 관련 담당자 8/6~7 전일 부재 자동 회신 수신</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/06 19:18</td>
-          <td class="cnt-cell">1건</td>
-          <td class="arrow-cell">&#x25BC;</td>
-        </tr>
-        <tr id="ev-56" class="evidence-row" style="display:none">
-          <td colspan="7" class="evidence-wrap">
-            <table class="evidence-table">
-              <colgroup>
-                <col style="width:90px">
-                <col style="width:160px">
-                <col>
-              </colgroup>
-              <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/06 19:18</td><td class='ev-sender'>ruthman@neowiz.com</td><td class='ev-content'>안녕하세요 AION실 이경주 입니다. 개인사유로 8/6~7일 부재 입니다. 업무관련 문의는 AION실로 부탁 드리겠습니다. 감사합니다 이경주 드림 :) -- 안녕하세요 AION실 이경주 입니다. 감사합니다 이경주 드림 :) # AI (Artificial Intelligence) Operation Nexus 이경주 | 네오위즈 / 올림포스본부 / AION실</td></tr></tbody>
-            </table>
-          </td>
-        </tr>
-        <tr class="task-row" onclick="toggleEvidence('ev-57', this)">
-          <td><span class="cat-badge" style="background:#6b2fa0">BD2 마케팅</span></td>
-          <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">IT팀 2026 센서타워 온라인 세션 녹화본 링크 만료에 따른 재발급 공유</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 16:02</td>
-          <td class="cnt-cell">1건</td>
-          <td class="arrow-cell">&#x25BC;</td>
-        </tr>
-        <tr id="ev-57" class="evidence-row" style="display:none">
-          <td colspan="7" class="evidence-wrap">
-            <table class="evidence-table">
-              <colgroup>
-                <col style="width:90px">
-                <col style="width:160px">
-                <col>
-              </colgroup>
-              <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 16:02</td><td class='ev-sender'>andy.ko@neowiz.com</td><td class='ev-content'>안녕하세요, Ops &amp; Support IT팀 고결입니다.
-Hello, I&#x27;m Andy from Neowiz(Inc)
-
-최근 공유드린 온라인 세션 영상 녹화본 관련하여, 기간만료된 부분 확인하여
-금일 녹화본 링크 재발급하여 전달 드립니다.
-
-   - 웹 인사이트 &amp; 오디언스 인사이트  (녹화 영상)
-   &lt;https://us-80480.app.gong.io/e/c-share/?tkn=1hxrnfnssthdm1vysj4iq49wwb&gt;
-   - 앱 광고 인사이트 &amp; 플레이라이너(녹화 영상)
-   &lt;https://us-80480.app.gong.io/e/c-share/?tkn=h1tnbrsvv5d41n3my49iulb51&gt;
-   - 비디오 게임 인사이트 (녹화 영상)
-   &lt;https://us-80480.app.g</td></tr></tbody>
-            </table>
-          </td>
-        </tr>
-        <tr class="task-row" onclick="toggleEvidence('ev-58', this)">
-          <td><span class="cat-badge" style="background:#1a6e44">BD2 글로벌</span></td>
-          <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">센서타워 라이선스 갱신 대비 온라인 세션·파일럿 테스트 설문조사 참여 요청</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 14:38</td>
-          <td class="cnt-cell">1건</td>
-          <td class="arrow-cell">&#x25BC;</td>
-        </tr>
-        <tr id="ev-58" class="evidence-row" style="display:none">
-          <td colspan="7" class="evidence-wrap">
-            <table class="evidence-table">
-              <colgroup>
-                <col style="width:90px">
-                <col style="width:160px">
-                <col>
-              </colgroup>
-              <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 14:38</td><td class='ev-sender'>andy.ko@neowiz.com</td><td class='ev-content'>안녕하세요, Ops &amp; Support IT팀 고결입니다.
-Hello, I&#x27;m Andy from Neowiz(Inc)
-
-우선, 바쁘신 와중에도 지난 7월 21일부터 3일간 진행된 센서타워 &#x27;*온라인 세션*&#x27;과 최근 3주간의 &#x27;*파일럿 테스트*&#x27;에
-참여해주신 분들께 감사하다는 말씀 먼저드립니다.
-
-*본 설문은* 오는 8월 센서타워 라이선스 갱신을 앞두고, 임직원 여러분의 실사용 피드백을 수렴하여 *가장 최적화된 라이선스 등급 및
-추가 솔루션 패키지 협상을 진행하기 위해* 마련되었습니다.
-
-여러분의 솔직하고 디테일한 답변이 네오위즈의 효율적인 SW 도입과 업무 생산성 향상에 큰 도움이 되니 많은 참여 부탁드립니다 :)
-
-추가적으로 궁금한 부분 있으시다면, 편한 방법으로 회신주시면 빠르게 확인해드리겠습니다.
-
-Fi</td></tr></tbody>
-            </table>
-          </td>
-        </tr>
-        <tr class="task-row" onclick="toggleEvidence('ev-59', this)">
-          <td><span class="cat-badge" style="background:#718096">기타</span></td>
-          <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">NeoFlex 2026년 7월 근무스케줄 입력 마감 처리 요청 안내</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/05 10:00</td>
-          <td class="cnt-cell">1건</td>
-          <td class="arrow-cell">&#x25BC;</td>
-        </tr>
-        <tr id="ev-59" class="evidence-row" style="display:none">
-          <td colspan="7" class="evidence-wrap">
-            <table class="evidence-table">
-              <colgroup>
-                <col style="width:90px">
-                <col style="width:160px">
-                <col>
-              </colgroup>
-              <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/05 10:00</td><td class='ev-sender'>neo-flex@neowiz.com</td><td class='ev-content'>[NeoFlex] 2026-07월 근무스케줄 입력 마감을 요청 드립니다. 2026년 08월 05일(시스템 마감일 +5일)까지 근무스케줄 마감 처리를 요청 드립니다. [근무시간 등록 바로가기] Check point - 입력하지 못한 업무시작 / 종료가 있는지 체크 후 누락된 시간이 있다면 수정하기 기능을 이용하여 수정 바랍니다. - 신청하지 못한 야간/연장/</td></tr></tbody>
-            </table>
-          </td>
-        </tr>
-        <tr class="task-row" onclick="toggleEvidence('ev-60', this)">
-          <td><span class="cat-badge" style="background:#6b2fa0">BD2 마케팅</span></td>
-          <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">마이카드 7월 거래 결제 성공·지급 실패 건 상품 지급 여부 확인 요청</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/04 17:34</td>
-          <td class="cnt-cell">1건</td>
-          <td class="arrow-cell">&#x25BC;</td>
-        </tr>
-        <tr id="ev-60" class="evidence-row" style="display:none">
-          <td colspan="7" class="evidence-wrap">
-            <table class="evidence-table">
-              <colgroup>
-                <col style="width:90px">
-                <col style="width:160px">
-                <col>
-              </colgroup>
-              <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/04 17:34</td><td class='ev-sender'>jane24@soft-world.com.tw</td><td class='ev-content'>Hello,
-
-The transaction in the attachment is that the user successfully completed the payment, but the &quot;Redemption Status&quot; in the MyCard backend shows failure. Please help confirm whether the product has been delivered.
-
-If you have delivered the point for the transaction; please remember to process the technical document 3.3-&gt; 3.4 request work.
-if you hasn&#x27;t delivered the point, we can send the 3</td></tr></tbody>
-            </table>
-          </td>
-        </tr>
-        <tr class="task-row" onclick="toggleEvidence('ev-61', this)">
-          <td><span class="cat-badge" style="background:#2b4c8c">BD2 운영</span></td>
-          <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">애플 앱스토어 대만 미팅 회의록 공유 — 한국 버전 수정 관련 동향 참고</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/04 16:21</td>
-          <td class="cnt-cell">1건</td>
-          <td class="arrow-cell">&#x25BC;</td>
-        </tr>
-        <tr id="ev-61" class="evidence-row" style="display:none">
-          <td colspan="7" class="evidence-wrap">
-            <table class="evidence-table">
-              <colgroup>
-                <col style="width:90px">
-                <col style="width:160px">
-                <col>
-              </colgroup>
-              <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/04 16:21</td><td class='ev-sender'>smile@neowiz.com</td><td class='ev-content'>애플 앱스토어 회의록 공유 드립니다. :) 업무에 참고 부탁 드립니다. [플랫폼/Mobile] Apple App Store 미팅 회의록
-20260802
-
-Apple Taiwan은 타이베이게임쇼에서 네오위즈와 미팅을 진행했고 타이베이게임쇼에서 브라운더스트2 부스에 방문한 적 있으며 이번
-한국버전수정에 대한 부분에 대해 자세히 물어보는 등 주시하고 있는 느낌이었습니다.
-
-이번 미팅의 성과는 Apple AppStore TW 으로부터 브라운더스트2의 비즈니스리뷰(컨설팅) 진행을 해주겠다고 약속한 것입니다.
-실제 팔로업은 AppStore KR과 더 얘기해서 진행토록 하겠습니다.
-
-
-   -
-
-   참석자 : NWZ 최방글, Apple TW Johny / BM
-   -
-
-   아젠다 : 네오위즈 주요 게임의 라이브옵스</td></tr></tbody>
-            </table>
-          </td>
-        </tr>
-        <tr class="task-row" onclick="toggleEvidence('ev-62', this)">
-          <td><span class="cat-badge" style="background:#718096">기타</span></td>
-          <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">NeoFlex 2026년 7월 근무스케줄 입력 마감 처리 요청 안내</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/04 10:00</td>
-          <td class="cnt-cell">1건</td>
-          <td class="arrow-cell">&#x25BC;</td>
-        </tr>
-        <tr id="ev-62" class="evidence-row" style="display:none">
-          <td colspan="7" class="evidence-wrap">
-            <table class="evidence-table">
-              <colgroup>
-                <col style="width:90px">
-                <col style="width:160px">
-                <col>
-              </colgroup>
-              <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/04 10:00</td><td class='ev-sender'>neo-flex@neowiz.com</td><td class='ev-content'>[NeoFlex] 2026-07월 근무스케줄 입력 마감을 요청 드립니다. 2026년 08월 05일(시스템 마감일 +5일)까지 근무스케줄 마감 처리를 요청 드립니다. [근무시간 등록 바로가기] Check point - 입력하지 못한 업무시작 / 종료가 있는지 체크 후 누락된 시간이 있다면 수정하기 기능을 이용하여 수정 바랍니다. - 신청하지 못한 야간/연장/</td></tr></tbody>
-            </table>
-          </td>
-        </tr>
-        <tr class="task-row" onclick="toggleEvidence('ev-63', this)">
-          <td><span class="cat-badge" style="background:#6b2fa0">BD2 마케팅</span></td>
-          <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">마이카드 7월 거래 결제 성공·지급 실패 건 상품 지급 여부 확인 요청</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 12:57</td>
-          <td class="cnt-cell">1건</td>
-          <td class="arrow-cell">&#x25BC;</td>
-        </tr>
-        <tr id="ev-63" class="evidence-row" style="display:none">
-          <td colspan="7" class="evidence-wrap">
-            <table class="evidence-table">
-              <colgroup>
-                <col style="width:90px">
-                <col style="width:160px">
-                <col>
-              </colgroup>
-              <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 12:57</td><td class='ev-sender'>jane24@soft-world.com.tw</td><td class='ev-content'>Hello,
-
-The transaction in the attachment is that the user successfully completed the payment, but the &quot;Redemption Status&quot; in the MyCard backend shows failure. Please help confirm whether the product has been delivered.
-
-If you have delivered the point for the transaction; please remember to process the technical document 3.3-&gt; 3.4 request work.
-if you hasn&#x27;t delivered the point, we can send the 3</td></tr></tbody>
-            </table>
-          </td>
-        </tr>
-        <tr class="task-row" onclick="toggleEvidence('ev-64', this)">
-          <td><span class="cat-badge" style="background:#718096">기타</span></td>
-          <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">NeoFlex 7월 31일 신청 연장 근로건 승인 완료 알림 확인</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 12:20</td>
-          <td class="cnt-cell">2건</td>
-          <td class="arrow-cell">&#x25BC;</td>
-        </tr>
-        <tr id="ev-64" class="evidence-row" style="display:none">
-          <td colspan="7" class="evidence-wrap">
-            <table class="evidence-table">
-              <colgroup>
-                <col style="width:90px">
-                <col style="width:160px">
-                <col>
-              </colgroup>
-              <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 12:20</td><td class='ev-sender'>neo-flex@neowiz.com</td><td class='ev-content'>[NeoFlex] 2026-07-31일에 신청한 연장 근로건이 승인 완료 되었습니다. [NeoFlex] 2026-07-31일에 신청한 연장 근로건이 승인 완료 되었습니다. 신청 종류 : 연장 근로 근무 신청 일자 : 2026-07-31 신청 주간 시간 : 8시간 신청 야간 시간 : 0시간 사유 :</td></tr>
-<tr><td class='ev-ts'>08/03 12:20</td><td class='ev-sender'>neo-flex@neowiz.com</td><td class='ev-content'>[NeoFlex] 2026-07-31일에 신청한 연장 근로건이 승인 완료 되었습니다. [NeoFlex] 2026-07-31일에 신청한 연장 근로건이 승인 완료 되었습니다. 신청 종류 : 연장 근로 근무 신청 일자 : 2026-07-31 신청 주간 시간 : 8시간 신청 야간 시간 : 0시간 사유 :</td></tr></tbody>
-            </table>
-          </td>
-        </tr>
-        <tr class="task-row" onclick="toggleEvidence('ev-65', this)">
-          <td><span class="cat-badge" style="background:#718096">기타</span></td>
-          <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">NeoFlex 연장근로 신청 — 글레이시아 이미지 교체 및 구글 레벨업 적용 테스트</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 10:37</td>
-          <td class="cnt-cell">1건</td>
-          <td class="arrow-cell">&#x25BC;</td>
-        </tr>
-        <tr id="ev-65" class="evidence-row" style="display:none">
-          <td colspan="7" class="evidence-wrap">
-            <table class="evidence-table">
-              <colgroup>
-                <col style="width:90px">
-                <col style="width:160px">
-                <col>
-              </colgroup>
-              <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 10:37</td><td class='ev-sender'>neo-flex@neowiz.com</td><td class='ev-content'>[NeoFlex] 2026-07-31일에 신청한 연장 근로건이 승인요청 되었습니다. 신청 종류 : 연장 근로 근무 신청 일자 : 2026-07-31 신청 주간 시간 : 8시간 신청 야간 시간 : 0시간 사유 : 글레이시아 이미지 교체 대응 구글 레벨업(사이드킥) 적용 테스트</td></tr></tbody>
-            </table>
-          </td>
-        </tr>
-        <tr class="task-row" onclick="toggleEvidence('ev-66', this)">
-          <td><span class="cat-badge" style="background:#718096">기타</span></td>
-          <td class="stars">★☆☆☆☆</td>
-          <td class="task-name">NeoFlex 2026년 7월 근무스케줄 입력 마감 처리 요청 안내</td>
-          <td><span class="src-badge" style="background:#27ae60">mail</span> 메일</td>
-          <td class="ts-cell">08/03 10:00</td>
-          <td class="cnt-cell">1건</td>
-          <td class="arrow-cell">&#x25BC;</td>
-        </tr>
-        <tr id="ev-66" class="evidence-row" style="display:none">
-          <td colspan="7" class="evidence-wrap">
-            <table class="evidence-table">
-              <colgroup>
-                <col style="width:90px">
-                <col style="width:160px">
-                <col>
-              </colgroup>
-              <thead><tr><th>일시</th><th>발신자</th><th>내용</th></tr></thead>
-              <tbody><tr><td class='ev-ts'>08/03 10:00</td><td class='ev-sender'>neo-flex@neowiz.com</td><td class='ev-content'>[NeoFlex] 2026-07월 근무스케줄 입력 마감을 요청 드립니다. 2026년 08월 05일(시스템 마감일 +5일)까지 근무스케줄 마감 처리를 요청 드립니다. [근무시간 등록 바로가기] Check point - 입력하지 못한 업무시작 / 종료가 있는지 체크 후 누락된 시간이 있다면 수정하기 기능을 이용하여 수정 바랍니다. - 신청하지 못한 야간/연장/</td></tr></tbody>
+에서 진행되고 있습니다.</td></tr></tbody>
             </table>
           </td>
         </tr></tbody>
