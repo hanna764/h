@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BD2 웹상점 환불 운영 어드민 — 프로토타입 v1</title>
+<style>
+:root{
+  --brand:#3D46F5; --brand-soft:#EEEFFE; --brand-deep:#2A31C8;
+  --bg:#F0F1F5; --surface:#FFFFFF; --ink:#17181C; --ink2:#6B7080; --ink3:#9096A6; --line:#E2E4EA;
+  --header:#141414;
+  --hot:#FF4D4D; --hot-bg:#FFECEC; --gold:#B98A00; --gold-bg:#FFF3D6;
+  --mile:#7B2FF2; --mile-bg:#F3EBFE;
+  --err:#D0342C; --err-bg:#FBEAE8; --ok:#1F9254; --ok-bg:#E6F4EC; --warn:#8A5A00; --warn-bg:#FBF1DC;
+  --focus:#1B63D0;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#E9EAEF;color:var(--ink);
+  font-family:"Pretendard Variable",Pretendard,"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+  font-size:15px;line-height:1.55;}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:1280px;margin:0 auto;padding:26px 20px 80px}
+
+/* 문서 머리 */
+.dochead .eyebrow{font-size:12px;letter-spacing:.14em;color:var(--brand);font-weight:800}
+.dochead h1{margin:6px 0 4px;font-size:24px;font-weight:800;letter-spacing:-.01em}
+.dochead p{margin:0 0 6px;color:var(--ink2);max-width:76ch}
+.dochead .meta{font-size:12.5px;color:var(--ink3);margin-bottom:18px}
+
+/* 탭 */
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:2px solid var(--line);margin-bottom:20px}
+.tabs button{border:0;background:none;padding:10px 16px;font-size:14px;font-weight:700;color:var(--ink2);
+  border-bottom:3px solid transparent;margin-bottom:-2px}
+.tabs button.on{color:var(--brand);border-bottom-color:var(--brand)}
+.tabs button .n{font-size:11px;color:var(--ink3);margin-right:5px;font-weight:800}
+.tabs button.on .n{color:var(--brand)}
+.pane{display:none}
+.pane.on{display:block}
+
+/* 공통 카드 */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px}
+.card>h2{margin:0 0 4px;font-size:16px;font-weight:800}
+.card>.sub{margin:0 0 14px;font-size:12.5px;color:var(--ink2)}
+.bdg{display:inline-flex;align-items:center;font-size:10.5px;font-weight:800;border-radius:5px;padding:2px 7px;letter-spacing:.03em;white-space:nowrap}
+.bdg.ok{color:var(--ok);background:var(--ok-bg)}
+.bdg.err{color:var(--err);background:var(--err-bg)}
+.bdg.warn{color:var(--warn);background:var(--warn-bg)}
+.bdg.mile{color:var(--mile);background:var(--mile-bg)}
+.bdg.mute{color:var(--ink2);background:var(--bg)}
+.bdg.brand{color:var(--brand-deep);background:var(--brand-soft)}
+
+/* 표 */
+table.t{width:100%;border-collapse:collapse;font-size:13px}
+table.t th{text-align:left;font-size:11.5px;letter-spacing:.03em;color:var(--ink2);font-weight:700;
+  padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--bg)}
+table.t td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.t tr.clickable{cursor:pointer}
+table.t tr.clickable:hover td{background:var(--brand-soft)}
+table.t tr.urgent td{background:var(--err-bg)}
+table.t .r{text-align:right}
+
+/* 통계 타일 */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
+.tile .lbl{font-size:11.5px;color:var(--ink2);font-weight:700}
+.tile .v{font-size:23px;font-weight:800;letter-spacing:-.02em;margin-top:2px}
+.tile.urgent{border-color:var(--err);background:var(--err-bg)}
+.tile.urgent .v{color:var(--err)}
+.tile.good .v{color:var(--ok)}
+
+/* 환불 처리 2열 */
+.split{display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start}
+@media(max-width:1000px){.split{grid-template-columns:1fr}}
+.sticky{position:sticky;top:16px}
+
+/* 주문 요약 */
+.ordhead{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px 18px;
+  padding:14px 16px;background:var(--bg);border-radius:10px;margin-bottom:14px}
+.ordhead .f .k{font-size:11px;color:var(--ink2);font-weight:700}
+.ordhead .f .v{font-size:13.5px;font-weight:700;margin-top:1px}
+
+/* 라인 카드 */
+.line{border:1px solid var(--line);border-radius:10px;padding:0;margin-bottom:10px;overflow:hidden;background:var(--surface)}
+.line.refund{border-color:var(--err);box-shadow:0 0 0 1px var(--err) inset}
+.line.keep{border-color:var(--brand);box-shadow:0 0 0 1px var(--brand) inset}
+.line.locked{background:#FAFAFC}
+.line .body{display:grid;grid-template-columns:1fr 210px;gap:0}
+@media(max-width:700px){.line .body{grid-template-columns:1fr}}
+.line .info{padding:13px 15px}
+.line .nm{font-size:14px;font-weight:800;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.line .calc{margin-top:9px;display:flex;flex-wrap:wrap;gap:0 14px;font-size:12px;color:var(--ink2)}
+.line .calc span b{color:var(--ink);font-weight:700}
+.line .fin{margin-top:7px;font-size:12.5px;color:var(--ink2)}
+.line .fin b{font-size:16px;color:var(--ink);font-weight:800;margin-left:4px}
+.line .pick{border-left:1px solid var(--line);padding:13px 15px;display:flex;flex-direction:column;justify-content:center;gap:7px;background:#FCFCFD}
+@media(max-width:700px){.line .pick{border-left:0;border-top:1px solid var(--line)}}
+.line .pick label{display:flex;gap:8px;align-items:center;font-size:13px;font-weight:700;cursor:pointer}
+.line .pick input{width:17px;height:17px;accent-color:var(--brand);flex-shrink:0}
+.line .pick input:disabled{cursor:not-allowed}
+.line .pick label.dim{color:var(--ink3);cursor:not-allowed;font-weight:400}
+.line .why{font-size:11px;color:var(--ink2);line-height:1.45}
+
+/* 계산 패널 */
+.calcpanel .kv{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:5px 0}
+.calcpanel .kv .k{color:var(--ink2)}
+.calcpanel .kv .v{font-weight:700;text-align:right}
+.calcpanel .kv.big{border-top:1px solid var(--line);margin-top:6px;padding-top:9px;font-size:14px}
+.calcpanel .kv.big .v{font-size:17px;font-weight:800}
+.calcpanel .kv.refund .v{color:var(--err)}
+.calcpanel .kv.keep .v{color:var(--brand-deep)}
+.calcpanel h3{margin:16px 0 8px;font-size:12px;letter-spacing:.04em;color:var(--ink2);font-weight:800;
+  padding-top:12px;border-top:1px solid var(--line)}
+.restore{font-size:12px;color:var(--ink2);background:var(--bg);border-radius:8px;padding:9px 11px;margin-bottom:8px}
+.restore b{color:var(--ink)}
+
+/* 경로 */
+.route{border:1px solid var(--line);border-radius:9px;padding:11px 12px;margin-bottom:8px;cursor:pointer;background:var(--surface)}
+.route.sel{border-color:var(--brand);background:var(--brand-soft)}
+.route.off{opacity:.55;cursor:not-allowed;background:var(--bg)}
+.route .t{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:800}
+.route .d{font-size:11.5px;color:var(--ink2);margin-top:4px;line-height:1.45}
+.gobtn{width:100%;border:0;border-radius:9px;padding:13px;font-size:15px;font-weight:800;background:var(--brand);color:#fff;margin-top:6px}
+.gobtn:disabled{background:#C9CBD6;color:#828697;cursor:not-allowed}
+
+/* 폰 프레임 */
+.phonewrap{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start}
+.phone{width:400px;flex:0 0 auto;border:1px solid #D6D8E0;border-radius:20px;background:var(--bg);
+  box-shadow:0 14px 36px rgba(20,22,40,.14);overflow:hidden}
+.ph-top{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--header);color:#fff}
+.ph-top .brand{font-weight:800;font-size:14px;letter-spacing:.04em}
+.ph-top .rightnav{display:flex;align-items:center;gap:11px;font-size:12.5px}
+.mchip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.13);border-radius:12px;padding:3px 9px;font-size:11.5px;font-weight:700}
+.mchip .dot{width:13px;height:13px;border-radius:50%;background:var(--mile);color:#fff;font-size:8.5px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.mchip .bang{color:#FFC94D;font-weight:900}
+.bellbtn{position:relative;background:none;border:0;color:#fff;padding:2px;font-size:16px;line-height:1}
+.bellbtn .badge{position:absolute;top:-6px;right:-7px;min-width:16px;height:16px;border-radius:8px;background:var(--hot);
+  color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 4px}
+.screen{height:620px;overflow-y:auto;background:var(--bg);padding:12px 12px 24px}
+.ubanner{background:var(--surface);border:1px solid var(--brand);border-radius:10px;padding:12px 13px;margin-bottom:11px}
+.ubanner .h{font-size:13.5px;font-weight:800;color:var(--brand-deep);display:flex;align-items:center;gap:6px}
+.ubanner .d{font-size:12px;color:var(--ink2);margin-top:5px}
+.ubanner button{margin-top:9px;width:100%;border:0;border-radius:7px;background:var(--brand);color:#fff;font-weight:700;font-size:13px;padding:9px 0}
+.usec{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px;margin-bottom:11px}
+.usec h4{margin:0 0 9px;font-size:14px;font-weight:800;padding-bottom:8px;border-bottom:1px solid var(--ink)}
+.urow{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:4px 0}
+.urow .k{color:var(--ink2)} .urow .v{font-weight:700;text-align:right}
+.urow.tot{border-top:1px solid var(--line);margin-top:7px;padding-top:9px;font-size:14px}
+.urow.tot .v{font-weight:800;color:var(--brand-deep)}
+.uchk{display:flex;gap:8px;align-items:flex-start;font-size:12px;margin-top:10px}
+.uchk input{width:16px;height:16px;margin-top:2px;accent-color:var(--brand);flex-shrink:0}
+.upay{width:100%;border:0;border-radius:8px;padding:12px;font-size:14.5px;font-weight:800;background:var(--brand);color:#fff;margin-top:10px}
+.upay:disabled{background:#C9CBD6;color:#828697;cursor:not-allowed}
+.caption{font-size:12.5px;color:var(--ink2);max-width:42ch;padding-top:6px}
+.caption h4{margin:0 0 6px;font-size:13.5px;color:var(--ink);font-weight:800}
+.caption ul{margin:0;padding-left:16px} .caption li{margin-bottom:5px}
+
+/* 설계 노트 */
+.note h3{margin:22px 0 8px;font-size:15px;font-weight:800;padding-bottom:7px;border-bottom:1px solid var(--ink)}
+.note h3:first-child{margin-top:0}
+.note p{margin:0 0 10px;font-size:13.5px;color:var(--ink2);max-width:82ch}
+.note ul{margin:0 0 12px;padding-left:18px;font-size:13.5px;color:var(--ink2);max-width:82ch}
+.note li{margin-bottom:5px}
+.note b{color:var(--ink)}
+.flow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:4px 0 14px}
+.flow .st{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 12px;font-size:12.5px;font-weight:700}
+.flow .st.bad{border-color:var(--err);background:var(--err-bg);color:var(--err)}
+.flow .st.good{border-color:var(--ok);background:var(--ok-bg);color:var(--ok)}
+.flow .ar{color:var(--ink3);font-weight:800}
+.warnbox{border:1px solid var(--err);background:var(--err-bg);border-radius:10px;padding:13px 15px;margin-bottom:14px}
+.warnbox .h{font-size:13.5px;font-weight:800;color:var(--err);margin-bottom:5px}
+.warnbox p{margin:0;color:#7A1F19;font-size:13px}
+.infobox{border:1px solid var(--brand);background:var(--brand-soft);border-radius:10px;padding:13px 15px;margin-bottom:14px}
+.infobox .h{font-size:13.5px;font-weight:800;color:var(--brand-deep);margin-bottom:5px}
+.infobox p{margin:0;color:var(--brand-deep);font-size:13px}
+
+/* 토스트 */
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;
+  background:var(--ink);color:#fff;border-radius:10px;padding:12px 20px;font-size:13.5px;font-weight:700;
+  transition:.25s;z-index:99;max-width:90vw;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="dochead">
+  <div class="eyebrow">BD2 WEBSHOP · REFUND OPERATIONS</div>
+  <h1>환불 운영 어드민 — 프로토타입 v1</h1>
+  <p>장바구니 도입 후 상품 단위 환불을 운영팀이 계산 없이 처리하기 위한 어드민 설계안. 운영자는 환불할 상품만 고르고, 금액·쿠폰·마일리지 복구·가능 경로는 시스템이 산출한다. 실제로 클릭해서 동작한다.</p>
+  <div class="meta">2026-09-21 · 정책 정의서 59~69번 기준 · 스코프 C(다품목 + 상품별 쿠폰) 전제</div>
+</div>
+
+<div class="tabs">
+  <button class="on" data-t="q"><span class="n">01</span>환불 접수 큐</button>
+  <button data-t="d"><span class="n">02</span>주문 상세 · 환불 처리</button>
+  <button data-t="p"><span class="n">03</span>개인결제 대시보드</button>
+  <button data-t="u"><span class="n">04</span>유저 화면</button>
+  <button data-t="n"><span class="n">05</span>설계 노트</button>
+  <button data-t="a"><span class="n">06</span>현행 어드민 실측</button>
+  <button data-t="s"><span class="n">07</span>API · 데이터 설계</button>
+</div>
+
+<!-- ============ 01 큐 ============ -->
+<section class="pane on" id="pane-q">
+  <div class="tiles">
+    <div class="tile"><div class="lbl">미처리 접수</div><div class="v num">7</div></div>
+    <div class="tile"><div class="lbl">오늘 처리 완료</div><div class="v num good">23</div></div>
+    <div class="tile urgent"><div class="lbl">긴급 — 원 주문 취소 실패</div><div class="v num">1</div></div>
+    <div class="tile"><div class="lbl">개인결제 대기</div><div class="v num">4</div></div>
+  </div>
+  <div class="card">
+    <h2>환불 접수 큐</h2>
+    <p class="sub">행을 클릭하면 주문 상세로 이동한다. 결제수단에 따라 선택 가능한 처리 경로가 달라지므로 큐에서 미리 표시한다.</p>
+    <table class="t" id="queue"></table>
+  </div>
+</section>
+
+<!-- ============ 02 상세 ============ -->
+<section class="pane" id="pane-d">
+  <div class="card">
+    <h2 id="d-title">주문 상세 · 환불 처리</h2>
+    <p class="sub">소진 완료된 상품은 체크박스가 잠긴다. 정책 59번(인벤토리 소진 시점을 제공 개시로 본다)을 화면에서 강제해 운영자 오처리를 막는다.</p>
+    <div class="ordhead" id="ordhead"></div>
+    <div class="split">
+      <div>
+        <div id="lines"></div>
+      </div>
+      <div class="sticky">
+        <div class="card calcpanel" style="margin:0">
+          <h2 style="font-size:14px">자동 산출</h2>
+          <p class="sub" style="margin-bottom:10px">운영자 입력값은 위 선택뿐. 아래는 전부 계산 결과다.</p>
+          <div id="calc"></div>
+          <h3>처리 경로</h3>
+          <div id="routes"></div>
+          <button class="gobtn" id="gobtn" disabled>경로를 선택하세요</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 대시보드 ============ -->
+<section class="pane" id="pane-p">
+  <div class="tiles" id="ptiles"></div>
+  <div class="card">
+    <h2>개인결제 대시보드</h2>
+    <p class="sub">발급한 개인결제건이 실제로 결제됐는지 실시간으로 본다. 재결제는 됐는데 원 주문 취소가 실패한 건이 최우선 경보 대상이다 — 그 상태의 유저는 두 금액을 동시에 부담하고 있다.</p>
+    <table class="t" id="ptable"></table>
+  </div>
+  <div class="card">
+    <h2>상태 정의</h2>
+    <table class="t">
+      <tr><th style="width:130px">상태</th><th>뜻</th><th style="width:230px">운영 동작</th></tr>
+      <tr><td><span class="bdg mute">발급</span></td><td>결제창을 만들었고 유저가 아직 열지 않음</td><td>유효기간 내 미결제 시 리마인드</td></tr>
+      <tr><td><span class="bdg brand">결제대기</span></td><td>유저가 결제창을 열었으나 결제 미완료</td><td>대기</td></tr>
+      <tr><td><span class="bdg warn">취소처리중</span></td><td>재결제 완료. 원 주문 전체취소 진행 중</td><td>자동. 통상 수 초</td></tr>
+      <tr><td><span class="bdg ok">완료</span></td><td>재결제 + 원 주문 취소 모두 성공</td><td>없음</td></tr>
+      <tr><td><span class="bdg err">취소실패</span></td><td>재결제는 됐으나 원 주문 취소 실패 — 유저 이중 부담</td><td><b>최우선.</b> 재시도 3회 후 수동 큐</td></tr>
+      <tr><td><span class="bdg mute">만료</span></td><td>유효기간 내 미결제. 원 주문 유지</td><td>유저 안내 후 종결 또는 재발급</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 04 유저 화면 ============ -->
+<section class="pane" id="pane-u">
+  <div class="card">
+    <h2>유저 화면</h2>
+    <p class="sub">개인결제건이 발급되면 로그인 직후 상단에 뜬다. 헤더에는 마일리지 잔액과 만료 임박 경고를 상시 노출한다.</p>
+    <div class="phonewrap">
+      <div class="phone">
+        <div class="ph-top">
+          <span class="brand">BROWN DUST2</span>
+          <span class="rightnav">
+            <span class="mchip"><span class="dot">M</span><span class="num">12,400</span><span class="bang" title="3,000 마일리지가 7일 후 소멸">!</span></span>
+            <button class="bellbtn">🔔<span class="badge">1</span></button>
+            <span>달빛기사단</span>
+          </span>
+        </div>
+        <div class="screen">
+          <div class="ubanner">
+            <div class="h">💳 환불 처리를 위한 결제가 필요합니다</div>
+            <div class="d">보유를 유지하실 상품 1건의 금액을 다시 결제하시면, 기존 결제 101,900원 전체가 취소됩니다. 실제 부담액은 39,200원입니다.</div>
+            <button onclick="toast('데모에서는 결제창까지만 표시합니다')">39,200원 결제하고 환불받기</button>
+          </div>
+          <div class="usec">
+            <h4>환불 내역 확인</h4>
+            <div class="urow"><span class="k">계속 보유 (재결제 대상)</span><span class="v">1건</span></div>
+            <div class="urow"><span class="k" style="padding-left:8px">프리미엄 코스튬 — 이오네</span><span class="v num">39,200원</span></div>
+            <div class="urow" style="margin-top:8px"><span class="k">환불 (우편함에서 삭제)</span><span class="v">2건</span></div>
+            <div class="urow"><span class="k" style="padding-left:8px">다이아 3,000개 패키지</span><span class="v num">27,700원</span></div>
+            <div class="urow"><span class="k" style="padding-left:8px">성장 지원 패키지</span><span class="v num">35,000원</span></div>
+            <div class="urow tot"><span class="k">지금 결제할 금액</span><span class="v num">39,200원</span></div>
+            <div class="urow"><span class="k">기존 결제 취소 금액</span><span class="v num">101,900원</span></div>
+            <div class="urow"><span class="k">사용 마일리지 6,000 복구 후 재사용</span><span class="v">자동</span></div>
+            <label class="uchk"><input type="checkbox" id="uagree" onchange="document.getElementById('upaybtn').disabled=!this.checked">
+              <span>재결제 후 기존 결제가 전체 취소되는 방식에 동의합니다. 환불 상품은 우편함에서 삭제됩니다.</span></label>
+            <button class="upay" id="upaybtn" disabled onclick="toast('데모에서는 결제창까지만 표시합니다')">결제하기</button>
+            <div style="font-size:11px;color:var(--ink2);margin-top:8px">유효기간 2026-09-28 23:59까지. 기한 내 미결제 시 이 요청은 자동 취소되며 기존 결제는 유지됩니다.</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">
+        <h4>이 화면에서 정해야 하는 것</h4>
+        <ul>
+          <li><b>헤더 마일리지</b> — 잔액과 만료 임박 경고(<span class="bang" style="color:#B98A00;font-weight:900">!</span>)를 상시 노출. 현행은 닉네임만 표시</li>
+          <li><b>알림 진입</b> — 배너를 띄울지 모달로 가로막을지. 모달은 확실하지만 다크패턴 소지가 있어 배너 + 벨 배지 조합을 권고</li>
+          <li><b>동의 문구</b> — 정책팀이 재결제 방식에 명시적 동의를 요구(정책 63번). 체크 전에는 결제 버튼 비활성</li>
+          <li><b>유효기간</b> — 만료 시 원 주문 유지. 기본 7일 제안</li>
+          <li><b>이중 부담 고지</b> — 재결제 시점부터 원 결제 취소 완료까지 두 금액을 동시에 부담하는 구간을 사전 고지해야 함(정책 67번)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 설계 노트 ============ -->
+<section class="pane" id="pane-n">
+  <div class="card note">
+    <h3>1. 왜 어드민이 본체인가</h3>
+    <p>유저 화면은 결제창 하나다. 어려운 것은 전부 뒤에 있다. 상품마다 쿠폰과 마일리지가 다르게 붙어 있고, 통화가 80종이 넘고, 결제수단마다 부분환불 가부가 갈린다. 운영자가 이 조합을 손으로 계산하면 반드시 틀린다.</p>
+    <p><b>설계 원칙 — 운영자의 입력은 "어느 상품을 환불할지" 하나뿐이다.</b> 금액, 복구할 쿠폰, 복구할 마일리지, 가능한 처리 경로는 전부 시스템이 산출해 화면에 띄운다. 운영자는 읽고 버튼을 누른다.</p>
+
+    <h3>2. 통화 80종을 어떻게 다루나</h3>
+    <p>환율 변환이 필요 없다. 재결제는 <b>원 주문과 같은 통화, 같은 금액 체계</b>로 청구하기 때문이다. 시스템은 주문 확정 기록(정책 50번)에 박아둔 상품별 실결제액을 그대로 더할 뿐이다.</p>
+    <ul>
+      <li>정수 표기 20개국은 버림, 소수점 표기국은 2자리 내림 — 정책 23번을 그대로 따른다</li>
+      <li>재결제 금액이 해당 통화의 최소 결제 금액에 미달하면 개인결제 경로를 막고 전체환불로 유도한다(정책 19·24번)</li>
+      <li>환율이 개입하는 곳은 CS 계좌 입금 하나뿐이다. 국가 변경 유저 케이스이며 정책 69번에서 별도로 다룬다</li>
+    </ul>
+
+    <h3>3. 쿠폰과 마일리지가 진짜 어려운 부분</h3>
+    <p>원 결제를 전체취소하면 그 결제에 쓰인 쿠폰 전량과 마일리지 전액이 되살아난다. 그런데 유지하는 상품에도 쿠폰과 마일리지가 붙어 있었다. 그래서 재결제에 그것들을 <b>다시 소모 처리</b>해야 유저 부담이 원래와 같아지고, 쿠폰이 이중으로 되살아나지 않는다.</p>
+    <div class="infobox">
+      <div class="h">예시 — 원 결제 101,900원</div>
+      <p>A 코스튬(20% 쿠폰 적용, 39,200) 유지 · B 다이아(10% 쿠폰 + 마일리지 2,000, 27,700) 환불 · C 성장팩(마일리지 4,000, 35,000) 환불<br>
+      → 전체취소로 쿠폰 2장과 마일리지 6,000이 복구됨<br>
+      → 재결제 39,200원에 20% 쿠폰 1장을 다시 소모 처리<br>
+      → 유저에게 최종 남는 것: 쿠폰 1장(10%)과 마일리지 6,000</p>
+    </div>
+    <p>이 계산을 운영자가 하면 안 된다. 어드민이 "복구 후 재소모될 쿠폰"과 "복구될 마일리지"를 명시해 보여주고, 실행 버튼 한 번에 전부 처리해야 한다.</p>
+
+    <h3>4. 가장 위험한 지점 — 2단계 트랜잭션</h3>
+    <div class="flow">
+      <span class="st">개인결제건 발급</span><span class="ar">→</span>
+      <span class="st">유저 재결제 성공</span><span class="ar">→</span>
+      <span class="st good">원 주문 전체취소</span><span class="ar">→</span>
+      <span class="st good">완료</span>
+    </div>
+    <div class="warnbox">
+      <div class="h">재결제는 성공했는데 원 주문 취소가 실패하면</div>
+      <p>유저는 101,900원과 39,200원을 동시에 부담한 상태로 남는다. PG 장애, 결제수단 취소 기한 초과, 네트워크 유실 어느 것으로도 발생할 수 있다. 이 상태를 감지하지 못하면 유저가 항의할 때까지 아무도 모른다.</p>
+    </div>
+    <ul>
+      <li>자동 재시도 3회. 실패하면 상태를 <b>취소실패(긴급)</b>로 두고 대시보드 최상단에 고정한다</li>
+      <li>유저 화면에는 실패를 단정하지 않는다. "환불 처리 중"으로 표시한다(화면 상태 11번과 같은 원칙)</li>
+      <li>최후 수단은 역방향 롤백이다. 개인결제건 자체를 환불하고 원 상태로 되돌린다</li>
+      <li><b>순서를 바꾸면 안 된다.</b> 먼저 전체취소하고 나중에 재결제받는 구조는, 유저가 재결제를 하지 않으면 이미 소진한 상품까지 무상으로 가져가게 된다. 회수 수단이 없다</li>
+    </ul>
+
+    <h3>5. 경로 판정을 시스템이 한다</h3>
+    <p>운영자가 "이 건은 무슨 경로로 처리해야 하지"를 판단하지 않게 한다. 결제수단과 지급 상태만 보면 기계적으로 정해진다.</p>
+    <table class="t" style="margin-bottom:12px">
+      <tr><th style="width:190px">조건</th><th>경로</th></tr>
+      <tr><td>전 상품 환불 대상</td><td>전체취소. 다른 경로 불필요</td></tr>
+      <tr><td>부분 + 결제수단이 부분환불 지원</td><td>PG 부분환불 <span class="bdg ok">권장</span></td></tr>
+      <tr><td>부분 + 부분환불 미지원</td><td>마일리지 환급 / 개인결제 후 전체취소 — 유저가 건별로 선택</td></tr>
+      <tr><td>위 경로를 유저가 모두 거부</td><td>CS 계좌 입금 + 건별 지출결의 (정책 64번)</td></tr>
+    </table>
+    <p>국내 매출의 74.7%가 부분환불 미지원 수단이다. 즉 국내 환불 민원 대부분이 세 번째 줄로 떨어진다. 개인결제창이 최대 공사인 이유다.</p>
+
+    <h3>6. 개발 범위 — 운영 기능이 프론트보다 크다</h3>
+    <table class="t">
+      <tr><th style="width:160px">영역</th><th>내용</th><th style="width:90px">비중</th></tr>
+      <tr><td>어드민 주문 상세</td><td>상품별 쿠폰·마일리지·실결제액 표시, 선택 UI, 자동 산출, 경로 판정, 실행</td><td><span class="bdg err">최대</span></td></tr>
+      <tr><td>개인결제 발급·검증</td><td>유저 귀속 토큰, 1회성, 유효기간, 재사용 차단, 쿠폰 재소모</td><td><span class="bdg err">최대</span></td></tr>
+      <tr><td>2단계 트랜잭션</td><td>재결제 성공 감지, 원 주문 취소, 재시도, 실패 격리, 롤백</td><td><span class="bdg err">최대</span></td></tr>
+      <tr><td>개인결제 대시보드</td><td>상태 실시간 집계, 긴급 건 고정, 재발급·취소·독촉</td><td><span class="bdg warn">중</span></td></tr>
+      <tr><td>유저 결제창</td><td>배너·내역 확인·동의·결제</td><td><span class="bdg mute">소</span></td></tr>
+      <tr><td>헤더 마일리지</td><td>잔액, 만료 임박 경고, 내역 진입</td><td><span class="bdg mute">소</span></td></tr>
+    </table>
+
+    <h3>7. 아직 정하지 못한 것</h3>
+    <ul>
+      <li><b>유저가 경로를 어디서 고르나</b> — CS 문의로 받아 운영자가 대신 기록할지, 웹상점에 환불 신청 화면을 만들지. 전자가 1차로 현실적이며 그 경우 어드민에 유저 동의 증빙 필드가 필요하다</li>
+      <li><b>개인결제 유효기간</b> — 7일 제안. 결제수단별 취소 가능 기한을 넘기면 원 주문 취소 자체가 불가해지므로 그 기한보다 짧아야 한다</li>
+      <li><b>환불 시 쿠폰 복구 여부</b> — 정책 6번이 정책팀 회신 대기(10/02)</li>
+      <li><b>부분환불 미지원 결제수단 목록</b> — 엑솔라 회신 대기(9/30). 이 목록이 있어야 경로 판정을 자동화할 수 있다</li>
+      <li><b>마일리지 유효기간</b> — 30일 확정, 6개월 가능 여부는 정책팀 회신 대기(10/02)</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 06 현행 어드민 실측 ============ -->
+<section class="pane" id="pane-a">
+  <div class="card note">
+    <div class="infobox">
+      <div class="h">조사 방법</div>
+      <p>LIVE 웹상점 어드민(<span class="num">webshop-admin.browndust2.global</span>)의 SPA 번들을 2026-09-21에 내려받아 분석했다. 번들 빌드 시각은 2026-08-27 20:49. 추정이 아니라 실제 배포본에서 뽑은 API 경로와 화면 문구다. 조회·쓰기 호출은 하지 않았다.</p>
+    </div>
+
+    <h3>1. 현행 어드민이 가진 API — 관련 부분</h3>
+    <table class="t" style="margin-bottom:14px">
+      <tr><th style="width:290px">엔드포인트</th><th>용도</th><th style="width:110px">환불 설계 관점</th></tr>
+      <tr><td class="num">GET /api/payments/member/{id}</td><td>회원번호로 결제 내역 조회</td><td><span class="bdg ok">재사용</span></td></tr>
+      <tr><td class="num">GET /api/payments/tradeId/{id}</td><td>거래ID로 조회</td><td><span class="bdg ok">재사용</span></td></tr>
+      <tr><td class="num">GET /api/payments/transactionId/{id}</td><td>트랜잭션ID로 조회</td><td><span class="bdg ok">재사용</span></td></tr>
+      <tr><td class="num">GET /api/payments/status/{status}</td><td>상태별 목록</td><td><span class="bdg ok">재사용</span></td></tr>
+      <tr><td class="num">POST /api/payments/refund</td><td>환불 실행</td><td><span class="bdg err">개편 대상</span></td></tr>
+      <tr><td class="num">POST /api/payments/reward-request</td><td>보상 지급 (지급 실패 재처리)</td><td><span class="bdg ok">재사용</span></td></tr>
+      <tr><td class="num">POST /api/points/add</td><td>포인트 지급</td><td><span class="bdg ok">마일리지 환급에 그대로 사용</span></td></tr>
+      <tr><td class="num">POST /api/points/use</td><td>포인트 차감</td><td><span class="bdg ok">재사용</span></td></tr>
+      <tr><td class="num">POST /api/points/add-pending</td><td>적립예정 포인트 추가</td><td><span class="bdg ok">재사용</span></td></tr>
+      <tr><td class="num">POST /api/points/deduct-pending</td><td>적립예정 차감</td><td><span class="bdg ok">재사용</span></td></tr>
+      <tr><td class="num">GET /api/points/real/{memberId}</td><td>보유 포인트 조회</td><td><span class="bdg ok">헤더 표시에 사용</span></td></tr>
+      <tr><td class="num">GET /api/points/history</td><td>포인트 이력</td><td><span class="bdg ok">재사용</span></td></tr>
+      <tr><td class="num">POST /api/coupons/distribute-to-user</td><td>특정 유저에게 쿠폰 지급</td><td><span class="bdg ok">쿠폰 복구에 사용</span></td></tr>
+      <tr><td class="num">POST /api/coupons/user</td><td>유저 보유 쿠폰 조회</td><td><span class="bdg ok">재사용</span></td></tr>
+      <tr><td class="num">GET /api/users/nation-change-history/{id}</td><td>국가 변경 이력</td><td><span class="bdg ok">정책 69번에 사용</span></td></tr>
+    </table>
+
+    <h3>2. 현행 결제 상세 화면이 보여주는 것</h3>
+    <p>번들에서 뽑은 실제 필드다. 괄호 안은 응답 필드명.</p>
+    <table class="t" style="margin-bottom:14px">
+      <tr><th style="width:120px">구역</th><th>필드</th></tr>
+      <tr><td>기본 정보</td><td>거래 ID (<span class="num">transactionId</span>) · 상태 · 결제 일시</td></tr>
+      <tr><td>사용자 정보</td><td>사용자 ID · 회원 번호</td></tr>
+      <tr><td>결제 정보</td><td>결제 금액 · <b>원래 금액</b> · <b>쿠폰 할인</b> · <b>포인트 사용</b> (<span class="num">points</span>) · 결제 방법 (<span class="num">payType</span>) · 대기 포인트 (<span class="num">completedInfo.pendingPointReward.amount</span>)</td></tr>
+      <tr><td>성공 · 실패 정보</td><td>지급 결과</td></tr>
+      <tr><td>버튼</td><td>환불 · 보상지급</td></tr>
+    </table>
+    <div class="warnbox">
+      <div class="h">여기가 핵심 격차다</div>
+      <p>원래 금액 · 쿠폰 할인 · 포인트 사용이 <b>결제 단위로 한 세트</b>뿐이다. 결제 1건에 상품 1개라는 전제로 만들어졌기 때문이다. 장바구니가 들어오면 이 세 값이 상품 수만큼 반복되어야 하고, 그 순간 이 화면은 통째로 다시 만들어야 한다.</p>
+    </div>
+
+    <h3>3. 현행 환불 모달의 실제 동작</h3>
+    <p>요청 본문은 <span class="num">{ transactionId, reason }</span> 두 개뿐이다. <b>금액 파라미터가 없다.</b> 부분환불을 표현할 방법이 구조적으로 없다는 뜻이다.</p>
+    <p>모달에 노란 경고 박스로 이렇게 적혀 있다. "환불 처리 시 다음 작업이 수행됩니다."</p>
+    <ul>
+      <li>사용된 쿠폰 복구</li>
+      <li>사용된 포인트 환불</li>
+      <li>적립된 대기 포인트 삭제</li>
+      <li>결제 상태를 REFUNDED로 변경</li>
+    </ul>
+    <p>확인 문구는 "정말 환불하시겠습니까? 이 작업은 취소할 수 없습니다."이며 환불 사유는 필수 입력이다. 결제 상태 enum은 <span class="num">COMPLETED · FAILED · REFUNDED · PENDING · CANCELED</span>다.</p>
+    <div class="infobox">
+      <div class="h">확인된 것 — 정책 정의서와 일치</div>
+      <p>정책 12번(마일리지 사용분 복구, 적립예정분 취소)은 이미 구현되어 있다. 정책 6번(쿠폰 복구)도 현행은 무조건 복구다. 즉 "환불 시 쿠폰을 복구하지 않는다"로 바꾸려면 기존 동작을 <b>끄는</b> 개발이 필요하다. 없던 것을 만드는 게 아니다.</p>
+    </div>
+
+    <h3>4. 포인트(마일리지) 관리 화면은 이미 상당히 완성되어 있다</h3>
+    <p>현황(현재 포인트 · 예정 만료된 포인트), 포인트 지급 · 차감, 대기 포인트 지급 · 차감이 모두 있다. 금액 입력은 "소수점 가능"이라 통화별 자릿수에 이미 대응한다. 기능별 권한 체크도 걸려 있다.</p>
+    <p><b>그래서 마일리지 환급은 신규 개발 없이 오늘도 수동 처리가 가능하다.</b> 9/21 회의에서 마일리지를 운영 수동 대응으로 두고 재결제를 1차 개발로 올린 판단이 실측으로 뒷받침된다.</p>
+
+    <h3>5. 없는 것 — 신규 개발 대상</h3>
+    <table class="t">
+      <tr><th style="width:230px">없는 것</th><th>영향</th></tr>
+      <tr><td><b>주문(order) 개념 자체</b></td><td><span class="num">/api/orders</span>가 존재하지 않는다. 결제(payments)만 있다. 주문 1건에 상품 N행 구조는 API 신설이다</td></tr>
+      <tr><td>부분환불</td><td>금액 파라미터가 없어 표현 불가</td></tr>
+      <tr><td>개인결제창</td><td>관련 엔드포인트 전무. 완전 신규</td></tr>
+      <tr><td>지급 상태 정보</td><td>우편함 대기 · 인벤 보관 · 소진 구분이 어드민에 없다. 정책 59번 판정을 화면에서 할 수 없다</td></tr>
+      <tr><td>환불 접수 큐</td><td>조회 후 바로 환불. 접수 · 검토 · 실행의 워크플로가 없다</td></tr>
+      <tr><td>환불 사유 코드</td><td>자유 텍스트 1칸. 정책 17번의 사유 3종 구분이 불가</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 07 API · 데이터 설계 ============ -->
+<section class="pane" id="pane-s">
+  <div class="card note">
+    <h3>1. 데이터 모델</h3>
+    <p>현행은 결제(Payment)만 있다. 그 위에 주문(Order)과 주문상품(OrderLine)을 얹고, 개인결제(PersonalCheckout)를 새로 만든다.</p>
+    <table class="t" style="margin-bottom:14px">
+      <tr><th style="width:150px">엔티티</th><th>주요 필드</th><th style="width:80px">상태</th></tr>
+      <tr><td><b>Order</b><div style="font-size:11px;color:var(--ink2)">주문 1건</div></td>
+          <td>orderId · memberId · currency · 총 실결제액 · 주문확정기록 스냅샷 · 상태</td><td><span class="bdg err">신규</span></td></tr>
+      <tr><td><b>OrderLine</b><div style="font-size:11px;color:var(--ink2)">상품 1개 = 1행</div></td>
+          <td>lineId · orderId · sku · 정가 · 적용쿠폰 · 쿠폰할인액 · 사용마일리지 · <b>실결제액</b> · 지급상태 · 환불상태</td><td><span class="bdg err">신규</span></td></tr>
+      <tr><td><b>Payment</b><div style="font-size:11px;color:var(--ink2)">PG 거래 1건</div></td>
+          <td>transactionId · tradeId · payType · 금액 · 상태 · orderId 참조 추가</td><td><span class="bdg warn">확장</span></td></tr>
+      <tr><td><b>PersonalCheckout</b><div style="font-size:11px;color:var(--ink2)">개인결제건</div></td>
+          <td>checkoutId · memberId · 원 orderId · 청구금액 · 통화 · 유지 lineId 목록 · 재소모 쿠폰 · 재사용 마일리지 · 유효기간 · 상태 · 결과 transactionId</td><td><span class="bdg err">신규</span></td></tr>
+      <tr><td><b>RefundCase</b><div style="font-size:11px;color:var(--ink2)">환불 접수 건</div></td>
+          <td>caseId · orderId · 접수일시 · 사유코드 · 대상 lineId 목록 · 선택 경로 · 유저동의 증빙 · 처리자 · 감사로그</td><td><span class="bdg err">신규</span></td></tr>
+    </table>
+    <p><b>실결제액은 OrderLine에 스냅샷으로 박는다.</b> 환불·정산 전량이 이 고정값 기준이며 이후 어떤 조작에도 재계산하지 않는다(정책 50번). 이것이 없으면 통화별 계산을 매번 다시 해야 하고 그때마다 값이 흔들린다.</p>
+
+    <h3>2. 신규 API</h3>
+    <table class="t" style="margin-bottom:14px">
+      <tr><th style="width:320px">엔드포인트</th><th>용도</th></tr>
+      <tr><td class="num">GET /api/orders/{orderId}</td><td>주문 + 상품별 계산 내역 + 지급 상태</td></tr>
+      <tr><td class="num">GET /api/orders/member/{memberId}</td><td>회원 주문 목록</td></tr>
+      <tr><td class="num">POST /api/refund-cases</td><td>환불 접수 생성</td></tr>
+      <tr><td class="num">POST /api/refund-cases/{id}/simulate</td><td><b>산출 전용.</b> 대상 lineId 목록을 받아 환불액·재결제액·복구 쿠폰·복구 마일리지·가능 경로를 반환. 부수효과 없음</td></tr>
+      <tr><td class="num">POST /api/refund-cases/{id}/execute</td><td>경로를 지정해 실행</td></tr>
+      <tr><td class="num">POST /api/checkouts/personal</td><td>개인결제건 발급</td></tr>
+      <tr><td class="num">GET /api/checkouts/personal</td><td>대시보드 목록 (상태 필터)</td></tr>
+      <tr><td class="num">GET /api/checkouts/personal/me</td><td>유저 화면용. 본인에게 발급된 건</td></tr>
+      <tr><td class="num">POST /api/checkouts/personal/{id}/cancel</td><td>발급 취소 · 재발급</td></tr>
+      <tr><td class="num">POST /api/checkouts/personal/{id}/retry-void</td><td>원 주문 취소 재시도 (취소실패 건 수동 처리)</td></tr>
+    </table>
+    <div class="infobox">
+      <div class="h">simulate 를 분리하는 이유</div>
+      <p>운영자가 체크박스를 누를 때마다 서버가 계산해 돌려준다. 브라우저에서 계산하면 화면과 실제 처리 금액이 어긋날 수 있다. 정책 53번(서버 재계산, 브라우저가 보낸 금액은 신뢰하지 않음)의 어드민판이다. execute 는 simulate 가 돌려준 산출 해시를 같이 받아, 그 사이 값이 바뀌었으면 거부한다.</p>
+    </div>
+
+    <h3>3. 기존 API 변경</h3>
+    <table class="t" style="margin-bottom:14px">
+      <tr><th style="width:290px">대상</th><th>변경</th></tr>
+      <tr><td class="num">POST /api/payments/refund</td><td>금액과 대상 lineId 목록을 받도록 확장하거나, 부분환불 전용 엔드포인트를 신설하고 기존은 전체환불로 남긴다. <b>후자를 권고</b> — 기존 호출부의 동작이 조용히 바뀌지 않는다</td></tr>
+      <tr><td>환불 시 쿠폰 복구</td><td>현행은 무조건 복구. 정책 6번 확정에 따라 켜고 끌 수 있어야 한다 (정책팀 회신 10/02)</td></tr>
+      <tr><td>환불 사유</td><td>자유 텍스트 → 사유 코드 3종(유저 요청 · 회사 귀책 · 차지백) + 메모. 정책 17번</td></tr>
+      <tr><td>결제 상세 화면</td><td>상품별 반복 구조로 전면 개편. 현행 단일 세트 표시로는 장바구니 주문을 읽을 수 없다</td></tr>
+    </table>
+
+    <h3>4. 개인결제 상태 전이</h3>
+    <div class="flow">
+      <span class="st">발급</span><span class="ar">→</span>
+      <span class="st">결제대기</span><span class="ar">→</span>
+      <span class="st">취소처리중</span><span class="ar">→</span>
+      <span class="st good">완료</span>
+    </div>
+    <div class="flow">
+      <span class="st">발급</span><span class="ar">→</span><span class="st">만료</span>
+      <span style="width:22px"></span>
+      <span class="st">취소처리중</span><span class="ar">→</span><span class="st bad">취소실패</span><span class="ar">→</span><span class="st">수동 처리 또는 롤백</span>
+    </div>
+    <ul>
+      <li>유효기간은 <b>결제수단의 취소 가능 기한보다 짧게</b> 잡는다. 기한을 넘기면 원 주문 취소 자체가 불가해져 취소실패가 확정된다</li>
+      <li>발급 시점에 유지 lineId 목록과 청구금액을 고정한다. 그 사이 원 주문이 다른 경로로 환불되면 발급건을 자동 무효화한다</li>
+      <li>같은 주문에 개인결제건이 둘 이상 살아 있을 수 없다. 발급 시 기존 건을 취소한다</li>
+    </ul>
+
+    <h3>5. 권한</h3>
+    <p>현행 어드민에 이미 권한 체계가 있다(<span class="num">/api/permissions</span>, <span class="num">/api/permissions/menus</span>). 포인트 지급·차감에 권한 체크가 걸려 있는 것을 번들에서 확인했다. 신규 기능도 같은 체계에 얹는다.</p>
+    <table class="t">
+      <tr><th style="width:200px">동작</th><th>권한 수준</th></tr>
+      <tr><td>환불 접수 생성 · 산출 조회</td><td>운영 일반</td></tr>
+      <tr><td>PG 부분환불 실행</td><td>운영 일반</td></tr>
+      <tr><td>마일리지 환급 실행</td><td>운영 일반 (현행 포인트 지급 권한 준용)</td></tr>
+      <tr><td>개인결제건 발급</td><td>운영 일반</td></tr>
+      <tr><td>취소실패 건 수동 처리 · 롤백</td><td><b>상급</b> — 유저 이중 부담 상태를 건드린다</td></tr>
+      <tr><td>CS 계좌 입금</td><td><b>상급</b> + 건별 지출결의</td></tr>
+    </table>
+
+    <h3>6. 개발팀에 물어야 할 것</h3>
+    <ul>
+      <li><b>개인결제창을 엑솔라로 어떻게 여는가</b> — 합산 금액 방식이면 임의 금액 토큰 발급이므로 기술적으로는 기존과 같다. 다만 그 토큰을 특정 유저에게만 유효하게 묶는 방법이 필요하다</li>
+      <li><b>원 주문 전체취소의 실패율과 실패 사유</b> — 현행 <span class="num">/api/payments/refund</span> 운영 실적에서 뽑을 수 있다. 이 숫자가 취소실패 대응의 설계 강도를 정한다</li>
+      <li><b>결제수단별 취소 가능 기한</b> — 개인결제 유효기간의 상한이 된다</li>
+      <li><b>지급 상태를 어디서 가져오는가</b> — 우편함 · 인벤 · 소진 구분은 게임 서버 정보다. 어드민이 실시간 조회할지, 주문에 동기화해 둘지</li>
+      <li><b>simulate 산출을 서버에서 할 때 게임 서버 왕복이 필요한가</b> — 필요하다면 응답 지연이 운영 체감을 좌우한다</li>
+    </ul>
+  </div>
+</section>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------- 데이터 ---------- */
+const CUR = {
+  KRW:{sym:'원', dec:0, pos:'suffix'},
+  JPY:{sym:'¥',  dec:0, pos:'prefix'},
+  TWD:{sym:'NT$',dec:0, pos:'prefix'},
+  USD:{sym:'$',  dec:2, pos:'prefix'}
+};
+function money(v, cur){
+  const c = CUR[cur];
+  const n = v.toLocaleString('ko-KR',{minimumFractionDigits:c.dec, maximumFractionDigits:c.dec});
+  return c.pos==='prefix' ? c.sym+n : n+c.sym;
+}
+/* 지급 상태 — 정책 59번: 인벤토리 소진 시점을 제공 개시로 본다 */
+const DELIV = {
+  mail :{label:'우편함 대기', bdg:'ok',   refundable:true,  why:'수령 전이므로 제공 개시 전. 환불 가능'},
+  inv  :{label:'인벤 보관',   bdg:'ok',   refundable:true,  why:'수령했으나 미사용. 정책 59번상 제공 개시 전'},
+  used :{label:'소진 완료',   bdg:'err',  refundable:false, why:'사용 완료. 제공 개시로 보아 환불 대상 아님'}
+};
+const PM = {
+  naver  :{label:'네이버페이',  partial:false},
+  culture:{label:'컬쳐랜드',    partial:false},
+  mycard :{label:'마이카드',    partial:false},
+  card   :{label:'신용카드',    partial:true },
+  toss   :{label:'토스페이',    partial:false}
+};
+
+const ORDERS = {
+  'WS-26092-00817':{
+    user:'달빛기사단', uid:'84120395', paidAt:'2026-09-19 21:14', pm:'naver', cur:'KRW', region:'한국',
+    lines:[
+      {id:'L1', nm:'프리미엄 코스튬 — 이오네', list:49000, cp:'20% 할인쿠폰', cpv:9800, mile:0,    paid:39200, d:'used'},
+      {id:'L2', nm:'다이아 3,000개 패키지',    list:33000, cp:'10% 할인쿠폰', cpv:3300, mile:2000, paid:27700, d:'mail'},
+      {id:'L3', nm:'성장 지원 패키지',          list:39000, cp:null,          cpv:0,    mile:4000, paid:35000, d:'mail'}
+    ]
+  },
+  'WS-26092-00791':{
+    user:'YukiNoHana', uid:'77301852', paidAt:'2026-09-19 18:02', pm:'card', cur:'JPY', region:'일본',
+    lines:[
+      {id:'L1', nm:'월간 패스 · 9월',          list:4900, cp:null,         cpv:0,   mile:0,   paid:4900, d:'used'},
+      {id:'L2', nm:'다이아 1,200개 패키지',     list:3600, cp:'10% 할인쿠폰', cpv:360, mile:0,   paid:3240, d:'mail'}
+    ]
+  },
+  'WS-26092-00764':{
+    user:'星塵之翼', uid:'61205530', paidAt:'2026-09-18 23:41', pm:'mycard', cur:'TWD', region:'대만',
+    lines:[
+      {id:'L1', nm:'복각 코스튬 — 세실리아',    list:790, cp:null,          cpv:0,  mile:0,   paid:790, d:'inv'},
+      {id:'L2', nm:'다이아 3,000개 패키지',     list:990, cp:'20% 할인쿠폰', cpv:198,mile:100, paid:692, d:'mail'},
+      {id:'L3', nm:'성장 지원 패키지',           list:590, cp:null,          cpv:0,  mile:0,   paid:590, d:'mail'}
+    ]
+  }
+};
+
+/* 개인결제 대시보드 샘플 */
+const PC = [
+  {id:'PC-0041', user:'한밤의여우', order:'WS-26091-00312', amt:52400, cur:'KRW', st:'fail',   left:'—',       note:'재시도 3회 실패 · 수동 처리 필요'},
+  {id:'PC-0044', user:'달빛기사단', order:'WS-26092-00817', amt:39200, cur:'KRW', st:'issued', left:'6일 21시간'},
+  {id:'PC-0043', user:'SakuraMochi',order:'WS-26092-00688', amt:2900,  cur:'JPY', st:'paying', left:'5일 03시간'},
+  {id:'PC-0042', user:'雲海行者',   order:'WS-26092-00651', amt:1480,  cur:'TWD', st:'cancel', left:'—',       note:'원 주문 취소 진행 중'},
+  {id:'PC-0040', user:'파랑새',     order:'WS-26091-00287', amt:19800, cur:'KRW', st:'done',   left:'—'},
+  {id:'PC-0039', user:'Nachtwind',  order:'WS-26091-00233', amt:14.99, cur:'USD', st:'expire', left:'—',       note:'미결제 만료 · 원 주문 유지'}
+];
+const ST = {
+  issued:{l:'발급',     b:'mute'},
+  paying:{l:'결제대기', b:'brand'},
+  cancel:{l:'취소처리중',b:'warn'},
+  done  :{l:'완료',     b:'ok'},
+  fail  :{l:'취소실패', b:'err'},
+  expire:{l:'만료',     b:'mute'}
+};
+
+/* ---------- 상태 ---------- */
+let curOrder = 'WS-26092-00817';
+let pick = {};          // lineId -> 'refund' | 'keep'
+let route = null;
+
+/* ---------- 탭 ---------- */
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.onclick = ()=>{
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.pane').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    document.getElementById('pane-'+b.dataset.t).classList.add('on');
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+});
+function goTab(t){ document.querySelector('.tabs button[data-t="'+t+'"]').click(); }
+
+/* ---------- 01 큐 ---------- */
+function renderQueue(){
+  const rows = Object.entries(ORDERS).map(([no,o])=>{
+    const tot = o.lines.reduce((s,l)=>s+l.paid,0);
+    const p = PM[o.pm];
+    return `<tr class="clickable" onclick="openOrder('${no}')">
+      <td><b>${no}</b></td>
+      <td>${o.user}<div style="font-size:11px;color:var(--ink3)" class="num">${o.uid}</div></td>
+      <td>${o.region}</td>
+      <td class="num">${o.paidAt}</td>
+      <td>${p.label} ${p.partial?'<span class="bdg ok">부분환불 가능</span>':'<span class="bdg err">부분환불 불가</span>'}</td>
+      <td class="r num"><b>${money(tot,o.cur)}</b></td>
+      <td class="r num">${o.lines.length}건</td>
+      <td class="r">${p.partial?'<span class="bdg brand">PG 부분환불</span>':'<span class="bdg warn">개인결제 · 마일리지</span>'}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('queue').innerHTML =
+    `<tr><th>주문번호</th><th>유저</th><th>권역</th><th>결제일시</th><th>결제수단</th><th class="r">결제금액</th><th class="r">상품</th><th class="r">예상 경로</th></tr>`+rows;
+}
+
+/* ---------- 02 상세 ---------- */
+function openOrder(no){
+  curOrder = no;
+  const o = ORDERS[no];
+  pick = {};
+  o.lines.forEach(l=>{ pick[l.id] = DELIV[l.d].refundable ? 'refund' : 'keep'; });
+  route = null;
+  renderDetail();
+  goTab('d');
+}
+function renderDetail(){
+  const o = ORDERS[curOrder], p = PM[o.pm];
+  const tot = o.lines.reduce((s,l)=>s+l.paid,0);
+  document.getElementById('d-title').textContent = `주문 상세 · 환불 처리 — ${curOrder}`;
+  document.getElementById('ordhead').innerHTML = `
+    <div class="f"><div class="k">주문번호</div><div class="v num">${curOrder}</div></div>
+    <div class="f"><div class="k">유저</div><div class="v">${o.user} <span class="num" style="color:var(--ink3);font-weight:400">${o.uid}</span></div></div>
+    <div class="f"><div class="k">권역 · 통화</div><div class="v">${o.region} · ${o.cur}</div></div>
+    <div class="f"><div class="k">결제일시</div><div class="v num">${o.paidAt}</div></div>
+    <div class="f"><div class="k">결제수단</div><div class="v">${p.label} ${p.partial?'<span class="bdg ok">부분환불 가능</span>':'<span class="bdg err">부분환불 불가</span>'}</div></div>
+    <div class="f"><div class="k">결제금액</div><div class="v num">${money(tot,o.cur)}</div></div>`;
+
+  document.getElementById('lines').innerHTML = o.lines.map(l=>{
+    const d = DELIV[l.d], st = pick[l.id], lock = !d.refundable;
+    return `<div class="line ${st} ${lock?'locked':''}">
+      <div class="body">
+        <div class="info">
+          <div class="nm">${l.nm} <span class="bdg ${d.bdg}">${d.label}</span></div>
+          <div class="calc">
+            <span>정가 <b class="num">${money(l.list,o.cur)}</b></span>
+            ${l.cp?`<span>${l.cp} <b class="num">-${money(l.cpv,o.cur)}</b></span>`:'<span style="color:var(--ink3)">쿠폰 미사용</span>'}
+            ${l.mile?`<span>마일리지 <b class="num">-${l.mile.toLocaleString()}</b></span>`:'<span style="color:var(--ink3)">마일리지 미사용</span>'}
+          </div>
+          <div class="fin">실결제액 <b class="num">${money(l.paid,o.cur)}</b></div>
+        </div>
+        <div class="pick">
+          <label class="${lock?'dim':''}">
+            <input type="radio" name="pk-${l.id}" ${st==='refund'?'checked':''} ${lock?'disabled':''}
+              onchange="setPick('${l.id}','refund')"> 환불
+          </label>
+          <label>
+            <input type="radio" name="pk-${l.id}" ${st==='keep'?'checked':''}
+              onchange="setPick('${l.id}','keep')"> 유지
+          </label>
+          <div class="why">${d.why}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  renderCalc();
+}
+function setPick(id,v){ pick[id]=v; route=null; renderDetail(); }
+
+function renderCalc(){
+  const o = ORDERS[curOrder], p = PM[o.pm];
+  const R = o.lines.filter(l=>pick[l.id]==='refund');
+  const K = o.lines.filter(l=>pick[l.id]==='keep');
+  const rSum = R.reduce((s,l)=>s+l.paid,0);
+  const kSum = K.reduce((s,l)=>s+l.paid,0);
+  const mileBack = o.lines.reduce((s,l)=>s+l.mile,0);          // 전체취소 시 전액 복구
+  const mileKeep = K.reduce((s,l)=>s+l.mile,0);                 // 재결제에 재사용
+  const cpAll = o.lines.filter(l=>l.cp).map(l=>l.cp);
+  const cpKeep = K.filter(l=>l.cp).map(l=>l.cp);
+  const allRefund = K.length===0, noRefund = R.length===0;
+
+  document.getElementById('calc').innerHTML = `
+    <div class="kv refund"><span class="k">환불 대상 ${R.length}건</span><span class="v num">${money(rSum,o.cur)}</span></div>
+    <div class="kv keep"><span class="k">유지 ${K.length}건</span><span class="v num">${money(kSum,o.cur)}</span></div>
+    <div class="kv big"><span class="k">${allRefund?'전체취소 금액':'재결제 청구액'}</span><span class="v num">${money(allRefund?rSum:kSum,o.cur)}</span></div>
+    <h3>전체취소 시 복구·재소모</h3>
+    <div class="restore">
+      복구되는 쿠폰 <b>${cpAll.length?cpAll.join(', '):'없음'}</b><br>
+      재결제에 다시 소모 <b>${cpKeep.length?cpKeep.join(', '):'없음'}</b><br>
+      복구되는 마일리지 <b class="num">${mileBack.toLocaleString()}</b> · 재사용 <b class="num">${mileKeep.toLocaleString()}</b><br>
+      유저에게 최종 남는 마일리지 <b class="num">${(mileBack-mileKeep).toLocaleString()}</b>
+    </div>`;
+
+  const routes = [
+    {k:'full',    t:'전체취소',                 on:allRefund,
+     d:allRefund?'전 상품이 환불 대상이다. 가장 단순한 경로이며 모든 결제수단에서 가능하다.':'유지할 상품이 있어 해당 없음'},
+    {k:'partial', t:'PG 부분환불',              on:!allRefund && !noRefund && p.partial,
+     d:p.partial?'결제수단이 부분환불을 지원한다. 유저 동의 없이 즉시 처리 가능한 유일한 경로.':`${p.label}는 부분환불 미지원`},
+    {k:'mileage', t:'마일리지 환급',            on:!allRefund && !noRefund,
+     d:'원 결제는 유지하고 환불액만 마일리지로 지급한다. 유저의 건별 명시적 동의 필요 (정책 61번).'},
+    {k:'repay',   t:'개인결제창 발급 후 전체취소', on:!allRefund && !noRefund,
+     d:'유지 상품 금액으로 결제창을 발급하고, 결제 완료 후 원 주문을 전체취소한다. 유저 동의 필수 (정책 63번).'},
+    {k:'cash',    t:'CS 계좌 입금',             on:!allRefund && !noRefund,
+     d:'위 경로를 유저가 모두 거부한 경우의 최종 수단. 건별 지출결의 상신 (정책 64번).'}
+  ];
+  document.getElementById('routes').innerHTML = routes.map(r=>{
+    const rec = (r.k==='full'&&allRefund) || (r.k==='partial'&&r.on);
+    return `<div class="route ${r.on?'':'off'} ${route===r.k?'sel':''}" ${r.on?`onclick="setRoute('${r.k}')"`:''}>
+      <div class="t">${r.t} ${rec?'<span class="bdg ok">권장</span>':''} ${r.on?'':'<span class="bdg mute">불가</span>'}</div>
+      <div class="d">${r.d}</div>
+    </div>`;
+  }).join('');
+
+  const btn = document.getElementById('gobtn');
+  if(noRefund){ btn.disabled=true; btn.textContent='환불할 상품을 선택하세요'; }
+  else if(!route){ btn.disabled=true; btn.textContent='경로를 선택하세요'; }
+  else{
+    btn.disabled=false;
+    const L={full:'전체취소 실행',partial:'PG 부분환불 실행',mileage:'마일리지 환급 실행',repay:'개인결제창 발급',cash:'계좌 입금 지출결의 상신'};
+    btn.textContent=L[route];
+    btn.onclick=()=>{
+      if(route==='repay') toast(`개인결제창 발급 — ${ORDERS[curOrder].user}님에게 ${money(kSum,o.cur)} 청구. 대시보드에서 결제 여부를 추적합니다.`);
+      else if(route==='partial') toast(`PG 부분환불 ${money(rSum,o.cur)} 요청 전송`);
+      else if(route==='mileage') toast(`마일리지 ${rSum.toLocaleString()} 환급 — 유저 동의 증빙 첨부 필요`);
+      else if(route==='full') toast(`전체취소 ${money(rSum,o.cur)} 요청 전송`);
+      else toast('지출결의 상신 화면으로 이동합니다');
+    };
+  }
+}
+function setRoute(k){ route=k; renderCalc(); }
+
+/* ---------- 03 대시보드 ---------- */
+function renderPC(){
+  const c = k=>PC.filter(x=>x.st===k).length;
+  document.getElementById('ptiles').innerHTML = `
+    <div class="tile urgent"><div class="lbl">취소실패 — 유저 이중 부담</div><div class="v num">${c('fail')}</div></div>
+    <div class="tile"><div class="lbl">발급 · 결제대기</div><div class="v num">${c('issued')+c('paying')}</div></div>
+    <div class="tile"><div class="lbl">취소처리중</div><div class="v num">${c('cancel')}</div></div>
+    <div class="tile good"><div class="lbl">완료</div><div class="v num">${c('done')}</div></div>
+    <div class="tile"><div class="lbl">만료</div><div class="v num">${c('expire')}</div></div>`;
+  const order = {fail:0,cancel:1,paying:2,issued:3,done:4,expire:5};
+  const rows = [...PC].sort((a,b)=>order[a.st]-order[b.st]).map(x=>{
+    const s = ST[x.st];
+    return `<tr class="${x.st==='fail'?'urgent':''}">
+      <td><b>${x.id}</b></td>
+      <td>${x.user}</td>
+      <td class="num">${x.order}</td>
+      <td class="r num"><b>${money(x.amt,x.cur)}</b></td>
+      <td><span class="bdg ${s.b}">${s.l}</span>${x.note?`<div style="font-size:11px;color:var(--ink2);margin-top:3px">${x.note}</div>`:''}</td>
+      <td class="num">${x.left}</td>
+      <td class="r">${x.st==='fail'
+        ? '<button class="bdg err" style="border:0" onclick="toast(\'수동 취소 처리 화면으로 이동\')">수동 처리</button>'
+        : x.st==='issued'||x.st==='paying'
+          ? '<button class="bdg mute" style="border:0" onclick="toast(\'유저에게 리마인드를 발송했습니다\')">독촉</button>'
+          : x.st==='expire'
+            ? '<button class="bdg mute" style="border:0" onclick="toast(\'재발급 화면으로 이동\')">재발급</button>'
+            : '—'}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('ptable').innerHTML =
+    `<tr><th>발급번호</th><th>유저</th><th>원 주문</th><th class="r">청구금액</th><th>상태</th><th>남은 기한</th><th class="r">액션</th></tr>`+rows;
+}
+
+/* ---------- 토스트 ---------- */
+let tt;
+function toast(m){
+  const el=document.getElementById('toast');
+  el.textContent=m; el.classList.add('on');
+  clearTimeout(tt); tt=setTimeout(()=>el.classList.remove('on'),3200);
+}
+
+/* ---------- init ---------- */
+renderQueue();
+openOrder('WS-26092-00817');
+goTab('q');
+renderPC();
+</script>
+</body>
+</html>
