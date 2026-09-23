@@ -189,7 +189,11 @@ ul.help{padding-left:16px} ul.help li{margin-bottom:2px}
 .grp .nm{font-weight:700;font-size:13px}
 .grp .g2{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:12px;color:var(--ink2);gap:8px}
 .grp .g2 b{color:var(--ink)}
-.grp .g3{font-size:11px;color:var(--ink2);margin-top:4px}
+.cppanel{border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);margin:4px 0 6px;padding:8px 0}
+.cppanel .cphead{margin:0 0 6px;font-size:13px}
+.cpgrp{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 10px;margin-bottom:6px}
+.cpgrp .cpt{display:flex;justify-content:space-between;font-size:12.5px;padding:2px 0 4px;border-bottom:1px solid var(--line)}
+.cpgrp .cpt span{color:var(--ink2)}
 .grp .xbtn{flex:0 0 24px;width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);font-size:12px;line-height:1}
 .stepper.sm{margin:0;gap:4px}
 .stepper.sm button{height:26px;min-width:26px}
@@ -454,7 +458,6 @@ function render(){
   badge.textContent = S.cart.lines.length;
   if(S.view==="shop") renderShop();
   else if(S.view==="order") renderOrder();
-  else if(S.view==="coupon") renderCoupon();
   else if(S.view==="mypage") renderMypage();
   else renderDone();
   renderExplain();
@@ -633,22 +636,23 @@ function renderOrder(){
     pids.forEach(function(pid){
       var p = prod(pid), n = linesOf(pid).length, rb = remainBuy(p);
       var atMax = p.limit && n >= rb;
+      var gAfter = c.rows.filter(function(r){return r.line.pid===pid;}).reduce(function(a,r){return a+r.after;},0);
       h += '<div class="grp"><div class="g1"><span class="nm">'+esc(p.name)+'</span>'
         +  '<button class="xbtn" data-dropp="'+pid+'" aria-label="'+esc(p.name)+' 빼기" title="이 상품 빼기">×</button></div>'
         +  '<div class="g2"><span class="stepper sm">'
         +    '<button data-minus="'+pid+'"'+(n<=1?" disabled":"")+' aria-label="1 줄이기">−</button>'
         +    '<span class="qv num">'+n+'</span>'
         +    '<button data-plusq="'+pid+'"'+(atMax?' class="off" aria-disabled="true"':"")+' aria-label="1 늘리기">+</button></span>'
-        +  '<span class="num px">'+fmt(p.price)+' × '+n+' = <b>'+fmt(p.price*n)+'원</b></span></div>'
-        +  (p.limit? '<div class="g3">'+(atMax? '구매 한도 '+p.limit+'회 중 '+(p.bought||0)+'회 구매 — 남은 수량을 모두 담았습니다' : '구매 한도 '+p.limit+'회 중 '+(p.bought||0)+'회 구매')+'</div>' : '')
+        +  '<span class="num px">'+(gAfter<p.price*n? '<s class="strike">'+fmt(p.price*n)+'</s> ':'')+'<b>'+fmt(gAfter)+'원</b></span></div>'
         +  '</div>';
     });
     h += '<p class="help">수량을 바꾸면 쿠폰은 최대 할인으로 다시 적용되고, 마일리지는 초기화됩니다.</p>';
   }
   /* 금액 — 쿠폰은 합계만, 상품별 내역은 [변경]에서 */
   h += '<div class="amt isnew">'
-    +  '<div class="kv"><span class="k">할인/쿠폰 <button class="chgbtn" id="cpOpen">변경</button></span>'
+    +  '<div class="kv"><span class="k">할인/쿠폰 <button class="chgbtn" id="cpOpen" aria-expanded="'+(S.ctx.cpOpen?"true":"false")+'">'+(S.ctx.cpOpen?'접기 ▴':'변경 ▾')+'</button></span>'
     +    '<span class="v num">'+(c.discSum? '<span class="chip">'+(S.ctx.stickyFrozen?'직접 선택':'최대 적용중')+'</span> <span style="color:var(--brand-deep)">−'+fmt(c.discSum)+'원</span>' : '<span style="color:var(--ink2);font-weight:400">적용 가능한 쿠폰 없음</span>')+'</span></div>'
+    +  (S.ctx.cpOpen? couponPanelHtml(c) : '')
     +  '<div class="kv"><span class="k">상품금액</span><span class="v num">'+(c.discSum? '<s class="strike">'+fmt(c.sum)+'</s> ':'')+fmt(c.afterSum)+'원</span></div>'
     +  '<div class="kv total"><span class="k">총 주문금액</span><span class="v num">'+fmt(c.afterSum)+'원</span></div></div>';
   h += '</div>';
@@ -700,7 +704,9 @@ function renderOrder(){
   document.getElementById("backShop").onclick = function(){ if(isInstant()){ S.inst=null; S.ctx=S.cart; } S.view="shop"; render(); };
   document.getElementById("clearCart").onclick = clearCart;
   document.getElementById("foldBtn").onclick = function(){ S.ctx.open = !S.ctx.open; render(); };
-  document.getElementById("cpOpen").onclick = function(){ S.view="coupon"; S.notices=[]; render(); scr.scrollTop=0; };
+  document.getElementById("cpOpen").onclick = function(){ S.ctx.cpOpen = !S.ctx.cpOpen; render(); };
+  var cpm = document.getElementById("cpMax"); if(cpm) cpm.onclick = resetCouponsMax;
+  scr.querySelectorAll(".cpsel").forEach(function(sel){ sel.onchange=function(){ setCoupon(parseInt(sel.dataset.line,10), sel.value||null); }; });
   scr.querySelectorAll("[data-minus]").forEach(function(b){ b.onclick=function(){ qtyMinus(b.dataset.minus); }; });
   scr.querySelectorAll("[data-plusq]").forEach(function(b){ b.onclick=function(){ qtyPlus(b.dataset.plusq); }; });
   scr.querySelectorAll("[data-dropp]").forEach(function(b){ b.onclick=function(){ dropProduct(b.dataset.dropp); }; });
@@ -722,18 +728,13 @@ function renderOrder(){
   bindToast();
 }
 
-/* ---------- 할인/쿠폰 상세 (v11 신설) — 상품별로 펼쳐서 1개 단위로 쿠폰 선택 ---------- */
-function renderCoupon(){
-  var c = calc();
-  var h = '<div class="scr-pad">';
-  h += '<button class="linkback" id="cpBack">← 주문/결제로</button>';
-  h += '<div class="pagetitle">할인/쿠폰</div>';
-  h += '<div class="cphead isnew"><b class="num">'+fmt(c.discSum)+'원</b><br>할인 적용중이에요'
-    +  (S.ctx.stickyFrozen? '<button class="chgbtn" id="cpMax" style="float:right;margin-top:-22px">최대 할인으로 다시 적용</button>' : '<span class="chip" style="float:right;margin-top:-20px">최대 적용중</span>')+'</div>';
-  S.notices.forEach(function(n){ h += '<div class="notice '+n.t+'">'+esc(n.m)+'</div>'; });
+/* ---------- 할인/쿠폰 상세 (v11) — [변경]을 누르면 주문서 안에서 아래로 펼침. 상품별·1개 단위로 쿠폰 선택 ---------- */
+function couponPanelHtml(c){
+  var h = '<div class="cppanel isnew">';
+  if(S.ctx.stickyFrozen) h += '<div class="cphead"><button class="chgbtn" id="cpMax" style="margin:0">최대 할인으로 다시 적용</button></div>';
   pidsOf().forEach(function(pid){
     var p = prod(pid), ls = linesOf(pid);
-    h += '<div class="sec isnew"><h4 style="font-size:13.5px">'+esc(p.name)+'<span class="sp"></span><span class="num" style="font-weight:400;font-size:12px;color:var(--ink2)">'+fmt(p.price)+'원 × '+ls.length+'</span></h4>';
+    h += '<div class="cpgrp"><div class="cpt"><b>'+esc(p.name)+'</b><span class="num">'+fmt(p.price)+'원 × '+ls.length+'</span></div>';
     ls.forEach(function(l,idx){
       var row = c.rows.filter(function(r){return r.line.id===l.id;})[0];
       h += '<div class="unit"><span class="un">'+(ls.length>1? (idx+1)+'번째' : '1개')+'</span>'
@@ -749,15 +750,8 @@ function renderCoupon(){
     });
     h += '</div>';
   });
-  h += '<p class="help">쿠폰은 상품 1개당 1장. 같은 상품을 여러 개 담으면 개수만큼 칸이 펼쳐집니다. 주문서에서는 합계만 보입니다.</p>';
-  h += '</div>';
-  h += '<div class="paybar"><button class="paybtn num" id="cpApply">−'+fmt(c.discSum)+'원 할인 적용</button></div>';
-  scr.innerHTML = h;
-  var back = function(){ S.view="order"; render(); };
-  document.getElementById("cpBack").onclick = back;
-  document.getElementById("cpApply").onclick = back;
-  var mx = document.getElementById("cpMax"); if(mx) mx.onclick = resetCouponsMax;
-  scr.querySelectorAll(".cpsel").forEach(function(sel){ sel.onchange=function(){ setCoupon(parseInt(sel.dataset.line,10), sel.value||null); }; });
+  h += '<p class="help" style="margin:4px 0 0">쿠폰은 상품 1개당 1장. 같은 상품을 여러 개 담으면 개수만큼 칸이 펼쳐집니다.</p></div>';
+  return h;
 }
 
 /* ---------- 결제 완료 ---------- */
@@ -770,7 +764,7 @@ function renderDone(){
   h += '<div class="sec"><h4>주문 내역 <span class="num" style="font-size:13px">'+fmt(c.pay)+'원</span></h4>';
   pidsOf().forEach(function(pid){
     var p = prod(pid), n = linesOf(pid).length;
-    h += '<div class="sumline"><span>'+esc(p.name)+' <span class="num" style="color:var(--ink2)">× '+n+'</span></span><span class="num" style="color:var(--ink2)">'+fmt(p.price*n)+'원</span></div>';
+    h += '<div class="sumline"><span>'+esc(p.name)+' <span class="num" style="color:var(--ink2)">× '+n+'</span></span><span class="num" style="color:var(--ink2)">'+fmt(c.rows.filter(function(r){return r.line.pid===pid;}).reduce(function(a,r){return a+r.after;},0))+'원</span></div>';
   });
   h += '</div>';
   h += '<div class="sec"><h4>혜택 정리</h4>'
@@ -829,18 +823,13 @@ function renderExplain(){
   } else if(S.view==="order"){
     h = '<h2><span class="tag">SCREEN 2</span>주문/결제 — v11 통합 방식</h2><ol>'
       + '<li><b>같은 상품은 한 줄로 묶기</b> — "총 N건 · ○○ 외 k종"으로 접혀 있고, 누르면 상품별 수량 조절이 펼쳐집니다. (정책 30·31)</li>'
-      + '<li><b>쿠폰은 합계만</b> — "최대 적용중 −X원" + [변경]. 상품별 적용 내역은 [변경]을 눌러야 보입니다. (정책 5)</li>'
+      + '<li><b>쿠폰은 합계만</b> — "최대 적용중 −X원" + [변경]. [변경]을 누르면 <b>그 자리에서 아래로 펼쳐져</b> 상품별·1개 단위로 쿠폰을 고릅니다(A×2면 칸 2개). 직접 바꾸면 "직접 선택" 상태가 되고 [최대 할인으로 다시 적용]으로 되돌립니다. (정책 5)</li>'
+      + '<li>상품 줄 금액은 <b>쿠폰 적용 후 소계</b>(원가는 취소선). 한도·단가 계산식 같은 상세 문구는 뺐습니다. 한도 초과로 + 를 누르면 토스트로만 알려줍니다.</li>'
       + '<li><b>수량을 바꾸면</b> 쿠폰은 최대 할인으로 자동 재배정, 직접 고른 쿠폰과 마일리지 입력은 초기화 + 안내. v9에서 깨졌던 지점을 "바뀌면 다시 계산" 규칙 하나로 정리했습니다.</li>'
       + '<li><b>마일리지는 총액에서 한 번만 입력</b> — 네이버 포인트 방식. 상품별 금액은 유저가 정하지 않습니다. (정책 11)</li>'
       + '<li><b>최대 사용 가능 = 쿠폰 적용 후 총액 − 1,000 × 상품 개수</b>. 상품마다 최소 1,000원 결제 규칙을 지킵니다.</li>'
       + '<li>내부 배분 — 상품마다 1,000원을 남긴 금액 비율로 나누고, 원 단위 내림, 자투리는 가장 비싼 상품에. 결과는 마이페이지에서 확인.</li>'
       + '<li><b>지금 해볼 것</b> — 주문 상품을 펼쳐 A 수량을 1개 줄여보세요. 쿠폰이 다시 배정되고 마일리지가 0이 됩니다.</li></ol>';
-  } else if(S.view==="coupon"){
-    h = '<h2><span class="tag">SCREEN 2-1</span>할인/쿠폰 상세 (신설)</h2><ol>'
-      + '<li>네이버 할인/쿠폰 화면처럼 <b>상품별로 펼쳐</b> 쿠폰을 확인·변경.</li>'
-      + '<li>우리는 쿠폰이 <b>상품 1개당 1장</b>이라, 같은 상품 A×2면 칸이 2개. 주문서에서만 묶여 보이고 쿠폰은 1개 단위.</li>'
-      + '<li>직접 바꾸면 "직접 선택" 상태가 되고, [최대 할인으로 다시 적용]으로 되돌릴 수 있습니다.</li>'
-      + '<li>쿠폰을 바꿔 사용 가능 최대치가 줄면 마일리지 입력값을 자동으로 맞추고 안내합니다.</li></ol>';
   } else if(S.view==="mypage"){
     h = '<h2><span class="tag">SCREEN 4</span>마이페이지 주문 상세 (신설)</h2><ol>'
       + '<li><b>상품 1개 단위로 전부 펼침, 접지 않음</b> — 9/22 회의 결정.</li>'
