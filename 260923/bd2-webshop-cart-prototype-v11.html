@@ -20,7 +20,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .dochead h1{margin:6px 0 4px;font-size:23px;font-weight:800;letter-spacing:-.01em;text-wrap:balance}
 .dochead p{margin:0 0 18px;color:var(--ink2);max-width:64ch}
 .cols{display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap}
-.phone{width:400px;flex:0 0 auto;border:1px solid #D6D8E0;border-radius:20px;background:var(--bg);
+.phone{position:relative;width:400px;flex:0 0 auto;border:1px solid #D6D8E0;border-radius:20px;background:var(--bg);
   box-shadow:0 14px 36px rgba(20,22,40,.14);overflow:hidden}
 .ph-top{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--header);color:#fff}
 .ph-top .brand{font-weight:800;font-size:14px;letter-spacing:.04em}
@@ -190,6 +190,14 @@ ul.help{padding-left:16px} ul.help li{margin-bottom:2px}
 .grp .nm{font-weight:700;font-size:13px}
 .grp .g2{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:12px;color:var(--ink2);gap:8px}
 .grp .g2 b{color:var(--ink)}
+.modal{position:absolute;inset:0;background:rgba(10,11,20,.45);display:flex;align-items:center;justify-content:center;padding:24px;z-index:30;border-radius:20px}
+.modal .box{background:var(--surface);border-radius:12px;padding:18px 16px 14px;width:100%;max-width:300px;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.modal .mt{font-weight:800;font-size:15px;margin:0 0 6px}
+.modal .ms{font-size:12.5px;color:var(--ink2);margin:0 0 14px}
+.modal .mb{display:flex;gap:8px}
+.modal .mb button{flex:1;border-radius:7px;padding:10px 0;font-size:13px;font-weight:700}
+.modal .mb .no{border:1px solid var(--line);background:var(--surface);color:var(--ink2)}
+.modal .mb .yes{border:0;background:var(--brand);color:#fff}
 .cppanel{border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);margin:4px 0 6px;padding:8px 0}
 .cppanel .cphead{margin:0 0 6px;font-size:13px}
 .cpgrp{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 10px;margin-bottom:6px}
@@ -442,9 +450,28 @@ function resetCouponsMax(){
   S.notices = [{t:"info", m:"최대 할인으로 다시 적용했어요."}];
   clampMile(); render();
 }
+function ask(title, sub, yesLab, noLab, onYes){
+  var old = document.getElementById("modal"); if(old) old.remove();
+  var m = document.createElement("div");
+  m.className = "modal"; m.id = "modal";
+  m.innerHTML = '<div class="box" role="dialog" aria-modal="true"><p class="mt">'+esc(title)+'</p>'+(sub? '<p class="ms">'+esc(sub)+'</p>':'')
+    + '<div class="mb"><button class="no" id="mNo">'+esc(noLab)+'</button><button class="yes" id="mYes">'+esc(yesLab)+'</button></div></div>';
+  document.querySelector(".phone").appendChild(m);
+  document.getElementById("mNo").onclick = function(){ m.remove(); };
+  document.getElementById("mYes").onclick = function(){ m.remove(); onYes(); };
+}
+/* 주문/결제 화면에서 다른 화면으로 나갈 때 확인 (계속 쇼핑하기 · 마이페이지) */
+function leaveOrder(go){
+  if(S.view!=="order" || !S.ctx.lines.length){ go(); return; }
+  ask("주문/결제 화면에서 나갈까요?",
+      isInstant()? "바로 구매가 취소됩니다." : "담은 상품은 장바구니에 그대로 남아 있어요.",
+      "나가기", "계속 결제하기", go);
+}
 function clearCart(){
-  var what = isInstant()? "바로 구매를 취소할까요?" : "장바구니를 비울까요? 담은 상품과 쿠폰·마일리지 입력이 모두 초기화됩니다.";
-  if(!window.confirm(what)) return;
+  var what = isInstant()? "바로 구매를 취소할까요?" : "장바구니를 비울까요?";
+  ask(what, "", isInstant()? "구매 취소" : "비우기", "닫기", doClearCart);
+}
+function doClearCart(){
   if(isInstant()){ S.inst=null; S.ctx=S.cart; S.view="shop"; S.notices=[]; render(); return; }
   S.cart.lines=[]; S.cart.assign={}; S.cart.stickyFrozen=false; S.cart.mileTotal=0; S.notices=[];
   render();
@@ -600,16 +627,11 @@ function bindToast(){
   if(t) t.onclick = function(){ S.toast=null; openOrder(); };
   if(S.toast||S.undo){ setTimeout(function(){ S.toast=null; S.undo=null; var el=scr.querySelector(".toast,.undo"); if(el) el.remove(); },4200); }
 }
-/* v11 — 헤더 장바구니 아이콘: 주문서(=장바구니) 화면에서는 주문 상품을 펼쳐 보여주고, 바로 구매 중에는 이동 여부를 묻는다 */
+/* v11 — 헤더 장바구니 아이콘: 주문서(=장바구니) 화면에서는 [주문 상품]을 펼쳐 그 위치로만 이동(안내 없음). 바로 구매 중이면 묻지 않고 장바구니로 */
 function cartIcon(){
-  if(S.view==="order" && isInstant()){
-    if(!window.confirm("바로 구매를 멈추고 장바구니로 이동할까요?")) return;
-    openOrder(); return;
-  }
-  if(S.view==="order"){
-    S.ctx.open = true;
-    S.toast = {m:"장바구니에 담긴 상품은 여기 [주문 상품]에서 확인하고 수량을 바꿀 수 있어요.", act:null};
-    render(); scr.scrollTop = 0; return;
+  if(S.view==="order" && !isInstant()){
+    S.ctx.open = true; render();
+    scr.scrollTo({top:0, behavior:"smooth"}); return;
   }
   openOrder();
 }
@@ -715,7 +737,7 @@ function renderOrder(){
   h += toastHtml();
   scr.innerHTML = h;
 
-  document.getElementById("backShop").onclick = function(){ if(isInstant()){ S.inst=null; S.ctx=S.cart; } S.view="shop"; render(); };
+  document.getElementById("backShop").onclick = function(){ leaveOrder(function(){ if(isInstant()){ S.inst=null; S.ctx=S.cart; } S.view="shop"; render(); }); };
   document.getElementById("clearCart").onclick = clearCart;
   document.getElementById("foldBtn").onclick = function(){ S.ctx.open = !S.ctx.open; render(); };
   document.getElementById("cpOpen").onclick = function(){ S.ctx.cpOpen = !S.ctx.cpOpen; render(); };
@@ -853,7 +875,8 @@ function renderExplain(){
       + '<li><b>마일리지는 총액에서 한 번만 입력</b> — 네이버 포인트 방식. 상품별 금액은 유저가 정하지 않습니다. (정책 11)</li>'
       + '<li><b>최대 사용 가능 = 쿠폰 적용 후 총액 − 1,000 × 상품 개수</b>. 상품마다 최소 1,000원 결제 규칙을 지킵니다.</li>'
       + '<li>내부 배분 — 상품마다 1,000원을 남긴 금액 비율로 나누고, 원 단위 내림, 자투리는 가장 비싼 상품에. 결과는 마이페이지에서 확인.</li>'
-      + '<li><b>헤더 장바구니 아이콘</b> — 이 화면이 곧 장바구니이므로, 누르면 [주문 상품]을 펼쳐 맨 위로 올리고 안내합니다. 바로 구매 중이면 "장바구니로 이동할까요?"를 묻습니다.</li>'
+      + '<li><b>헤더 장바구니 아이콘</b> — 이 화면이 곧 장바구니이므로, 누르면 [주문 상품]을 펼쳐 그 위치로 부드럽게 이동만 합니다(안내 없음). 바로 구매 중이면 묻지 않고 장바구니로 바꿉니다.</li>'
+      + '<li><b>나가기 확인</b> — [계속 쇼핑하기]·닉네임(마이페이지)으로 주문/결제를 벗어날 때 "나갈까요?"를 묻습니다. 장바구니면 "담은 상품은 그대로", 바로 구매면 "구매가 취소됩니다".</li>'
       + '<li>쿠폰 칸에는 1번째·2번째 같은 순번이 없습니다 — 같은 상품 여러 개는 서로 똑같아서 순번이 의미가 없고, 칸 수가 곧 수량입니다.</li>'
       + '<li><b>지금 해볼 것</b> — 주문 상품을 펼쳐 A 수량을 1개 줄여보세요. 쿠폰이 다시 배정되고 마일리지가 0이 됩니다.</li></ol>';
   } else if(S.view==="mypage"){
@@ -873,7 +896,13 @@ function renderExplain(){
 }
 
 document.getElementById("cartOpen").onclick = cartIcon;
-document.getElementById("nickOpen").onclick = function(){ if(S.view!=="mypage") S.myFrom = S.view; S.layer=null; S.view="mypage"; render(); scr.scrollTop=0; };
+document.getElementById("nickOpen").onclick = function(){
+  if(S.view==="mypage") return;
+  leaveOrder(function(){
+    if(S.view==="order" && isInstant()){ S.inst=null; S.ctx=S.cart; }
+    S.myFrom = S.view==="order" ? "shop" : S.view; S.layer=null; S.view="mypage"; render(); scr.scrollTop=0;
+  });
+};
 document.getElementById("shownew").onchange = function(e){ document.body.dataset.shownew = e.target.checked? "1":"0"; };
 
 /* 초기 데모: A×2 + B×1, 마일리지 5,000 */
