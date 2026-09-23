@@ -26,6 +26,14 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .ph-top .brand{font-weight:800;font-size:14px;letter-spacing:.04em}
 .ph-top .rightnav{display:flex;align-items:center;gap:12px;font-size:12.5px}
 .ph-top .nick{font-weight:700}
+.ph-top .brand,.ph-top .rightnav>*{white-space:nowrap}
+.ph-top .rightnav{gap:9px}
+@media (max-width:2000px){.phone .hbenefit{display:none}} /* 폰 폭 데모에서는 헤더 공간 확보용으로 숨김 — 실서비스 헤더에는 그대로 존재 */
+.hmile{display:inline-flex;align-items:center;font-weight:700;font-size:12.5px}
+.hmile .ic{margin-right:3px}
+.mbubble{position:absolute;top:46px;left:0;z-index:15;background:#FFF6D6;color:#6B4E00;border:1px solid #F2D675;border-radius:8px;padding:6px 8px 6px 10px;font-size:11.5px;font-weight:700;display:flex;gap:6px;align-items:center;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.mbubble::before{content:"";position:absolute;top:-6px;left:var(--ax,20px);width:10px;height:10px;background:#FFF6D6;border-left:1px solid #F2D675;border-top:1px solid #F2D675;transform:rotate(45deg)}
+.mbubble button{border:0;background:none;color:#6B4E00;font-size:13px;line-height:1;padding:0 2px}
 .nickbtn{border:0;background:none;color:#fff;padding:0;font-size:12.5px;text-decoration:underline;text-underline-offset:3px}
 .cartbtn{position:relative;background:none;border:0;color:#fff;padding:2px;font-size:17px;line-height:1}
 .cartbtn .badge{position:absolute;top:-7px;right:-10px;min-width:17px;height:17px;border-radius:9px;background:var(--brand);
@@ -237,11 +245,13 @@ ul.help{padding-left:16px} ul.help li{margin-bottom:2px}
       <div class="ph-top">
         <div class="brand">BROWN DUST Ⅱ <span style="opacity:.65;font-weight:400">웹상점</span></div>
         <div class="rightnav">
-          <span style="opacity:.85">웹상점 혜택</span>
+          <span class="hbenefit" style="opacity:.85">웹상점 혜택</span>
+          <span class="hmile num isnew" id="hMile" title="보유 마일리지"><span class="ic m">M</span><span id="hMileV">5,000</span></span>
           <button class="nick nickbtn isnew" id="nickOpen" title="마이페이지">DQHANNANEO</button>
           <button class="cartbtn isnew" id="cartOpen" aria-label="장바구니">🛒<span class="badge num" id="badge" style="display:none">0</span></button>
         </div>
       </div>
+      <div class="mbubble isnew" id="mBubble" role="status" style="display:none"><span>소멸 예정인 마일리지가 있어요!</span><button id="mBubbleX" aria-label="닫기">×</button></div>
       <div class="screen" id="screen"></div>
     </div>
 
@@ -250,6 +260,7 @@ ul.help{padding-left:16px} ul.help li{margin-bottom:2px}
       <div class="pcard">
         <h2><span class="tag">VIEW</span>표시 옵션</h2>
         <label class="toggle"><input type="checkbox" id="shownew" checked> 신규 요소 표시 (파란 점선 + NEW)</label>
+        <label class="toggle"><input type="checkbox" id="expOn" checked> 7일 이내 소멸 예정 마일리지 있음 (데모: 1,200 · 3일 후)</label>
       </div>
       <div class="pcard">
         <h2><span class="tag">DEMO DATA</span>기본 데이터 (KRW 계정)</h2>
@@ -280,9 +291,10 @@ var COUPONS = [
 ];
 var BADGE_LABEL = {hot:"HOT", best:"BEST", trd:"3RD"};
 var MILE_BAL = 5000, MIN_PAY = 1000;
+var EXPIRING = 1200, EXPIRE_DAYS = 3;   /* 데모: 7일 이내 소멸 예정분 */
 
 function newCtx(){
-  return {lines:[], assign:{}, stickyFrozen:false, mileTotal:0, acctChk:false,
+  return {lines:[], assign:{}, stickyFrozen:false, mileTotal:0, bal:MILE_BAL, acctChk:false,
           terms:{all:false,t1:false,t2:false}, confirmNow:null};
 }
 var S = {
@@ -372,7 +384,7 @@ function calc(){
   var sum = rows.reduce(function(a,r){return a+r.price;},0);
   var discSum = rows.reduce(function(a,r){return a+r.disc;},0);
   var afterSum = sum - discSum;
-  var mileCap = Math.min(MILE_BAL, Math.max(0, afterSum - MIN_PAY*rows.length));
+  var mileCap = Math.min(S.ctx.bal, Math.max(0, afterSum - MIN_PAY*rows.length));
   var used = Math.max(0, Math.min(S.ctx.mileTotal||0, mileCap));
   allocMile(rows, used);
   rows.forEach(function(r){ r.cash = r.after - r.mAlloc; r.accrue = Math.floor(0.1*r.cash); });
@@ -480,7 +492,20 @@ function doClearCart(){
 var scr = document.getElementById("screen");
 function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
 
+function renderHeaderMile(){
+  document.getElementById("hMileV").textContent = fmt(MILE_BAL);
+  var show = EXPIRING > 0 && !S.bubbleClosed && document.getElementById("expOn").checked;
+  var bb = document.getElementById("mBubble");
+  bb.style.display = show ? "flex" : "none";
+  if(show){ /* 말풍선 꼬리가 헤더 마일리지를 가리키도록 위치 계산 */
+    var ph = document.querySelector(".phone").getBoundingClientRect(), hm = document.getElementById("hMile").getBoundingClientRect();
+    var left = Math.max(8, Math.min(hm.left - ph.left - 20, ph.width - bb.offsetWidth - 8));
+    bb.style.left = left + "px";
+    bb.style.setProperty("--ax", (hm.left - ph.left + hm.width/2 - left - 5) + "px");
+  }
+}
 function render(){
+  renderHeaderMile();
   var badge = document.getElementById("badge");
   badge.style.display = S.cart.lines.length ? "flex" : "none";
   badge.textContent = S.cart.lines.length;
@@ -695,7 +720,7 @@ function renderOrder(){
 
   /* 마일리지 — 쿠폰 적용 후 총액에서 한 번에 사용 */
   h += '<div class="sec isnew"><h4>마일리지<span class="newtag">NEW 총액 사용</span></h4>'
-    +  '<div class="mhead"><span>브라운더스트2 마일리지</span><span class="num"><span class="ic m">M</span>'+fmt(MILE_BAL)+'</span></div>'
+    +  '<div class="mhead"><span>브라운더스트2 마일리지</span><span class="num"><span class="ic m">M</span>'+fmt(S.ctx.bal)+'</span></div>'
     +  '<div class="mrow"><input class="num" id="mileIn" inputmode="numeric" value="'+(c.mile||"")+'" placeholder="0" aria-label="사용할 마일리지">'
     +    '<button id="mileAll">전액사용</button><button id="mileClear">비우기</button></div>'
     +  '<p class="help num">최대 사용 가능 <b>'+fmt(c.mileCap)+'</b> — 상품마다 최소 1,000원은 결제해야 해서 (총 주문금액 '+fmt(c.afterSum)+' − 1,000 × '+c.rows.length+'건)까지입니다.<br>'
@@ -760,7 +785,7 @@ function renderOrder(){
   document.getElementById("t1").onchange = function(e){ S.ctx.terms.t1=e.target.checked; S.ctx.terms.all=S.ctx.terms.t1&&S.ctx.terms.t2; render(); };
   document.getElementById("t2").onchange = function(e){ S.ctx.terms.t2=e.target.checked; S.ctx.terms.all=S.ctx.terms.t1&&S.ctx.terms.t2; render(); };
   var pay = document.getElementById("payBtn");
-  if(pay) pay.onclick = function(){ pay.disabled=true; pay.textContent="결제 처리 중…"; setTimeout(function(){ S.last = S.ctx; S.view="done"; S.notices=[]; render(); },900); };
+  if(pay) pay.onclick = function(){ pay.disabled=true; pay.textContent="결제 처리 중…"; setTimeout(function(){ var pc = calc(); MILE_BAL = MILE_BAL - pc.mile + (S.ctx.confirmNow==="yes"? pc.accrue : 0); EXPIRING = Math.max(0, EXPIRING - pc.mile); S.last = S.ctx; S.view="done"; S.notices=[]; render(); },900); };
   bindToast();
 }
 
@@ -865,7 +890,9 @@ function renderExplain(){
       + '<li>담기 경로 2개 — 장바구니 아이콘은 1개 즉시 담기, [구매]는 설명 + 수량 스테퍼 팝업.</li>'
       + '<li>담기 한도와 구매 한도는 다름 — 장바구니가 가득 차도 [바로 구매] 가능.</li>'
       + '<li>[구매(n/N회)]의 n은 실제 구매 횟수.</li>'
-      + '<li>우측 상단 장바구니 아이콘을 누르면 v11 주문서로 이동합니다.</li></ol>';
+      + '<li>우측 상단 장바구니 아이콘을 누르면 v11 주문서로 이동합니다.</li>'
+      + '<li><b>헤더 잔여 마일리지</b> — 사용 가능한 잔액 전체 표시. 결제 직후 바로 반영(사용분 차감, 즉시 적립 동의 시 적립분 가산).</li>'
+      + '<li><b>소멸 예정 말풍선</b> — 7일 이내 소멸될 마일리지가 있으면 "소멸 예정인 마일리지가 있어요!". ×로 닫기. 오른쪽 표시 옵션에서 켜고 끌 수 있어요.</li></ol>';
   } else if(S.view==="order"){
     h = '<h2><span class="tag">SCREEN 2</span>주문/결제 — v11 통합 방식</h2><ol>'
       + '<li><b>같은 상품은 한 줄로 묶기</b> — "총 N건 · ○○ 외 k종"으로 접혀 있고, 누르면 상품별 수량 조절이 펼쳐집니다. (정책 30·31)</li>'
@@ -896,6 +923,8 @@ function renderExplain(){
 }
 
 document.getElementById("cartOpen").onclick = cartIcon;
+document.getElementById("mBubbleX").onclick = function(){ S.bubbleClosed = true; renderHeaderMile(); };
+document.getElementById("expOn").onchange = function(){ S.bubbleClosed = false; renderHeaderMile(); };
 document.getElementById("nickOpen").onclick = function(){
   if(S.view==="mypage") return;
   leaveOrder(function(){
