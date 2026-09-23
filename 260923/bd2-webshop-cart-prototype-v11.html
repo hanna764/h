@@ -650,10 +650,10 @@ function renderOrder(){
   }
   /* 금액 — 쿠폰은 합계만, 상품별 내역은 [변경]에서 */
   h += '<div class="amt isnew">'
+    +  '<div class="kv"><span class="k">상품 금액</span><span class="v num">'+fmt(c.sum)+'원</span></div>'
     +  '<div class="kv"><span class="k">할인/쿠폰 <button class="chgbtn" id="cpOpen" aria-expanded="'+(S.ctx.cpOpen?"true":"false")+'">'+(S.ctx.cpOpen?'접기 ▴':'변경 ▾')+'</button></span>'
     +    '<span class="v num">'+(c.discSum? '<span class="chip">'+(S.ctx.stickyFrozen?'직접 선택':'최대 적용중')+'</span> <span style="color:var(--brand-deep)">−'+fmt(c.discSum)+'원</span>' : '<span style="color:var(--ink2);font-weight:400">적용 가능한 쿠폰 없음</span>')+'</span></div>'
     +  (S.ctx.cpOpen? couponPanelHtml(c) : '')
-    +  '<div class="kv"><span class="k">상품금액</span><span class="v num">'+(c.discSum? '<s class="strike">'+fmt(c.sum)+'</s> ':'')+fmt(c.afterSum)+'원</span></div>'
     +  '<div class="kv total"><span class="k">총 주문금액</span><span class="v num">'+fmt(c.afterSum)+'원</span></div></div>';
   h += '</div>';
 
