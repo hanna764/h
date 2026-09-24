@@ -128,6 +128,16 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .ad-urgent{margin-top:10px;background:var(--err-bg);color:var(--err);border-radius:8px;padding:9px 11px;font-size:12px}
 .ad-urgent b{display:block;margin-bottom:2px}
 .ad-demo{flex:1;border:1px dashed var(--ink2);border-radius:7px;background:#fff;color:var(--ink2);font-size:12px;padding:8px}
+.ad-task{margin-top:10px;border:1px solid #F5C98A;border-radius:9px;padding:10px 11px;background:#FFFBF4;display:flex;flex-direction:column}
+.ad-task>b{font-size:12.5px;margin-bottom:4px}
+.ad-task input[type=text],.ad-task input:not([type]),.ad-task textarea{font:inherit;font-size:12px;border:1px solid var(--line);border-radius:6px;padding:4px 7px;max-width:170px}
+.ad-task textarea{display:block;width:100%;max-width:none;min-height:46px;margin-top:4px;resize:vertical}
+.ad-chk{display:flex;gap:7px;align-items:flex-start;font-size:12px;margin-top:8px;color:var(--ink)}
+.ad-chk input{margin-top:2px;accent-color:var(--brand)}
+.ad-ops{margin:4px 0 0;padding-left:18px;font-size:12px;color:var(--ink2)}
+.ad-ops li{margin-bottom:2px}
+.ad-ops b{color:var(--ink)}
+.ad-ops em{display:block;font-style:normal;font-size:10.5px;color:var(--err)}
 .nickbtn{border:0;background:none;color:#fff;padding:0;font-size:12.5px;text-decoration:underline;text-underline-offset:3px}
 .cartbtn{position:relative;background:none;border:0;color:#fff;padding:2px;font-size:17px;line-height:1}
 .cartbtn .badge{position:absolute;top:-7px;right:-10px;min-width:17px;height:17px;border-radius:9px;background:var(--brand);
@@ -355,7 +365,6 @@ ul.help{padding-left:16px} ul.help li{margin-bottom:2px}
         <h2><span class="tag">VIEW</span>표시 옵션</h2>
         <label class="toggle"><input type="checkbox" id="shownew" checked> 신규 요소 표시 (파란 점선 + NEW)</label>
         <label class="toggle"><input type="checkbox" id="expOn" checked> 7일 이내 소멸 예정 마일리지 있음 (데모: 1,200 · 3일 후)</label>
-        <label class="toggle"><input type="checkbox" id="cancelFail"> 원 주문 전체 취소 실패 시뮬레이션 (재결제)</label>
       </div>
       <div class="pcard isnew">
         <h2><span class="tag">SCENARIO</span>재결제 후 전체 취소 따라 해보기</h2>
@@ -365,7 +374,7 @@ ul.help{padding-left:16px} ul.help li{margin-bottom:2px}
           <li>환불 방법 <b>"남길 상품만 다시 결제하고 전체 취소"</b> + 동의 2개 → 신청</li>
           <li>아래 어드민에서 사용 여부 <b>미사용 확인</b> → [개인결제건 발급]</li>
           <li>유저 화면 상단 배너 <b>[결제하고 환불받기]</b> → 결제</li>
-          <li>어드민이 <b>취소 요청 대기</b>로 바뀜 → 담당자가 [엑솔라에 원 주문 전체 취소 요청] → <b>취소 처리 중 → 완료</b>. 실패 경로는 위 체크를 켜고 다시</li>
+          <li>어드민이 <b>PG 처리 대기</b>로 바뀜 → ① 엑솔라 어드민에서 원 주문 전체 취소(체크) → ② [웹상점 환불 처리] → <b>완료</b>. 실패 경로는 [PG에서 처리 불가 기록]</li>
         </ol>
         <div class="toggle" style="margin-top:8px;flex-wrap:wrap">결제수단 <label><input type="radio" name="pm" value="card" checked> 신용카드 (부분 환불 가능)</label> <label><input type="radio" name="pm" value="phone"> 휴대폰 결제 (부분 환불 불가)</label></div>
       </div>
@@ -1008,14 +1017,14 @@ function myBack(){ S.view = S.myFrom || "shop"; render(); scr.scrollTop=0; }
    웹상점은 우편함 수령 여부 · 게임 내 사용 여부를 알 수 없음 → 유저 화면에서는 판단하지 않고, 어드민에서 운영자가 게임 로그로 확인 */
 var RF_STAT = {req:"환불 신청됨", wait:"재결제 대기", proc:"환불 처리 중", done:"환불 완료", kept:"재결제로 보유"};
 var CLOSED = {"반려":1, "만료":1};                         /* 끝났지만 환불되지 않은 상태 — 상품은 구매 완료로 복귀 */
-var ACTIVE = {"접수":1, "결제 대기":1, "취소 요청 대기":1, "취소 처리 중":1, "처리 중":1, "취소 실패":1};
+var ACTIVE = {"접수":1, "결제 대기":1, "PG 처리 대기":1, "PG 처리 실패":1};
 function rfOf(id){ return (S.rfList||[]).filter(function(q){ return !CLOSED[q.status] && q.lines.indexOf(id)>=0; })[0]; }
 function keptOf(id){ return (S.rfList||[]).filter(function(q){ return q.status==="완료" && (q.keep||[]).indexOf(id)>=0; })[0]; }
 function lineState(id){
   if(keptOf(id)) return "kept";
   var q = rfOf(id);
   if(!q) return "ok";
-  return {"접수":"req", "결제 대기":"wait", "처리 중":"proc", "취소 요청 대기":"proc", "취소 처리 중":"proc", "취소 실패":"proc", "완료":"done"}[q.status];
+  return {"접수":"req", "결제 대기":"wait", "PG 처리 대기":"proc", "PG 처리 실패":"proc", "완료":"done"}[q.status];
 }
 /* 한 주문에 진행 중인 환불은 1건만 (정책 74번 확장) — 재결제 대기 중 남은 상품을 또 환불하면 금액이 꼬임 */
 function activeRf(order){ return (S.rfList||[]).filter(function(q){ return q.order===order && ACTIVE[q.status]; })[0]; }
@@ -1246,7 +1255,7 @@ function renderRepay(){
       var t = now();
       q.rpNo = q.order+"-R"; q.rpPm = rpm;
       q.log.push(t+" 유저 재결제 완료 "+fmt(q.keepCash)+"원 ("+PM[rpm].name+") · 재결제 주문 "+q.rpNo);
-      q.status = "취소 요청 대기"; q.log.push(t+" 원 주문 "+q.order+" 전체 취소 대기 — 담당자 PG 요청 필요");
+      q.status = "PG 처리 대기"; q.log.push(t+" PG 처리 대기 — "+PM[q.pm].pg+" 어드민에서 원 주문 "+q.order+" 전체 취소 "+fmt(q.origTotal)+"원 필요");
       S.view = "repayDone"; render(); scr.scrollTop = 0;
     }, 900);
   };
@@ -1265,26 +1274,31 @@ function renderRepayDone(){
   scr.innerHTML = h;
   document.getElementById("rpToMy").onclick = function(){ S.view="mypage"; render(); scr.scrollTop=0; };
 }
-/* 원 주문 전체 취소 — 운영자가 PG에 요청한 뒤 PG 응답. 성공하면 완료, 실패하면 취소 실패(긴급). 유저에게는 실패를 단정해 보여주지 않음(처리 중 유지) */
-function runCancel(q){
-  setTimeout(function(){
-    var t = now();
-    if(document.getElementById("cancelFail").checked && !q.retried){
-      q.status = "취소 실패"; q.log.push(t+" "+PM[q.pm].pg+" 전체 취소 실패 응답 — 유저는 재결제 금액과 기존 결제를 함께 부담 중");
-      render(); return;
-    }
-    q.log.push(t+" "+PM[q.pm].pg+" 전체 취소 성공 응답");
-    adComplete(q, t);
-  }, 1600);
+/* ---------- 어드민 — 환불 관리 (유저 화면과 실시간 연동) ----------
+   현행 운영 방식 그대로: PG 환불 · 전체 취소는 담당자가 엑솔라 · 마이카드 어드민에서 직접 하고,
+   웹상점 [환불 처리]는 쿠폰 · 마일리지 · 적립 · 결제 상태를 정리하는 장치 (2026-09-24 한나, 현행 어드민 캡처 확인) */
+var AD_ST_CLS = {"접수":"a-new","결제 대기":"a-wait","PG 처리 대기":"a-todo","PG 처리 실패":"a-fail","완료":"a-done","반려":"a-rej","만료":"a-rej"};
+var KPI = [["접수",["접수"]],["결제 대기",["결제 대기"]],["PG 처리 대기",["PG 처리 대기"]],["PG 처리 실패",["PG 처리 실패"]],["완료",["완료"]],["반려 · 만료",["반려","만료"]]];
+function pgTask(q){
+  if(q.method==="repay") return {what:"원 주문 전체 취소", amt:q.origTotal};
+  return {what:(q.full? "전체 환불" : "부분 환불"), amt:q.cash};
 }
-
-/* ---------- 어드민 — 환불 관리 (유저 화면과 실시간 연동) ---------- */
-var AD_ST_CLS = {"접수":"a-new","결제 대기":"a-wait","취소 요청 대기":"a-todo","처리 중":"a-proc","취소 처리 중":"a-proc","완료":"a-done","반려":"a-rej","만료":"a-rej","취소 실패":"a-fail"};
-var KPI = [["접수",["접수"]],["결제 대기",["결제 대기"]],["취소 요청 대기",["취소 요청 대기"]],["처리 중",["처리 중","취소 처리 중"]],["취소 실패",["취소 실패"]],["완료",["완료"]],["반려 · 만료",["반려","만료"]]];
+/* 웹상점 환불 처리가 하는 일 — 현행 모달의 4항목을 장바구니 규칙으로 고친 것 */
+function webOps(q){
+  var li = [];
+  if(q.method==="mile") li.push("환불 마일리지 지급 <b>+"+fmt(q.cash)+"</b>");
+  li.push("사용 마일리지 복구 <b>+"+fmt(q.mileBack)+"</b> — 환불 상품분만, 원래 만료일 유지");
+  li.push("적립 마일리지 취소 <b>−"+fmt(q.accrueCancel)+"</b>"+(q.credited?" (잔액 차감)":" (적립 대기분 삭제)"));
+  li.push("사용 쿠폰 "+(q.cpn? q.cpn+"장 ":"")+"<b>복구 안 함</b> <em>현행 모달은 복구 — 9/21 회의 Q8 방향으로 변경 필요</em>");
+  if(q.method==="repay") li.push("보유 상품 쿠폰 "+q.keepCpn+"장 · 마일리지 "+fmt(q.keepMile)+" 재결제 주문에 재적용, 적립 승계");
+  li.push("지급 아이템 회수");
+  li.push("결제 상태 → <b>"+(q.method==="repay"||q.full? "REFUNDED" : "PARTIALLY_REFUNDED")+"</b>"+(q.method==="repay"? " (원 주문) · 재결제 주문 유지":""));
+  return '<ul class="ad-ops">'+li.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';
+}
 function renderAdmin(){
   var el = document.getElementById("admin"); if(!el) return;
-  /* 유저가 이중 부담 중인 건 최상단 고정 — 취소 실패 > 취소 요청 대기 */
-  var pri = function(q){ return q.status==="취소 실패" ? 2 : (q.status==="취소 요청 대기" ? 1 : 0); };
+  /* 유저가 기다리는 PG 작업을 위로 — PG 처리 실패 > 재결제 후 PG 처리 대기(이중 부담) > PG 처리 대기 */
+  var pri = function(q){ return q.status==="PG 처리 실패" ? 3 : (q.status==="PG 처리 대기" ? (q.method==="repay"? 2 : 1) : 0); };
   var list = (S.rfList || []).slice().sort(function(a,b){ return pri(b) - pri(a); });
   var h = '<div class="ad-head"><b>BD2 웹상점 어드민</b><span>결제 관리 · <b style="color:#fff">환불 관리</b><span class="newtag">NEW</span></span><span class="sp"></span><span style="opacity:.7">운영자 서하윤</span></div>';
   h += '<div class="ad-body"><div class="ad-kpi">'
@@ -1296,13 +1310,14 @@ function renderAdmin(){
   }
   h += '<table class="ad-tbl"><thead><tr><th>신청번호</th><th>신청 시각</th><th>유저</th><th>주문번호</th><th>상품</th><th>환불 방법</th><th>처리 경로</th><th class="r">환불액</th><th>상태</th></tr></thead><tbody>';
   list.forEach(function(q){
-    h += '<tr class="'+(S.rfSel===q.id?'on':'')+(pri(q)?' urgent':'')+'" data-q="'+q.id+'"><td class="num">'+q.id+'</td><td class="num">'+q.at+'</td><td>DQHANNANEO</td><td class="num">'+q.order+'</td>'
+    h += '<tr class="'+(S.rfSel===q.id?'on':'')+(pri(q)>=2?' urgent':'')+'" data-q="'+q.id+'"><td class="num">'+q.id+'</td><td class="num">'+q.at+'</td><td>DQHANNANEO</td><td class="num">'+q.order+'</td>'
       +  '<td class="num">'+q.lines.length+'개'+(q.full?' (전체)':'')+'</td><td>'+(q.method==="mile"?'마일리지':(q.method==="repay"?'재결제':PM[q.pm].name))+'</td><td>'+q.path+'</td>'
       +  '<td class="r num">'+(q.method==="mile"? 'M '+fmt(q.cash) : fmt(q.cash)+'원')+'</td><td><span class="ad-st '+AD_ST_CLS[q.status]+'">'+q.status+'</span></td></tr>';
   });
   h += '</tbody></table>';
 
   var q = list.filter(function(x){return x.id===S.rfSel;})[0] || list[0];
+  q.txid = q.txid || String(2163730019 + (S.rfList.length - S.rfList.indexOf(q)) * 137);
   var rows = function(title, rs, tag){
     var o = '<div class="ad-sub">'+title+'</div><table class="ad-tbl sm"><thead><tr><th>상품</th><th class="r">상품 금액</th><th>쿠폰</th><th class="r">마일리지 배분</th><th class="r">실결제</th><th class="r">적립</th></tr></thead><tbody>';
     rs.forEach(function(r){
@@ -1312,28 +1327,25 @@ function renderAdmin(){
     return o + '</tbody></table>';
   };
   h += '<div class="ad-detail"><div class="ad-dh"><b>'+q.id+'</b> 상세 · '+q.order+' <span class="ad-st '+AD_ST_CLS[q.status]+'">'+q.status+'</span></div>';
-  if(q.method==="repay") h += adSteps(q);
+  h += adSteps(q);
   h += '<div class="ad-grid"><div>';
   h += rows(q.method==="repay"? '환불 상품' : '환불 대상 상품', q.rows, '복구 안 함');
   if(q.method==="repay") h += rows('계속 보유 — 재결제 상품', q.keepRows, '재결제에 재적용');
   if(q.method==="repay"){
     h += '<div class="ad-calc"><div><span>개인결제 청구액 (보유 상품 실결제 합)</span><b class="num">'+fmt(q.keepCash)+'원</b></div>'
-      +  '<div><span>원 주문 전체 취소액</span><b class="num">'+fmt(q.origTotal)+'원</b></div>'
+      +  '<div><span>PG 원 주문 전체 취소액</span><b class="num">'+fmt(q.origTotal)+'원</b></div>'
       +  '<div><span>유저 실제 환불 (취소액 − 청구액)</span><b class="num">'+fmt(q.origTotal-q.keepCash)+'원</b></div>'
-      +  '<div><span>쿠폰</span><b>보유분 '+q.keepCpn+'장 재결제에 재적용 · 환불분 '+q.cpn+'장 복구 안 함</b></div>'
-      +  '<div><span>마일리지</span><b class="num">보유분 '+fmt(q.keepMile)+' 재결제에 재적용 · 환불분 +'+fmt(q.mileBack)+' 복구</b></div>'
-      +  '<div><span>적립</span><b class="num">환불분 −'+fmt(q.accrueCancel)+(q.credited?' (잔액 차감)':' (예정분 취소)')+' · 보유분은 재결제 주문으로 승계</b></div></div>'
+      +  '<div><span>유저 마일리지 순변화</span><b class="num">'+fmt(q.mileBack-(q.credited? q.accrueCancel:0))+'</b></div></div>'
       +  '<p class="ad-note">원 주문을 전체 취소하면 쿠폰 · 마일리지가 전부 되살아나므로, 시스템이 보유 상품분은 재결제에 다시 소모 처리하고 환불 상품분 마일리지만 돌려줍니다 (9/22 회의 시연 결함 대응).</p>';
   } else {
     h += '<div class="ad-calc"><div><span>PG 환불 금액</span><b class="num">'+(q.method==="mile"? '0원 (마일리지 환급)' : fmt(q.cash)+'원')+'</b></div>'
-      +  '<div><span>마일리지 지급</span><b class="num">+'+fmt(q.mileBack)+' 사용분 복구'+(q.method==="mile"? ' / +'+fmt(q.cash)+' 환급':'')+'</b></div>'
-      +  '<div><span>적립 마일리지 취소</span><b class="num">−'+fmt(q.accrueCancel)+(q.credited?' (잔액 차감)':' (적립 예정분 취소)')+'</b></div>'
-      +  '<div><span>유저 마일리지 순변화</span><b class="num">'+fmt((q.method==="mile"? q.cash:0)+q.mileBack-(q.credited? q.accrueCancel:0))+'</b></div>'
-      +  '<div><span>쿠폰</span><b>'+(q.cpn? q.cpn+'장 복구 안 함':'없음')+'</b></div></div>';
+      +  '<div><span>유저 마일리지 순변화</span><b class="num">'+fmt((q.method==="mile"? q.cash:0)+q.mileBack-(q.credited? q.accrueCancel:0))+'</b></div></div>';
   }
+  h += '<div class="ad-sub" style="margin-top:12px">웹상점 환불 처리 시 수행</div>' + webOps(q);
   h += '<p class="ad-note">금액 · 마일리지 · 쿠폰은 주문 확정 기록(정책 50)으로 시스템이 산출합니다. 운영자는 확인 후 실행만 합니다 (정책 89번 사업안).</p>';
   h += '</div><div>';
   h += '<div class="ad-kv"><span>결제수단</span><b>'+PM[q.pm].name+(PM[q.pm].partial?' (부분 환불 가능)':' (부분 환불 불가)')+'</b></div>'
+    +  '<div class="ad-kv"><span>PG · 거래 ID</span><b class="num">'+PM[q.pm].pg+' · '+q.txid+'</b></div>'
     +  '<div class="ad-kv"><span>처리 경로</span><b>'+q.path+'</b></div>'
     +  '<div class="ad-kv"><span>유저 사유</span><b>'+esc(q.reason)+'</b></div>'
     +  '<div class="ad-kv"><span>동의 증빙</span><b>사용 상품 포함 시 전체 반려 · '+q.agree.used+(q.agree.mile? '<br>마일리지 환급 · '+q.agree.mile:'')+(q.agree.repay? '<br>재결제 후 전체 취소 · '+q.agree.repay:'')+'</b></div>';
@@ -1342,26 +1354,39 @@ function renderAdmin(){
         : '<b>'+q.cause+'</b>')+'</div>';
   if(q.expire) h += '<div class="ad-kv"><span>개인결제 유효기간</span><b>'+q.expire+' 23:59 (발급 후 7일)</b></div>';
   if(q.rpNo) h += '<div class="ad-kv"><span>재결제 주문</span><b>'+q.rpNo+' · '+PM[q.rpPm].name+'</b></div>';
+  if(q.pgNo) h += '<div class="ad-kv"><span>PG 처리 번호</span><b class="num">'+esc(q.pgNo)+'</b></div>';
+
   if(q.status==="접수"){
     q.useChk = q.useChk || "미확인";
     h += '<div class="ad-kv"><span>게임 내 사용 여부</span><select id="adUse"><option'+(q.useChk==="미확인"?' selected':'')+'>미확인</option><option'+(q.useChk==="미사용 확인"?' selected':'')+'>미사용 확인</option><option'+(q.useChk==="사용 확인"?' selected':'')+'>사용 확인</option></select></div>'
-      +  '<p class="ad-note" style="margin:4px 0 0">운영자가 게임 로그로 조회. 사용 상품이 하나라도 있으면 신청 전체 반려(유저 사전 동의). 미사용 확인 후에만 실행 가능.</p>';
-    var goLab = q.method==="mile" ? "마일리지 환급 실행" : (q.method==="repay" ? "개인결제건 발급 ("+fmt(q.keepCash)+"원)" : "PG 환불 실행");
+      +  '<p class="ad-note" style="margin:4px 0 0">운영자가 게임 로그로 조회. 사용 상품이 하나라도 있으면 신청 전체 반려(유저 사전 동의). 미사용 확인 후에만 진행 가능.</p>';
+    var goLab = q.method==="mile" ? "승인 · 웹상점 환불 처리 (마일리지 지급)" : (q.method==="repay" ? "승인 · 개인결제건 발급 ("+fmt(q.keepCash)+"원)" : "승인 · PG 처리로 넘기기");
     h += '<div class="ad-act"><button class="ad-go" id="adApprove"'+(q.useChk==="미사용 확인"?'':' disabled style="background:#C9CBD6"')+'>'+goLab+'</button></div>'
       +  '<div class="ad-act"><select id="adRejWhy"><option'+(q.useChk==="사용 확인"?' selected':'')+'>이미 사용한 상품이 포함됨</option><option>중복 신청</option><option>부정 결제 의심</option><option>기타</option></select><button class="ad-no" id="adReject">반려</button></div>';
   } else if(q.status==="결제 대기"){
     h += '<div class="ad-act"><span class="ad-wait">유저 재결제 대기 중 — 마이페이지 · 상점 상단에 결제 요청 배너 노출</span></div>'
       +  '<div class="ad-act"><button class="ad-demo" id="adExpire">[데모] 유효기간 경과 처리</button><button class="ad-no" id="adVoid">발급 취소</button></div>';
-  } else if(q.status==="취소 요청 대기"){
-    h += '<div class="ad-urgent" style="background:#FFF1DE;color:#9A5B00"><b>처리 필요 — 유저가 재결제를 마쳤어요</b>재결제 '+fmt(q.keepCash)+'원이 결제된 상태입니다. '+PM[q.pm].pg+'에 원 주문 '+fmt(q.origTotal)+'원 전체 취소를 요청해 주세요. 요청 전까지 유저는 두 금액을 함께 부담합니다.</div>'
-      +  '<div class="ad-kv"><span>PG · 원 거래번호</span><b>'+PM[q.pm].pg+' · XS-'+q.order.slice(-8)+'</b></div>'
-      +  '<div class="ad-act"><button class="ad-go" id="adCancelReq">'+PM[q.pm].pg+'에 원 주문 전체 취소 요청 ('+fmt(q.origTotal)+'원)</button></div>';
-  } else if(q.status==="처리 중" || q.status==="취소 처리 중"){
-    h += '<div class="ad-act"><span class="ad-wait">'+(q.status==="처리 중"? 'PG 환불 응답 대기 중…' : PM[q.pm].pg+' 전체 취소 응답 대기 중…')+'</span></div>';
-  } else if(q.status==="취소 실패"){
-    h += '<div class="ad-urgent"><b>긴급 — 유저 이중 부담 중</b>재결제 '+fmt(q.keepCash)+'원은 결제됐지만 원 주문 '+fmt(q.origTotal)+'원 취소가 실패했습니다. 유저 화면에는 "환불 처리 중"으로 보입니다.</div>'
-      +  '<div class="ad-act"><button class="ad-go" id="adRetry">원 주문 취소 재시도</button></div>'
-      +  '<div class="ad-act"><button class="ad-demo" id="adRollback">재결제건 환불 (원상 복구)</button></div>';
+  } else if(q.status==="PG 처리 대기" || q.status==="PG 처리 실패"){
+    var tk = pgTask(q);
+    if(q.status==="PG 처리 실패")
+      h += '<div class="ad-urgent"><b>PG 처리 실패 기록됨</b>'+(q.method==="repay"? '재결제 '+fmt(q.keepCash)+'원은 결제된 상태라 유저가 두 금액을 함께 부담 중입니다. ' : '')+'PG에서 다시 처리하거나'+(q.method==="repay"? ' 재결제건을 환불해 원상 복구하세요.' : ' 반려 후 고객센터로 안내하세요.')+' 유저 화면은 "환불 처리 중".</div>';
+    else if(q.method==="repay")
+      h += '<div class="ad-urgent" style="background:#FFF1DE;color:#9A5B00"><b>처리 필요 — 유저가 재결제를 마쳤어요</b>원 주문 취소 전까지 유저는 재결제 '+fmt(q.keepCash)+'원과 기존 '+fmt(q.origTotal)+'원을 함께 부담합니다.</div>';
+    h += '<div class="ad-task"><b>① '+PM[q.pm].pg+' 어드민에서 직접 처리</b>'
+      +  '<div class="ad-kv"><span>거래 ID</span><b class="num">'+q.txid+'</b></div>'
+      +  '<div class="ad-kv"><span>처리할 작업</span><b class="num">'+tk.what+' '+fmt(tk.amt)+'원</b></div>'
+      +  '<div class="ad-act"><button class="ad-demo" id="adPgOpen">'+PM[q.pm].pg+' 대시보드 이동 ↗</button></div>'
+      +  '<div class="ad-kv"><span>PG 처리 번호 (선택)</span><input id="adPgNo" placeholder="예: RF-XS-000123" value="'+esc(q.pgNoDraft||"")+'"></div>'
+      +  '<label class="ad-chk"><input type="checkbox" id="adPgDone"'+(q.pgChk?" checked":"")+'> '+PM[q.pm].pg+'에서 '+tk.what+' '+fmt(tk.amt)+'원 처리를 완료했습니다.</label>'
+      +  '<b style="margin-top:10px">② 웹상점 환불 처리</b>'
+      +  '<div class="ad-kv" style="display:block"><span>환불 사유 *</span><textarea id="adMemo">'+esc(q.memo || (q.id+" 유저 신청 · 사유 "+q.reason+" · "+q.path))+'</textarea></div>'
+      +  '<div class="ad-act"><button class="ad-go" id="adWeb"'+(q.pgChk?'':' disabled style="background:#C9CBD6"')+'>웹상점 환불 처리</button></div>'
+      +  '<p class="ad-note" style="margin:4px 0 0">①을 체크해야 ②를 누를 수 있어요. PG 환불 없이 쿠폰 · 마일리지만 정리되는 사고 방지.</p>'
+      +  '</div>';
+    if(q.status==="PG 처리 대기")
+      h += '<div class="ad-act"><button class="ad-no" id="adPgFail" style="flex:1">PG에서 처리 불가 기록</button></div>';
+    else
+      h += '<div class="ad-act">'+(q.method==="repay"? '<button class="ad-demo" id="adRollback">재결제건 환불 (원상 복구)</button>' : '<button class="ad-demo" id="adPgGiveUp">반려 · 고객센터 안내</button>')+'</div>';
   } else if(CLOSED[q.status]){
     h += '<div class="ad-kv"><span>'+(q.status==="반려"?'반려 사유':'종료 사유')+'</span><b>'+esc(q.rejectReason)+'</b></div>';
   }
@@ -1383,8 +1408,9 @@ function renderAdmin(){
       q.log.push(t+" 개인결제건 발급 "+fmt(q.keepCash)+"원 · 유효기간 "+q.expire+" 23:59 · 유저 결제 요청 알림");
       render();
     } else {
-      q.status = "처리 중"; q.log.push(t+" PG 환불 요청 전송"); render();
-      setTimeout(function(){ q.log.push(now()+" PG 환불 성공 응답"); adComplete(q, now()); }, 1600);
+      var tk = pgTask(q);
+      q.status = "PG 처리 대기"; q.log.push(t+" PG 처리 대기 — "+PM[q.pm].pg+" 어드민에서 "+tk.what+" "+fmt(tk.amt)+"원 필요");
+      render();
     }
   };
   var rj = document.getElementById("adReject");
@@ -1393,10 +1419,24 @@ function renderAdmin(){
   if(ex) ex.onclick = function(){ closeRf(q, "만료", "개인결제 유효기간 경과 — 기존 결제 유지"); };
   var vd = document.getElementById("adVoid");
   if(vd) vd.onclick = function(){ closeRf(q, "반려", "운영자 발급 취소 — 기존 결제 유지"); };
-  var cr = document.getElementById("adCancelReq");
-  if(cr) cr.onclick = function(){ q.status = "취소 처리 중"; q.log.push(now()+" 담당자 "+PM[q.pm].pg+"에 원 주문 "+q.order+" 전체 취소 요청 ("+fmt(q.origTotal)+"원)"); render(); runCancel(q); };
-  var rt = document.getElementById("adRetry");
-  if(rt) rt.onclick = function(){ q.retried = true; q.status = "취소 처리 중"; q.log.push(now()+" 담당자 "+PM[q.pm].pg+"에 전체 취소 재요청"); render(); runCancel(q); };
+  var po = document.getElementById("adPgOpen");
+  if(po) po.onclick = function(){ q.log.push(now()+" "+PM[q.pm].pg+" 대시보드 이동 (거래 ID "+q.txid+")"); renderAdmin(); };
+  var pn = document.getElementById("adPgNo"); if(pn) pn.oninput = function(){ q.pgNoDraft = pn.value; };
+  var pc = document.getElementById("adPgDone"); if(pc) pc.onchange = function(){ q.pgChk = pc.checked; renderAdmin(); };
+  var mm = document.getElementById("adMemo"); if(mm) mm.oninput = function(){ q.memo = mm.value; };
+  var wb = document.getElementById("adWeb");
+  if(wb && q.pgChk) wb.onclick = function(){
+    if(!(q.memo || document.getElementById("adMemo").value).trim()) return;
+    var t = now(), tk = pgTask(q);
+    q.pgNo = q.pgNoDraft || "";
+    q.log.push(t+" 담당자 "+PM[q.pm].pg+" "+tk.what+" "+fmt(tk.amt)+"원 완료 기록"+(q.pgNo? " · 처리 번호 "+q.pgNo : ""));
+    q.log.push(t+" 웹상점 환불 처리 실행 — 사유: "+(q.memo || document.getElementById("adMemo").value));
+    adComplete(q, t);
+  };
+  var pf = document.getElementById("adPgFail");
+  if(pf) pf.onclick = function(){ q.status = "PG 처리 실패"; q.pgChk = false; q.log.push(now()+" 담당자 "+PM[q.pm].pg+" 처리 불가 기록"); render(); };
+  var gu = document.getElementById("adPgGiveUp");
+  if(gu) gu.onclick = function(){ closeRf(q, "반려", "PG 처리 불가 — 고객센터 안내 (최후 수단: 계좌 입금, 정책 64)"); };
   var rb = document.getElementById("adRollback");
   if(rb) rb.onclick = function(){
     q.log.push(now()+" 재결제건 "+q.rpNo+" 환불 "+fmt(q.keepCash)+"원 — 원상 복구");
@@ -1404,10 +1444,19 @@ function renderAdmin(){
   };
 }
 function adSteps(q){
-  var labels = ["신청 · 사용 여부 확인","개인결제건 발급 · 유저 재결제","담당자 PG 전체 취소 요청","완료"];
-  var cur = {"접수":0, "결제 대기":1, "취소 요청 대기":2, "취소 처리 중":2, "취소 실패":2, "완료":3}[q.status];
+  var labels, cur;
+  if(q.method==="repay"){
+    labels = ["신청 · 사용 여부 확인","개인결제건 발급 · 유저 재결제","PG 어드민 원 주문 전체 취소","웹상점 환불 처리 · 완료"];
+    cur = {"접수":0, "결제 대기":1, "PG 처리 대기":2, "PG 처리 실패":2, "완료":3}[q.status];
+  } else if(q.method==="mile"){
+    labels = ["신청 · 사용 여부 확인","웹상점 환불 처리 · 마일리지 지급"];
+    cur = {"접수":0, "완료":1}[q.status];
+  } else {
+    labels = ["신청 · 사용 여부 확인","PG 어드민 "+(q.full?"전체":"부분")+" 환불","웹상점 환불 처리 · 완료"];
+    cur = {"접수":0, "PG 처리 대기":1, "PG 처리 실패":1, "완료":2}[q.status];
+  }
   return '<div class="ad-steps">'+labels.map(function(l,i){
-    var cls = CLOSED[q.status] ? (i===0?'x':'') : (i<cur || q.status==="완료" ? 'ok' : (i===cur ? (q.status==="취소 실패"?'fail':'on') : ''));
+    var cls = CLOSED[q.status] ? (i===0?'x':'') : (i<cur || q.status==="완료" ? 'ok' : (i===cur ? (q.status==="PG 처리 실패"?'fail':'on') : ''));
     return '<span class="'+cls+'"><i>'+(i+1)+'</i>'+l+'</span>';
   }).join('')+'</div>';
 }
@@ -1420,9 +1469,10 @@ function adComplete(q, t){
   MILE_BAL = MILE_BAL + q.mileBack + (q.method==="mile"? q.cash : 0) - (q.credited? q.accrueCancel : 0);
   if(q.method==="mile") q.log.push(t+" 마일리지 환불 지급 +"+fmt(q.cash));
   if(q.mileBack) q.log.push(t+" 사용 마일리지 복구 +"+fmt(q.mileBack)+" (원래 만료일 유지)");
-  q.log.push(t+" 적립 마일리지 취소 −"+fmt(q.accrueCancel)+(q.credited? " (잔액 차감)":" (적립 예정분 취소)"));
+  q.log.push(t+" 적립 마일리지 취소 −"+fmt(q.accrueCancel)+(q.credited? " (잔액 차감)":" (적립 대기분 삭제)"));
+  q.log.push(t+" 사용 쿠폰 복구 안 함");
   if(q.method==="repay") q.log.push(t+" 보유 상품 쿠폰 "+q.keepCpn+"장 · 마일리지 "+fmt(q.keepMile)+" 재결제 주문에 재적용, 적립 승계");
-  q.log.push(t+" 지급 아이템 회수 요청 · 결제 상태 "+(q.method==="repay"? "원 주문 전체 취소 · 재결제 주문 "+q.rpNo+" 유지" : (q.full?"전체 환불":"부분 환불")));
+  q.log.push(t+" 지급 아이템 회수 · 결제 상태 "+(q.method==="repay"? "원 주문 REFUNDED · 재결제 주문 "+q.rpNo+" 유지" : (q.full?"REFUNDED":"PARTIALLY_REFUNDED")));
   render();
 }
 
@@ -1465,7 +1515,7 @@ function renderExplain(){
       + '<li><b>진입</b> — 어드민이 개인결제건을 발급하면 상점 · 마이페이지 상단에 결제 요청 배너. URL 발송 없이 로그인한 유저가 직접(9/22 회의).</li>'
       + '<li><b>청구액 = 보유 상품의 실결제액 합</b> — 처음과 같은 쿠폰 · 마일리지가 적용된 금액. 새 쿠폰 · 마일리지 적용 불가(금액 고정).</li>'
       + '<li><b>순서</b> — 재결제 먼저, 확인 후 원 주문 전체 취소(9/22 회의). 먼저 취소하면 재결제를 안 할 수 있어서.</li>'
-      + '<li><b>전체 취소는 담당자가</b> — 재결제가 끝나면 어드민에 "취소 요청 대기"로 올라오고, 담당자가 엑솔라 · 마이카드에 원 주문 전체 취소를 요청. 요청 전까지 유저 이중 부담이므로 목록 최상단 고정.</li>'
+      + '<li><b>전체 취소는 담당자가</b> — 재결제가 끝나면 어드민에 "PG 처리 대기"로 올라오고, 담당자가 엑솔라 · 마이카드 어드민에서 원 주문을 직접 전체 취소한 뒤 웹상점 [환불 처리]로 쿠폰 · 마일리지를 정리. 그 전까지 유저 이중 부담이므로 목록 최상단 고정.</li>'
       + '<li><b>이중 부담 고지</b> — 재결제 후 원 결제 취소 반영까지 두 금액이 함께 청구될 수 있음을 결제 직전에 안내(정책 67).</li>'
       + '<li><b>유효기간 7일</b> — 지나면 신청 자동 취소, 기존 결제 유지(정책 73). 주문당 진행 중 환불 1건(정책 74).</li>'
       + '<li>원 주문 취소가 실패해도 유저에게는 실패를 단정하지 않고 "환불 처리 중"으로 표시.</li></ol>';
