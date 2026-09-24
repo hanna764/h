@@ -987,7 +987,7 @@ function refundCalc(){
   var cash = sum("cash");
   return {c:c, picked:picked, cash:cash, mileBack:sum("mAlloc"), accrueCancel:sum("accrue"),
           cpn:picked.filter(function(r){return r.coupon;}).length, full:full,
-          partialOk: full || PM[S.last.pm].partial, bonus: sum("accrue")};
+          partialOk: full || PM[S.last.pm].partial};
 }
 function openRefund(){ S.rf = {qty:{}, method:null, agree:false, reason:""}; S.view = "refund"; render(); scr.scrollTop = 0; }
 
@@ -1024,27 +1024,25 @@ function renderRefund(){
       +  '<div class="kv"><span class="k">환불 금액 (실결제액)</span><span class="v num">'+fmt(R.cash)+'원</span></div>'
       +  '<div class="kv"><span class="k">돌려받는 마일리지 (사용분)</span><span class="v num" style="color:var(--mile)">+'+fmt(R.mileBack)+'</span></div>'
       +  '<div class="kv"><span class="k">취소되는 적립 마일리지</span><span class="v num" style="color:var(--err)">−'+fmt(R.accrueCancel)+'</span></div>'
-      +  (S.rf.method==="mile"? '<div class="kv"><span class="k">마일리지 환불 가산금 10%</span><span class="v num" style="color:var(--mile)">+'+fmt(R.bonus)+'</span></div>':'')
       +  '<div class="kv"><span class="k">사용한 쿠폰</span><span class="v" style="font-weight:400;color:var(--ink2)">'+(R.cpn? R.cpn+'장 · 복구되지 않음':'없음')+'</span></div>'
       +  '<ul class="help"><li>돌려받는 마일리지는 원래 만료일이 그대로 유지됩니다.</li><li>환불이 완료되면 지급된 상품은 회수됩니다.</li></ul></div>';
 
-    var mTotal = R.cash + R.bonus;
     h += '<div class="sec isnew"><h4>3. 환불 받을 방법</h4>';
     h += '<label class="rfopt'+(R.partialOk?'':' dis')+'"><input type="radio" name="rm" value="orig"'+(S.rf.method==="orig"?" checked":"")+(R.partialOk?"":" disabled")+'>'
       +  '<span><b>결제한 수단으로 환불</b> <span class="chip">기본</span><br><span class="sub num">'+pm.name+'로 '+fmt(R.cash)+'원</span>'
       +  (R.partialOk? '' : '<br><span class="sub" style="color:var(--err)">이 결제수단은 일부 상품만 환불할 수 없어요. 모든 상품을 선택하면 결제한 수단으로 전체 환불됩니다.</span>')+'</span></label>';
     h += '<label class="rfopt"><input type="radio" name="rm" value="mile"'+(S.rf.method==="mile"?" checked":"")+'>'
-      +  '<span><b>마일리지로 환불</b> <span class="chip" style="background:var(--mile);color:#fff">+10%</span><br><span class="sub num">'+fmt(R.cash)+'원 → <b style="color:var(--mile)">M '+fmt(mTotal)+'</b> (가산금 '+fmt(R.bonus)+' 포함)</span>'
-      +  '<br><span class="sub">환불일부터 30일간 사용 가능 ('+addDays(30)+'까지), 이후 소멸</span></span></label>';
+      +  '<span><b>마일리지로 환불</b> <span class="chip" style="background:var(--ok-bg);color:var(--ok)">즉시 사용 가능</span><br><span class="sub num">M '+fmt(R.cash)+'</span>'
+      +  '<br><span class="sub">운영 확인 후 바로 지급되어 즉시 사용할 수 있어요</span>'
+      +  '<br><span class="sub" style="color:var(--warn)">이 마일리지로 다시 살 때는 적립이 없어요 · '+addDays(30)+'까지 사용, 이후 소멸</span></span></label>';
     if(S.rf.method==="mile")
-      h += '<label class="rfagree"><input type="checkbox" id="rfAgree"'+(S.rf.agree?" checked":"")+'> 결제한 수단 대신 마일리지로 환불받는 것에 동의합니다. 환불 마일리지는 '+addDays(30)+'까지 사용할 수 있고 이후 소멸됩니다.</label>';
+      h += '<label class="rfagree"><input type="checkbox" id="rfAgree"'+(S.rf.agree?" checked":"")+'> 결제한 수단 대신 마일리지로 환불받는 것에 동의합니다. 이 마일리지로 구매할 때는 적립되지 않으며, '+addDays(30)+'까지 사용할 수 있고 이후 소멸됩니다.</label>';
     if(S.rf.method){
       var credited = S.last.confirmNow==="yes";
-      var getM = S.rf.method==="mile" ? R.cash + R.bonus : 0;
+      var getM = S.rf.method==="mile" ? R.cash : 0;
       var net = getM + R.mileBack - (credited? R.accrueCancel : 0);
       h += '<div class="mbrk isnew"><b>마일리지 변동</b>'
-        +  (S.rf.method==="mile"? '<div><span>환불 마일리지</span><span class="num">+'+fmt(R.cash)+'</span></div>'
-        +     '<div><span>마일리지 환불 가산금 10% <em>이 마일리지로 다시 살 때 적립이 없는 만큼</em></span><span class="num">+'+fmt(R.bonus)+'</span></div>' : '')
+        +  (S.rf.method==="mile"? '<div><span>환불 마일리지</span><span class="num">+'+fmt(R.cash)+'</span></div>' : '')
         +  '<div><span>사용했던 마일리지 복구</span><span class="num">+'+fmt(R.mileBack)+'</span></div>'
         +  '<div><span>적립 마일리지 취소 <em>환불한 구매에서 받은 적립'+(credited? '':' — 적립 예정분이라 잔액 변동 없음')+'</em></span><span class="num">'+(credited? '−'+fmt(R.accrueCancel) : '0')+'</span></div>'
         +  '<div class="tot"><span>보유 마일리지 변화</span><span class="num">+'+fmt(net)+'</span></div>'
@@ -1063,7 +1061,7 @@ function renderRefund(){
   if(!R.picked.length) why = "환불할 상품을 선택해 주세요.";
   else if(!S.rf.method) why = "환불 받을 방법을 선택해 주세요.";
   else if(S.rf.method==="mile" && !S.rf.agree) why = "마일리지 환불 동의가 필요해요.";
-  var lab = !R.picked.length ? "환불 신청" : (S.rf.method==="mile" ? "M "+fmt(R.cash+R.bonus)+" 환불 신청" : fmt(R.cash)+"원 환불 신청");
+  var lab = !R.picked.length ? "환불 신청" : (S.rf.method==="mile" ? "M "+fmt(R.cash)+" 환불 신청" : fmt(R.cash)+"원 환불 신청");
   h += '<div class="paybar"><div class="reason">'+esc(why)+'</div><button class="paybtn num" id="rfGo"'+(why?" disabled":"")+'>'+lab+'</button></div>';
   scr.innerHTML = h;
 
@@ -1083,7 +1081,7 @@ function renderRefund(){
       var R2 = refundCalc();
       S.rfList = S.rfList || [];
       var q = {id:"RF-2609-"+String(1001+S.rfList.length), lines:R2.picked.map(function(r){return r.line.id;}),
-               cash:R2.cash, mileBack:R2.mileBack, accrueCancel:R2.accrueCancel, bonus:(S.rf.method==="mile"? R2.bonus:0), cpn:R2.cpn,
+               cash:R2.cash, mileBack:R2.mileBack, accrueCancel:R2.accrueCancel, cpn:R2.cpn,
                method:S.rf.method, pm:S.last.pm, full:R2.full, reason:S.rf.reason||"미선택",
                status:"접수", at:"09-23 "+new Date().toTimeString().slice(0,5), agreeAt:(S.rf.method==="mile"? "09-23 "+new Date().toTimeString().slice(0,5) : ""),
                cause:"유저 요청", log:[]};
@@ -1105,7 +1103,7 @@ function renderRefundDone(){
   h += '<div class="sec"><h4>신청 내역 <span class="num" style="font-weight:400;font-size:12px;color:var(--ink2)">'+q.id+'</span></h4>'
     +  '<div class="kv"><span class="k">환불 상품</span><span class="v num">'+q.lines.length+'개'+(q.full?' (전체 환불)':'')+'</span></div>'
     +  '<div class="kv"><span class="k">환불 방법</span><span class="v">'+(q.method==="mile"? '마일리지' : PM[q.pm].name)+'</span></div>'
-    +  '<div class="kv"><span class="k">환불 받을 금액</span><span class="v num">'+(q.method==="mile"? 'M '+fmt(q.cash+q.bonus)+' (가산금 '+fmt(q.bonus)+' 포함)' : fmt(q.cash)+'원')+'</span></div>'
+    +  '<div class="kv"><span class="k">환불 받을 금액</span><span class="v num">'+(q.method==="mile"? 'M '+fmt(q.cash) : fmt(q.cash)+'원')+'</span></div>'
     +  '<div class="kv"><span class="k">돌려받는 마일리지</span><span class="v num" style="color:var(--mile)">+'+fmt(q.mileBack)+'</span></div>'
     +  '<div class="kv"><span class="k">취소되는 적립 마일리지</span><span class="v num" style="color:var(--err)">−'+fmt(q.accrueCancel)+'</span></div>'
     +  '<ul class="help"><li>처리 기한은 정책 확정 후 표기 (정책 68번).</li></ul></div>';
@@ -1132,7 +1130,7 @@ function renderAdmin(){
   list.forEach(function(q){
     h += '<tr class="'+(S.rfSel===q.id?'on':'')+'" data-q="'+q.id+'"><td class="num">'+q.id+'</td><td class="num">'+q.at+'</td><td>DQHANNANEO</td><td class="num">'+q.order+'</td>'
       +  '<td class="num">'+q.lines.length+'개'+(q.full?' (전체)':'')+'</td><td>'+(q.method==="mile"?'마일리지':PM[q.pm].name)+'</td><td>'+q.path+'</td>'
-      +  '<td class="r num">'+(q.method==="mile"? 'M '+fmt(q.cash+q.bonus) : fmt(q.cash)+'원')+'</td><td><span class="ad-st '+AD_ST_CLS[q.status]+'">'+q.status+'</span></td></tr>';
+      +  '<td class="r num">'+(q.method==="mile"? 'M '+fmt(q.cash) : fmt(q.cash)+'원')+'</td><td><span class="ad-st '+AD_ST_CLS[q.status]+'">'+q.status+'</span></td></tr>';
   });
   h += '</tbody></table>';
 
@@ -1147,9 +1145,9 @@ function renderAdmin(){
   });
   h += '</tbody></table>';
   h += '<div class="ad-calc"><div><span>PG 환불 금액</span><b class="num">'+(q.method==="mile"? '0원 (마일리지 환급)' : fmt(q.cash)+'원')+'</b></div>'
-    +  '<div><span>마일리지 지급</span><b class="num">+'+fmt(q.mileBack)+' 사용분 복구'+(q.method==="mile"? ' / +'+fmt(q.cash)+' 환급 + '+fmt(q.bonus)+' 가산금':'')+'</b></div>'
+    +  '<div><span>마일리지 지급</span><b class="num">+'+fmt(q.mileBack)+' 사용분 복구'+(q.method==="mile"? ' / +'+fmt(q.cash)+' 환급':'')+'</b></div>'
     +  '<div><span>적립 마일리지 취소</span><b class="num">−'+fmt(q.accrueCancel)+(q.credited?' (잔액 차감)':' (적립 예정분 취소)')+'</b></div>'
-    +  '<div><span>유저 마일리지 순변화</span><b class="num">+'+fmt((q.method==="mile"? q.cash+q.bonus:0)+q.mileBack-(q.credited? q.accrueCancel:0))+'</b></div>'
+    +  '<div><span>유저 마일리지 순변화</span><b class="num">+'+fmt((q.method==="mile"? q.cash:0)+q.mileBack-(q.credited? q.accrueCancel:0))+'</b></div>'
     +  '<div><span>쿠폰</span><b>'+(q.cpn? q.cpn+'장 복구 안 함':'없음')+'</b></div></div>';
   h += '<p class="ad-note">금액·마일리지·쿠폰은 주문 확정 기록(정책 50)으로 시스템이 산출합니다. 운영자는 확인 후 실행만 합니다 (정책 89번 사업안).</p>';
   h += '</div><div>';
@@ -1198,8 +1196,8 @@ function adComplete(q, t){
   q.status = "완료";
   /* 유저 잔액 반영: 사용분 복구 + (마일리지 환급분) − 이미 적립된 적립분 */
   var credited = q.credited;
-  MILE_BAL = MILE_BAL + q.mileBack + (q.method==="mile"? q.cash+q.bonus : 0) - (credited? q.accrueCancel : 0);
-  if(q.method==="mile") q.log.push(t+" 마일리지 환불 지급 +"+fmt(q.cash)+(q.bonus? " · 가산금 +"+fmt(q.bonus):""));
+  MILE_BAL = MILE_BAL + q.mileBack + (q.method==="mile"? q.cash : 0) - (credited? q.accrueCancel : 0);
+  if(q.method==="mile") q.log.push(t+" 마일리지 환불 지급 +"+fmt(q.cash));
   if(q.mileBack) q.log.push(t+" 사용 마일리지 복구 +"+fmt(q.mileBack)+" (원래 만료일 유지)");
   q.log.push(t+" 적립 마일리지 취소 −"+fmt(q.accrueCancel)+(credited? " (잔액 차감)":" (적립 예정분 취소)"));
   q.log.push(t+" 지급 아이템 회수 요청 · 결제 상태 "+(q.full?"전체 환불":"부분 환불"));
@@ -1237,7 +1235,7 @@ function renderExplain(){
       + '<li><b>환불 예정 내역</b> — 실결제액 환불, 사용 마일리지 복구(원래 만료일 유지), 적립 취소, 쿠폰은 복구 안 됨(9/21 Q8 방향, 정책 6번 미확정).</li>'
       + '<li><b>환불 방법</b> — 결제한 수단이 기본(정책 61). 마일리지는 고를 때만 동의 체크가 나오고, 체크 전엔 신청 불가. 동의 시각은 어드민에 증빙으로 남음.</li>'
       + '<li><b>부분 환불 불가 결제수단</b> — 오른쪽에서 "휴대폰 결제"로 바꿔 보세요. 일부만 고르면 결제한 수단이 막히고 <b>기본 선택이 사라집니다</b>(마일리지를 기본값으로 둘 수 없어서). 전체를 고르면 다시 열립니다.</li>'
-      + '<li><b>마일리지 변동</b> — 환불 방법을 고르면 보유 마일리지가 실제로 얼마 바뀌는지 표시. 마일리지 환불 가산금 10%(= 환불 상품의 적립 예정액, 마일리지로 재구매 시 적립이 없는 만큼)와 적립 취소(환불한 구매의 적립 회수)는 별개 항목으로 각각 표시.</li>'
+      + '<li><b>마일리지 변동</b> — 환불 방법을 고르면 보유 마일리지가 실제로 얼마 바뀌는지 표시. 가산금 없음(정책 90번 폐기). 마일리지 환불은 즉시 사용 가능이 장점, 재구매 시 적립 없음 · 30일 소멸을 선택지와 동의 문구에 고지.</li>'
       + '<li>재결제 후 전체취소는 2차 범위(9/22 축소안)라 이 화면에 없음. 고객센터 문의 안내만.</li></ol>';
   } else if(S.view==="mypage"){
     h = '<h2><span class="tag">SCREEN 4</span>마이페이지 주문 상세 (신설)</h2><ol>'
