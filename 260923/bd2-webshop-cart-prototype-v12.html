@@ -69,6 +69,13 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .ad-tbl.sm{min-width:0}
 .ad-tbl.sm td{white-space:normal}
 .ad-grid>div{min-width:0}
+.mbrk{background:var(--bg);border-radius:8px;padding:9px 11px;margin:2px 0 8px;font-size:12px}
+.mbrk b{display:block;margin-bottom:4px;font-size:12.5px}
+.mbrk div{display:flex;justify-content:space-between;padding:2px 0;color:var(--ink2)}
+.mbrk div.tot{border-top:1px solid var(--line);margin-top:4px;padding-top:5px;color:var(--ink);font-weight:800}
+.mbrk div.tot .num{color:var(--mile)}
+.mbrk p{margin:5px 0 0;font-size:11px;color:var(--ink2)}
+.ad-kv select{max-width:130px}
 .ad-st{display:inline-block;font-size:11px;font-weight:800;border-radius:10px;padding:1px 8px}
 .a-new{color:#B05A00;background:#FFF1DE}.a-proc{color:#1B63D0;background:#E6EFFD}.a-done{color:var(--ok);background:var(--ok-bg)}.a-rej{color:var(--err);background:var(--err-bg)}
 .ad-kpi .k.a-new,.ad-kpi .k.a-proc,.ad-kpi .k.a-done,.ad-kpi .k.a-rej{border-color:transparent}
@@ -928,8 +935,8 @@ function renderMypage(){
     var p = prod(pid), ls = linesOf(pid);
     ls.forEach(function(l,idx){
       var r = c.rows.filter(function(x){return x.line.id===l.id;})[0];
-      h += '<div class="sec isnew myl"><div class="m1"><b>'+esc(p.name)+'</b><span class="sp"></span>'+(function(st){ return st==="mail" ? '<span class="st">우편함 보관 중</span><button class="demolink" data-use="'+l.id+'">[데모] 사용 처리</button>' : (st==="used" ? '<span class="st used">사용함</span>' : '<span class="st '+st+'">'+RF_STAT[st]+'</span>'); })(lineState(l.id))+'</div>'
-        +  (function(){ var rj = (S.rfList||[]).filter(function(q){ return q.status==="반려" && q.lines.indexOf(l.id)>=0; })[0]; return (rj && lineState(l.id)==="mail") ? '<div class="rj">환불 반려 — '+esc(rj.rejectReason)+'</div>' : ''; })()
+      h += '<div class="sec isnew myl"><div class="m1"><b>'+esc(p.name)+'</b><span class="sp"></span>'+(function(st){ return st==="ok" ? '<span class="st">구매 완료</span>' : '<span class="st '+st+'">'+RF_STAT[st]+'</span>'; })(lineState(l.id))+'</div>'
+        +  (function(){ var rj = (S.rfList||[]).filter(function(q){ return q.status==="반려" && q.lines.indexOf(l.id)>=0; })[0]; return (rj && lineState(l.id)==="ok") ? '<div class="rj">환불 반려 — '+esc(rj.rejectReason)+'</div>' : ''; })()
         +  '<div class="kv"><span class="k">상품 금액</span><span class="v num">'+fmt(r.price)+'원</span></div>'
         +  '<div class="kv"><span class="k">쿠폰</span><span class="v num" style="color:var(--brand-deep)">'+(r.coupon? esc(r.coupon.name.replace(" 할인 쿠폰",""))+' −'+fmt(r.disc)+'원' : '<span style="color:var(--ink2);font-weight:400">미사용</span>')+'</span></div>'
         +  '<div class="kv"><span class="k">마일리지</span><span class="v num" style="color:var(--mile)">−'+fmt(r.mAlloc)+'</span></div>'
@@ -938,7 +945,7 @@ function renderMypage(){
     });
   });
   var sumCash = c.rows.reduce(function(a,r){return a+r.cash;},0), sumMile = c.rows.reduce(function(a,r){return a+r.mAlloc;},0);
-  var canRf = S.last.lines.some(function(l){ return lineState(l.id)==="mail"; });
+  var canRf = S.last.lines.some(function(l){ return lineState(l.id)==="ok"; });
   h += '<button class="confirmbtn isnew" id="toRefund"'+(canRf?'':' disabled style="background:#C9CBD6"')+'>'+(canRf?'환불 신청':'환불 가능한 상품이 없어요')+'</button><div style="height:10px"></div>';
   h += '<div class="notice info num">검산 — 상품별 실결제 합 '+fmt(sumCash)+'원 = 결제 금액 '+fmt(c.pay)+'원 · 상품별 마일리지 합 '+fmt(sumMile)+' = 사용 '+fmt(c.mile)+'</div>';
   h += '</div>';
@@ -946,18 +953,18 @@ function renderMypage(){
   scr.innerHTML = h;
   document.getElementById("myBack").onclick = myBack;
   var tr = document.getElementById("toRefund"); if(tr && canRf) tr.onclick = openRefund;
-  scr.querySelectorAll("[data-use]").forEach(function(b){ b.onclick=function(){ S.ls = S.ls || {}; S.ls[b.dataset.use]="used"; render(); }; });
 }
 function myBack(){ S.view = S.myFrom || "shop"; render(); scr.scrollTop=0; }
 
 /* ---------- v12 환불 신청(유저) + 환불 관리(어드민) — 정책 59·60·61·70·89·90 ---------- */
-/* 상품 1개(line)별 상태: mail 우편함 보관 / used 사용함(제공 개시, 환불 불가) / req 신청됨 / proc 처리 중 / done 환불 완료 */
+/* 상품 1개(line)별 상태: ok 구매 완료 / req 신청됨 / proc 처리 중 / done 환불 완료
+   웹상점은 우편함 수령 여부 · 게임 내 사용 여부를 알 수 없음 → 유저 화면에서는 판단하지 않고, 어드민에서 운영자가 확인 */
 var RF_STAT = {req:"환불 신청됨", proc:"환불 처리 중", done:"환불 완료"};
 function rfOf(id){ return (S.rfList||[]).filter(function(q){ return q.status!=="반려" && q.lines.indexOf(id)>=0; })[0]; }
 function lineState(id){
   var q = rfOf(id);
   if(q) return q.status==="접수" ? "req" : (q.status==="처리 중" ? "proc" : "done");
-  return (S.ls && S.ls[id]) || "mail";
+  return "ok";
 }
 function payMethod(){ var r = document.querySelector('input[name="pm"]:checked'); return r ? r.value : "card"; }
 var PM = {card:{name:"신용카드", partial:true}, phone:{name:"휴대폰 결제", partial:false}};  /* 결제수단은 결제 시점에 주문에 고정 */
@@ -970,13 +977,13 @@ function refundCalc(){
   var c = lastCalc(), picked = [];
   Object.keys(S.rf.qty).forEach(function(pid){
     var n = S.rf.qty[pid]; if(!n) return;
-    var cand = c.rows.filter(function(r){ return r.line.pid===pid && lineState(r.line.id)==="mail"; })
+    var cand = c.rows.filter(function(r){ return r.line.pid===pid && lineState(r.line.id)==="ok"; })
                      .sort(function(a,b){ return b.cash-a.cash || a.line.id-b.line.id; });
     picked = picked.concat(cand.slice(0,n));
   });
   var sum = function(k){ return picked.reduce(function(a,r){return a+r[k];},0); };
-  var alive = c.rows.filter(function(r){ var st = lineState(r.line.id); return st==="mail"; }).length;
-  var untouched = c.rows.every(function(r){ return lineState(r.line.id)==="mail"; });
+  var alive = c.rows.filter(function(r){ var st = lineState(r.line.id); return st==="ok"; }).length;
+  var untouched = c.rows.every(function(r){ return lineState(r.line.id)==="ok"; });
   var full = picked.length>0 && untouched && picked.length===alive;
   var cash = sum("cash");
   return {c:c, picked:picked, cash:cash, mileBack:sum("mAlloc"), accrueCancel:sum("accrue"),
@@ -999,19 +1006,19 @@ function renderRefund(){
   pids.forEach(function(pid){
     var p = prod(pid), ls = S.last.lines.filter(function(l){return l.pid===pid;});
     var cnt = function(st){ return ls.filter(function(l){return lineState(l.id)===st;}).length; };
-    var ok = cnt("mail"), used = cnt("used"), inRf = cnt("req")+cnt("proc")+cnt("done");
+    var ok = cnt("ok"), inRf = cnt("req")+cnt("proc")+cnt("done");
     var n = Math.min(S.rf.qty[pid]||0, ok);
     h += '<div class="grp"><div class="g1"><span class="nm">'+esc(p.name)+'</span></div>'
       +  '<div class="g2"><span class="stepper sm">'
       +    '<button data-rm="'+pid+'"'+(n<=0?" disabled":"")+' aria-label="1 줄이기">−</button>'
       +    '<span class="qv num">'+n+'</span>'
       +    '<button data-rp="'+pid+'"'+(n>=ok?" disabled":"")+' aria-label="1 늘리기">+</button></span>'
-      +  '<span class="num px" style="color:var(--ink2)">구매 '+ls.length+'개 · 환불 가능 '+ok+'개</span></div>'
-      +  ((used||inRf)? '<div class="g3">'+[used? '사용한 상품 '+used+'개는 환불 불가':'', inRf? '환불 진행·완료 '+inRf+'개':''].filter(Boolean).join(' · ')+'</div>':'')
+      +  '<span class="num px" style="color:var(--ink2)">구매 '+ls.length+'개 · 신청 가능 '+ok+'개</span></div>'
+      +  (inRf? '<div class="g3">환불 진행·완료 '+inRf+'개</div>':'')
       +  '</div>';
   });
   h += '<button class="chgbtn" id="rfAll" style="margin:2px 0 6px">환불 가능한 상품 전체 선택</button>';
-  h += '<p class="help">우편함에 있는 상품만 환불할 수 있어요. 인벤토리로 옮겨 사용한 상품은 환불되지 않습니다. 같은 상품 중 일부만 환불하면 결제 금액이 높은 것부터 환불됩니다.</p></div>';
+  h += '<p class="help">게임에서 이미 사용한 상품은 환불되지 않아요. 사용 여부는 신청 후 확인하며, 사용한 상품이 있으면 신청이 반려될 수 있어요. 같은 상품 중 일부만 환불하면 결제 금액이 높은 것부터 환불됩니다.</p></div>';
 
   if(R.picked.length){
     h += '<div class="sec isnew"><h4>2. 환불 예정 내역 <span class="num" style="font-weight:400;font-size:12px;color:var(--ink2)">'+R.picked.length+'개 · '+(R.full?'전체 환불':'부분 환불')+'</span></h4>'
@@ -1019,7 +1026,7 @@ function renderRefund(){
       +  '<div class="kv"><span class="k">돌려받는 마일리지 (사용분)</span><span class="v num" style="color:var(--mile)">+'+fmt(R.mileBack)+'</span></div>'
       +  '<div class="kv"><span class="k">취소되는 적립 마일리지</span><span class="v num" style="color:var(--err)">−'+fmt(R.accrueCancel)+'</span></div>'
       +  '<div class="kv"><span class="k">사용한 쿠폰</span><span class="v" style="font-weight:400;color:var(--ink2)">'+(R.cpn? R.cpn+'장 · 복구되지 않음':'없음')+'</span></div>'
-      +  '<ul class="help"><li>돌려받는 마일리지는 원래 만료일이 그대로 유지됩니다.</li><li>신청한 상품은 처리가 끝날 때까지 우편함에서 받을 수 없고, 환불되면 삭제됩니다.</li></ul></div>';
+      +  '<ul class="help"><li>돌려받는 마일리지는 원래 만료일이 그대로 유지됩니다.</li><li>환불이 완료되면 지급된 상품은 회수됩니다.</li></ul></div>';
 
     var mTotal = R.cash + R.bonus;
     h += '<div class="sec isnew"><h4>3. 환불 받을 방법</h4>';
@@ -1031,6 +1038,19 @@ function renderRefund(){
       +  '<br><span class="sub">환불일부터 30일간 사용 가능 ('+addDays(30)+'까지), 이후 소멸</span></span></label>';
     if(S.rf.method==="mile")
       h += '<label class="rfagree"><input type="checkbox" id="rfAgree"'+(S.rf.agree?" checked":"")+'> 결제한 수단 대신 마일리지로 환불받는 것에 동의합니다. 환불 마일리지는 '+addDays(30)+'까지 사용할 수 있고 이후 소멸됩니다.</label>';
+    if(S.rf.method){
+      var credited = S.last.confirmNow==="yes";
+      var getM = S.rf.method==="mile" ? R.cash + R.bonus : 0;
+      var net = getM + R.mileBack - (credited? R.accrueCancel : 0);
+      h += '<div class="mbrk isnew"><b>마일리지 변동</b>'
+        +  (S.rf.method==="mile"? '<div><span>환불 마일리지</span><span class="num">+'+fmt(R.cash)+'</span></div>'
+        +     (R.bonus? '<div><span>보너스 10%</span><span class="num">+'+fmt(R.bonus)+'</span></div>':'') : '')
+        +  '<div><span>사용했던 마일리지 복구</span><span class="num">+'+fmt(R.mileBack)+'</span></div>'
+        +  '<div><span>적립 마일리지 취소 '+(credited? '(이미 적립됨)':'(적립 예정분)')+'</span><span class="num">'+(credited? '−'+fmt(R.accrueCancel) : '0 · 적립 안 됨')+'</span></div>'
+        +  '<div class="tot"><span>보유 마일리지 변화</span><span class="num">+'+fmt(net)+'</span></div>'
+        +  (S.rf.method==="mile" && R.bonus && credited? '<p>이 상품을 사며 받은 적립 '+fmt(R.accrueCancel)+'이 취소되어 보너스 '+fmt(R.bonus)+'과 상쇄됩니다.</p>':'')
+        +  '</div>';
+    }
     h += '<p class="help">다른 방법이 필요하시면 고객센터로 문의해 주세요.</p></div>';
 
     h += '<div class="sec"><h4>4. 환불 사유 <span style="font-weight:400;font-size:12px;color:var(--ink2)">(선택)</span></h4>'
@@ -1052,7 +1072,7 @@ function renderRefund(){
   scr.querySelectorAll("[data-rp]").forEach(function(b){ b.onclick=function(){ S.rf.qty[b.dataset.rp]=(S.rf.qty[b.dataset.rp]||0)+1; render(); }; });
   scr.querySelectorAll("[data-rm]").forEach(function(b){ b.onclick=function(){ S.rf.qty[b.dataset.rm]=Math.max(0,(S.rf.qty[b.dataset.rm]||0)-1); render(); }; });
   document.getElementById("rfAll").onclick = function(){
-    pids.forEach(function(pid){ S.rf.qty[pid] = S.last.lines.filter(function(l){return l.pid===pid && lineState(l.id)==="mail";}).length; });
+    pids.forEach(function(pid){ S.rf.qty[pid] = S.last.lines.filter(function(l){return l.pid===pid && lineState(l.id)==="ok";}).length; });
     render();
   };
   scr.querySelectorAll('input[name="rm"]').forEach(function(r){ r.onchange=function(){ S.rf.method=r.value; S.rf.agree=false; render(); }; });
@@ -1060,7 +1080,7 @@ function renderRefund(){
   var rs = document.getElementById("rfReason"); if(rs) rs.onchange = function(){ S.rf.reason = rs.value; };
   var go = document.getElementById("rfGo");
   if(go && !why) go.onclick = function(){
-    ask("환불을 신청할까요?", "신청한 상품은 처리가 끝날 때까지 우편함에서 받을 수 없어요.", "신청하기", "닫기", function(){
+    ask("환불을 신청할까요?", "게임에서 이미 사용한 상품이 있으면 반려될 수 있어요.", "신청하기", "닫기", function(){
       var R2 = refundCalc();
       S.rfList = S.rfList || [];
       var q = {id:"RF-2609-"+String(1001+S.rfList.length), lines:R2.picked.map(function(r){return r.line.id;}),
@@ -1120,16 +1140,17 @@ function renderAdmin(){
   var q = list.filter(function(x){return x.id===S.rfSel;})[0] || list[0];
   h += '<div class="ad-detail"><div class="ad-dh"><b>'+q.id+'</b> 상세 · '+q.order+' <span class="ad-st '+AD_ST_CLS[q.status]+'">'+q.status+'</span></div>';
   h += '<div class="ad-grid"><div>';
-  h += '<table class="ad-tbl sm"><thead><tr><th>상품</th><th class="r">상품 금액</th><th>쿠폰</th><th class="r">마일리지 배분</th><th class="r">실결제</th><th class="r">적립</th><th>지급 상태</th></tr></thead><tbody>';
+  h += '<table class="ad-tbl sm"><thead><tr><th>상품</th><th class="r">상품 금액</th><th>쿠폰</th><th class="r">마일리지 배분</th><th class="r">실결제</th><th class="r">적립</th></tr></thead><tbody>';
   q.rows.forEach(function(r){
     h += '<tr><td>'+esc(r.name)+'</td><td class="r num">'+fmt(r.price)+'</td><td>'+(r.coupon? esc(r.coupon)+' −'+fmt(r.disc)+' · 복구 안 함':'—')+'</td>'
       +  '<td class="r num">'+fmt(r.mAlloc)+'</td><td class="r num"><b>'+fmt(r.cash)+'</b></td><td class="r num">'+fmt(r.accrue)+'</td>'
-      +  '<td>'+(q.status==="완료"?'우편 회수 완료':(q.status==="반려"?'우편 잠금 해제':'우편함 · 수령 잠금'))+'</td></tr>';
+      +  '</tr>';
   });
   h += '</tbody></table>';
   h += '<div class="ad-calc"><div><span>PG 환불 금액</span><b class="num">'+(q.method==="mile"? '0원 (마일리지 환급)' : fmt(q.cash)+'원')+'</b></div>'
     +  '<div><span>마일리지 지급</span><b class="num">+'+fmt(q.mileBack)+' 사용분 복구'+(q.method==="mile"? ' / +'+fmt(q.cash+q.bonus)+' 환급(보너스 '+fmt(q.bonus)+')':'')+'</b></div>'
-    +  '<div><span>적립 마일리지 취소</span><b class="num">−'+fmt(q.accrueCancel)+'</b></div>'
+    +  '<div><span>적립 마일리지 취소</span><b class="num">−'+fmt(q.accrueCancel)+(q.credited?' (잔액 차감)':' (적립 예정분 취소)')+'</b></div>'
+    +  '<div><span>유저 마일리지 순변화</span><b class="num">+'+fmt((q.method==="mile"? q.cash+q.bonus:0)+q.mileBack-(q.credited? q.accrueCancel:0))+'</b></div>'
     +  '<div><span>쿠폰</span><b>'+(q.cpn? q.cpn+'장 복구 안 함':'없음')+'</b></div></div>';
   h += '<p class="ad-note">금액·마일리지·쿠폰은 주문 확정 기록(정책 50)으로 시스템이 산출합니다. 운영자는 확인 후 실행만 합니다 (정책 89번 사업안).</p>';
   h += '</div><div>';
@@ -1141,8 +1162,11 @@ function renderAdmin(){
         ? '<select id="adCause"><option'+(q.cause==="유저 요청"?' selected':'')+'>유저 요청</option><option'+(q.cause==="회사 귀책"?' selected':'')+'>회사 귀책</option><option'+(q.cause==="차지백 · 부정"?' selected':'')+'>차지백 · 부정</option></select>'
         : '<b>'+q.cause+'</b>')+'</div>';
   if(q.status==="접수"){
-    h += '<div class="ad-act"><button class="ad-go" id="adApprove">'+(q.method==="mile"?'마일리지 환급 실행':'PG 환불 실행')+'</button></div>'
-      +  '<div class="ad-act"><select id="adRejWhy"><option>신청 후 상품을 사용함</option><option>중복 신청</option><option>부정 결제 의심</option><option>기타</option></select><button class="ad-no" id="adReject">반려</button></div>';
+    q.useChk = q.useChk || "미확인";
+    h += '<div class="ad-kv"><span>게임 내 사용 여부</span><select id="adUse"><option'+(q.useChk==="미확인"?' selected':'')+'>미확인</option><option'+(q.useChk==="미사용 확인"?' selected':'')+'>미사용 확인</option><option'+(q.useChk==="사용 확인"?' selected':'')+'>사용 확인</option></select></div>'
+      +  '<p class="ad-note" style="margin:4px 0 0">웹상점은 사용 여부를 알 수 없어 운영자가 게임 로그로 확인. 미사용 확인 후에만 실행 가능.</p>';
+    h += '<div class="ad-act"><button class="ad-go" id="adApprove"'+(q.useChk==="미사용 확인"?'':' disabled style="background:#C9CBD6"')+'>'+(q.method==="mile"?'마일리지 환급 실행':'PG 환불 실행')+'</button></div>'
+      +  '<div class="ad-act"><select id="adRejWhy"><option'+(q.useChk==="사용 확인"?' selected':'')+'>이미 사용한 상품이 포함됨</option><option>중복 신청</option><option>부정 결제 의심</option><option>기타</option></select><button class="ad-no" id="adReject">반려</button></div>';
   } else if(q.status==="처리 중"){
     h += '<div class="ad-act"><span class="ad-wait">PG 환불 응답 대기 중…</span></div>';
   } else if(q.status==="반려"){
@@ -1154,10 +1178,11 @@ function renderAdmin(){
 
   el.querySelectorAll("tr[data-q]").forEach(function(tr){ tr.onclick = function(){ S.rfSel = tr.dataset.q; renderAdmin(); }; });
   var cs = document.getElementById("adCause"); if(cs) cs.onchange = function(){ q.cause = cs.value; };
+  var us = document.getElementById("adUse"); if(us) us.onchange = function(){ q.useChk = us.value; renderAdmin(); };
   var ap = document.getElementById("adApprove");
-  if(ap) ap.onclick = function(){
+  if(ap && q.useChk==="미사용 확인") ap.onclick = function(){
     var t = function(){ return "09-23 "+new Date().toTimeString().slice(0,5); };
-    q.log.push(t()+" 운영 승인 ("+q.cause+") · "+q.path);
+    q.log.push(t()+" 게임 내 미사용 확인 · 운영 승인 ("+q.cause+") · "+q.path);
     if(q.method==="mile"){ adComplete(q, t()); }
     else {
       q.status = "처리 중"; q.log.push(t()+" PG 환불 요청 전송"); render();
@@ -1175,7 +1200,7 @@ function adComplete(q, t){
   /* 유저 잔액 반영: 사용분 복구 + (마일리지 환급분) − 이미 적립된 적립분 */
   var credited = q.credited;
   MILE_BAL = MILE_BAL + q.mileBack + (q.method==="mile"? q.cash+q.bonus : 0) - (credited? q.accrueCancel : 0);
-  q.log.push(t+" 마일리지 반영 · 우편 회수 · 결제 상태 부분 환불"+(q.full?" → 전체 환불":""));
+  q.log.push(t+" 마일리지 반영 · 지급 아이템 회수 요청 · 결제 상태 "+(q.full?"전체 환불":"부분 환불"));
   render();
 }
 
@@ -1206,15 +1231,15 @@ function renderExplain(){
   } else if(S.view==="refund" || S.view==="refundDone"){
     h = '<h2><span class="tag">SCREEN 5</span>환불 신청 (v12 신설) — 아래 어드민과 연동</h2><ol>'
       + '<li><b>진입</b> — 마이페이지 주문 상세 하단 [환불 신청]. 웹상점에서 유저가 직접 신청(정책 70번 후보 2).</li>'
-      + '<li><b>상품 선택</b> — 같은 상품은 묶어서 수량으로. 우편함에 있는 것만 환불 가능, 인벤토리로 옮겨 사용한 것은 불가(정책 59). 일부만 환불하면 실결제액이 높은 것부터(9/21 정책팀 Q3).</li>'
+      + '<li><b>상품 선택</b> — 같은 상품은 묶어서 수량으로. 유저 화면은 수령·사용 여부를 판단하지 않음(웹상점이 알 수 없음). 사용 여부는 어드민에서 운영자가 게임 로그로 확인(정책 59). 일부만 환불하면 실결제액이 높은 것부터(9/21 정책팀 Q3).</li>'
       + '<li><b>환불 예정 내역</b> — 실결제액 환불, 사용 마일리지 복구(원래 만료일 유지), 적립 취소, 쿠폰은 복구 안 됨(9/21 Q8 방향, 정책 6번 미확정).</li>'
       + '<li><b>환불 방법</b> — 결제한 수단이 기본(정책 61). 마일리지는 고를 때만 동의 체크가 나오고, 체크 전엔 신청 불가. 동의 시각은 어드민에 증빙으로 남음.</li>'
       + '<li><b>부분 환불 불가 결제수단</b> — 오른쪽에서 "휴대폰 결제"로 바꿔 보세요. 일부만 고르면 결제한 수단이 막히고 <b>기본 선택이 사라집니다</b>(마일리지를 기본값으로 둘 수 없어서). 전체를 고르면 다시 열립니다.</li>'
-      + '<li><b>신청 즉시 우편 수령 잠금</b> — 처리 중에 유저가 받아 써버리면 환불 근거가 사라지므로. 정책 신설 후보.</li>'
+      + '<li><b>마일리지 변동</b> — 환불 방법을 고르면 보유 마일리지가 실제로 얼마 바뀌는지 표시. 즉시 적립에 동의했던 주문은 적립 취소가 잔액에서 빠져 보너스 10%와 상쇄됨.</li>'
       + '<li>재결제 후 전체취소는 2차 범위(9/22 축소안)라 이 화면에 없음. 고객센터 문의 안내만.</li></ol>';
   } else if(S.view==="mypage"){
     h = '<h2><span class="tag">SCREEN 4</span>마이페이지 주문 상세 (신설)</h2><ol>'
-      + '<li><b>v12 — 상품별 상태</b>: 우편함 보관 중 / 사용함 / 환불 신청됨 / 처리 중 / 환불 완료. 반려되면 우편함 보관 중으로 돌아가고 반려 사유 표시. [데모] 사용 처리로 인벤토리 사용 상태를 만들 수 있어요.</li>'
+      + '<li><b>v12 — 상품별 상태</b>: 구매 완료 / 환불 신청됨 / 처리 중 / 환불 완료. 반려되면 구매 완료로 돌아가고 반려 사유 표시. 우편함 수령·게임 내 사용 여부는 웹상점이 알 수 없어 표시하지 않음.</li>'
       + '<li><b>헤더 닉네임을 누르면 열립니다</b> — 라이브와 동일. 결제 완료 화면의 버튼으로도 들어올 수 있습니다.</li>'
       + '<li><b>상품 1개 단위로 전부 펼침, 접지 않음</b> — 9/22 회의 결정.</li>'
       + '<li>결제 화면에서 안 보이던 <b>상품별 마일리지 배분액</b>이 여기서 공개됩니다.</li>'
