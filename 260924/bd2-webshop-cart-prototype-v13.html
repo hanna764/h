@@ -369,14 +369,14 @@ ul.help{padding-left:16px} ul.help li{margin-bottom:2px}
       <div class="pcard isnew">
         <h2><span class="tag">SCENARIO</span>재결제 후 전체 취소 따라 해보기</h2>
         <ol>
-          <li>위 결제수단을 <b>휴대폰 결제</b>로 바꾼 뒤 결제</li>
+          <li>결제수단 <b>휴대폰 결제</b>(기본값) 그대로 결제</li>
           <li>닉네임 → 마이페이지 → [환불 신청] → 상품 <b>일부만</b> 선택</li>
           <li>환불 방법 <b>"남길 상품만 다시 결제하고 전체 취소"</b> + 동의 2개 → 신청</li>
           <li>아래 어드민에서 사용 여부 <b>미사용 확인</b> → [개인결제건 발급]</li>
           <li>유저 화면 상단 배너 <b>[결제하고 환불받기]</b> → 결제</li>
           <li>어드민이 <b>PG 처리 대기</b>로 바뀜 → ① 엑솔라 어드민에서 원 주문 전체 취소(체크) → ② [웹상점 환불 처리] → <b>완료</b>. 실패 경로는 [PG에서 처리 불가 기록]</li>
         </ol>
-        <div class="toggle" style="margin-top:8px;flex-wrap:wrap">결제수단 <label><input type="radio" name="pm" value="card" checked> 신용카드 (부분 환불 가능)</label> <label><input type="radio" name="pm" value="phone"> 휴대폰 결제 (부분 환불 불가)</label></div>
+        <div class="toggle" style="margin-top:8px;flex-wrap:wrap">결제수단 <label><input type="radio" name="pm" value="phone" checked autocomplete="off"> 휴대폰 결제 (부분 환불 불가)</label> <label><input type="radio" name="pm" value="card" autocomplete="off"> 신용카드 (부분 환불 가능)</label></div>
       </div>
       <div class="pcard">
         <h2><span class="tag">DEMO DATA</span>기본 데이터 (KRW 계정)</h2>
@@ -1029,7 +1029,7 @@ function lineState(id){
 /* 한 주문에 진행 중인 환불은 1건만 (정책 74번 확장) — 재결제 대기 중 남은 상품을 또 환불하면 금액이 꼬임 */
 function activeRf(order){ return (S.rfList||[]).filter(function(q){ return q.order===order && ACTIVE[q.status]; })[0]; }
 function canRefund(){ return !activeRf(S.last.no) && S.last.lines.some(function(l){ return lineState(l.id)==="ok"; }); }
-function payMethod(){ var r = document.querySelector('input[name="pm"]:checked'); return r ? r.value : "card"; }
+function payMethod(){ var r = document.querySelector('input[name="pm"]:checked'); return r ? r.value : "phone"; }
 var PM = {card:{name:"신용카드", partial:true, pg:"엑솔라"}, phone:{name:"휴대폰 결제", partial:false, pg:"엑솔라"}};  /* 결제수단은 결제 시점에 주문에 고정 */
 function addDays(n){ var d = new Date(2026,8,23); d.setDate(d.getDate()+n); return (d.getMonth()+1)+"/"+d.getDate(); }
 function now(){ return "09-23 "+new Date().toTimeString().slice(0,5); }
