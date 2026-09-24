@@ -75,6 +75,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .mbrk div.tot{border-top:1px solid var(--line);margin-top:4px;padding-top:5px;color:var(--ink);font-weight:800}
 .mbrk div.tot .num{color:var(--mile)}
 .mbrk p{margin:5px 0 0;font-size:11px;color:var(--ink2)}
+.mbrk em{display:block;font-style:normal;font-size:10.5px;color:#9A9FAE}
 .ad-kv select{max-width:130px}
 .ad-st{display:inline-block;font-size:11px;font-weight:800;border-radius:10px;padding:1px 8px}
 .a-new{color:#B05A00;background:#FFF1DE}.a-proc{color:#1B63D0;background:#E6EFFD}.a-done{color:var(--ok);background:var(--ok-bg)}.a-rej{color:var(--err);background:var(--err-bg)}
@@ -1044,11 +1045,10 @@ function renderRefund(){
       var net = getM + R.mileBack - (credited? R.accrueCancel : 0);
       h += '<div class="mbrk isnew"><b>마일리지 변동</b>'
         +  (S.rf.method==="mile"? '<div><span>환불 마일리지</span><span class="num">+'+fmt(R.cash)+'</span></div>'
-        +     (R.bonus? '<div><span>보너스 10%</span><span class="num">+'+fmt(R.bonus)+'</span></div>':'') : '')
+        +     (R.bonus? '<div><span>보너스 10% <em>마일리지로 재구매 시 적립이 없는 만큼</em></span><span class="num">+'+fmt(R.bonus)+'</span></div>':'') : '')
         +  '<div><span>사용했던 마일리지 복구</span><span class="num">+'+fmt(R.mileBack)+'</span></div>'
-        +  '<div><span>적립 마일리지 취소 '+(credited? '(이미 적립됨)':'(적립 예정분)')+'</span><span class="num">'+(credited? '−'+fmt(R.accrueCancel) : '0 · 적립 안 됨')+'</span></div>'
+        +  '<div><span>적립 마일리지 취소 <em>환불한 구매에서 받은 적립'+(credited? '':' — 적립 예정분이라 잔액 변동 없음')+'</em></span><span class="num">'+(credited? '−'+fmt(R.accrueCancel) : '0')+'</span></div>'
         +  '<div class="tot"><span>보유 마일리지 변화</span><span class="num">+'+fmt(net)+'</span></div>'
-        +  (S.rf.method==="mile" && R.bonus && credited? '<p>이 상품을 사며 받은 적립 '+fmt(R.accrueCancel)+'이 취소되어 보너스 '+fmt(R.bonus)+'과 상쇄됩니다.</p>':'')
         +  '</div>';
     }
     h += '<p class="help">다른 방법이 필요하시면 고객센터로 문의해 주세요.</p></div>';
@@ -1164,7 +1164,7 @@ function renderAdmin(){
   if(q.status==="접수"){
     q.useChk = q.useChk || "미확인";
     h += '<div class="ad-kv"><span>게임 내 사용 여부</span><select id="adUse"><option'+(q.useChk==="미확인"?' selected':'')+'>미확인</option><option'+(q.useChk==="미사용 확인"?' selected':'')+'>미사용 확인</option><option'+(q.useChk==="사용 확인"?' selected':'')+'>사용 확인</option></select></div>'
-      +  '<p class="ad-note" style="margin:4px 0 0">웹상점은 사용 여부를 알 수 없어 운영자가 게임 로그로 확인. 미사용 확인 후에만 실행 가능.</p>';
+      +  '<p class="ad-note" style="margin:4px 0 0">운영자가 게임 로그로 사용 여부 조회 후 선택. 미사용 확인 후에만 실행 가능.</p>';
     h += '<div class="ad-act"><button class="ad-go" id="adApprove"'+(q.useChk==="미사용 확인"?'':' disabled style="background:#C9CBD6"')+'>'+(q.method==="mile"?'마일리지 환급 실행':'PG 환불 실행')+'</button></div>'
       +  '<div class="ad-act"><select id="adRejWhy"><option'+(q.useChk==="사용 확인"?' selected':'')+'>이미 사용한 상품이 포함됨</option><option>중복 신청</option><option>부정 결제 의심</option><option>기타</option></select><button class="ad-no" id="adReject">반려</button></div>';
   } else if(q.status==="처리 중"){
@@ -1200,7 +1200,10 @@ function adComplete(q, t){
   /* 유저 잔액 반영: 사용분 복구 + (마일리지 환급분) − 이미 적립된 적립분 */
   var credited = q.credited;
   MILE_BAL = MILE_BAL + q.mileBack + (q.method==="mile"? q.cash+q.bonus : 0) - (credited? q.accrueCancel : 0);
-  q.log.push(t+" 마일리지 반영 · 지급 아이템 회수 요청 · 결제 상태 "+(q.full?"전체 환불":"부분 환불"));
+  if(q.method==="mile") q.log.push(t+" 마일리지 환불 지급 +"+fmt(q.cash)+(q.bonus? " · 보너스 +"+fmt(q.bonus):""));
+  if(q.mileBack) q.log.push(t+" 사용 마일리지 복구 +"+fmt(q.mileBack)+" (원래 만료일 유지)");
+  q.log.push(t+" 적립 마일리지 취소 −"+fmt(q.accrueCancel)+(credited? " (잔액 차감)":" (적립 예정분 취소)"));
+  q.log.push(t+" 지급 아이템 회수 요청 · 결제 상태 "+(q.full?"전체 환불":"부분 환불"));
   render();
 }
 
@@ -1235,7 +1238,7 @@ function renderExplain(){
       + '<li><b>환불 예정 내역</b> — 실결제액 환불, 사용 마일리지 복구(원래 만료일 유지), 적립 취소, 쿠폰은 복구 안 됨(9/21 Q8 방향, 정책 6번 미확정).</li>'
       + '<li><b>환불 방법</b> — 결제한 수단이 기본(정책 61). 마일리지는 고를 때만 동의 체크가 나오고, 체크 전엔 신청 불가. 동의 시각은 어드민에 증빙으로 남음.</li>'
       + '<li><b>부분 환불 불가 결제수단</b> — 오른쪽에서 "휴대폰 결제"로 바꿔 보세요. 일부만 고르면 결제한 수단이 막히고 <b>기본 선택이 사라집니다</b>(마일리지를 기본값으로 둘 수 없어서). 전체를 고르면 다시 열립니다.</li>'
-      + '<li><b>마일리지 변동</b> — 환불 방법을 고르면 보유 마일리지가 실제로 얼마 바뀌는지 표시. 즉시 적립에 동의했던 주문은 적립 취소가 잔액에서 빠져 보너스 10%와 상쇄됨.</li>'
+      + '<li><b>마일리지 변동</b> — 환불 방법을 고르면 보유 마일리지가 실제로 얼마 바뀌는지 표시. 보너스 10%(마일리지 재구매 시 적립 불가 보전)와 적립 취소(환불한 구매의 적립 회수)는 별개 항목으로 각각 표시.</li>'
       + '<li>재결제 후 전체취소는 2차 범위(9/22 축소안)라 이 화면에 없음. 고객센터 문의 안내만.</li></ol>';
   } else if(S.view==="mypage"){
     h = '<h2><span class="tag">SCREEN 4</span>마이페이지 주문 상세 (신설)</h2><ol>'
