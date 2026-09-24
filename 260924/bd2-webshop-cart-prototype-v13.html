@@ -1,0 +1,1501 @@
+<title>BD2 장바구니 프로토타입 v13</title>
+<style>
+:root{
+  --brand:#3D46F5; --brand-soft:#EEEFFE; --brand-deep:#2A31C8;
+  --bg:#F0F1F5; --surface:#FFFFFF; --ink:#17181C; --ink2:#6B7080; --line:#E2E4EA;
+  --header:#141414;
+  --hot:#FF4D4D; --hot-bg:#FFECEC; --gold:#B98A00; --gold-bg:#FFF3D6;
+  --mile:#7B2FF2; --err:#D0342C; --err-bg:#FBEAE8; --ok:#1F9254; --ok-bg:#E6F4EC; --warn:#8A5A00; --warn-bg:#FBF1DC;
+  --new:#3D46F5; --focus:#1B63D0;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#E9EAEF;color:var(--ink);
+  font-family:"Pretendard Variable",Pretendard,"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+  font-size:15px;line-height:1.55;}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:1080px;margin:0 auto;padding:26px 20px 60px}
+.dochead .eyebrow{font-size:12px;letter-spacing:.14em;color:var(--brand);font-weight:800}
+.dochead h1{margin:6px 0 4px;font-size:23px;font-weight:800;letter-spacing:-.01em;text-wrap:balance}
+.dochead p{margin:0 0 18px;color:var(--ink2);max-width:64ch}
+.cols{display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap}
+.phone{position:relative;width:400px;flex:0 0 auto;border:1px solid #D6D8E0;border-radius:20px;background:var(--bg);
+  box-shadow:0 14px 36px rgba(20,22,40,.14);overflow:hidden}
+.ph-top{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--header);color:#fff}
+.ph-top .brand{font-weight:800;font-size:14px;letter-spacing:.04em}
+.ph-top .rightnav{display:flex;align-items:center;gap:12px;font-size:12.5px}
+.ph-top .nick{font-weight:700}
+.ph-top .brand,.ph-top .rightnav>*{white-space:nowrap}
+.ph-top .rightnav{gap:9px}
+@media (max-width:2000px){.phone .hbenefit{display:none}} /* 폰 폭 데모에서는 헤더 공간 확보용으로 숨김 — 실서비스 헤더에는 그대로 존재 */
+.hmile{display:inline-flex;align-items:center;font-weight:700;font-size:12.5px}
+.hmile .ic{margin-right:3px}
+.mbubble{position:absolute;top:46px;left:0;z-index:15;background:#FFF6D6;color:#6B4E00;border:1px solid #F2D675;border-radius:8px;padding:6px 8px 6px 10px;font-size:11.5px;font-weight:700;display:flex;gap:6px;align-items:center;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.mbubble::before{content:"";position:absolute;top:-6px;left:var(--ax,20px);width:10px;height:10px;background:#FFF6D6;border-left:1px solid #F2D675;border-top:1px solid #F2D675;transform:rotate(45deg)}
+.mbubble button{border:0;background:none;color:#6B4E00;font-size:13px;line-height:1;padding:0 2px}
+.mbubble{animation:bob 2.4s ease-in-out infinite;pointer-events:none}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@media (prefers-reduced-motion:reduce){.mbubble{animation:none}}
+.rfopt{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:10px;margin-bottom:8px;font-size:13px;cursor:pointer}
+.rfopt input{width:16px;height:16px;margin-top:2px;accent-color:var(--brand);flex-shrink:0}
+.rfopt .sub{font-size:11.5px;color:var(--ink2)}
+.rfopt.dis{background:var(--bg);cursor:not-allowed}
+.rfopt.dis b{color:var(--ink2)}
+.rfopt:has(input:checked){border-color:var(--brand);background:var(--brand-soft)}
+.rfagree{display:flex;gap:8px;align-items:flex-start;font-size:12px;background:var(--warn-bg);color:var(--warn);border-radius:8px;padding:9px 10px;margin-bottom:6px}
+.rfagree input{width:16px;height:16px;margin-top:1px;accent-color:var(--brand);flex-shrink:0}
+.myl .st.used{color:var(--ink2);background:var(--bg)}
+.myl .st.req,.myl .st.proc{color:var(--warn);background:var(--warn-bg)}
+.myl .st.done{color:#fff;background:var(--ink2)}
+.myl .rj{font-size:11px;color:var(--err);margin-top:2px}
+.demolink{border:0;background:none;color:var(--ink2);font-size:10.5px;text-decoration:underline;padding:0;margin-left:6px}
+/* 어드민 */
+.admin{margin-top:22px;background:#fff;border:1px solid #D6D8E0;border-radius:12px;overflow:hidden;box-shadow:0 10px 28px rgba(20,22,40,.10)}
+.ad-head{display:flex;gap:14px;align-items:center;background:#2B2F3A;color:#C9CCD6;padding:10px 16px;font-size:12.5px;flex-wrap:wrap}
+.ad-head .sp{flex:1}
+.ad-body{padding:14px 16px 16px;overflow-x:auto}
+.ad-kpi{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.ad-kpi .k{flex:1 1 100px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;font-size:12px}
+.ad-kpi .k b{font-size:17px}
+.ad-empty{border:1px dashed var(--line);border-radius:8px;padding:26px;text-align:center;color:var(--ink);font-weight:700;font-size:13px}
+.ad-empty span{font-weight:400;color:var(--ink2);font-size:12px}
+.ad-tbl{width:100%;border-collapse:collapse;font-size:12px;min-width:640px}
+.ad-tbl th{background:#F4F5F8;color:var(--ink2);font-weight:700;text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.ad-tbl td{padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.ad-tbl .r{text-align:right}
+.ad-tbl tbody tr[data-q]{cursor:pointer}
+.ad-tbl tbody tr.on{background:var(--brand-soft)}
+.ad-tbl.sm{min-width:0}
+.ad-tbl.sm td{white-space:normal}
+.ad-grid>div{min-width:0}
+.mbrk{background:var(--bg);border-radius:8px;padding:9px 11px;margin:2px 0 8px;font-size:12px}
+.mbrk b{display:block;margin-bottom:4px;font-size:12.5px}
+.mbrk div{display:flex;justify-content:space-between;padding:2px 0;color:var(--ink2)}
+.mbrk div.tot{border-top:1px solid var(--line);margin-top:4px;padding-top:5px;color:var(--ink);font-weight:800}
+.mbrk div.tot .num{color:var(--mile)}
+.mbrk p{margin:5px 0 0;font-size:11px;color:var(--ink2)}
+.mbrk em{display:block;font-style:normal;font-size:10.5px;color:#9A9FAE}
+.ad-kv select{max-width:130px}
+.ad-st{display:inline-block;font-size:11px;font-weight:800;border-radius:10px;padding:1px 8px}
+.a-new{color:#B05A00;background:#FFF1DE}.a-proc{color:#1B63D0;background:#E6EFFD}.a-done{color:var(--ok);background:var(--ok-bg)}.a-rej{color:var(--err);background:var(--err-bg)}
+.ad-kpi .k.a-new,.ad-kpi .k.a-proc,.ad-kpi .k.a-done,.ad-kpi .k.a-rej{border-color:transparent}
+.ad-detail{margin-top:14px;border:1px solid var(--line);border-radius:10px;padding:12px}
+.ad-dh{font-size:13.5px;margin-bottom:10px;display:flex;gap:8px;align-items:center}
+.ad-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(240px,1fr);gap:14px}
+@media (max-width:840px){.ad-grid{grid-template-columns:1fr}}
+.ad-calc{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.ad-calc div{background:#F4F5F8;border-radius:7px;padding:7px 9px;font-size:11.5px;display:flex;flex-direction:column;gap:2px}
+.ad-calc span{color:var(--ink2)}
+.ad-note{font-size:11px;color:var(--ink2);margin:8px 0 0}
+.ad-kv{display:flex;justify-content:space-between;gap:10px;font-size:12px;padding:5px 0;border-bottom:1px dashed var(--line)}
+.ad-kv span{color:var(--ink2);white-space:nowrap}
+.ad-kv b{text-align:right}
+.ad-kv select,.ad-act select{font-size:12px;border:1px solid var(--line);border-radius:6px;padding:3px 6px}
+.ad-act{display:flex;gap:8px;margin-top:10px;align-items:center}
+.ad-go{flex:1;border:0;border-radius:7px;background:var(--brand);color:#fff;font-weight:800;font-size:12.5px;padding:9px}
+.ad-no{border:1px solid var(--err);border-radius:7px;background:#fff;color:var(--err);font-weight:700;font-size:12.5px;padding:8px 14px}
+.ad-act select{flex:1}
+.ad-wait{font-size:12px;color:#1B63D0;font-weight:700}
+.ad-log{margin-top:12px;font-size:11.5px;color:var(--ink2);background:#F4F5F8;border-radius:7px;padding:8px 10px}
+.ad-log b{color:var(--ink);display:block;margin-bottom:3px}
+.rpbanner{display:flex;gap:10px;align-items:center;justify-content:space-between;background:#FFF4E5;border:1px solid #F5C98A;border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:12.5px;color:#7A4A00}
+.rpbanner span{font-size:11.5px;color:#8A6420}
+.rpbanner button{flex:0 0 auto;border:0;border-radius:7px;background:#E07B00;color:#fff;font-weight:800;font-size:12px;padding:8px 10px;white-space:nowrap}
+.rprow{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12.5px;padding:6px 0;border-bottom:1px dashed var(--line)}
+.rprow:last-of-type{border-bottom:0}
+.rpnote{margin-top:10px;background:var(--warn-bg);color:var(--warn);border-radius:8px;padding:9px 11px;font-size:11.5px}
+.rpnote b{display:block;margin-bottom:2px}
+.nextstep{margin-top:10px;background:var(--bg);border-radius:8px;padding:9px 11px;font-size:12px}
+.nextstep ol{margin:4px 0 0;padding-left:18px;color:var(--ink2)}
+.rfwarn{border-color:#F2B8B0;background:#FFF8F6}
+.rfwarn p{font-size:12.5px;margin:0 0 6px}
+.rfwarn p b{color:var(--err)}
+.myl .st.wait{color:#B05A00;background:#FFF1DE}
+.myl .st.kept{color:var(--brand-deep);background:var(--brand-soft)}
+.a-wait{color:#9A5B00;background:#FFF1DE}.a-fail{color:#fff;background:var(--err)}
+.ad-kpi .k.a-wait,.ad-kpi .k.a-fail{border-color:transparent}
+.ad-tbl tbody tr.urgent td{background:#FDECEA}
+.ad-sub{font-size:12px;font-weight:800;margin:10px 0 4px}
+.ad-sub:first-child{margin-top:0}
+.ad-steps{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.ad-steps span{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink2);background:#F4F5F8;border-radius:14px;padding:4px 10px 4px 5px}
+.ad-steps i{font-style:normal;width:18px;height:18px;border-radius:50%;background:#D6D8E0;color:#fff;font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.ad-steps span.ok{color:var(--ok);background:var(--ok-bg)}.ad-steps span.ok i{background:var(--ok)}
+.ad-steps span.on{color:#1B63D0;background:#E6EFFD;font-weight:700}.ad-steps span.on i{background:#1B63D0}
+.ad-steps span.fail{color:#fff;background:var(--err);font-weight:700}.ad-steps span.fail i{background:#fff;color:var(--err)}
+.ad-steps span.x{color:var(--err);background:var(--err-bg)}.ad-steps span.x i{background:var(--err)}
+.ad-urgent{margin-top:10px;background:var(--err-bg);color:var(--err);border-radius:8px;padding:9px 11px;font-size:12px}
+.ad-urgent b{display:block;margin-bottom:2px}
+.ad-demo{flex:1;border:1px dashed var(--ink2);border-radius:7px;background:#fff;color:var(--ink2);font-size:12px;padding:8px}
+.nickbtn{border:0;background:none;color:#fff;padding:0;font-size:12.5px;text-decoration:underline;text-underline-offset:3px}
+.cartbtn{position:relative;background:none;border:0;color:#fff;padding:2px;font-size:17px;line-height:1}
+.cartbtn .badge{position:absolute;top:-7px;right:-10px;min-width:17px;height:17px;border-radius:9px;background:var(--brand);
+  color:#fff;font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 4px}
+.screen{height:660px;overflow-y:auto;position:relative;background:var(--bg)}
+.scr-pad{padding:12px 12px 100px}
+.newtag{display:inline-flex;align-items:center;font-size:9.5px;font-weight:800;letter-spacing:.06em;color:#fff;background:var(--new);border-radius:4px;padding:1px 5px;vertical-align:middle;margin-left:6px}
+body[data-shownew="0"] .newtag{display:none}
+body[data-shownew="1"] .isnew{outline:2px dashed var(--new);outline-offset:2px;border-radius:8px}
+.cats{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 10px}
+.cats button{white-space:nowrap;border:1px solid var(--line);background:var(--surface);border-radius:18px;padding:5px 13px;font-size:12.5px;color:var(--ink2)}
+.cats button.on{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
+.sortrow{display:flex;justify-content:flex-end;padding-bottom:8px}
+.sortrow span{font-size:12.5px;color:var(--ink2)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.prod{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column}
+.badges{display:flex;gap:4px;min-height:16px;margin-bottom:6px}
+.bdg{font-size:9.5px;font-weight:800;border-radius:4px;padding:1px 6px;letter-spacing:.04em}
+.bdg.hot{color:var(--hot);background:var(--hot-bg)} .bdg.best{color:#E2582A;background:#FFEDE3} .bdg.trd{color:var(--gold);background:var(--gold-bg)}
+.prod h3{margin:2px 0 10px;font-size:13.5px;font-weight:700;text-align:center;min-height:40px;display:flex;align-items:center;justify-content:center;text-wrap:balance}
+.prod .sep{border-top:1px solid var(--line);margin:0 -10px 8px}
+.prow{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--ink2);padding:1px 0}
+.prow .val{font-weight:700;color:var(--ink);font-size:13px}
+.ic{display:inline-flex;width:14px;height:14px;border-radius:50%;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;margin-right:4px;vertical-align:-2px}
+.ic.coin{background:#5A5DF0} .ic.m{background:var(--mile)}
+.limit{font-size:11px;color:var(--ink2);text-align:center;margin-top:4px;min-height:14px}
+.buybtn{border:0;border-radius:6px;background:var(--brand);color:#fff;font-weight:700;font-size:12.5px;padding:10px 0;white-space:nowrap;margin-top:8px}
+.buybtn:disabled{background:#C9CBD6;color:#828697;cursor:not-allowed}
+/* 상세 레이어 */
+.overlay{position:absolute;inset:0;background:rgba(10,11,20,.45);display:flex;align-items:center;justify-content:center;padding:18px;z-index:20}
+.layer{background:var(--surface);border-radius:12px;width:100%;max-width:330px;padding:16px;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.layer .close{float:right;border:0;background:none;font-size:16px;color:var(--ink2);padding:2px 6px}
+.layer .nick{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-weight:800;font-size:13.5px;margin-bottom:10px}
+.layer label.chk{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;margin-bottom:10px}
+.layer label.chk input{width:16px;height:16px;margin-top:2px;accent-color:var(--brand);flex-shrink:0}
+.layer h3{margin:0 0 8px;font-size:15px}
+.layer .desc{font-size:12px;color:var(--ink2);margin-bottom:10px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.layer .kv{font-size:13px}
+.layer .qtyrow{display:flex;align-items:center;gap:10px;margin:10px 0 2px;justify-content:space-between}
+.layer .qtyrow .lbl{font-size:12.5px;color:var(--ink2)}
+.layer .qtyrow .ctrl{display:flex;align-items:center;gap:8px}
+.layer .qtyrow button{width:28px;height:28px;border-radius:6px;border:1px solid var(--line);background:var(--bg);font-weight:700;line-height:1}
+.layer .qtyrow .q{min-width:22px;text-align:center;font-weight:800}
+.layer .btns{display:flex;gap:8px;margin-top:14px}
+.layer .btns .cancel{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--ink2);border-radius:7px;padding:10px 12px;font-size:13px}
+.layer .btns .go{flex:1;border:0;border-radius:7px;background:var(--brand);color:#fff;font-weight:700;font-size:13px;padding:10px 0}
+.layer .btns .go:disabled{background:#C9CBD6;color:#828697;cursor:not-allowed}
+.layer .btns .add{flex:1;border:1px solid var(--brand);border-radius:7px;background:var(--surface);color:var(--brand);font-weight:700;font-size:13px;padding:10px 0}
+.layer .btns .add:disabled,.layer .btns .add.off{border-color:#C9CBD6;color:#A6AAB8;cursor:not-allowed}
+/* 주문서 */
+.sec{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-bottom:12px;padding:14px}
+.sec>h4{margin:0 0 10px;font-size:15px;font-weight:800;padding-bottom:10px;border-bottom:1px solid var(--ink);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sec>h4 .sp{flex:1 1 auto}
+.clearbtn{border:0;background:none;color:var(--ink2);font-size:11.5px;text-decoration:underline;padding:0;font-weight:400;white-space:nowrap}
+.pagetitle{text-align:center;font-size:18px;font-weight:800;margin:6px 0 14px}
+.linkback{border:0;background:none;color:var(--ink2);font-size:12.5px;text-decoration:underline;padding:0;margin-bottom:8px}
+.notice{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;border-radius:8px;padding:9px 11px;margin-bottom:10px}
+.notice.info{background:var(--brand-soft);color:var(--brand-deep)}
+.notice.warn{background:var(--warn-bg);color:var(--warn)}
+.chip{font-size:10.5px;font-weight:700;border-radius:12px;padding:2px 8px;background:var(--brand-soft);color:var(--brand-deep);white-space:nowrap}
+/* v10 — 주문정보는 묶지 않고 상품 1개 = 카드 1장 */
+.lineRow{padding:9px 10px;font-size:12.5px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;background:var(--surface)}
+.lineRow .nm{font-weight:700;font-size:13px;flex:1 1 auto;min-width:0}
+.lineRow .seq{display:inline-block;margin-left:6px;font-size:10.5px;font-weight:700;color:var(--ink2);background:var(--bg);border-radius:10px;padding:1px 7px;vertical-align:1px}
+.lineRow .px{font-weight:700;white-space:nowrap}
+.lineRow .xbtn{flex:0 0 24px;width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);font-size:12px;line-height:1}
+.lineRow .xbtn:hover{border-color:var(--err);color:var(--err)}
+.addmore{display:block;width:100%;margin:0 0 12px;padding:8px 10px;border:1px dashed var(--brand);border-radius:8px;background:var(--surface);color:var(--brand);font-size:12px;font-weight:700}
+.addmore:hover{background:var(--brand-soft)}
+.addmore.off{border-style:solid;border-color:var(--line);color:var(--ink2);background:var(--bg);font-weight:400;cursor:not-allowed}
+.lineRow .r1{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.lineRow .r2{display:flex;justify-content:space-between;gap:8px;align-items:center;color:var(--ink2);font-size:11.5px;margin-top:4px;flex-wrap:wrap}
+.lineRow .r3{display:flex;justify-content:flex-end;color:var(--ink2);font-size:11.5px;margin-top:4px}
+.cpsel{font-size:11.5px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:2px 5px;max-width:165px}
+.kv{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:4px 0}
+.kv .k{color:var(--ink2);white-space:nowrap;flex-shrink:0} .kv .v{font-weight:700;text-align:right}
+.kv.total{border-top:1px solid var(--line);margin-top:8px;padding-top:10px;font-size:15px}
+.kv.total .v{font-weight:800;color:var(--brand-deep)}
+.help{font-size:11.5px;color:var(--ink2);margin:6px 0 0}
+ul.help{padding-left:16px} ul.help li{margin-bottom:2px}
+.mhead{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:700}
+.mrow{display:flex;gap:8px;margin-top:8px}
+.mrow input{flex:1;min-width:0;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);padding:9px 10px;font-size:13.5px}
+.mrow button{border:1px solid var(--line);color:var(--brand);background:var(--surface);border-radius:8px;padding:0 13px;font-size:12.5px;font-weight:700;white-space:nowrap;flex-shrink:0}
+.radioline{display:flex;gap:16px;margin:8px 0 4px}
+.radioline label{display:flex;gap:6px;align-items:center;font-size:13px}
+.radioline input{width:16px;height:16px;accent-color:var(--brand)}
+.terms label{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;margin-bottom:7px}
+.terms input{width:16px;height:16px;margin-top:2px;accent-color:var(--brand);flex-shrink:0}
+.terms .all{font-weight:800;font-size:13px;padding-bottom:7px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.paybar{position:sticky;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--line);padding:9px 12px 13px}
+.paybar .reason{font-size:11.5px;color:var(--err);margin-bottom:6px;min-height:14px}
+.paybtn{width:100%;border:0;border-radius:8px;padding:13px;font-size:15px;font-weight:800;background:var(--brand);color:#fff;white-space:nowrap}
+.paybtn:disabled{background:#C9CBD6;color:#828697;cursor:not-allowed}
+.done-ico{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;margin:16px auto 8px;background:var(--ok-bg);color:var(--ok)}
+.center{text-align:center}
+.sumline{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:7px 0;border-bottom:1px dashed var(--line);flex-wrap:wrap}
+.sumline:last-child{border-bottom:0}
+.confirmbtn{border:0;border-radius:8px;background:var(--brand);color:#fff;font-weight:800;font-size:14px;padding:12px 0;width:100%}
+.undo,.toast{position:absolute;left:12px;right:12px;bottom:92px;background:#26272E;color:#fff;border-radius:9px;padding:10px 12px;font-size:12.5px;display:flex;justify-content:space-between;gap:10px;align-items:center;z-index:5}
+.undo button,.toast button{border:0;background:none;color:#9FA6FF;font-weight:800;white-space:nowrap}
+.panel{flex:1 1 330px;min-width:300px}
+.pcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px 17px;margin-bottom:13px}
+.pcard h2{margin:0 0 8px;font-size:14.5px}
+.pcard h2 .tag{font-size:10.5px;letter-spacing:.12em;color:var(--brand);display:block;margin-bottom:3px;font-weight:800}
+.pcard ol{margin:6px 0 0;padding-left:19px;font-size:13px;color:var(--ink2)}
+.pcard ol li{margin-bottom:6px}
+.pcard ol li b{color:var(--ink)}
+.toggle{display:flex;align-items:center;gap:8px;font-size:13px;margin-top:4px}
+.toggle input{width:16px;height:16px;accent-color:var(--brand)}
+.footnote{font-size:11.5px;color:var(--ink2)}
+@media (max-width:840px){.phone{width:100%;max-width:420px;margin:0 auto}}
+/* v6 — 카탈로그 담기 · 스테퍼 */
+.cardrow{display:flex;gap:6px;margin-top:8px}
+.cardrow .buybtn{flex:1;margin-top:0}
+.addcart{width:40px;flex:0 0 40px;border:1px solid var(--brand);border-radius:6px;background:var(--surface);color:var(--brand);display:flex;align-items:center;justify-content:center;padding:0;position:relative}
+.addcart svg{width:18px;height:18px;display:block}
+.addcart:hover{background:#EEF1FE}
+.addcart.off{border-color:var(--line);color:#A6AAB8}
+.flyball{position:fixed;width:16px;height:16px;border-radius:50%;background:var(--brand);z-index:9999;pointer-events:none;margin:-8px 0 0 -8px;
+  transition:transform .58s cubic-bezier(.32,.8,.4,1),opacity .58s ease}
+.bump{animation:bump .42s ease}
+@keyframes bump{0%{transform:scale(1)}35%{transform:scale(1.55)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.flyball{display:none}.bump{animation:none}}
+.stepper{display:flex;align-items:center;gap:6px;margin:12px 0 2px}
+.stepper .sl{font-size:12.5px;color:var(--ink2);margin-right:auto}
+.stepper button{height:30px;min-width:30px;border-radius:6px;border:1px solid var(--line);background:var(--bg);font-weight:700;line-height:1;color:var(--ink)}
+.stepper button.mx{min-width:44px;font-size:11px;letter-spacing:.04em}
+.stepper button:disabled{color:#BFC3CE;background:var(--surface);cursor:not-allowed}
+.stepper .qv{min-width:44px;height:30px;border:1px solid var(--line);border-radius:6px;background:var(--surface);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+/* v7 */
+.stepper button.off{color:#BFC3CE;background:var(--surface);cursor:not-allowed}
+.lineRow .r3{display:flex;justify-content:space-between;gap:8px;align-items:center;color:var(--ink2);font-size:11.5px;margin-top:5px}
+.lineRow .r4{display:flex;justify-content:flex-end;color:var(--ink2);font-size:11.5px;margin-top:4px}
+.minp{display:flex;gap:5px;align-items:center}
+.minp input{width:84px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);
+  padding:5px 7px;font-size:12px;text-align:right;font-variant-numeric:tabular-nums}
+.minp button{border:1px solid var(--line);background:var(--bg);color:var(--brand);border-radius:6px;padding:0 8px;height:27px;font-size:10.5px;font-weight:800}
+.minp button:disabled{color:#BFC3CE;cursor:not-allowed}
+.msum{flex:1;min-width:0;display:flex;align-items:center;font-size:13px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:9px 10px}
+.msum b{margin-left:6px;color:var(--mile);font-weight:800}
+.acctbox{display:flex;justify-content:space-between;align-items:center;background:var(--bg);border:1px solid var(--line);
+  border-radius:8px;padding:9px 11px;margin-bottom:9px;font-size:12.5px}
+.acctbox b{font-weight:800;letter-spacing:.02em}
+/* v8 */
+.layer .hint{font-size:11.5px;color:var(--ink2);margin:5px 0 0;line-height:1.5}
+.layer .hint.warn{color:var(--err);background:#FFF4F1;border:1px solid #FFD7CB;border-radius:7px;padding:8px 10px;font-weight:600;margin-top:8px}
+.addcart:disabled{border-color:var(--line);color:#BFC3CE;cursor:not-allowed}
+/* v9 — 팝업 담기 버튼도 장바구니 아이콘으로 */
+.layer .btns .addcart{flex:0 0 58px;width:58px;align-self:stretch;border-radius:7px;border:1px solid var(--brand);background:var(--surface);color:var(--brand)}
+.layer .btns .addcart svg{width:21px;height:21px}
+.layer .btns .addcart:hover{background:#EEF1FE}
+.layer .btns .addcart.off{border-color:#C9CBD6;color:#C4C8D4;background:var(--surface);cursor:not-allowed}
+.layer .btns .addcart.off:hover{background:var(--surface)}
+/* v11 — 묶기 · 쿠폰 상세 · 마이페이지 */
+.fold{display:flex;width:100%;justify-content:space-between;align-items:center;border:0;background:none;text-align:left;padding:4px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.fold .fsub{font-size:12.5px;color:var(--ink2)}
+.fold .chev{font-size:16px;color:var(--ink2)}
+.grp{border:1px solid var(--line);border-radius:8px;padding:9px 10px;margin-bottom:6px}
+.grp .g1{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.grp .nm{font-weight:700;font-size:13px}
+.grp .g2{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:12px;color:var(--ink2);gap:8px}
+.grp .g2 b{color:var(--ink)}
+.modal{position:absolute;inset:0;background:rgba(10,11,20,.45);display:flex;align-items:center;justify-content:center;padding:24px;z-index:30;border-radius:20px}
+.modal .box{background:var(--surface);border-radius:12px;padding:18px 16px 14px;width:100%;max-width:300px;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.modal .mt{font-weight:800;font-size:15px;margin:0 0 6px}
+.modal .ms{font-size:12.5px;color:var(--ink2);margin:0 0 14px}
+.modal .mb{display:flex;gap:8px}
+.modal .mb button{flex:1;border-radius:7px;padding:10px 0;font-size:13px;font-weight:700}
+.modal .mb .no{border:1px solid var(--line);background:var(--surface);color:var(--ink2)}
+.modal .mb .yes{border:0;background:var(--brand);color:#fff}
+.cppanel{border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);margin:4px 0 6px;padding:8px 0}
+.cppanel .cphead{margin:0 0 6px;font-size:13px}
+.cpgrp{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 10px;margin-bottom:6px}
+.cpgrp .cpt{display:flex;justify-content:space-between;font-size:12.5px;padding:2px 0 4px;border-bottom:1px solid var(--line)}
+.cpgrp .cpt span{color:var(--ink2)}
+.grp .xbtn{flex:0 0 24px;width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);font-size:12px;line-height:1}
+.stepper.sm{margin:0;gap:4px}
+.stepper.sm button{height:26px;min-width:26px}
+.stepper.sm .qv{min-width:32px;height:26px}
+.amt{background:var(--bg);border-radius:8px;padding:8px 10px;margin-top:10px}
+.chgbtn{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:2px 9px;font-size:12px;margin-left:6px;color:var(--ink)}
+.strike{color:var(--ink2);font-weight:400}
+.cphead{font-size:15px;font-weight:700;margin:0 2px 12px}
+.cphead b{font-size:21px;color:var(--brand-deep)}
+.unit{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px dashed var(--line)}
+.unit:last-child{border-bottom:0}
+.unit .un{flex:0 0 52px;font-size:12px;color:var(--ink2)}
+.unit .cpsel{flex:1 1 0;min-width:0;width:0;max-width:none;padding:5px}
+.unit .ud{flex:0 0 72px;text-align:right;font-size:12.5px;color:var(--brand-deep)}
+.myl .m1{display:flex;align-items:center;gap:6px;font-size:13.5px;padding-bottom:6px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.myl .sp{flex:1}
+.myl .seq{font-size:10.5px;font-weight:700;color:var(--ink2);background:var(--bg);border-radius:10px;padding:1px 7px}
+.myl .st{font-size:11px;color:var(--ok);background:var(--ok-bg);border-radius:10px;padding:1px 8px}
+.myl .kv{font-size:12.5px;padding:2px 0}
+</style>
+
+<body data-shownew="1">
+<div class="wrap">
+  <div class="dochead">
+    <div class="eyebrow">BD2 WEBSHOP — CART PROTOTYPE v13</div>
+    <h1>장바구니 프로토타입 v13 — 재결제 후 전체 취소(유저 · 어드민) 추가</h1>
+    <p>9/22 회의 + 9/23 결정 반영(네이버 쇼핑 방식): 주문서는 <b>같은 상품을 묶고 쿠폰은 합계만</b> 보여줍니다. 상품별 쿠폰은 [변경] 화면에서, 마일리지는 <b>쿠폰 적용 후 총액에서 한 번에</b> 쓰고, 상품별 배분 내역은 결제 후 <b>마이페이지</b>에서 공개합니다.</p>
+  </div>
+
+  <div class="cols">
+    <div class="phone">
+      <div class="ph-top">
+        <div class="brand">BROWN DUST Ⅱ <span style="opacity:.65;font-weight:400">웹상점</span></div>
+        <div class="rightnav">
+          <span class="hbenefit" style="opacity:.85">웹상점 혜택</span>
+          <span class="hmile num isnew" id="hMile" title="보유 마일리지"><span class="ic m">M</span><span id="hMileV">5,000</span></span>
+          <button class="nick nickbtn isnew" id="nickOpen" title="마이페이지">DQHANNANEO</button>
+          <button class="cartbtn isnew" id="cartOpen" aria-label="장바구니">🛒<span class="badge num" id="badge" style="display:none">0</span></button>
+        </div>
+      </div>
+      <div class="mbubble isnew" id="mBubble" role="status" style="display:none"><span>소멸 예정인 마일리지가 있어요!</span></div>
+      <div class="screen" id="screen"></div>
+    </div>
+
+    <div class="panel">
+      <div class="pcard" id="explain"></div>
+      <div class="pcard">
+        <h2><span class="tag">VIEW</span>표시 옵션</h2>
+        <label class="toggle"><input type="checkbox" id="shownew" checked> 신규 요소 표시 (파란 점선 + NEW)</label>
+        <label class="toggle"><input type="checkbox" id="expOn" checked> 7일 이내 소멸 예정 마일리지 있음 (데모: 1,200 · 3일 후)</label>
+        <label class="toggle"><input type="checkbox" id="cancelFail"> 원 주문 전체 취소 실패 시뮬레이션 (재결제)</label>
+      </div>
+      <div class="pcard isnew">
+        <h2><span class="tag">SCENARIO</span>재결제 후 전체 취소 따라 해보기</h2>
+        <ol>
+          <li>위 결제수단을 <b>휴대폰 결제</b>로 바꾼 뒤 결제</li>
+          <li>닉네임 → 마이페이지 → [환불 신청] → 상품 <b>일부만</b> 선택</li>
+          <li>환불 방법 <b>"남길 상품만 다시 결제하고 전체 취소"</b> + 동의 2개 → 신청</li>
+          <li>아래 어드민에서 사용 여부 <b>미사용 확인</b> → [개인결제건 발급]</li>
+          <li>유저 화면 상단 배너 <b>[결제하고 환불받기]</b> → 결제</li>
+          <li>어드민이 <b>취소 처리 중 → 완료</b>로 바뀌는 것 확인. 실패 경로는 위 체크를 켜고 다시</li>
+        </ol>
+        <div class="toggle" style="margin-top:8px;flex-wrap:wrap">결제수단 <label><input type="radio" name="pm" value="card" checked> 신용카드 (부분 환불 가능)</label> <label><input type="radio" name="pm" value="phone"> 휴대폰 결제 (부분 환불 불가)</label></div>
+      </div>
+      <div class="pcard">
+        <h2><span class="tag">DEMO DATA</span>기본 데이터 (KRW 계정)</h2>
+        <ol>
+          <li>보유 쿠폰: <b>이벤트 출석 20% 1장</b> · <b>업데이트 10% 1장</b> — 복수 사용 가능(상품 1개당 1장)</li>
+          <li>보유 마일리지: <b>5,000</b> (계정 통화 단위)</li>
+          <li>패키지A 22,000원(한도 5회) · 패키지B 5,500원(한도 1회) · 의상 세트C 33,000원(한도 없음)</li>
+          <li>기본 담김: A×2 + B×1, 마일리지 5,000 사용 → <b>37,900원</b>이 정답</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="admin isnew" id="admin"></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var fmt = function(n){ return n.toLocaleString("ko-KR"); };
+
+var PRODUCTS = [
+  {id:"A", name:"픽업 기념 스페셜 패키지 A", desc:"[선별 뽑기권(10)] [다이아(1,000)]", price:22000, limit:5, bought:2, badges:["hot","trd"]},
+  {id:"B", name:"성장 지원 패키지 B", desc:"[골드(500,000)] [스태미나(10)]", price:5500, limit:1, bought:0, badges:["best"]},
+  {id:"C", name:"프리미엄 의상 세트 C", desc:"[전용 의상] [일러스트]", price:33000, limit:0, bought:0, badges:[]}
+];
+var COUPONS = [
+  {id:"c20", name:"이벤트 출석 20% 할인 쿠폰", rate:0.20},
+  {id:"c10", name:"업데이트 10% 할인 쿠폰", rate:0.10}
+];
+var BADGE_LABEL = {hot:"HOT", best:"BEST", trd:"3RD"};
+var MILE_BAL = 5000, MIN_PAY = 1000;
+var EXPIRING = 1200, EXPIRE_DAYS = 3;   /* 데모: 7일 이내 소멸 예정분 */
+
+function newCtx(){
+  return {lines:[], assign:{}, stickyFrozen:false, mileTotal:0, bal:MILE_BAL, acctChk:false,
+          terms:{all:false,t1:false,t2:false}, confirmNow:null};
+}
+var S = {
+  view:"shop", seq:1,
+  cart:newCtx(), inst:null,
+  ctx:null,
+  layer:null, layerQty:1,
+  undo:null, toast:null, notices:[]
+};
+S.ctx = S.cart;
+function isInstant(){ return S.inst!==null && S.ctx===S.inst; }
+
+function linesOf(pid){ return S.ctx.lines.filter(function(l){return l.pid===pid;}); }
+function prod(pid){ return PRODUCTS.filter(function(p){return p.id===pid;})[0]; }
+var CART_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+  + '<circle cx="9" cy="20" r="1.4"></circle><circle cx="18" cy="20" r="1.4"></circle>'
+  + '<path d="M2.5 3h2.2l2.3 11.2a1.6 1.6 0 0 0 1.6 1.3h8.6a1.6 1.6 0 0 0 1.6-1.25L20.5 7H6"></path></svg>';
+
+function flyToCart(fromEl){
+  var target = document.getElementById("cartOpen");
+  if(!fromEl || !target || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var a = fromEl.getBoundingClientRect(), b = target.getBoundingClientRect();
+  var ball = document.createElement("div");
+  ball.className = "flyball";
+  ball.style.left = (a.left + a.width/2) + "px";
+  ball.style.top  = (a.top + a.height/2) + "px";
+  document.body.appendChild(ball);
+  var dx = (b.left + b.width/2) - (a.left + a.width/2);
+  var dy = (b.top + b.height/2) - (a.top + a.height/2);
+  requestAnimationFrame(function(){
+    ball.style.transform = "translate("+dx+"px,"+dy+"px) scale(.3)";
+    ball.style.opacity = "0.25";
+  });
+  setTimeout(function(){ if(ball.parentNode) ball.parentNode.removeChild(ball); }, 640);
+}
+function bumpBadge(){
+  var el = document.getElementById("badge");
+  if(!el) return;
+  el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump");
+}
+function cartCount(pid){ return S.cart.lines.filter(function(l){return l.pid===pid;}).length; }
+/* 실제로 더 살 수 있는 수 = 한도 - 구매한 횟수. 장바구니는 아직 구매가 아니므로 차감하지 않는다 */
+function remainBuy(p){ if(!p.limit) return 99; return Math.max(0, p.limit-(p.bought||0)); }
+/* 추가로 담을 수 있는 수 = 살 수 있는 수 - 이미 담은 수 */
+function remainOf(p){ if(!p.limit) return 99; return Math.max(0, remainBuy(p)-cartCount(p.id)); }
+
+function assignCoupons(){
+  var used = {}, manualCids = {};
+  Object.keys(S.ctx.assign).forEach(function(lid){
+    var line = S.ctx.lines.filter(function(l){return String(l.id)===lid;})[0];
+    if(!line){ delete S.ctx.assign[lid]; }
+  });
+  Object.keys(S.ctx.assign).forEach(function(lid){
+    var v = S.ctx.assign[lid];
+    if(v && v!=="none"){
+      var cp = COUPONS.filter(function(c){return c.id===v;})[0];
+      if(cp){ used[lid]=cp; manualCids[v]=true; }
+    }
+  });
+  var free = COUPONS.filter(function(c){ return !manualCids[c.id]; }).sort(function(a,b){ return b.rate-a.rate; });
+  var cand = S.ctx.lines.filter(function(l){ return !used[l.id] && !(String(l.id) in S.ctx.assign); })
+                    .sort(function(a,b){ return prod(b.pid).price-prod(a.pid).price || a.id-b.id; });
+  free.forEach(function(c,i){ if(cand[i]) used[cand[i].id]=c; });
+  return used;
+}
+function mileMaxFor(after){ return Math.max(0, after - MIN_PAY); }
+/* v11 — 유저는 마일리지 총액만 입력. 상품별 배분은 시스템이 내부에서 처리(화면 비노출, 마이페이지에서 공개)
+   배분 기준 = 상품마다 1,000원을 남긴 금액(쿠폰 차감 후 − 1,000)의 비율. 원 단위 내림, 자투리는 쿠폰 차감 후 금액이 가장 큰 상품에 */
+function allocMile(rows, t){
+  var capSum = rows.reduce(function(a,r){return a+r.mMax;},0), acc = 0;
+  rows.forEach(function(r){ r.mAlloc = capSum>0 ? Math.floor(t*r.mMax/capSum) : 0; acc += r.mAlloc; });
+  var order = rows.slice().sort(function(a,b){ return b.after-a.after || a.line.id-b.line.id; });
+  var i = 0, guard = 0;
+  while(acc < t && order.length && guard < 10000){
+    var r = order[i % order.length];
+    if(r.mAlloc < r.mMax){ var add = Math.min(t-acc, r.mMax-r.mAlloc); r.mAlloc += add; acc += add; }
+    i++; guard++;
+  }
+}
+function calc(){
+  var asg = assignCoupons();
+  var rows = S.ctx.lines.map(function(l){
+    var p = prod(l.pid).price, c = asg[l.id];
+    var disc = c ? Math.floor(p*c.rate) : 0;
+    return {line:l, price:p, coupon:c, disc:disc, after:p-disc, mMax:mileMaxFor(p-disc)};
+  });
+  var sum = rows.reduce(function(a,r){return a+r.price;},0);
+  var discSum = rows.reduce(function(a,r){return a+r.disc;},0);
+  var afterSum = sum - discSum;
+  var mileCap = Math.min(S.ctx.bal, Math.max(0, afterSum - MIN_PAY*rows.length));
+  var used = Math.max(0, Math.min(S.ctx.mileTotal||0, mileCap));
+  allocMile(rows, used);
+  rows.forEach(function(r){ r.cash = r.after - r.mAlloc; r.accrue = Math.floor(0.1*r.cash); });
+  return {rows:rows, asg:asg, sum:sum, discSum:discSum, afterSum:afterSum, mileCap:mileCap, mile:used,
+          pay:afterSum-used, accrue:rows.reduce(function(a,r){return a+r.accrue;},0)};
+}
+/* v11 — 상품 구성이 바뀌면 쿠폰은 최대 할인으로 자동 재배정, 마일리지는 초기화 (정책 5·11번) */
+function resetBenefits(){
+  var hadMile = (S.ctx.mileTotal||0) > 0, hadManual = S.ctx.stickyFrozen;
+  S.ctx.assign = {}; S.ctx.stickyFrozen = false; S.ctx.mileTotal = 0;
+  var m = "상품 구성이 바뀌어 쿠폰을 최대 할인으로 다시 적용했어요.";
+  if(hadManual) m = "상품 구성이 바뀌어 직접 고르신 쿠폰을 초기화하고 최대 할인으로 다시 적용했어요.";
+  if(hadMile) m += " 마일리지는 다시 입력해주세요.";
+  S.notices = [{t:"warn", m:m}];
+}
+function addLines(pid, qty){
+  var p = prod(pid), remain = remainOf(p);
+  if(p.limit && qty > remain) qty = remain;
+  if(qty<=0){ S.toast={m:"남은 구매 가능 수량을 모두 담았습니다.", act:null}; render(); return; }
+  for(var i=0;i<qty;i++) S.ctx.lines.push({id:S.seq++, pid:pid});
+  S.toast={m:p.name+" "+qty+"개를 담았습니다.", act:"장바구니 보기"};
+  render(); bumpBadge();
+}
+/* 수량 −: 같은 상품 중 마지막으로 담은 1개를 뺀다. 쿠폰은 어차피 재배정되므로 어느 것을 빼는지 유저가 고를 필요 없음 */
+function qtyMinus(pid){
+  var ls = linesOf(pid); if(ls.length<=1) return;
+  var last = ls[ls.length-1];
+  S.ctx.lines = S.ctx.lines.filter(function(x){return x.id!==last.id;});
+  resetBenefits(); render();
+}
+function qtyPlus(pid){
+  var p = prod(pid);
+  if(p.limit && (p.bought||0)+linesOf(pid).length >= p.limit){
+    S.toast = {m:"이 상품은 "+remainBuy(p)+"개까지만 구매할 수 있습니다.", act:null}; render(); return;
+  }
+  S.ctx.lines.push({id:S.seq++, pid:pid});
+  resetBenefits(); render();
+}
+function dropProduct(pid){
+  S.ctx.lines = S.ctx.lines.filter(function(x){return x.pid!==pid;});
+  resetBenefits();
+  S.toast = {m:prod(pid).name+"을(를) 뺐습니다.", act:null};
+  render();
+}
+/* 쿠폰 변경으로 사용 가능 최대치가 줄면 마일리지 입력값을 맞춤 */
+function clampMile(){
+  var c = calc();
+  if((S.ctx.mileTotal||0) > c.mileCap){
+    S.ctx.mileTotal = c.mileCap;
+    S.notices.push({t:"warn", m:"쿠폰 변경으로 마일리지 사용액을 최대 "+fmt(c.mileCap)+"로 맞췄습니다."});
+  }
+}
+function setCoupon(lineId, cid){
+  var lid = String(lineId);
+  if(!S.ctx.stickyFrozen){
+    var cur = assignCoupons();
+    S.ctx.lines.forEach(function(l){
+      var k = String(l.id);
+      if(!(k in S.ctx.assign)) S.ctx.assign[k] = cur[l.id] ? cur[l.id].id : "none";
+    });
+    S.ctx.stickyFrozen = true;
+    S.notices = [{t:"info", m:"쿠폰을 직접 변경하셨어요. 상품 구성이 바뀌면 다시 최대 할인으로 적용됩니다."}];
+  }
+  if(cid){
+    Object.keys(S.ctx.assign).forEach(function(k){ if(S.ctx.assign[k]===cid && k!==lid) delete S.ctx.assign[k]; });
+    S.ctx.assign[lid] = cid;
+  } else {
+    S.ctx.assign[lid] = "none";
+  }
+  clampMile();
+  render();
+}
+function resetCouponsMax(){
+  S.ctx.assign = {}; S.ctx.stickyFrozen = false;
+  S.notices = [{t:"info", m:"최대 할인으로 다시 적용했어요."}];
+  clampMile(); render();
+}
+function ask(title, sub, yesLab, noLab, onYes){
+  var old = document.getElementById("modal"); if(old) old.remove();
+  var m = document.createElement("div");
+  m.className = "modal"; m.id = "modal";
+  m.innerHTML = '<div class="box" role="dialog" aria-modal="true"><p class="mt">'+esc(title)+'</p>'+(sub? '<p class="ms">'+esc(sub)+'</p>':'')
+    + '<div class="mb"><button class="no" id="mNo">'+esc(noLab)+'</button><button class="yes" id="mYes">'+esc(yesLab)+'</button></div></div>';
+  document.querySelector(".phone").appendChild(m);
+  document.getElementById("mNo").onclick = function(){ m.remove(); };
+  document.getElementById("mYes").onclick = function(){ m.remove(); onYes(); };
+}
+/* 주문/결제 화면에서 다른 화면으로 나갈 때 확인 (계속 쇼핑하기 · 마이페이지) */
+function leaveOrder(go){
+  if(S.view!=="order" || !S.ctx.lines.length){ go(); return; }
+  ask("주문/결제 화면에서 나갈까요?",
+      isInstant()? "바로 구매가 취소됩니다." : "담은 상품은 장바구니에 그대로 남아 있어요.",
+      "나가기", "계속 결제하기", go);
+}
+function clearCart(){
+  var what = isInstant()? "바로 구매를 취소할까요?" : "장바구니를 비울까요?";
+  ask(what, "", isInstant()? "구매 취소" : "비우기", "닫기", doClearCart);
+}
+function doClearCart(){
+  if(isInstant()){ S.inst=null; S.ctx=S.cart; S.view="shop"; S.notices=[]; render(); return; }
+  S.cart.lines=[]; S.cart.assign={}; S.cart.stickyFrozen=false; S.cart.mileTotal=0; S.notices=[];
+  render();
+}
+
+var scr = document.getElementById("screen");
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+
+function renderHeaderMile(){
+  document.getElementById("hMileV").textContent = fmt(MILE_BAL);
+  var show = EXPIRING > 0 && document.getElementById("expOn").checked;
+  var bb = document.getElementById("mBubble");
+  bb.style.display = show ? "flex" : "none";
+  if(show){ /* 말풍선 꼬리가 헤더 마일리지를 가리키도록 위치 계산 */
+    var ph = document.querySelector(".phone").getBoundingClientRect(), hm = document.getElementById("hMile").getBoundingClientRect();
+    var left = Math.max(8, Math.min(hm.left - ph.left - 20, ph.width - bb.offsetWidth - 8));
+    bb.style.left = left + "px";
+    bb.style.setProperty("--ax", (hm.left - ph.left + hm.width/2 - left - 5) + "px");
+  }
+}
+function render(){
+  renderHeaderMile();
+  var badge = document.getElementById("badge");
+  badge.style.display = S.cart.lines.length ? "flex" : "none";
+  badge.textContent = S.cart.lines.length;
+  if(S.view==="shop") renderShop();
+  else if(S.view==="order") renderOrder();
+  else if(S.view==="mypage") renderMypage();
+  else if(S.view==="refund") renderRefund();
+  else if(S.view==="refundDone") renderRefundDone();
+  else if(S.view==="repay") renderRepay();
+  else if(S.view==="repayDone") renderRepayDone();
+  else renderDone();
+  renderExplain();
+  renderAdmin();
+}
+
+/* ---------- 상품 목록: 카드 = 현행 그대로 ---------- */
+function renderShop(){
+  var h = '<div class="scr-pad">' + repayBanner();
+  h += '<div class="cats"><button class="on">All</button><button>추천</button><button>스페셜 패키지</button><button>월간·패스</button><button>다이아 패키지</button></div>';
+  h += '<div class="sortrow"><span>판매순 ▾</span></div>';
+  h += '<div class="grid">';
+  PRODUCTS.forEach(function(p){
+    h += '<div class="prod"><div class="badges">'+p.badges.map(function(b){return '<span class="bdg '+b+'">'+BADGE_LABEL[b]+'</span>';}).join('')+'</div>'
+      +  '<h3>'+esc(p.name)+'</h3><div class="sep"></div>'
+      +  '<div class="prow"><span><span class="ic coin">₩</span></span><span class="val num">'+fmt(p.price)+'</span></div>'
+      +  '<div class="prow"><span><span class="ic m">M</span></span><span class="num">'+fmt(Math.floor(p.price*0.1))+'</span></div>'
+      +  '<div class="cardrow">'
+      +    '<button class="buybtn num" data-open="'+p.id+'"'+(remainBuy(p)<=0?" disabled":"")+'>'+(p.limit? '구매('+(p.bought||0)+'/'+p.limit+'회)' : '구매')+'</button>'
+      +    '<button class="addcart isnew'+(remainOf(p)<=0?' off':'')+'" data-cart="'+p.id+'" aria-label="장바구니에 담기" title="장바구니에 담기">'+CART_SVG+'</button>'
+      +  '</div></div>';
+  });
+  h += '</div><p class="help">가격·마일리지는 숫자만 표기(다통화 대응). 장바구니 아이콘은 팝업 없이 1개를 바로 담고, [구매]는 상품 설명과 수량 스테퍼가 있는 팝업을 엽니다.</p></div>';
+  h += layerHtml();
+  h += toastHtml();
+  scr.innerHTML = h;
+  scr.querySelectorAll("[data-open]").forEach(function(b){
+    b.onclick = function(){ S.layer=b.dataset.open; S.layerQty=1; render(); };
+  });
+  scr.querySelectorAll("[data-cart]").forEach(function(b){
+    b.onclick = function(){
+      var p = prod(b.dataset.cart);
+      if(remainOf(p)<=0){ S.toast={m:"더 이상 담을 수 없습니다.", act:null}; render(); return; }
+      flyToCart(b); S.ctx = S.cart; addLines(p.id, 1);
+    };
+  });
+  bindLayer(); bindToast(); bindRepayBanner();
+}
+
+/* ---------- 상세 레이어 (현행 + 담기 NEW) ---------- */
+function layerHtml(){
+  if(!S.layer) return "";
+  var p = prod(S.layer), inCart = cartCount(p.id), bought = p.bought||0;
+  var remain = remainOf(p);      /* 더 담을 수 있는 수 */
+  var rbuy = remainBuy(p);       /* 더 살 수 있는 수 = 스테퍼 상한 */
+  var canQty = p.limit!==1;
+  var h = '<div class="overlay" id="ovl"><div class="layer">'
+    + '<button class="close" id="lyClose" aria-label="닫기">✕</button>'
+    + '<div class="nick">DQHANNANEO</div>'
+    + '<h3>'+esc(p.name)+'</h3>'
+    + '<div class="desc">'+esc(p.desc)+'</div>'
+    + '<div class="kv"><span class="k">금액</span><span class="v num">'+fmt(p.price)+'원</span></div>'
+    + '<div class="kv"><span class="k">적립 예정</span><span class="v num" style="color:var(--mile)"><span class="ic m">M</span>'+fmt(Math.floor(p.price*0.1))+'</span></div>'
+    + '';
+  if(S.layerQty > Math.max(1, rbuy)) S.layerQty = Math.max(1, rbuy);
+  var atMax = (S.layerQty >= rbuy) || rbuy<=0;
+  h += '<div class="stepper isnew"><span class="sl">수량<span class="newtag">NEW</span></span>'
+    +  '<button id="lyMinus"'+(S.layerQty<=1?" disabled":"")+' aria-label="1 줄이기">−</button>'
+    +  '<span class="qv num" id="lyQty">'+(rbuy>0? S.layerQty : 0)+'</span>'
+    +  '<button id="lyPlus"'+(atMax?' class="off" aria-disabled="true"':"")+' aria-label="1 늘리기">＋</button>'
+    +  '<button class="mx'+(atMax?" off":"")+'" id="lyMax"'+(atMax?' aria-disabled="true"':"")+'>MAX</button></div>';
+  if(!p.limit){
+    h += '<p class="hint">구매 한도 없음</p>';
+  } else if(rbuy<=0){
+    h += '<p class="hint warn">구매 한도 '+p.limit+'회를 모두 사용했습니다.</p>';
+  } else if(remain<=0){
+    h += '<p class="hint">구매 한도 '+p.limit+'회 중 '+bought+'회 구매 · 장바구니 '+inCart+'개</p>'
+      +  '<p class="hint warn">장바구니에 이미 '+inCart+'개가 담겨 있어 더 담을 수 없습니다. 바로 구매는 됩니다.</p>';
+  } else {
+    h += '<p class="hint">구매 한도 '+p.limit+'회 중 '+bought+'회 구매'+(inCart? ' · 장바구니 '+inCart+'개':'')+' — 지금 '+rbuy+'개까지 구매, '+remain+'개까지 담기 가능</p>';
+  }
+  var addOff = false, addLab = "장바구니에 담기";
+  if(rbuy<=0){ addOff = true; addLab = "구매 한도 도달"; }
+  else if(remain<=0){ addOff = true; addLab = "장바구니에 담김 — 더 담을 수 없음"; }
+  else if(S.layerQty > remain){ addOff = true; addLab = "담기 가능 수량 초과"; }
+  h += '<div class="btns">'
+    +  '<button class="cancel" id="lyCancel">취소</button>'
+    +  '<button class="go num" id="lyGo"'+(rbuy>0?"":" disabled")+'>바로 구매</button>'
+    +  '<button class="addcart isnew'+(addOff?" off":"")+'" id="lyAdd"'+(addOff?' aria-disabled="true"':"")+' aria-label="'+addLab+'" title="'+addLab+'">'+CART_SVG+'</button>'
+    +  '</div>'
+    +  '<p class="help">'+(remain>0? '계정 확인은 결제 화면에서 받습니다. 이 팝업은 상품 설명과 수량 선택 전용.' : (inCart? '남은 구매 가능 수량을 모두 장바구니에 담았습니다. 장바구니에서 결제하거나 수량을 빼면 다시 담을 수 있어요.' : '구매 한도를 모두 사용했습니다.'))+'</p>'
+    +  '</div></div>';
+  return h;
+}
+function bindLayer(){
+  if(!S.layer) return;
+  var p = prod(S.layer);
+  var close = function(){ S.layer=null; render(); };
+  document.getElementById("lyClose").onclick = close;
+  document.getElementById("lyCancel").onclick = close;
+  var mi = document.getElementById("lyMinus"), pl = document.getElementById("lyPlus"), mx = document.getElementById("lyMax");
+  if(mi){ mi.onclick = function(){ S.layerQty = Math.max(1, S.layerQty-1); render(); }; }
+  var overMsg = function(){
+    var rb = remainBuy(p);
+    S.toast = {m: rb>0 ? "이 상품은 "+rb+"개까지만 구매할 수 있습니다." : "구매 한도를 모두 사용했습니다.", act:null};
+    render();
+  };
+  if(pl){ pl.onclick = function(){
+    var rb = remainBuy(p);
+    if(S.layerQty >= rb){ overMsg(); return; }
+    S.layerQty = S.layerQty+1; render();
+  }; }
+  if(mx){ mx.onclick = function(){
+    var rb = remainBuy(p);
+    if(S.layerQty >= rb){ overMsg(); return; }
+    S.layerQty = Math.max(1, rb); render();
+  }; }
+  document.getElementById("lyAdd").onclick = function(){
+    var q = S.layerQty, btn = this, r = remainOf(p), rb = remainBuy(p);
+    if(rb<=0){ S.toast={m:"구매 한도를 모두 사용했습니다.", act:null}; render(); return; }
+    if(r<=0){ S.toast={m:"장바구니에 이미 "+cartCount(p.id)+"개가 담겨 있습니다.", act:null}; render(); return; }
+    if(q > r){ S.toast={m:"장바구니에는 "+r+"개까지만 더 담을 수 있습니다.", act:null}; render(); return; }
+    S.layer=null;
+    S.ctx = S.cart;
+    flyToCart(btn);
+    addLines(p.id, q);
+  };
+  document.getElementById("lyGo").onclick = function(){
+    var pid = p.id, q = S.layerQty;
+    S.layer=null;
+    S.inst = newCtx();
+    S.ctx = S.inst;
+    for(var i=0;i<q;i++) S.inst.lines.push({id:S.seq++, pid:pid});
+    S.view="order";
+    var n = Object.keys(assignCoupons()).length;
+    S.notices=[{t:"info", m:(n? "보유 쿠폰 "+n+"장이 자동 적용되었습니다. 변경할 수 있어요." : "적용 가능한 쿠폰이 없습니다.")}];
+    render();
+  };
+}
+
+function toastHtml(){
+  if(S.undo) return '<div class="undo" role="status">'+esc(S.undo.m)+'<button id="undoBtn">실행 취소</button></div>';
+  if(S.toast) return '<div class="toast" role="status">'+esc(S.toast.m)+(S.toast.act?'<button id="toastAct">'+S.toast.act+'</button>':'')+'</div>';
+  return "";
+}
+function bindToast(){
+  var u = document.getElementById("undoBtn");
+  if(u) u.onclick = function(){ S.ctx.lines.push(S.undo.line); S.undo=null; render(); };
+  var t = document.getElementById("toastAct");
+  if(t) t.onclick = function(){ S.toast=null; openOrder(); };
+  if(S.toast||S.undo){ setTimeout(function(){ S.toast=null; S.undo=null; var el=scr.querySelector(".toast,.undo"); if(el) el.remove(); },4200); }
+}
+/* v11 — 헤더 장바구니 아이콘: 주문서(=장바구니) 화면에서는 [주문 상품]을 펼쳐 그 위치로만 이동(안내 없음). 바로 구매 중이면 묻지 않고 장바구니로 */
+function cartIcon(){
+  if(S.view==="order" && !isInstant()){
+    S.ctx.open = true; render();
+    scr.scrollTo({top:0, behavior:"smooth"}); return;
+  }
+  openOrder();
+}
+function openOrder(){
+  S.ctx = S.cart; S.inst = null;
+  S.view="order";
+  var n = Object.keys(assignCoupons()).length;
+  S.notices=[{t:"info", m: n? "보유 쿠폰 "+n+"장이 최대 할인으로 자동 적용되었습니다. [변경]에서 바꿀 수 있어요." : "적용 가능한 쿠폰이 없습니다."}];
+  render();
+}
+
+/* ---------- 통합 주문/결제 (v11 — 같은 상품 묶기 · 쿠폰 합계 · 마일리지 총액) ---------- */
+function pidsOf(){ var a=[]; S.ctx.lines.forEach(function(l){ if(a.indexOf(l.pid)<0) a.push(l.pid); }); return a; }
+function renderOrder(){
+  var c = calc();
+  var h = '<div class="scr-pad">';
+  h += '<button class="linkback" id="backShop">'+(isInstant()? '← 취소하고 돌아가기' : '← 계속 쇼핑하기')+'</button>';
+  h += '<div class="pagetitle">주문/결제'+(isInstant()? ' <span style="font-size:11px;color:var(--ink2);font-weight:400">(바로 구매)</span>':'')+'</div>';
+
+  if(!S.ctx.lines.length){
+    h += '<div class="sec center" style="padding:36px 14px"><p style="font-weight:800;margin:0 0 6px">장바구니가 비어 있어요</p>'
+      +  '<p class="help" style="margin:0 0 14px">상품을 담으면 한 번에 결제할 수 있습니다.</p>'
+      +  '<button class="buybtn" id="goShop" style="padding:10px 22px;margin:0">상품 보러 가기</button></div></div>';
+    scr.innerHTML = h;
+    document.getElementById("backShop").onclick = document.getElementById("goShop").onclick = function(){ S.view="shop"; render(); };
+    return;
+  }
+
+  S.notices.forEach(function(n){ h += '<div class="notice '+n.t+'">'+esc(n.m)+'</div>'; });
+
+  /* 주문 상품 — 같은 상품은 한 줄로 묶고 수량으로 표시. 전체는 "총 N건"으로 접힘 */
+  var pids = pidsOf(), first = prod(pids[0]);
+  h += '<div class="sec isnew"><h4>주문 상품<span class="newtag">NEW 묶기</span><span class="sp"></span><button class="clearbtn" id="clearCart">'+(isInstant()? '구매 취소' : '전체 비우기')+'</button></h4>';
+  h += '<button class="fold" id="foldBtn" aria-expanded="'+(S.ctx.open?"true":"false")+'">'
+    +  '<span><b class="num">총 '+S.ctx.lines.length+'건</b><br><span class="fsub">'+esc(first.name)+(pids.length>1? ' 외 '+(pids.length-1)+'종':'')+'</span></span>'
+    +  '<span class="chev">'+(S.ctx.open?'▴':'▾')+'</span></button>';
+  if(S.ctx.open){
+    pids.forEach(function(pid){
+      var p = prod(pid), n = linesOf(pid).length, rb = remainBuy(p);
+      var atMax = p.limit && n >= rb;
+      var gAfter = c.rows.filter(function(r){return r.line.pid===pid;}).reduce(function(a,r){return a+r.after;},0);
+      h += '<div class="grp"><div class="g1"><span class="nm">'+esc(p.name)+'</span>'
+        +  '<button class="xbtn" data-dropp="'+pid+'" aria-label="'+esc(p.name)+' 빼기" title="이 상품 빼기">×</button></div>'
+        +  '<div class="g2"><span class="stepper sm">'
+        +    '<button data-minus="'+pid+'"'+(n<=1?" disabled":"")+' aria-label="1 줄이기">−</button>'
+        +    '<span class="qv num">'+n+'</span>'
+        +    '<button data-plusq="'+pid+'"'+(atMax?' class="off" aria-disabled="true"':"")+' aria-label="1 늘리기">+</button></span>'
+        +  '<span class="num px">'+(gAfter<p.price*n? '<s class="strike">'+fmt(p.price*n)+'</s> ':'')+'<b>'+fmt(gAfter)+'원</b></span></div>'
+        +  '</div>';
+    });
+    h += '<p class="help">수량을 바꾸면 쿠폰은 최대 할인으로 다시 적용되고, 마일리지는 초기화됩니다.</p>';
+  }
+  /* 금액 — 쿠폰은 합계만, 상품별 내역은 [변경]에서 */
+  h += '<div class="amt isnew">'
+    +  '<div class="kv"><span class="k">상품 금액</span><span class="v num">'+fmt(c.sum)+'원</span></div>'
+    +  '<div class="kv"><span class="k">쿠폰 <button class="chgbtn" id="cpOpen" aria-expanded="'+(S.ctx.cpOpen?"true":"false")+'">'+(S.ctx.cpOpen?'접기 ▴':'변경 ▾')+'</button></span>'
+    +    '<span class="v num">'+(c.discSum? '<span class="chip">'+(S.ctx.stickyFrozen?'직접 선택':'최대 적용중')+'</span> <span style="color:var(--brand-deep)">−'+fmt(c.discSum)+'원</span>' : '<span style="color:var(--ink2);font-weight:400">적용 가능한 쿠폰 없음</span>')+'</span></div>'
+    +  (S.ctx.cpOpen? couponPanelHtml(c) : '')
+    +  '<div class="kv total"><span class="k">총 주문금액</span><span class="v num">'+fmt(c.afterSum)+'원</span></div></div>';
+  h += '</div>';
+
+  /* 마일리지 — 쿠폰 적용 후 총액에서 한 번에 사용 */
+  h += '<div class="sec isnew"><h4>마일리지<span class="newtag">NEW 총액 사용</span></h4>'
+    +  '<div class="mhead"><span>브라운더스트2 마일리지</span><span class="num"><span class="ic m">M</span>'+fmt(S.ctx.bal)+'</span></div>'
+    +  '<div class="mrow"><input class="num" id="mileIn" inputmode="numeric" value="'+(c.mile||"")+'" placeholder="0" aria-label="사용할 마일리지">'
+    +    '<button id="mileAll">전액사용</button><button id="mileClear">비우기</button></div>'
+    +  '<p class="help num">최대 사용 가능 <b>'+fmt(c.mileCap)+'</b> — 상품마다 최소 1,000원은 결제해야 해서 (총 주문금액 '+fmt(c.afterSum)+' − 1,000 × '+c.rows.length+'건)까지입니다.<br>'
+    +  '상품별로 얼마씩 쓰였는지는 결제 후 <b>마이페이지 주문 상세</b>에서 확인할 수 있어요.</p></div>';
+
+  /* 결제 정보 */
+  h += '<div class="sec"><h4>결제 정보</h4>'
+    +  '<div class="kv"><span class="k">상품 금액</span><span class="v num">'+fmt(c.sum)+'원</span></div>'
+    +  '<div class="kv"><span class="k">쿠폰 할인</span><span class="v num" style="color:var(--brand-deep)">−'+fmt(c.discSum)+'원</span></div>'
+    +  '<div class="kv"><span class="k">마일리지 사용</span><span class="v num" style="color:var(--mile)">−'+fmt(c.mile)+'</span></div>'
+    +  '<div class="kv total"><span class="k">결제 금액</span><span class="v num">'+fmt(c.pay)+'원</span></div>'
+    +  '<div class="kv"><span class="k">적립 마일리지</span><span class="v num" style="color:var(--mile)"><span class="ic m">M</span>'+fmt(c.accrue)+'</span></div>'
+    +  '<ul class="help"><li>결제 완료 시 주문금액의 일정 비율이 마일리지로 적립됩니다.</li><li>미사용 마일리지는 적립일로부터 30일 이후 소멸됩니다.</li><li>사용된 할인쿠폰은 환불하셔도 복구되지 않습니다.</li></ul></div>';
+
+  /* 구매 확정 */
+  h += '<div class="sec"><h4>구매 확정 및 마일리지 즉시 적립 동의 <span style="color:var(--err)">*</span></h4>'
+    +  '<div class="radioline"><label><input type="radio" name="cf" value="yes"'+(S.ctx.confirmNow==="yes"?" checked":"")+'> 동의함</label>'
+    +  '<label><input type="radio" name="cf" value="no"'+(S.ctx.confirmNow==="no"?" checked":"")+'> 동의하지 않음</label></div>'
+    +  '<ul class="help"><li>동의할 경우 결제 완료 즉시 마일리지가 적립되며, 청약철회가 제한될 수 있습니다.</li>'
+    +  '<li>동의하지 않을 경우 마일리지는 결제일로부터 14일 뒤 자동 적립됩니다.</li>'
+    +  '<li>이 동의는 주문 전체(모든 상품)에 적용됩니다.</li></ul></div>';
+
+  h += '<div class="sec terms"><h4>수령 계정 확인 <span style="color:var(--err)">*</span></h4>'
+    +  '<div class="acctbox"><span>수령 계정</span><b>DQHANNANEO</b></div>'
+    +  '<label><input type="checkbox" id="acctChk"'+(S.ctx.acctChk?" checked":"")+'> 상품을 수령할 계정 정보를 확인했습니다.</label></div>';
+
+  h += '<div class="sec terms"><h4>이용 약관 및 서비스 규정 동의 <span style="color:var(--err)">*</span></h4>'
+    +  '<label class="all"><input type="checkbox" id="tAll"'+(S.ctx.terms.all?" checked":"")+'> 전체 동의</label>'
+    +  '<label><input type="checkbox" id="t1"'+(S.ctx.terms.t1?" checked":"")+'> 상품, 가격 정보를 확인 했으며 구매에 동의 합니다.</label>'
+    +  '<label><input type="checkbox" id="t2"'+(S.ctx.terms.t2?" checked":"")+'> 이용 약관 및 마일리지 서비스 규정에 동의 합니다.</label></div>';
+  h += '</div>';
+
+  var reason = "";
+  if(!S.ctx.acctChk) reason = "수령 계정 정보를 확인해주세요.";
+  else if(!S.ctx.confirmNow) reason = "구매 확정 동의 여부를 선택해주세요.";
+  else if(!(S.ctx.terms.t1&&S.ctx.terms.t2)) reason = "약관에 동의해야 결제할 수 있어요.";
+  h += '<div class="paybar"><div class="reason">'+esc(reason)+'</div>'
+    +  '<button class="paybtn num" id="payBtn"'+(reason?" disabled":"")+'>'+fmt(c.pay)+'원 결제하기</button></div>';
+  h += toastHtml();
+  scr.innerHTML = h;
+
+  document.getElementById("backShop").onclick = function(){ leaveOrder(function(){ if(isInstant()){ S.inst=null; S.ctx=S.cart; } S.view="shop"; render(); }); };
+  document.getElementById("clearCart").onclick = clearCart;
+  document.getElementById("foldBtn").onclick = function(){ S.ctx.open = !S.ctx.open; render(); };
+  document.getElementById("cpOpen").onclick = function(){ S.ctx.cpOpen = !S.ctx.cpOpen; render(); };
+  var cpm = document.getElementById("cpMax"); if(cpm) cpm.onclick = resetCouponsMax;
+  scr.querySelectorAll(".cpsel").forEach(function(sel){ sel.onchange=function(){ setCoupon(parseInt(sel.dataset.line,10), sel.value||null); }; });
+  scr.querySelectorAll("[data-minus]").forEach(function(b){ b.onclick=function(){ qtyMinus(b.dataset.minus); }; });
+  scr.querySelectorAll("[data-plusq]").forEach(function(b){ b.onclick=function(){ qtyPlus(b.dataset.plusq); }; });
+  scr.querySelectorAll("[data-dropp]").forEach(function(b){ b.onclick=function(){ dropProduct(b.dataset.dropp); }; });
+  document.getElementById("mileIn").onchange = function(e){
+    var v = parseInt((e.target.value||"0").replace(/[^0-9]/g,""),10)||0, cap = calc().mileCap;
+    S.notices = [];
+    if(v > cap){ v = cap; S.notices=[{t:"warn", m:"최대 사용 가능한 "+fmt(cap)+"로 맞췄습니다."}]; }
+    S.ctx.mileTotal = v; render();
+  };
+  document.getElementById("mileClear").onclick = function(){ S.ctx.mileTotal=0; S.notices=[]; render(); };
+  document.getElementById("mileAll").onclick = function(){ S.ctx.mileTotal=calc().mileCap; S.notices=[]; render(); };
+  document.getElementById("acctChk").onchange = function(e){ S.ctx.acctChk = e.target.checked; render(); };
+  scr.querySelectorAll('input[name="cf"]').forEach(function(r){ r.onchange=function(){ S.ctx.confirmNow=r.value; render(); }; });
+  document.getElementById("tAll").onchange = function(e){ var v=e.target.checked; S.ctx.terms={all:v,t1:v,t2:v}; render(); };
+  document.getElementById("t1").onchange = function(e){ S.ctx.terms.t1=e.target.checked; S.ctx.terms.all=S.ctx.terms.t1&&S.ctx.terms.t2; render(); };
+  document.getElementById("t2").onchange = function(e){ S.ctx.terms.t2=e.target.checked; S.ctx.terms.all=S.ctx.terms.t1&&S.ctx.terms.t2; render(); };
+  var pay = document.getElementById("payBtn");
+  if(pay) pay.onclick = function(){ pay.disabled=true; pay.textContent="결제 처리 중…"; setTimeout(function(){ S.orderSeq = (S.orderSeq||16)+1; S.ctx.no = "ORD-20260923-000"+S.orderSeq; S.ctx.pm = payMethod(); var pc = calc(); MILE_BAL = MILE_BAL - pc.mile + (S.ctx.confirmNow==="yes"? pc.accrue : 0); EXPIRING = Math.max(0, EXPIRING - pc.mile); S.last = S.ctx; S.view="done"; S.notices=[]; render(); },900); };
+  bindToast();
+}
+
+/* ---------- 할인/쿠폰 상세 (v11) — [변경]을 누르면 주문서 안에서 아래로 펼침. 상품별·1개 단위로 쿠폰 선택 ---------- */
+function couponPanelHtml(c){
+  var h = '<div class="cppanel isnew">';
+  if(S.ctx.stickyFrozen) h += '<div class="cphead"><button class="chgbtn" id="cpMax" style="margin:0">최대 할인으로 다시 적용</button></div>';
+  pidsOf().forEach(function(pid){
+    var p = prod(pid), ls = linesOf(pid);
+    h += '<div class="cpgrp"><div class="cpt"><b>'+esc(p.name)+'</b><span class="num">'+fmt(p.price)+'원 × '+ls.length+'</span></div>';
+    ls.forEach(function(l,idx){
+      var row = c.rows.filter(function(r){return r.line.id===l.id;})[0];
+      h += '<div class="unit">'
+        +  '<select class="cpsel" data-line="'+l.id+'" aria-label="'+esc(p.name)+' 쿠폰 '+(idx+1)+'"><option value="">적용 안 함</option>';
+      COUPONS.forEach(function(cp){
+        var usedBy=null;
+        Object.keys(c.asg).forEach(function(lid){ if(c.asg[lid]&&c.asg[lid].id===cp.id) usedBy=lid; });
+        var mine = row.coupon&&row.coupon.id===cp.id;
+        var elsewhere = usedBy && String(usedBy)!==String(l.id);
+        h += '<option value="'+cp.id+'"'+(mine?' selected':'')+'>'+esc(cp.name)+(elsewhere?' (사용 중 · 여기로 옮기기)':'')+'</option>';
+      });
+      h += '</select><b class="num ud">'+(row.disc? '−'+fmt(row.disc)+'원' : '')+'</b></div>';
+    });
+    h += '</div>';
+  });
+  h += '<p class="help" style="margin:4px 0 0">쿠폰은 상품 1개당 1장. 같은 상품을 여러 개 담으면 개수만큼 칸이 펼쳐집니다.</p></div>';
+  return h;
+}
+
+/* ---------- 결제 완료 ---------- */
+function renderDone(){
+  var c = calc();
+  var h = '<div class="scr-pad">';
+  h += '<div class="done-ico">✓</div>';
+  h += '<p class="center" style="font-weight:800;font-size:16px;margin:0 0 2px">결제가 완료되었습니다.</p>';
+  h += '<p class="center help" style="margin:0 0 14px">게임 내 우편함에서 상품을 수령해주세요.</p>';
+  h += '<div class="sec"><h4>주문 내역 <span class="num" style="font-size:13px">'+fmt(c.pay)+'원</span></h4>';
+  pidsOf().forEach(function(pid){
+    var p = prod(pid), n = linesOf(pid).length;
+    h += '<div class="sumline"><span>'+esc(p.name)+' <span class="num" style="color:var(--ink2)">× '+n+'</span></span><span class="num" style="color:var(--ink2)">'+fmt(c.rows.filter(function(r){return r.line.pid===pid;}).reduce(function(a,r){return a+r.after;},0))+'원</span></div>';
+  });
+  h += '</div>';
+  h += '<div class="sec"><h4>혜택 정리</h4>'
+    +  '<div class="kv"><span class="k">사용한 쿠폰</span><span class="v num">'+c.rows.filter(function(r){return r.coupon;}).length+'장 · −'+fmt(c.discSum)+'원</span></div>'
+    +  '<div class="kv"><span class="k">사용한 마일리지</span><span class="v num">'+fmt(c.mile)+'</span></div>'
+    +  '<div class="kv"><span class="k">적립 '+(S.ctx.confirmNow==="yes"?"완료":"예정")+' 마일리지</span><span class="v num" style="color:var(--mile)"><span class="ic m">M</span>'+fmt(c.accrue)+'</span></div></div>';
+  h += '<button class="chgbtn isnew" id="toMy" style="width:100%;padding:11px;margin-bottom:10px">마이페이지에서 상품별 내역 보기 →</button>';
+  h += '<button class="confirmbtn" id="again">확인</button>';
+  h += '</div>';
+  scr.innerHTML = h;
+  document.getElementById("toMy").onclick = function(){ S.myFrom="done"; S.view="mypage"; render(); scr.scrollTop=0; };
+  document.getElementById("again").onclick = function(){
+    if(isInstant()){ S.inst=null; }
+    else { S.cart = newCtx(); }
+    S.ctx = S.cart; S.view="shop"; render();
+  };
+}
+
+/* ---------- 마이페이지 주문 상세 (v11 신설) — 상품 1개 단위로 전부 펼침, 접지 않음 ---------- */
+function renderMypage(){
+  var backLab = {shop:"← 상점으로", order:"← 주문/결제로", done:"← 결제 완료 화면으로"}[S.myFrom||"shop"] || "← 상점으로";
+  var h = '<div class="scr-pad">';
+  h += '<button class="linkback" id="myBack">'+backLab+'</button>';
+  h += '<div class="pagetitle">마이페이지 <span style="font-size:11px;color:var(--ink2);font-weight:400">구매 내역 · 주문 상세</span></div>';
+  h += repayBanner();
+  var rpDone = S.last && (S.rfList||[]).filter(function(q){ return q.order===S.last.no && q.method==="repay" && q.status==="완료"; })[0];
+  if(rpDone) h += '<div class="notice info"><span>이 주문은 재결제 후 전체 취소되었어요. 보유 상품 '+rpDone.keep.length+'개는 재결제 주문 <b>'+rpDone.rpNo+'</b>로 이어집니다.</span></div>';
+  if(!S.last){
+    h += '<div class="sec center" style="padding:30px 14px"><p style="font-weight:800;margin:0 0 6px">구매 내역이 없습니다</p><p class="help" style="margin:0">데모에서 결제를 한 번 완료하면 여기 상품별 내역이 보입니다.</p></div></div>';
+    scr.innerHTML = h;
+    document.getElementById("myBack").onclick = myBack;
+    return;
+  }
+  var save = S.ctx; S.ctx = S.last;
+  var c = calc();
+  h += '<div class="sec"><div class="kv"><span class="k">주문번호</span><span class="v num">'+S.last.no+'</span></div>'
+    +  '<div class="kv"><span class="k">결제 금액</span><span class="v num">'+fmt(c.pay)+'원</span></div>'
+    +  '<div class="kv"><span class="k">쿠폰 할인 / 마일리지</span><span class="v num">−'+fmt(c.discSum)+'원 / −'+fmt(c.mile)+'</span></div></div>';
+  pidsOf().forEach(function(pid){
+    var p = prod(pid), ls = linesOf(pid);
+    ls.forEach(function(l,idx){
+      var r = c.rows.filter(function(x){return x.line.id===l.id;})[0];
+      h += '<div class="sec isnew myl"><div class="m1"><b>'+esc(p.name)+'</b><span class="sp"></span>'+(function(st){ return st==="ok" ? '<span class="st">구매 완료</span>' : '<span class="st '+st+'">'+RF_STAT[st]+'</span>'; })(lineState(l.id))+'</div>'
+        +  (function(){ var rj = (S.rfList||[]).filter(function(q){ return q.status==="반려" && q.lines.indexOf(l.id)>=0; })[0]; return (rj && lineState(l.id)==="ok") ? '<div class="rj">환불 반려 — '+esc(rj.rejectReason)+'</div>' : ''; })()
+        +  '<div class="kv"><span class="k">상품 금액</span><span class="v num">'+fmt(r.price)+'원</span></div>'
+        +  '<div class="kv"><span class="k">쿠폰</span><span class="v num" style="color:var(--brand-deep)">'+(r.coupon? esc(r.coupon.name.replace(" 할인 쿠폰",""))+' −'+fmt(r.disc)+'원' : '<span style="color:var(--ink2);font-weight:400">미사용</span>')+'</span></div>'
+        +  '<div class="kv"><span class="k">마일리지</span><span class="v num" style="color:var(--mile)">−'+fmt(r.mAlloc)+'</span></div>'
+        +  '<div class="kv total"><span class="k">실결제</span><span class="v num">'+fmt(r.cash)+'원</span></div>'
+        +  '<div class="kv"><span class="k">적립 마일리지</span><span class="v num" style="color:var(--mile)"><span class="ic m">M</span>'+fmt(r.accrue)+'</span></div></div>';
+    });
+  });
+  var sumCash = c.rows.reduce(function(a,r){return a+r.cash;},0), sumMile = c.rows.reduce(function(a,r){return a+r.mAlloc;},0);
+  var canRf = canRefund();
+  h += '<button class="confirmbtn isnew" id="toRefund"'+(canRf?'':' disabled style="background:#C9CBD6"')+'>'+(canRf?'환불 신청':(activeRf(S.last.no)?'진행 중인 환불이 끝나면 신청할 수 있어요':'환불 가능한 상품이 없어요'))+'</button><div style="height:10px"></div>';
+  h += '<div class="notice info num">검산 — 상품별 실결제 합 '+fmt(sumCash)+'원 = 결제 금액 '+fmt(c.pay)+'원 · 상품별 마일리지 합 '+fmt(sumMile)+' = 사용 '+fmt(c.mile)+'</div>';
+  h += '</div>';
+  S.ctx = save;
+  scr.innerHTML = h;
+  document.getElementById("myBack").onclick = myBack;
+  var tr = document.getElementById("toRefund"); if(tr && canRf) tr.onclick = openRefund;
+  bindRepayBanner();
+}
+function myBack(){ S.view = S.myFrom || "shop"; render(); scr.scrollTop=0; }
+
+/* ---------- v13 환불 신청(유저) + 환불 관리(어드민) + 재결제 후 전체 취소 — 정책 59·60·61·63·67·70·73·74 ---------- */
+/* 상품 1개(line)별 상태: ok 구매 완료 / req 신청됨 / wait 재결제 대기 / proc 처리 중 / done 환불 완료 / kept 재결제로 보유
+   웹상점은 우편함 수령 여부 · 게임 내 사용 여부를 알 수 없음 → 유저 화면에서는 판단하지 않고, 어드민에서 운영자가 게임 로그로 확인 */
+var RF_STAT = {req:"환불 신청됨", wait:"재결제 대기", proc:"환불 처리 중", done:"환불 완료", kept:"재결제로 보유"};
+var CLOSED = {"반려":1, "만료":1};                         /* 끝났지만 환불되지 않은 상태 — 상품은 구매 완료로 복귀 */
+var ACTIVE = {"접수":1, "결제 대기":1, "취소 처리 중":1, "처리 중":1, "취소 실패":1};
+function rfOf(id){ return (S.rfList||[]).filter(function(q){ return !CLOSED[q.status] && q.lines.indexOf(id)>=0; })[0]; }
+function keptOf(id){ return (S.rfList||[]).filter(function(q){ return q.status==="완료" && (q.keep||[]).indexOf(id)>=0; })[0]; }
+function lineState(id){
+  if(keptOf(id)) return "kept";
+  var q = rfOf(id);
+  if(!q) return "ok";
+  return {"접수":"req", "결제 대기":"wait", "처리 중":"proc", "취소 처리 중":"proc", "취소 실패":"proc", "완료":"done"}[q.status];
+}
+/* 한 주문에 진행 중인 환불은 1건만 (정책 74번 확장) — 재결제 대기 중 남은 상품을 또 환불하면 금액이 꼬임 */
+function activeRf(order){ return (S.rfList||[]).filter(function(q){ return q.order===order && ACTIVE[q.status]; })[0]; }
+function canRefund(){ return !activeRf(S.last.no) && S.last.lines.some(function(l){ return lineState(l.id)==="ok"; }); }
+function payMethod(){ var r = document.querySelector('input[name="pm"]:checked'); return r ? r.value : "card"; }
+var PM = {card:{name:"신용카드", partial:true}, phone:{name:"휴대폰 결제", partial:false}};  /* 결제수단은 결제 시점에 주문에 고정 */
+function addDays(n){ var d = new Date(2026,8,23); d.setDate(d.getDate()+n); return (d.getMonth()+1)+"/"+d.getDate(); }
+function now(){ return "09-23 "+new Date().toTimeString().slice(0,5); }
+function lastCalc(){ var save = S.ctx; S.ctx = S.last; var c = calc(); S.ctx = save; return c; }
+function snap(r){ return {id:r.line.id, name:prod(r.line.pid).name, price:r.price, coupon:r.coupon? r.coupon.name.replace(" 할인 쿠폰","") : "", disc:r.disc, mAlloc:r.mAlloc, cash:r.cash, accrue:r.accrue}; }
+function sumOf(rows, k){ return rows.reduce(function(a,r){return a+r[k];},0); }
+
+/* 같은 상품 여러 개 중 일부 환불 시 실결제액이 높은 것부터 (9/21 정책팀 Q3) */
+function refundCalc(){
+  var c = lastCalc(), picked = [];
+  Object.keys(S.rf.qty).forEach(function(pid){
+    var n = S.rf.qty[pid]; if(!n) return;
+    var cand = c.rows.filter(function(r){ return r.line.pid===pid && lineState(r.line.id)==="ok"; })
+                     .sort(function(a,b){ return b.cash-a.cash || a.line.id-b.line.id; });
+    picked = picked.concat(cand.slice(0,n));
+  });
+  var untouched = c.rows.every(function(r){ return lineState(r.line.id)==="ok"; });
+  var keep = c.rows.filter(function(r){ return picked.indexOf(r)<0; });
+  var full = picked.length>0 && untouched && keep.length===0;
+  /* 재결제 후 전체 취소: 부분 환불이 안 되는 결제수단 + 일부만 환불 + 이 주문에 환불 이력 없음(원 결제 전체 취소가 가능해야 함) */
+  var repayOk = picked.length>0 && !full && !PM[S.last.pm].partial && untouched && keep.length>0;
+  return {c:c, picked:picked, keep:keep, cash:sumOf(picked,"cash"), mileBack:sumOf(picked,"mAlloc"), accrueCancel:sumOf(picked,"accrue"),
+          cpn:picked.filter(function(r){return r.coupon;}).length, full:full, untouched:untouched,
+          partialOk: full || PM[S.last.pm].partial, repayOk:repayOk,
+          keepCash:sumOf(keep,"cash"), keepCpn:keep.filter(function(r){return r.coupon;}).length, keepMile:sumOf(keep,"mAlloc"),
+          origTotal:sumOf(c.rows,"cash")};
+}
+function openRefund(){ S.rf = {qty:{}, method:null, agree:false, repayAgree:false, usedAgree:false, reason:""}; S.view = "refund"; render(); scr.scrollTop = 0; }
+
+function renderRefund(){
+  var R = refundCalc(), pm = PM[S.last.pm];
+  if(S.rf.method==="orig" && !R.partialOk) S.rf.method = null;
+  if(S.rf.method==="repay" && !R.repayOk) S.rf.method = null;
+  var save = S.ctx; S.ctx = S.last; var pids = pidsOf(); S.ctx = save;
+  var h = '<div class="scr-pad">';
+  h += '<button class="linkback" id="rfBack">← 주문 상세로</button>';
+  h += '<div class="pagetitle">환불 신청</div>';
+  h += '<div class="sec"><div class="kv"><span class="k">주문번호</span><span class="v num">'+S.last.no+'</span></div>'
+    +  '<div class="kv"><span class="k">결제수단</span><span class="v">'+pm.name+' <span class="chip"'+(pm.partial?'':' style="background:var(--warn-bg);color:var(--warn)"')+'>'+(pm.partial?'부분 환불 가능':'부분 환불 불가')+'</span></span></div></div>';
+
+  h += '<div class="sec isnew"><h4>1. 환불할 상품</h4>';
+  pids.forEach(function(pid){
+    var p = prod(pid), ls = S.last.lines.filter(function(l){return l.pid===pid;});
+    var ok = ls.filter(function(l){return lineState(l.id)==="ok";}).length, inRf = ls.length - ok;
+    var n = Math.min(S.rf.qty[pid]||0, ok);
+    h += '<div class="grp"><div class="g1"><span class="nm">'+esc(p.name)+'</span></div>'
+      +  '<div class="g2"><span class="stepper sm">'
+      +    '<button data-rm="'+pid+'"'+(n<=0?" disabled":"")+' aria-label="1 줄이기">−</button>'
+      +    '<span class="qv num">'+n+'</span>'
+      +    '<button data-rp="'+pid+'"'+(n>=ok?" disabled":"")+' aria-label="1 늘리기">+</button></span>'
+      +  '<span class="num px" style="color:var(--ink2)">구매 '+ls.length+'개 · 신청 가능 '+ok+'개</span></div>'
+      +  (inRf? '<div class="g3">환불 진행·완료 '+inRf+'개</div>':'')
+      +  '</div>';
+  });
+  h += '<button class="chgbtn" id="rfAll" style="margin:2px 0 6px">환불 가능한 상품 전체 선택</button>';
+  h += '<p class="help">같은 상품 중 일부만 환불하면 결제 금액이 높은 것부터 환불됩니다.</p></div>';
+
+  if(R.picked.length){
+    h += '<div class="sec isnew"><h4>2. 환불 예정 내역 <span class="num" style="font-weight:400;font-size:12px;color:var(--ink2)">'+R.picked.length+'개 · '+(R.full?'전체 환불':'부분 환불')+'</span></h4>'
+      +  '<div class="kv"><span class="k">환불 금액 (실결제액)</span><span class="v num">'+fmt(R.cash)+'원</span></div>'
+      +  '<div class="kv"><span class="k">돌려받는 마일리지 (사용분)</span><span class="v num" style="color:var(--mile)">+'+fmt(R.mileBack)+'</span></div>'
+      +  '<div class="kv"><span class="k">취소되는 적립 마일리지</span><span class="v num" style="color:var(--err)">−'+fmt(R.accrueCancel)+'</span></div>'
+      +  '<div class="kv"><span class="k">사용한 쿠폰</span><span class="v" style="font-weight:400;color:var(--ink2)">'+(R.cpn? R.cpn+'장 · 복구되지 않음':'없음')+'</span></div>'
+      +  '<ul class="help"><li>돌려받는 마일리지는 원래 만료일이 그대로 유지됩니다.</li><li>환불이 완료되면 지급된 상품은 회수됩니다.</li></ul></div>';
+
+    h += '<div class="sec isnew"><h4>3. 환불 받을 방법</h4>';
+    h += '<label class="rfopt'+(R.partialOk?'':' dis')+'"><input type="radio" name="rm" value="orig"'+(S.rf.method==="orig"?" checked":"")+(R.partialOk?"":" disabled")+'>'
+      +  '<span><b>결제한 수단으로 환불</b> <span class="chip">기본</span><br><span class="sub num">'+pm.name+'로 '+fmt(R.cash)+'원</span>'
+      +  (R.partialOk? '' : '<br><span class="sub" style="color:var(--err)">이 결제수단은 일부 상품만 환불할 수 없어요. 모든 상품을 선택하면 결제한 수단으로 전체 환불됩니다.</span>')+'</span></label>';
+    h += '<label class="rfopt"><input type="radio" name="rm" value="mile"'+(S.rf.method==="mile"?" checked":"")+'>'
+      +  '<span><b>마일리지로 환불</b> <span class="chip" style="background:var(--ok-bg);color:var(--ok)">즉시 사용 가능</span><br><span class="sub num">M '+fmt(R.cash)+'</span>'
+      +  '<br><span class="sub">운영 확인 후 바로 지급되어 즉시 사용할 수 있어요</span>'
+      +  '<br><span class="sub" style="color:var(--warn)">이 마일리지로 다시 살 때는 적립이 없어요 · '+addDays(30)+'까지 사용, 이후 소멸</span></span></label>';
+    if(!R.partialOk){
+      /* 재결제 후 전체 취소 — 부분 환불 불가 결제수단에서만. 보조 수단이며 동의 필수 (정책 63) */
+      h += '<label class="rfopt'+(R.repayOk?'':' dis')+' isnew"><input type="radio" name="rm" value="repay"'+(S.rf.method==="repay"?" checked":"")+(R.repayOk?"":" disabled")+'>'
+        +  '<span><b>남길 상품만 다시 결제하고 전체 취소</b><br><span class="sub num">보유할 상품 '+R.keep.length+'개 '+fmt(R.keepCash)+'원을 다시 결제하면, 기존 결제 '+fmt(R.origTotal)+'원이 전체 취소돼요</span>'
+        +  (R.repayOk? '<br><span class="sub">결제한 수단으로 '+fmt(R.cash)+'원을 돌려받는 것과 같아요 · 결제 요청은 '+addDays(7)+'까지 유효</span>'
+                     : '<br><span class="sub" style="color:var(--err)">이미 환불한 상품이 있는 주문은 이 방법을 쓸 수 없어요.</span>')
+        +  '</span></label>';
+    }
+    if(S.rf.method==="mile")
+      h += '<label class="rfagree"><input type="checkbox" id="rfAgree"'+(S.rf.agree?" checked":"")+'> 결제한 수단 대신 마일리지로 환불받는 것에 동의합니다. 이 마일리지로 구매할 때는 적립되지 않으며, '+addDays(30)+'까지 사용할 수 있고 이후 소멸됩니다.</label>';
+    if(S.rf.method==="repay")
+      h += '<label class="rfagree"><input type="checkbox" id="rfRepayAgree"'+(S.rf.repayAgree?" checked":"")+'> 보유할 상품 '+fmt(R.keepCash)+'원을 다시 결제한 뒤 기존 결제 '+fmt(R.origTotal)+'원 전체가 취소되는 방식에 동의합니다. 다시 결제한 때부터 기존 결제 취소가 끝날 때까지 두 금액이 함께 청구된 상태일 수 있습니다.</label>';
+    if(S.rf.method){
+      var credited = S.last.confirmNow==="yes";
+      var getM = S.rf.method==="mile" ? R.cash : 0;
+      var net = getM + R.mileBack - (credited? R.accrueCancel : 0);
+      h += '<div class="mbrk isnew"><b>마일리지 변동</b>'
+        +  (S.rf.method==="mile"? '<div><span>환불 마일리지</span><span class="num">+'+fmt(R.cash)+'</span></div>' : '')
+        +  '<div><span>사용했던 마일리지 복구 <em>환불하는 상품에 쓴 만큼</em></span><span class="num">+'+fmt(R.mileBack)+'</span></div>'
+        +  '<div><span>적립 마일리지 취소 <em>환불하는 상품에서 받은 적립'+(credited? '':' — 적립 예정분이라 잔액 변동 없음')+'</em></span><span class="num">'+(credited? '−'+fmt(R.accrueCancel) : '0')+'</span></div>'
+        +  '<div class="tot"><span>보유 마일리지 변화</span><span class="num">'+(net<0?'−':'+')+fmt(Math.abs(net))+'</span></div>'
+        +  (S.rf.method==="repay"? '<p>보유할 상품의 쿠폰 '+R.keepCpn+'장과 마일리지 '+fmt(R.keepMile)+'은 다시 결제할 때 그대로 적용돼요. 적립도 그대로 유지됩니다.</p>' : '')
+        +  '</div>';
+    }
+    h += '<p class="help">다른 방법이 필요하시면 고객센터로 문의해 주세요.</p></div>';
+
+    h += '<div class="sec"><h4>4. 환불 사유 <span style="font-weight:400;font-size:12px;color:var(--ink2)">(선택)</span></h4>'
+      +  '<select class="cpsel" id="rfReason" style="max-width:none;width:100%;padding:7px"><option value="">선택 안 함</option>'
+      +  ['단순 변심','잘못 구매함','상품이 지급되지 않음','기타'].map(function(x){ return '<option'+(S.rf.reason===x?' selected':'')+'>'+x+'</option>'; }).join('')
+      +  '</select></div>';
+
+    /* 5. 사용 상품 포함 시 전체 반려 — 강한 고지 + 동의 (한나 결정 9/24) */
+    h += '<div class="sec isnew rfwarn"><h4>5. 꼭 확인해 주세요</h4>'
+      +  '<p><b>게임에서 이미 사용한 상품이 하나라도 포함되어 있으면 이번 신청 전체가 반려됩니다.</b> 사용하지 않은 상품도 함께 환불되지 않아요.</p>'
+      +  '<p class="help" style="margin:0 0 8px">인벤토리로 옮겨 사용한 상품은 환불 대상이 아닙니다. 사용한 상품은 빼고 신청해 주세요.</p>'
+      +  '<label class="rfagree" style="margin:0"><input type="checkbox" id="rfUsedAgree"'+(S.rf.usedAgree?" checked":"")+'> 사용한 상품이 포함되면 신청 전체가 반려된다는 것을 확인했습니다.</label></div>';
+  }
+  h += '</div>';
+
+  var why = "";
+  if(!R.picked.length) why = "환불할 상품을 선택해 주세요.";
+  else if(!S.rf.method) why = "환불 받을 방법을 선택해 주세요.";
+  else if(S.rf.method==="mile" && !S.rf.agree) why = "마일리지 환불 동의가 필요해요.";
+  else if(S.rf.method==="repay" && !S.rf.repayAgree) why = "재결제 방식 동의가 필요해요.";
+  else if(!S.rf.usedAgree) why = "5번 확인 사항에 체크해 주세요.";
+  var lab = !R.picked.length ? "환불 신청" : (S.rf.method==="mile" ? "M "+fmt(R.cash)+" 환불 신청" : (S.rf.method==="repay" ? "재결제 방식으로 환불 신청" : fmt(R.cash)+"원 환불 신청"));
+  h += '<div class="paybar"><div class="reason">'+esc(why)+'</div><button class="paybtn num" id="rfGo"'+(why?" disabled":"")+'>'+lab+'</button></div>';
+  scr.innerHTML = h;
+
+  document.getElementById("rfBack").onclick = function(){ S.view="mypage"; render(); scr.scrollTop=0; };
+  scr.querySelectorAll("[data-rp]").forEach(function(b){ b.onclick=function(){ S.rf.qty[b.dataset.rp]=(S.rf.qty[b.dataset.rp]||0)+1; render(); }; });
+  scr.querySelectorAll("[data-rm]").forEach(function(b){ b.onclick=function(){ S.rf.qty[b.dataset.rm]=Math.max(0,(S.rf.qty[b.dataset.rm]||0)-1); render(); }; });
+  document.getElementById("rfAll").onclick = function(){
+    pids.forEach(function(pid){ S.rf.qty[pid] = S.last.lines.filter(function(l){return l.pid===pid && lineState(l.id)==="ok";}).length; });
+    render();
+  };
+  scr.querySelectorAll('input[name="rm"]').forEach(function(r){ r.onchange=function(){ S.rf.method=r.value; S.rf.agree=false; S.rf.repayAgree=false; render(); }; });
+  var ag = document.getElementById("rfAgree"); if(ag) ag.onchange = function(){ S.rf.agree = ag.checked; render(); };
+  var ra = document.getElementById("rfRepayAgree"); if(ra) ra.onchange = function(){ S.rf.repayAgree = ra.checked; render(); };
+  var ua = document.getElementById("rfUsedAgree"); if(ua) ua.onchange = function(){ S.rf.usedAgree = ua.checked; render(); };
+  var rs = document.getElementById("rfReason"); if(rs) rs.onchange = function(){ S.rf.reason = rs.value; };
+  var go = document.getElementById("rfGo");
+  if(go && !why) go.onclick = function(){
+    ask("환불을 신청할까요?", "게임에서 이미 사용한 상품이 하나라도 있으면 이번 신청 전체가 반려됩니다.", "신청하기", "닫기", function(){
+      var R2 = refundCalc(), t = now();
+      S.rfList = S.rfList || [];
+      var q = {id:"RF-2609-"+String(1001+S.rfList.length), order:S.last.no, lines:R2.picked.map(function(r){return r.line.id;}),
+               rows:R2.picked.map(snap), cash:R2.cash, mileBack:R2.mileBack, accrueCancel:R2.accrueCancel, cpn:R2.cpn,
+               method:S.rf.method, pm:S.last.pm, full:R2.full, reason:S.rf.reason||"미선택",
+               credited:S.last.confirmNow==="yes", status:"접수", at:t, cause:"유저 요청", log:[t+" 유저 신청 접수"],
+               agree:{used:t, mile:(S.rf.method==="mile"? t:""), repay:(S.rf.method==="repay"? t:"")}};
+      if(q.method==="repay"){
+        q.keep = R2.keep.map(function(r){return r.line.id;}); q.keepRows = R2.keep.map(snap);
+        q.keepCash = R2.keepCash; q.keepCpn = R2.keepCpn; q.keepMile = R2.keepMile; q.origTotal = R2.origTotal;
+      }
+      q.path = q.method==="mile" ? "마일리지 환급" : (q.method==="repay" ? "재결제 후 전체 취소" : (q.full ? "PG 전체 취소" : "PG 부분 환불"));
+      S.rfList.unshift(q); S.rfSel = q.id;
+      S.view = "refundDone"; S.rfLast = q; render(); scr.scrollTop = 0;
+    });
+  };
+}
+function renderRefundDone(){
+  var q = S.rfLast;
+  var h = '<div class="scr-pad"><div class="done-ico">✓</div>';
+  h += '<p class="center" style="font-weight:800;font-size:16px;margin:0 0 2px">환불 신청이 접수되었습니다.</p>';
+  h += '<p class="center help" style="margin:0 0 14px">진행 상황은 마이페이지 주문 상세에서 확인할 수 있어요.</p>';
+  h += '<div class="sec"><h4>신청 내역 <span class="num" style="font-weight:400;font-size:12px;color:var(--ink2)">'+q.id+'</span></h4>'
+    +  '<div class="kv"><span class="k">환불 상품</span><span class="v num">'+q.lines.length+'개'+(q.full?' (전체 환불)':'')+'</span></div>'
+    +  '<div class="kv"><span class="k">환불 방법</span><span class="v">'+(q.method==="mile"? '마일리지' : (q.method==="repay"? '재결제 후 전체 취소' : PM[q.pm].name))+'</span></div>'
+    +  '<div class="kv"><span class="k">환불 받을 금액</span><span class="v num">'+(q.method==="mile"? 'M '+fmt(q.cash) : fmt(q.cash)+'원')+'</span></div>'
+    +  '<div class="kv"><span class="k">돌려받는 마일리지</span><span class="v num" style="color:var(--mile)">+'+fmt(q.mileBack)+'</span></div>'
+    +  '<div class="kv"><span class="k">취소되는 적립 마일리지</span><span class="v num" style="color:var(--err)">−'+fmt(q.accrueCancel)+'</span></div>'
+    +  (q.method==="repay"
+        ? '<div class="nextstep"><b>다음 단계</b><ol><li>운영팀이 사용 여부를 확인해요.</li><li>확인이 끝나면 마이페이지에 <b>결제 요청</b>이 도착해요.</li><li>보유할 상품 '+fmt(q.keepCash)+'원을 결제하면 기존 결제 '+fmt(q.origTotal)+'원이 전체 취소돼요.</li></ol></div>'
+        : '<ul class="help"><li>처리 기한은 정책 확정 후 표기 (정책 68번).</li></ul>')
+    +  '</div>';
+  h += '<button class="confirmbtn" id="rfToMy">주문 상세로</button></div>';
+  scr.innerHTML = h;
+  document.getElementById("rfToMy").onclick = function(){ S.view="mypage"; render(); scr.scrollTop=0; };
+}
+
+/* ---------- 유저 — 재결제 요청 (개인결제건) ---------- */
+function pendingRepay(){ return (S.rfList||[]).filter(function(q){ return q.method==="repay" && q.status==="결제 대기"; })[0]; }
+function repayBanner(){
+  var q = pendingRepay(); if(!q) return "";
+  return '<div class="rpbanner isnew"><div><b>환불 처리를 위한 결제가 필요해요</b><br><span>보유할 상품 '+fmt(q.keepCash)+'원을 결제하면 기존 결제 '+fmt(q.origTotal)+'원이 전체 취소돼요 · '+q.expire+'까지</span></div>'
+       + '<button id="rpGo" data-rq="'+q.id+'">결제하고 환불받기</button></div>';
+}
+function bindRepayBanner(){
+  var b = document.getElementById("rpGo");
+  if(b) b.onclick = function(){ S.rpq = b.dataset.rq; S.rpAgree = false; S.view = "repay"; render(); scr.scrollTop = 0; };
+}
+function renderRepay(){
+  var q = (S.rfList||[]).filter(function(x){return x.id===S.rpq;})[0];
+  var h = '<div class="scr-pad">';
+  h += '<button class="linkback" id="rpBack">← 마이페이지로</button>';
+  h += '<div class="pagetitle">환불을 위한 결제</div>';
+  if(!q || q.status!=="결제 대기"){
+    h += '<div class="sec center" style="padding:28px 14px"><p style="font-weight:800;margin:0 0 6px">유효한 결제 요청이 없어요</p><p class="help" style="margin:0">이미 결제했거나 기한이 지났어요.</p></div></div>';
+    scr.innerHTML = h; document.getElementById("rpBack").onclick = function(){ S.view="mypage"; render(); }; return;
+  }
+  h += '<div class="notice info"><span>'+q.order+' 주문의 환불 신청('+q.id+')을 처리하기 위한 결제예요. <b>'+q.expire+' 23:59</b>까지 결제하지 않으면 신청이 자동 취소되고 기존 결제는 그대로 유지돼요.</span></div>';
+  h += '<div class="sec isnew"><h4>계속 보유 · 다시 결제할 상품 <span class="num" style="font-weight:400;font-size:12px;color:var(--ink2)">'+q.keepRows.length+'개</span></h4>';
+  q.keepRows.forEach(function(r){
+    h += '<div class="rprow"><span>'+esc(r.name)+'</span><span class="num">'+(r.coupon? '<span class="chip">'+esc(r.coupon)+'</span> ':'')+(r.mAlloc? '<span class="chip" style="background:#F1E9FE;color:var(--mile)">M '+fmt(r.mAlloc)+'</span> ':'')+'<b>'+fmt(r.cash)+'원</b></span></div>';
+  });
+  h += '<p class="help">처음 결제할 때와 같은 쿠폰 · 마일리지가 그대로 적용된 금액이에요.</p></div>';
+  h += '<div class="sec"><h4>환불할 상품 <span class="num" style="font-weight:400;font-size:12px;color:var(--ink2)">'+q.rows.length+'개</span></h4>';
+  q.rows.forEach(function(r){ h += '<div class="rprow"><span>'+esc(r.name)+'</span><span class="num" style="color:var(--ink2)">'+fmt(r.cash)+'원</span></div>'; });
+  h += '<p class="help">결제가 끝나면 이 상품들은 회수돼요.</p></div>';
+  h += '<div class="sec isnew"><h4>금액</h4>'
+    +  '<div class="kv"><span class="k">지금 결제할 금액</span><span class="v num">'+fmt(q.keepCash)+'원</span></div>'
+    +  '<div class="kv"><span class="k">취소되는 기존 결제</span><span class="v num" style="color:var(--brand-deep)">'+fmt(q.origTotal)+'원</span></div>'
+    +  '<div class="kv total"><span class="k">실제로 돌려받는 금액</span><span class="v num">'+fmt(q.origTotal - q.keepCash)+'원</span></div>'
+    +  '<div class="kv"><span class="k">돌려받는 마일리지</span><span class="v num" style="color:var(--mile)">+'+fmt(q.mileBack)+'</span></div>'
+    +  '<div class="kv"><span class="k">취소되는 적립 마일리지</span><span class="v num" style="color:var(--err)">−'+fmt(q.accrueCancel)+'</span></div>'
+    +  '<div class="rpnote"><b>잠시 두 결제가 함께 청구될 수 있어요</b>지금 결제한 뒤 기존 결제 취소가 결제수단에 반영될 때까지 며칠 걸릴 수 있어요. 그 사이에는 두 금액이 모두 청구된 것처럼 보일 수 있어요.</div></div>';
+  h += '<div class="sec"><h4>결제수단</h4><div class="radioline"><label><input type="radio" name="rpm" value="card" checked> 신용카드</label><label><input type="radio" name="rpm" value="phone"> 휴대폰 결제</label></div></div>';
+  h += '<div class="sec terms"><label><input type="checkbox" id="rpAgree"'+(S.rpAgree?" checked":"")+'> 결제 후 기존 결제 '+fmt(q.origTotal)+'원이 전체 취소되는 것을 확인했습니다.</label></div>';
+  h += '</div>';
+  h += '<div class="paybar"><div class="reason">'+(S.rpAgree?'':'확인 사항에 체크해 주세요.')+'</div><button class="paybtn num" id="rpPay"'+(S.rpAgree?'':' disabled')+'>'+fmt(q.keepCash)+'원 결제하고 환불받기</button></div>';
+  scr.innerHTML = h;
+  document.getElementById("rpBack").onclick = function(){ S.view="mypage"; render(); scr.scrollTop=0; };
+  document.getElementById("rpAgree").onchange = function(e){ S.rpAgree = e.target.checked; render(); };
+  var pay = document.getElementById("rpPay");
+  if(pay && S.rpAgree) pay.onclick = function(){
+    pay.disabled = true; pay.textContent = "결제 처리 중…";
+    var rpm = document.querySelector('input[name="rpm"]:checked').value;
+    setTimeout(function(){
+      var t = now();
+      q.rpNo = q.order+"-R"; q.rpPm = rpm;
+      q.log.push(t+" 유저 재결제 완료 "+fmt(q.keepCash)+"원 ("+PM[rpm].name+") · 재결제 주문 "+q.rpNo);
+      q.status = "취소 처리 중"; q.log.push(t+" 원 주문 "+q.order+" 전체 취소 요청 전송 ("+fmt(q.origTotal)+"원)");
+      S.view = "repayDone"; render(); scr.scrollTop = 0;
+      runCancel(q);
+    }, 900);
+  };
+}
+function renderRepayDone(){
+  var q = (S.rfList||[]).filter(function(x){return x.id===S.rpq;})[0];
+  var st = q.status==="완료" ? "done" : "proc";
+  var h = '<div class="scr-pad"><div class="done-ico">✓</div>';
+  h += '<p class="center" style="font-weight:800;font-size:16px;margin:0 0 2px">결제가 완료되었어요.</p>';
+  h += '<p class="center help" style="margin:0 0 14px">'+(st==="done"? '기존 결제 '+fmt(q.origTotal)+'원이 전체 취소되었어요. 결제수단에 반영되기까지 며칠 걸릴 수 있어요.' : '기존 결제 '+fmt(q.origTotal)+'원을 취소하고 있어요. 잠시만 기다려 주세요.')+'</p>';
+  h += '<div class="sec"><div class="kv"><span class="k">재결제 주문</span><span class="v num">'+q.rpNo+'</span></div>'
+    +  '<div class="kv"><span class="k">결제한 금액</span><span class="v num">'+fmt(q.keepCash)+'원</span></div>'
+    +  '<div class="kv"><span class="k">취소되는 기존 결제</span><span class="v num">'+fmt(q.origTotal)+'원</span></div>'
+    +  '<div class="kv total"><span class="k">실제로 돌려받는 금액</span><span class="v num">'+fmt(q.origTotal - q.keepCash)+'원</span></div></div>';
+  h += '<button class="confirmbtn" id="rpToMy">주문 상세로</button></div>';
+  scr.innerHTML = h;
+  document.getElementById("rpToMy").onclick = function(){ S.view="mypage"; render(); scr.scrollTop=0; };
+}
+/* 원 주문 전체 취소 — 성공하면 완료, 실패하면 취소 실패(긴급). 유저에게는 실패를 단정해 보여주지 않음(처리 중 유지) */
+function runCancel(q){
+  setTimeout(function(){
+    var t = now();
+    if(document.getElementById("cancelFail").checked && !q.retried){
+      q.status = "취소 실패"; q.log.push(t+" 원 주문 전체 취소 실패 — 자동 재시도 3회 실패, 수동 처리 대기 (유저는 재결제 금액과 기존 결제를 함께 부담 중)");
+      render(); return;
+    }
+    q.log.push(t+" 원 주문 전체 취소 성공");
+    adComplete(q, t);
+  }, 1600);
+}
+
+/* ---------- 어드민 — 환불 관리 (유저 화면과 실시간 연동) ---------- */
+var AD_ST_CLS = {"접수":"a-new","결제 대기":"a-wait","처리 중":"a-proc","취소 처리 중":"a-proc","완료":"a-done","반려":"a-rej","만료":"a-rej","취소 실패":"a-fail"};
+var KPI = [["접수",["접수"]],["결제 대기",["결제 대기"]],["처리 중",["처리 중","취소 처리 중"]],["취소 실패",["취소 실패"]],["완료",["완료"]],["반려 · 만료",["반려","만료"]]];
+function renderAdmin(){
+  var el = document.getElementById("admin"); if(!el) return;
+  var list = (S.rfList || []).slice().sort(function(a,b){ return (b.status==="취소 실패") - (a.status==="취소 실패"); });  /* 취소 실패 최상단 고정 */
+  var h = '<div class="ad-head"><b>BD2 웹상점 어드민</b><span>결제 관리 · <b style="color:#fff">환불 관리</b><span class="newtag">NEW</span></span><span class="sp"></span><span style="opacity:.7">운영자 서하윤</span></div>';
+  h += '<div class="ad-body"><div class="ad-kpi">'
+    +  KPI.map(function(k){ var n = list.filter(function(q){return k[1].indexOf(q.status)>=0;}).length; return '<div class="k '+AD_ST_CLS[k[1][0]]+'"><span>'+k[0]+'</span><b class="num">'+n+'</b></div>'; }).join('')
+    +  '</div>';
+  if(!list.length){
+    h += '<div class="ad-empty">접수된 환불 신청이 없습니다.<br><span>위 유저 화면에서 결제 → 닉네임(마이페이지) → [환불 신청]을 진행하면 여기에 바로 들어옵니다.</span></div></div>';
+    el.innerHTML = h; return;
+  }
+  h += '<table class="ad-tbl"><thead><tr><th>신청번호</th><th>신청 시각</th><th>유저</th><th>주문번호</th><th>상품</th><th>환불 방법</th><th>처리 경로</th><th class="r">환불액</th><th>상태</th></tr></thead><tbody>';
+  list.forEach(function(q){
+    h += '<tr class="'+(S.rfSel===q.id?'on':'')+(q.status==="취소 실패"?' urgent':'')+'" data-q="'+q.id+'"><td class="num">'+q.id+'</td><td class="num">'+q.at+'</td><td>DQHANNANEO</td><td class="num">'+q.order+'</td>'
+      +  '<td class="num">'+q.lines.length+'개'+(q.full?' (전체)':'')+'</td><td>'+(q.method==="mile"?'마일리지':(q.method==="repay"?'재결제':PM[q.pm].name))+'</td><td>'+q.path+'</td>'
+      +  '<td class="r num">'+(q.method==="mile"? 'M '+fmt(q.cash) : fmt(q.cash)+'원')+'</td><td><span class="ad-st '+AD_ST_CLS[q.status]+'">'+q.status+'</span></td></tr>';
+  });
+  h += '</tbody></table>';
+
+  var q = list.filter(function(x){return x.id===S.rfSel;})[0] || list[0];
+  var rows = function(title, rs, tag){
+    var o = '<div class="ad-sub">'+title+'</div><table class="ad-tbl sm"><thead><tr><th>상품</th><th class="r">상품 금액</th><th>쿠폰</th><th class="r">마일리지 배분</th><th class="r">실결제</th><th class="r">적립</th></tr></thead><tbody>';
+    rs.forEach(function(r){
+      o += '<tr><td>'+esc(r.name)+'</td><td class="r num">'+fmt(r.price)+'</td><td>'+(r.coupon? esc(r.coupon)+' −'+fmt(r.disc)+' · '+tag:'—')+'</td>'
+        +  '<td class="r num">'+fmt(r.mAlloc)+'</td><td class="r num"><b>'+fmt(r.cash)+'</b></td><td class="r num">'+fmt(r.accrue)+'</td></tr>';
+    });
+    return o + '</tbody></table>';
+  };
+  h += '<div class="ad-detail"><div class="ad-dh"><b>'+q.id+'</b> 상세 · '+q.order+' <span class="ad-st '+AD_ST_CLS[q.status]+'">'+q.status+'</span></div>';
+  if(q.method==="repay") h += adSteps(q);
+  h += '<div class="ad-grid"><div>';
+  h += rows(q.method==="repay"? '환불 상품' : '환불 대상 상품', q.rows, '복구 안 함');
+  if(q.method==="repay") h += rows('계속 보유 — 재결제 상품', q.keepRows, '재결제에 재적용');
+  if(q.method==="repay"){
+    h += '<div class="ad-calc"><div><span>개인결제 청구액 (보유 상품 실결제 합)</span><b class="num">'+fmt(q.keepCash)+'원</b></div>'
+      +  '<div><span>원 주문 전체 취소액</span><b class="num">'+fmt(q.origTotal)+'원</b></div>'
+      +  '<div><span>유저 실제 환불 (취소액 − 청구액)</span><b class="num">'+fmt(q.origTotal-q.keepCash)+'원</b></div>'
+      +  '<div><span>쿠폰</span><b>보유분 '+q.keepCpn+'장 재결제에 재적용 · 환불분 '+q.cpn+'장 복구 안 함</b></div>'
+      +  '<div><span>마일리지</span><b class="num">보유분 '+fmt(q.keepMile)+' 재결제에 재적용 · 환불분 +'+fmt(q.mileBack)+' 복구</b></div>'
+      +  '<div><span>적립</span><b class="num">환불분 −'+fmt(q.accrueCancel)+(q.credited?' (잔액 차감)':' (예정분 취소)')+' · 보유분은 재결제 주문으로 승계</b></div></div>'
+      +  '<p class="ad-note">원 주문을 전체 취소하면 쿠폰 · 마일리지가 전부 되살아나므로, 시스템이 보유 상품분은 재결제에 다시 소모 처리하고 환불 상품분 마일리지만 돌려줍니다 (9/22 회의 시연 결함 대응).</p>';
+  } else {
+    h += '<div class="ad-calc"><div><span>PG 환불 금액</span><b class="num">'+(q.method==="mile"? '0원 (마일리지 환급)' : fmt(q.cash)+'원')+'</b></div>'
+      +  '<div><span>마일리지 지급</span><b class="num">+'+fmt(q.mileBack)+' 사용분 복구'+(q.method==="mile"? ' / +'+fmt(q.cash)+' 환급':'')+'</b></div>'
+      +  '<div><span>적립 마일리지 취소</span><b class="num">−'+fmt(q.accrueCancel)+(q.credited?' (잔액 차감)':' (적립 예정분 취소)')+'</b></div>'
+      +  '<div><span>유저 마일리지 순변화</span><b class="num">'+fmt((q.method==="mile"? q.cash:0)+q.mileBack-(q.credited? q.accrueCancel:0))+'</b></div>'
+      +  '<div><span>쿠폰</span><b>'+(q.cpn? q.cpn+'장 복구 안 함':'없음')+'</b></div></div>';
+  }
+  h += '<p class="ad-note">금액 · 마일리지 · 쿠폰은 주문 확정 기록(정책 50)으로 시스템이 산출합니다. 운영자는 확인 후 실행만 합니다 (정책 89번 사업안).</p>';
+  h += '</div><div>';
+  h += '<div class="ad-kv"><span>결제수단</span><b>'+PM[q.pm].name+(PM[q.pm].partial?' (부분 환불 가능)':' (부분 환불 불가)')+'</b></div>'
+    +  '<div class="ad-kv"><span>처리 경로</span><b>'+q.path+'</b></div>'
+    +  '<div class="ad-kv"><span>유저 사유</span><b>'+esc(q.reason)+'</b></div>'
+    +  '<div class="ad-kv"><span>동의 증빙</span><b>사용 상품 포함 시 전체 반려 · '+q.agree.used+(q.agree.mile? '<br>마일리지 환급 · '+q.agree.mile:'')+(q.agree.repay? '<br>재결제 후 전체 취소 · '+q.agree.repay:'')+'</b></div>';
+  h += '<div class="ad-kv"><span>환불 구분</span>'+(q.status==="접수"
+        ? '<select id="adCause"><option'+(q.cause==="유저 요청"?' selected':'')+'>유저 요청</option><option'+(q.cause==="회사 귀책"?' selected':'')+'>회사 귀책</option><option'+(q.cause==="차지백 · 부정"?' selected':'')+'>차지백 · 부정</option></select>'
+        : '<b>'+q.cause+'</b>')+'</div>';
+  if(q.expire) h += '<div class="ad-kv"><span>개인결제 유효기간</span><b>'+q.expire+' 23:59 (발급 후 7일)</b></div>';
+  if(q.rpNo) h += '<div class="ad-kv"><span>재결제 주문</span><b>'+q.rpNo+' · '+PM[q.rpPm].name+'</b></div>';
+  if(q.status==="접수"){
+    q.useChk = q.useChk || "미확인";
+    h += '<div class="ad-kv"><span>게임 내 사용 여부</span><select id="adUse"><option'+(q.useChk==="미확인"?' selected':'')+'>미확인</option><option'+(q.useChk==="미사용 확인"?' selected':'')+'>미사용 확인</option><option'+(q.useChk==="사용 확인"?' selected':'')+'>사용 확인</option></select></div>'
+      +  '<p class="ad-note" style="margin:4px 0 0">운영자가 게임 로그로 조회. 사용 상품이 하나라도 있으면 신청 전체 반려(유저 사전 동의). 미사용 확인 후에만 실행 가능.</p>';
+    var goLab = q.method==="mile" ? "마일리지 환급 실행" : (q.method==="repay" ? "개인결제건 발급 ("+fmt(q.keepCash)+"원)" : "PG 환불 실행");
+    h += '<div class="ad-act"><button class="ad-go" id="adApprove"'+(q.useChk==="미사용 확인"?'':' disabled style="background:#C9CBD6"')+'>'+goLab+'</button></div>'
+      +  '<div class="ad-act"><select id="adRejWhy"><option'+(q.useChk==="사용 확인"?' selected':'')+'>이미 사용한 상품이 포함됨</option><option>중복 신청</option><option>부정 결제 의심</option><option>기타</option></select><button class="ad-no" id="adReject">반려</button></div>';
+  } else if(q.status==="결제 대기"){
+    h += '<div class="ad-act"><span class="ad-wait">유저 재결제 대기 중 — 마이페이지 · 상점 상단에 결제 요청 배너 노출</span></div>'
+      +  '<div class="ad-act"><button class="ad-demo" id="adExpire">[데모] 유효기간 경과 처리</button><button class="ad-no" id="adVoid">발급 취소</button></div>';
+  } else if(q.status==="처리 중" || q.status==="취소 처리 중"){
+    h += '<div class="ad-act"><span class="ad-wait">'+(q.status==="처리 중"? 'PG 환불 응답 대기 중…' : '원 주문 전체 취소 응답 대기 중…')+'</span></div>';
+  } else if(q.status==="취소 실패"){
+    h += '<div class="ad-urgent"><b>긴급 — 유저 이중 부담 중</b>재결제 '+fmt(q.keepCash)+'원은 결제됐지만 원 주문 '+fmt(q.origTotal)+'원 취소가 실패했습니다. 유저 화면에는 "환불 처리 중"으로 보입니다.</div>'
+      +  '<div class="ad-act"><button class="ad-go" id="adRetry">원 주문 취소 재시도</button></div>'
+      +  '<div class="ad-act"><button class="ad-demo" id="adRollback">재결제건 환불 (원상 복구)</button></div>';
+  } else if(CLOSED[q.status]){
+    h += '<div class="ad-kv"><span>'+(q.status==="반려"?'반려 사유':'종료 사유')+'</span><b>'+esc(q.rejectReason)+'</b></div>';
+  }
+  h += '<div class="ad-log"><b>처리 이력</b>'+q.log.map(function(x){return '<div class="num">'+esc(x)+'</div>';}).join('')+'</div>';
+  h += '</div></div></div></div>';
+  el.innerHTML = h;
+
+  el.querySelectorAll("tr[data-q]").forEach(function(tr){ tr.onclick = function(){ S.rfSel = tr.dataset.q; renderAdmin(); }; });
+  var cs = document.getElementById("adCause"); if(cs) cs.onchange = function(){ q.cause = cs.value; };
+  var us = document.getElementById("adUse"); if(us) us.onchange = function(){ q.useChk = us.value; renderAdmin(); };
+  var ap = document.getElementById("adApprove");
+  if(ap && q.useChk==="미사용 확인") ap.onclick = function(){
+    var t = now();
+    q.log.push(t+" 게임 내 미사용 확인 · 운영 승인 ("+q.cause+") · "+q.path);
+    if(q.method==="mile"){ adComplete(q, t); }
+    else if(q.method==="repay"){
+      /* 개인결제건 발급 — 주문당 1건, 유지 상품 · 청구액 고정 (정책 73 · 74) */
+      q.status = "결제 대기"; q.expire = addDays(7);
+      q.log.push(t+" 개인결제건 발급 "+fmt(q.keepCash)+"원 · 유효기간 "+q.expire+" 23:59 · 유저 결제 요청 알림");
+      render();
+    } else {
+      q.status = "처리 중"; q.log.push(t+" PG 환불 요청 전송"); render();
+      setTimeout(function(){ q.log.push(now()+" PG 환불 성공 응답"); adComplete(q, now()); }, 1600);
+    }
+  };
+  var rj = document.getElementById("adReject");
+  if(rj) rj.onclick = function(){ var why = document.getElementById("adRejWhy").value; closeRf(q, "반려", why); };
+  var ex = document.getElementById("adExpire");
+  if(ex) ex.onclick = function(){ closeRf(q, "만료", "개인결제 유효기간 경과 — 기존 결제 유지"); };
+  var vd = document.getElementById("adVoid");
+  if(vd) vd.onclick = function(){ closeRf(q, "반려", "운영자 발급 취소 — 기존 결제 유지"); };
+  var rt = document.getElementById("adRetry");
+  if(rt) rt.onclick = function(){ q.retried = true; q.status = "취소 처리 중"; q.log.push(now()+" 운영자 수동 재시도"); render(); runCancel(q); };
+  var rb = document.getElementById("adRollback");
+  if(rb) rb.onclick = function(){
+    q.log.push(now()+" 재결제건 "+q.rpNo+" 환불 "+fmt(q.keepCash)+"원 — 원상 복구");
+    closeRf(q, "반려", "원 주문 취소 불가로 원상 복구 — 재결제건 환불, 기존 결제 유지. 고객센터 안내");
+  };
+}
+function adSteps(q){
+  var order = ["접수","결제 대기","취소 처리 중","완료"];
+  var labels = ["신청 · 사용 여부 확인","개인결제건 발급 · 유저 재결제","원 주문 전체 취소","완료"];
+  var cur = q.status==="취소 실패" ? 2 : order.indexOf(q.status);
+  return '<div class="ad-steps">'+labels.map(function(l,i){
+    var cls = CLOSED[q.status] ? (i===0?'x':'') : (i<cur || q.status==="완료" ? 'ok' : (i===cur ? (q.status==="취소 실패"?'fail':'on') : ''));
+    return '<span class="'+cls+'"><i>'+(i+1)+'</i>'+l+'</span>';
+  }).join('')+'</div>';
+}
+function closeRf(q, st, why){
+  q.status = st; q.rejectReason = why; q.log.push(now()+" "+st+" — "+why); render();
+}
+function adComplete(q, t){
+  q.status = "완료";
+  /* 유저 잔액 반영: 환불 상품분 사용 마일리지 복구 + (마일리지 환급분) − 이미 적립된 환불 상품분 적립 */
+  MILE_BAL = MILE_BAL + q.mileBack + (q.method==="mile"? q.cash : 0) - (q.credited? q.accrueCancel : 0);
+  if(q.method==="mile") q.log.push(t+" 마일리지 환불 지급 +"+fmt(q.cash));
+  if(q.mileBack) q.log.push(t+" 사용 마일리지 복구 +"+fmt(q.mileBack)+" (원래 만료일 유지)");
+  q.log.push(t+" 적립 마일리지 취소 −"+fmt(q.accrueCancel)+(q.credited? " (잔액 차감)":" (적립 예정분 취소)"));
+  if(q.method==="repay") q.log.push(t+" 보유 상품 쿠폰 "+q.keepCpn+"장 · 마일리지 "+fmt(q.keepMile)+" 재결제 주문에 재적용, 적립 승계");
+  q.log.push(t+" 지급 아이템 회수 요청 · 결제 상태 "+(q.method==="repay"? "원 주문 전체 취소 · 재결제 주문 "+q.rpNo+" 유지" : (q.full?"전체 환불":"부분 환불")));
+  render();
+}
+
+/* ---------- side explain ---------- */
+function renderExplain(){
+  var el = document.getElementById("explain"), h="";
+  if(S.view==="shop"){
+    h = '<h2><span class="tag">SCREEN 1</span>상품 목록 + 상세 레이어 (v10과 동일)</h2><ol>'
+      + '<li>담기 경로 2개 — 장바구니 아이콘은 1개 즉시 담기, [구매]는 설명 + 수량 스테퍼 팝업.</li>'
+      + '<li>담기 한도와 구매 한도는 다름 — 장바구니가 가득 차도 [바로 구매] 가능.</li>'
+      + '<li>[구매(n/N회)]의 n은 실제 구매 횟수.</li>'
+      + '<li>우측 상단 장바구니 아이콘을 누르면 v11 주문서로 이동합니다.</li>'
+      + '<li><b>헤더 잔여 마일리지</b> — 사용 가능한 잔액 전체 표시. 결제 직후 바로 반영(사용분 차감, 즉시 적립 동의 시 적립분 가산).</li>'
+      + '<li><b>소멸 예정 말풍선</b> — 7일 이내 소멸될 마일리지가 있으면 "소멸 예정인 마일리지가 있어요!". 닫기 없이 계속 떠 있음(살짝 둥둥). 오른쪽 표시 옵션에서 켜고 끌 수 있어요.</li></ol>';
+  } else if(S.view==="order"){
+    h = '<h2><span class="tag">SCREEN 2</span>주문/결제 — v11 통합 방식</h2><ol>'
+      + '<li><b>같은 상품은 한 줄로 묶기</b> — "총 N건 · ○○ 외 k종"으로 접혀 있고, 누르면 상품별 수량 조절이 펼쳐집니다. (정책 30·31)</li>'
+      + '<li><b>쿠폰은 합계만</b> — "최대 적용중 −X원" + [변경]. [변경]을 누르면 <b>그 자리에서 아래로 펼쳐져</b> 상품별·1개 단위로 쿠폰을 고릅니다(A×2면 칸 2개). 직접 바꾸면 "직접 선택" 상태가 되고 [최대 할인으로 다시 적용]으로 되돌립니다. (정책 5)</li>'
+      + '<li>상품 줄 금액은 <b>쿠폰 적용 후 소계</b>(원가는 취소선). 한도·단가 계산식 같은 상세 문구는 뺐습니다. 한도 초과로 + 를 누르면 토스트로만 알려줍니다.</li>'
+      + '<li><b>수량을 바꾸면</b> 쿠폰은 최대 할인으로 자동 재배정, 직접 고른 쿠폰과 마일리지 입력은 초기화 + 안내. v9에서 깨졌던 지점을 "바뀌면 다시 계산" 규칙 하나로 정리했습니다.</li>'
+      + '<li><b>마일리지는 총액에서 한 번만 입력</b> — 네이버 포인트 방식. 상품별 금액은 유저가 정하지 않습니다. (정책 11)</li>'
+      + '<li><b>최대 사용 가능 = 쿠폰 적용 후 총액 − 1,000 × 상품 개수</b>. 상품마다 최소 1,000원 결제 규칙을 지킵니다.</li>'
+      + '<li>내부 배분 — 상품마다 1,000원을 남긴 금액 비율로 나누고, 원 단위 내림, 자투리는 가장 비싼 상품에. 결과는 마이페이지에서 확인.</li>'
+      + '<li><b>헤더 장바구니 아이콘</b> — 이 화면이 곧 장바구니이므로, 누르면 [주문 상품]을 펼쳐 그 위치로 부드럽게 이동만 합니다(안내 없음). 바로 구매 중이면 묻지 않고 장바구니로 바꿉니다.</li>'
+      + '<li><b>나가기 확인</b> — [계속 쇼핑하기]·닉네임(마이페이지)으로 주문/결제를 벗어날 때 "나갈까요?"를 묻습니다. 장바구니면 "담은 상품은 그대로", 바로 구매면 "구매가 취소됩니다".</li>'
+      + '<li>쿠폰 칸에는 1번째·2번째 같은 순번이 없습니다 — 같은 상품 여러 개는 서로 똑같아서 순번이 의미가 없고, 칸 수가 곧 수량입니다.</li>'
+      + '<li><b>지금 해볼 것</b> — 주문 상품을 펼쳐 A 수량을 1개 줄여보세요. 쿠폰이 다시 배정되고 마일리지가 0이 됩니다.</li></ol>';
+  } else if(S.view==="refund" || S.view==="refundDone"){
+    h = '<h2><span class="tag">SCREEN 5</span>환불 신청 (v12 신설) — 아래 어드민과 연동</h2><ol>'
+      + '<li><b>진입</b> — 마이페이지 주문 상세 하단 [환불 신청]. 웹상점에서 유저가 직접 신청(정책 70번 후보 2).</li>'
+      + '<li><b>상품 선택</b> — 같은 상품은 묶어서 수량으로. 유저 화면은 수령·사용 여부를 판단하지 않음(웹상점이 알 수 없음). 사용 여부는 어드민에서 운영자가 게임 로그로 확인(정책 59). 일부만 환불하면 실결제액이 높은 것부터(9/21 정책팀 Q3).</li>'
+      + '<li><b>환불 예정 내역</b> — 실결제액 환불, 사용 마일리지 복구(원래 만료일 유지), 적립 취소, 쿠폰은 복구 안 됨(9/21 Q8 방향, 정책 6번 미확정).</li>'
+      + '<li><b>환불 방법</b> — 결제한 수단이 기본(정책 61). 마일리지는 고를 때만 동의 체크가 나오고, 체크 전엔 신청 불가. 동의 시각은 어드민에 증빙으로 남음.</li>'
+      + '<li><b>부분 환불 불가 결제수단</b> — 오른쪽에서 "휴대폰 결제"로 바꿔 보세요. 일부만 고르면 결제한 수단이 막히고 <b>기본 선택이 사라집니다</b>(마일리지를 기본값으로 둘 수 없어서). 전체를 고르면 다시 열립니다.</li>'
+      + '<li><b>마일리지 변동</b> — 환불 방법을 고르면 보유 마일리지가 실제로 얼마 바뀌는지 표시. 가산금 없음(정책 90번 폐기). 마일리지 환불은 즉시 사용 가능이 장점, 재구매 시 적립 없음 · 30일 소멸을 선택지와 동의 문구에 고지.</li>'
+      + '<li><b>5. 꼭 확인해 주세요 (v13)</b> — 사용한 상품이 하나라도 포함되면 신청 전체 반려. 강한 고지 + 체크 필수, 확인 팝업에서 한 번 더. 동의 시각은 어드민 증빙으로.</li>'
+      + '<li><b>재결제 후 전체 취소 (v13)</b> — 부분 환불 불가 결제수단에서 일부만 고르면 세 번째 선택지로 등장. 조건: 환불 이력 없는 주문 + 보유 상품 1개 이상. 재결제 방식 동의(이중 부담 고지 포함) 필수(정책 63 · 67).</li></ol>';
+  } else if(S.view==="repay" || S.view==="repayDone"){
+    h = '<h2><span class="tag">SCREEN 6</span>환불을 위한 결제 (v13 신설)</h2><ol>'
+      + '<li><b>진입</b> — 어드민이 개인결제건을 발급하면 상점 · 마이페이지 상단에 결제 요청 배너. URL 발송 없이 로그인한 유저가 직접(9/22 회의).</li>'
+      + '<li><b>청구액 = 보유 상품의 실결제액 합</b> — 처음과 같은 쿠폰 · 마일리지가 적용된 금액. 새 쿠폰 · 마일리지 적용 불가(금액 고정).</li>'
+      + '<li><b>순서</b> — 재결제 먼저, 확인 후 원 주문 전체 취소(9/22 회의). 먼저 취소하면 재결제를 안 할 수 있어서.</li>'
+      + '<li><b>이중 부담 고지</b> — 재결제 후 원 결제 취소 반영까지 두 금액이 함께 청구될 수 있음을 결제 직전에 안내(정책 67).</li>'
+      + '<li><b>유효기간 7일</b> — 지나면 신청 자동 취소, 기존 결제 유지(정책 73). 주문당 진행 중 환불 1건(정책 74).</li>'
+      + '<li>원 주문 취소가 실패해도 유저에게는 실패를 단정하지 않고 "환불 처리 중"으로 표시.</li></ol>';
+  } else if(S.view==="mypage"){
+    h = '<h2><span class="tag">SCREEN 4</span>마이페이지 주문 상세 (신설)</h2><ol>'
+      + '<li><b>상품별 상태</b>: 구매 완료 / 환불 신청됨 / 재결제 대기 / 환불 처리 중 / 환불 완료 / 재결제로 보유. 반려 · 만료되면 구매 완료로 돌아가고 사유 표시. 우편함 수령 · 게임 내 사용 여부는 웹상점이 알 수 없어 표시하지 않음.</li>'
+      + '<li><b>진행 중 환불이 있으면 새 신청 불가</b> — 재결제 대기 중에 남은 상품을 또 환불하면 금액이 꼬이므로.</li>'
+      + '<li><b>헤더 닉네임을 누르면 열립니다</b> — 라이브와 동일. 결제 완료 화면의 버튼으로도 들어올 수 있습니다.</li>'
+      + '<li><b>상품 1개 단위로 전부 펼침, 접지 않음</b> — 9/22 회의 결정.</li>'
+      + '<li>결제 화면에서 안 보이던 <b>상품별 마일리지 배분액</b>이 여기서 공개됩니다.</li>'
+      + '<li>부분 환불 시 돌려줄 금액·마일리지가 이 행 그대로입니다. 쿠폰은 복구하지 않습니다.</li>'
+      + '<li>하단 검산 줄 — 상품별 합계가 결제 금액·사용 마일리지와 정확히 일치하는지 확인용(개발 전달 시 검수 기준).</li></ol>';
+  } else {
+    h = '<h2><span class="tag">SCREEN 3</span>결제 완료</h2><ol>'
+      + '<li>상단 문구·[확인] = 현행 그대로. 주문 내역은 주문서와 같이 상품별 묶음 표시.</li>'
+      + '<li>지급 상태는 표시하지 않음 — 게임 서버 비동기 지급.</li>'
+      + '<li><b>[마이페이지에서 상품별 내역 보기]</b>로 상품별 쿠폰·마일리지 배분을 확인할 수 있습니다.</li></ol>';
+  }
+  el.innerHTML = h;
+}
+
+document.getElementById("cartOpen").onclick = cartIcon;
+document.getElementById("expOn").onchange = renderHeaderMile;
+
+
+document.getElementById("nickOpen").onclick = function(){
+  if(S.view==="mypage") return;
+  leaveOrder(function(){
+    if(S.view==="order" && isInstant()){ S.inst=null; S.ctx=S.cart; }
+    S.myFrom = S.view==="order" ? "shop" : S.view; S.layer=null; S.view="mypage"; render(); scr.scrollTop=0;
+  });
+};
+document.getElementById("shownew").onchange = function(e){ document.body.dataset.shownew = e.target.checked? "1":"0"; };
+
+/* 초기 데모: A×2 + B×1, 마일리지 5,000 */
+addLines("A",2); S.toast=null; S.cart.lines.push({id:S.seq++, pid:"B"}); S.cart.mileTotal=5000;
+render();
+})();
+</script>
+</body>
