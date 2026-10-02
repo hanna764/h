@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>서브컬처 게임 주간 리포트 · 2026.10.02 · W40</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--red:#E51937;--navy:#1A1A2E;--gray:#4A5568;--border:#E5E7EB;--bg:#F7F8FA;}
+  *{box-sizing:border-box}
+  body{font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;color:#1a1a2e;background:#fff;margin:0;line-height:1.55;font-size:14.5px;}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px;}
+  header{border-bottom:1px solid var(--red);padding:8px 0 18px;margin-bottom:22px;}
+  header h1{font-size:22px;font-weight:900;margin:0 0 4px;color:var(--navy);}
+  header .meta{color:var(--gray);font-size:13px;}
+  .tab-nav{display:flex;gap:2px;border-bottom:2px solid var(--border);margin-bottom:24px;flex-wrap:wrap;}
+  .tab-btn{background:#fff;border:none;padding:12px 18px;font-size:14px;font-weight:500;color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:inherit;}
+  .tab-btn:hover{color:var(--navy);}
+  .tab-btn.active{color:var(--red);border-bottom-color:var(--red);font-weight:700;}
+  .tab{display:none;}
+  .tab.active{display:block;animation:fade .2s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+  section h2{font-size:17px;font-weight:900;color:var(--navy);margin:26px 0 14px;display:flex;align-items:center;gap:10px;}
+  section h2 .num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;background:var(--red);color:#fff;border-radius:50%;font-size:12px;font-weight:700;}
+  .game-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;}
+  .game-card h3, .game-card h4{margin:0 0 10px;font-size:15px;font-weight:700;color:var(--navy);}
+  .game-card ul{margin:0;padding-left:18px;}
+  .game-card li{margin:4px 0;color:#2d3748;}
+  .pen{margin:10px 0 0;padding:8px 12px;background:#F9FAFB;border-left:3px solid var(--red);border-radius:4px;font-size:12.5px;color:var(--gray);}
+  .tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;margin-left:6px;vertical-align:middle;}
+  .tag.hot{background:#FEE2E2;color:#B91C1C;}
+  .tag.new{background:#DCFCE7;color:#166534;}
+  .tag.global{background:#DBEAFE;color:#1E40AF;}
+  .tag.update{background:#FFEDD5;color:#9A3412;}
+  .tag.trend{background:#EDE9FE;color:#5B21B6;}
+  .publisher-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;margin-right:8px;}
+  .publisher-badge.cn{background:#FEE2E2;color:#B91C1C;}
+  .publisher-badge.kr{background:#DBEAFE;color:#1E40AF;}
+  .publisher-badge.jp{background:#FFEDD5;color:#9A3412;}
+  .publisher-badge.sg{background:#E0F2FE;color:#075985;}
+  .publisher-group{margin-bottom:24px;}
+  .publisher-group h3{font-size:16px;margin:14px 0 10px;color:var(--navy);border-left:3px solid var(--red);padding-left:10px;}
+  .summary-box{background:var(--navy);color:#fff;padding:20px 22px;border-radius:12px;margin-top:22px;}
+  .summary-box h4{color:#fff;margin:0 0 10px;font-size:15px;}
+  .summary-box p{color:#E2E8F0;margin:6px 0 0;}
+  .summary-box .bd2-sub{color:#F87171;margin-top:14px;font-size:13.5px;font-weight:700;}
+  .summary-box ul, .summary-box ol{margin:6px 0 0;padding-left:20px;}
+  .summary-box li{margin:4px 0;color:#E2E8F0;}
+  .threat-box{background:#FEF2F2;border-left:4px solid var(--red);padding:16px 20px;border-radius:8px;margin:12px 0;}
+  .threat-box h4{color:#B91C1C;margin:0 0 8px;font-size:14px;}
+  .opp-box{background:#F0FDF4;border-left:4px solid #16A34A;padding:16px 20px;border-radius:8px;margin:12px 0;}
+  .opp-box h4{color:#166534;margin:0 0 8px;font-size:14px;}
+  .threat-box ol, .opp-box ol{margin:6px 0 0;padding-left:22px;}
+  .threat-box li, .opp-box li{margin:8px 0;}
+  table.calendar-row, table.earnings-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;}
+  table.calendar-row th, table.earnings-table th{background:#fff;border-bottom:2px solid var(--red);text-align:left;padding:10px 12px;color:var(--navy);font-weight:700;}
+  table.calendar-row td, table.earnings-table td{border-bottom:1px solid var(--border);padding:10px 12px;vertical-align:top;color:#2d3748;}
+  table.calendar-row tr:hover td{background:#F9FAFB;}
+  .src-link{color:var(--red);text-decoration:none;font-size:0.85em;margin-left:4px;white-space:nowrap;}
+  .src-link:hover{text-decoration:underline;}
+  ol.watch-list{margin:12px 0;padding-left:22px;}
+  ol.watch-list li{margin:6px 0;}
+  .note{background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:13px;color:#92400E;}
+  .archive-btn{position:fixed;top:16px;right:16px;background:var(--red);color:#fff;border:none;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:100;font-family:inherit;}
+  .archive-btn:hover{background:#B91C2A;}
+  .archive-pop{display:none;position:fixed;top:56px;right:16px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px 16px;min-width:260px;max-height:60vh;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:100;font-size:13px;}
+  .archive-pop.open{display:block;}
+  .archive-pop h5{margin:0 0 10px;color:var(--navy);font-size:13px;}
+  .archive-pop ul{list-style:none;padding:0;margin:0;}
+  .archive-pop li{padding:5px 0;border-bottom:1px solid var(--border);}
+  .archive-pop li:last-child{border-bottom:none;}
+  .archive-pop a{color:var(--red);text-decoration:none;}
+  .ref-block{margin:36px 0 24px;padding:18px 20px;background:#F9FAFB;border-radius:10px;border:1px solid var(--border);}
+  .ref-block h3{margin:0 0 12px;color:var(--navy);font-size:15px;}
+  .ref-block table{width:100%;border-collapse:collapse;font-size:13px;}
+  .ref-block th, .ref-block td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top;}
+  .ref-block th{background:#fff;color:var(--navy);border-bottom:2px solid var(--red);}
+  footer{margin-top:36px;padding:22px 0 12px;border-top:1px solid var(--border);color:var(--gray);font-size:12.5px;text-align:center;line-height:1.7;}
+  footer a{color:var(--red);text-decoration:none;font-weight:700;}
+  footer a:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+<button class="archive-btn" onclick="toggleArchive()">📁 지난 리포트</button>
+<div class="archive-pop" id="archivePop"><h5>지난 주간 리포트</h5><ul id="archiveList"><li>불러오는 중...</li></ul></div>
+
+<div class="wrap">
+<header>
+  <h1>🎴 서브컬처 게임 주간 리포트</h1>
+  <div class="meta">2026.10.02 (금) 기준 · Week 40 · 집계 구간 2026.09.02~10.02 (30일) · GPX사업부 컨텐츠사업팀</div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="t1">① 시장 흐름</button>
+  <button class="tab-btn" data-tab="t2">② 게임별 이슈</button>
+  <button class="tab-btn" data-tab="t3">③ 1개월 전망</button>
+  <button class="tab-btn" data-tab="t4">④ 2~6개월 전망</button>
+  <button class="tab-btn" data-tab="t5">⑤ 브더2 시사점</button>
+</nav>
+
+
+<!-- TAB 1 -->
+<section class="tab active" id="t1">
+  <h2><span class="num">1</span>이번 주 시장 핵심 흐름</h2>
+  <div class="game-card">
+    <h4>TGS 2026 결산 — 국산 신작은 '2시간 대기열'로 기대치를 확인했지만, 출시 시계는 2027년에 맞춰져 있다 <span class="tag hot">HOT</span></h4>
+    <ul>
+      <li>엔씨 '아스트라에 오라티오'는 TGS 행사 기간 부스 방문객 약 3만 명을 기록했고, 글로벌 CBT로 스토리·전투·일상 순환 구조를 검증받은 뒤 2027년 글로벌 출시를 목표로 개발 중이다 <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225645" target="_blank">[출처 🔗]</a></li>
+      <li>넷마블 '펄 인 블루'는 시연 대기 시간이 두 시간을 넘었고, 방준혁 의장은 '기획 단계부터 철저하게 일본 시장과 유저들을 타깃으로 만들었다'고 강조했다 <a class="src-link" href="https://www.fntimes.com/html/view.php?ud=2026092312383288077492587736_18" target="_blank">[출처 🔗]</a> — 같은 결산 기획은 펄 인 블루가 2027년 정식 출시를 목표로 한다고 전했다 <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225645" target="_blank">[출처 🔗]</a></li>
+      <li>스마일게이트 '미래시' 시연존에는 2시간 이상 대기열이 이어졌고, 게이트에서 상영한 캐릭터 영상은 X에서 500만 뷰 이상을 기록했다 <a class="src-link" href="https://www.inven.co.kr/webzine/news/?news=321393" target="_blank">[출처 🔗]</a> — 함께 시연한 '데드 어카운트'도 대기열이 최장 2시간에 달했지만 정식 출시 일정은 확정되지 않았다 <a class="src-link" href="https://www.gamevu.co.kr/news/articleView.html?idxno=61028" target="_blank">[출처 🔗]</a></li>
+      <li>넥슨게임즈 '파레이돌리아'는 첫 시연에서 150분 대기줄을 만들었고, CBT는 시점 미확정 상태로 내년을 염두에 두고 준비 중이다 <a class="src-link" href="https://www.wolyo.co.kr/news/articleView.html?idxno=318231" target="_blank">[출처 🔗]</a></li>
+      <li>하나증권은 넷마블의 TGS 시연작('샹그릴라 프론티어: 일곱 최강종' 등)을 언급하며 '연내 출시되기 위해서는 10월 내에 출시 일정이 공개될 필요가 있다'고 분석했다 <a class="src-link" href="https://www.g-enews.com/view.php?ud=20261001085622895244093b5d4e_1" target="_blank">[출처 🔗]</a></li>
+    </ul>
+    <div class="pen">지난주 '시연 개시' 단계였던 TGS 라인업이 이번 주에는 수치(방문객·대기 시간·SNS 조회수)로 결산됐다. 반응은 모두 높게 나왔지만, 출시 목표를 밝힌 타이틀은 전부 2027년이거나 미확정이다. 국산 신작 경쟁은 2026년 안에는 '기대치 관리' 단계에 머문다.</div>
+  </div>
+
+  <div class="game-card">
+    <h4>CN 상위권이 9월 말 대형 버전을 동시에 투입했다 — 명조는 국내 앱스토어 매출 2위까지 올라섰다 <span class="tag update">UPDATE</span></h4>
+    <ul>
+      <li>명조: 워더링 웨이브는 9월 30일 3.7 버전으로 명조 최초의 수호신 픽업 캐릭터 '여우의 별자리'를 내놨다 <a class="src-link" href="https://www.gametoc.co.kr/news/articleView.html?idxno=111811" target="_blank">[출처 🔗]</a> — 주간 순위에서 구글 플레이 매출 5위, 앱스토어 매출 2위로 뛰어올랐고 스팀 글로벌 차트에서도 3위를 기록했다 <a class="src-link" href="http://www.popcornnews.net/news/articleView.html?idxno=134786" target="_blank">[출처 🔗]</a></li>
+      <li>이환은 같은 9월 30일 한국판 1.4 버전으로 신규 S급 '레이븐', 놀이공원 지역 '푸카 파라다이스', 포르쉐 2차 컬래버를 열었고 <a class="src-link" href="https://www.ipnn.co.kr/news/articleView.html?idxno=417718" target="_blank">[출처 🔗]</a>, 대만판도 같은 날 1.4 버전을 동시에 선보였다 <a class="src-link" href="https://gnn.gamer.com.tw/detail.php?sn=312530" target="_blank">[출처 🔗]</a></li>
+      <li>붕괴: 스타레일은 9월 28일 4.6 버전으로 신규 5성 '펄'을 추가했다(버전 기간 11월 11일까지) <a class="src-link" href="https://bbs.ruliweb.com/news/board/300001/read/2363538" target="_blank">[출처 🔗]</a></li>
+      <li>원신은 9월 23일 6주년 7.1 버전에서 마신 임무 완료 시 한정 5성 1종을 선택 영입하게 했고 <a class="src-link" href="https://zdnet.co.kr/view/?no=20260922095257" target="_blank">[출처 🔗]</a>, 게임메카 인기순위에서 12계단 올라 '명조'를 누르고 서브컬처 선두를 되찾았다(검색량·PC방·방송·투표 종합 지표) <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781205" target="_blank">[출처 🔗]</a></li>
+      <li>벽람항로는 9월 24일 한국 서버 한정 대형 이벤트 「유영 미성」 <a class="src-link" href="https://bbs.ruliweb.com/community/board/300143/read/76775674" target="_blank">[출처 🔗]</a>과 대만 서버 「幽影迷城」을 같은 날 열었다 <a class="src-link" href="https://gnn.gamer.com.tw/detail.php?sn=312225" target="_blank">[출처 🔗]</a></li>
+    </ul>
+    <div class="pen">9월 23일~30일 일주일 사이에 CN 상위권 4개 타이틀(원신·스타레일·명조·이환)이 모두 대형 버전을 냈다. CN산의 KR 침투는 버전 주기 자체가 KR 차트를 흔드는 단계이고, 이환·벽람항로처럼 KR·TW 동시 배포가 기본값이 됐다.</div>
+  </div>
+
+  <div class="game-card">
+    <h4>주년 업데이트가 매출 정점을 만든다 — 트릭컬 리바이브 3주년, 국내 구글 매출 4위로 역대 최고 <span class="tag hot">HOT</span></h4>
+    <ul>
+      <li>트릭컬 리바이브는 9월 24일 3주년 업데이트로 신규 엘다인 사도 '비비(신성)'·'우이(기억)'를 추가하고 이벤트 기간 최대 600회 무료 뽑기를 제공했다 <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781228" target="_blank">[출처 🔗]</a> — 이후 국내 구글플레이 매출 4위로 서비스 이후 최고 순위를 경신했고 일본 애플스토어에서도 매출 3위를 기록했다 <a class="src-link" href="https://www.inven.co.kr/webzine/news/?news=321647" target="_blank">[출처 🔗]</a></li>
+      <li>같은 3주년 편성으로 9월 28일부터 라프텔·애니플러스에서 애니메이션 '트릭컬 만화극장'을 매주 공개하고, 10월 3~4일 경희대 평화의전당 오케스트라 공연까지 이어간다 <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781228" target="_blank">[출처 🔗]</a></li>
+      <li>카오스 제로 나이트메어는 시즌5 '눈 위에 맺힌 약속' 프롤로그(9/30~10/21)와 함께 1주년 행사 '악몽제' 카운트다운을 시작했고 <a class="src-link" href="https://www.inven.co.kr/webzine/news/?news=321616" target="_blank">[출처 🔗]</a>, 신임 PD(최승현 라이브 디렉터)가 10월 초 1주년 쇼케이스에서 업데이트 방향을 공개한다 <a class="src-link" href="https://www.pointe.co.kr/news/articleView.html?idxno=85391" target="_blank">[출처 🔗]</a></li>
+      <li>CN에서는 물화미신이 9월 30일 3.4 버전·2.5주년 한정 모집을 열었다(~10/22) <a class="src-link" href="https://www.sina.cn/news/detail/5348788010485180.html" target="_blank">[출처 🔗]</a></li>
+    </ul>
+    <div class="pen">트릭컬은 '무료 뽑기 대량 지급 + 애니메이션 + 오프라인 공연'을 3주년 한 묶음으로 내고 매출 순위 역대 최고로 연결했다. 주년이 단순 보상 이벤트가 아니라 IP 미디어 확장의 기점으로 쓰이고 있다.</div>
+  </div>
+
+  <div class="game-card">
+    <h4>킨텍스가 서브컬처 팬덤 행사장이 됐다 — 호요랜드 전 회차 매진, 블루 아카이브 5주년 페스티벌 확정 <span class="tag trend">TREND</span></h4>
+    <ul>
+      <li>호요버스 '호요랜드 2026'이 10월 2~5일 킨텍스 제2전시장에서 3년째 열리며 4일 전 회차 입장권이 매진됐다 <a class="src-link" href="https://www.apnews.kr/news/articleView.html?idxno=3051669" target="_blank">[출처 🔗]</a> — 젠레스 존 제로는 실내 체험존, 붕괴3rd는 별도 티켓의 야외 공간으로 IP별 구역을 나눴다 <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225733" target="_blank">[출처 🔗]</a></li>
+      <li>넥슨은 11월 7~8일 킨텍스 9홀에서 '블루 아카이브 5주년 페스티벌'을 연다 — 입장권은 계정 레벨 기반 멤버십 코드로 판매하고(1차 10/14 레벨 70 이상, 2차 10/16 레벨 30 이상), 장기 이용자 1,200명에게 조기 입장 '패스트트랙'을 준다 <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781156" target="_blank">[출처 🔗]</a></li>
+      <li>리테일·굿즈 접점도 이어진다 — 메가MGC커피가 붕괴: 스타레일 한정 굿즈를 10월 15일 정식 출시하고 <a class="src-link" href="https://www.shinailbo.co.kr/news/articleView.html?idxno=5067100" target="_blank">[출처 🔗]</a>, 명조는 공식 실물 카드게임 '명조: 배틀'을 9월 30일 출시했다 <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1780982" target="_blank">[출처 🔗]</a></li>
+      <li>신규 등재 '뱅드림! 아워 노트'는 글로벌 출시와 함께 서울 홍대에 테마 팝업을 열었고, 추석 연휴에도 팬들이 '최애캐'를 만나러 방문했다 <a class="src-link" href="https://www.gametoc.co.kr/news/articleView.html?idxno=111796" target="_blank">[출처 🔗]</a></li>
+    </ul>
+    <div class="pen">블루 아카이브가 입장권을 '계정 레벨'로 거는 방식은 오프라인 행사를 리텐션 장치로 쓰는 설계다. 같은 장소(킨텍스)에서 호요랜드와 5주 간격으로 열려 KR 팬덤 행사 규모 비교가 직접 이뤄진다.</div>
+  </div>
+
+  <div class="game-card">
+    <h4>KR 개발사의 일본 의존이 숫자로 드러났다 — 블루 아카이브 누적 매출 72%가 일본 <span class="tag global">GLOBAL</span></h4>
+    <ul>
+      <li>블루 아카이브는 출시 후 3.5년간 글로벌 누적 매출의 약 72%가 일본에서 발생했고, 일본 다운로드 비중은 34%에 그쳤다 — 코믹마켓 참가 서클 수도 약 894개(C102)에서 약 1,922개(C104)로 늘었다 <a class="src-link" href="https://www.gametoc.co.kr/news/articleView.html?idxno=111764" target="_blank">[출처 🔗]</a></li>
+      <li>승리의 여신: 니케는 일본에서 도쿄돔시티 어트랙션즈 컬래버(~10/18) <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225921" target="_blank">[출처 🔗]</a>와 교토 컬래버 2탄(~11/10)을 동시에 운영한다 <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225700" target="_blank">[출처 🔗]</a></li>
+      <li>반면 메리츠증권은 니케 3분기 매출(중국 포함)을 410억 원, 전년 동기 대비 7.7% 감소로 추정하고 시프트업 목표주가를 4만 3,000원에서 3만 5,000원으로 내렸다 — 니케 차이나는 글로벌 빌드와의 격차에서 오는 중국 게이머 불만을 극복하지 못했다고 평가했다 <a class="src-link" href="http://www.4th.kr/news/articleView.html?idxno=2119088" target="_blank">[출처 🔗]</a></li>
+    </ul>
+    <div class="pen">KR 서브컬처의 매출 무게중심은 일본이고, 신작(펄 인 블루)은 기획부터 일본을 정조준한다. 반대로 CN 시장 진출은 니케 사례처럼 빌드 격차가 성과를 깎는 리스크로 확인된다.</div>
+  </div>
+
+  <div class="game-card">
+    <h4>테스트·출시 파이프라인 — 아스트라에 오라티오 글로벌 CBT 개시, CN 신작은 첫 상업화 테스트로 BM을 검증한다 <span class="tag new">NEW</span></h4>
+    <ul>
+      <li>아스트라에 오라티오는 10월 2~6일 안드로이드·iOS 글로벌 CBT를 한국어·일본어·중국어 번체·영어로 진행하며 메인 스토리 3종, 첫 공개 레이드, 캐릭터 18종을 선보인다 <a class="src-link" href="https://www.newspim.com/news/view/20260923000795" target="_blank">[출처 🔗]</a> — 직전에 studio Stellation 제작 프롤로그 애니메이션 PV를 공개했다 <a class="src-link" href="https://www.inven.co.kr/webzine/news/?news=321659" target="_blank">[출처 🔗]</a></li>
+      <li>아주르 프로밀리아 중국 3차 테스트는 처음으로 상업화 요소를 넣었고, 한정 픽업에서 5성을 뽑으면 해당 한정 캐릭터를 바로 얻는 '픽뚫 없는' 방식을 적용했다 <a class="src-link" href="https://finance.sina.com.cn/tech/roll/2026-09-23/doc-inisvumx0993874.shtml" target="_blank">[출처 🔗]</a></li>
+      <li>실버 팰리스는 PC·모바일을 대상으로 한 첫 기술 테스트 'Dichotomy: Retrace' 참가자를 10월 10일까지 모집한다 <a class="src-link" href="https://game8.co/articles/latest/silver-palace-3rd-closed-beta-test-dichotomy-retrace-recruitments-now-open" target="_blank">[출처 🔗]</a></li>
+      <li>'뱅드림! 아워 노트'는 글로벌 사전예약 200만을 넘긴 뒤 <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225660" target="_blank">[출처 🔗]</a> 9월 24일 한국어 포함 글로벌 정식 출시했다 <a class="src-link" href="https://www.xportsnews.com/article/2199827" target="_blank">[출처 🔗]</a></li>
+    </ul>
+    <div class="pen">CN 신작은 가챠 체감 설계('픽뚫 없음')를 테스트 단계에서 먼저 공개해 출시 전 여론을 관리한다. KR 유저의 가챠 불만이 큰 지점을 정면으로 겨냥한 BM이 2027년 출시작의 기본 사양이 될 가능성이 있다.</div>
+  </div>
+
+  <div class="summary-box">
+    <h4>종합</h4>
+    <ul>
+      <li>TGS 결산 결과 국산 신작들이 기대치를 확인했다(펄 인 블루·미래시·데드 어카운트 2시간 안팎 대기, 파레이돌리아 150분 대기, 아스트라에 오라티오 방문객 약 3만 명). 다만 출시 목표는 2027년이거나 미확정이다.</li>
+      <li>CN 상위권 4개 타이틀이 9월 23~30일에 대형 버전을 몰아 냈고, 명조는 국내 앱스토어 매출 2위까지 올랐다. 이환·벽람항로는 KR·TW 동시 배포를 기본값으로 운영한다.</li>
+      <li>트릭컬 리바이브 3주년(무료 600회 뽑기·애니메이션·오케스트라)이 국내 구글 매출 4위로 역대 최고를 찍으며 주년 편성의 효과를 증명했다.</li>
+      <li>호요랜드(10/2~5, 전 회차 매진)와 블루 아카이브 5주년 페스티벌(11/7~8)이 같은 킨텍스에서 5주 간격으로 열린다. 오프라인 팬덤 행사가 KR 서브컬처의 핵심 마케팅 축이 됐다.</li>
+      <li>블루 아카이브 누적 매출의 72%가 일본이라는 수치가 나왔다. KR 서브컬처의 매출 중심이 일본이라는 구조가 재확인됐다.</li>
+    </ul>
+    <div class="bd2-sub">브더2 핵심 과제</div>
+    <ul>
+      <li>국산 경쟁 신작이 2027년으로 모인 만큼 2026년 4분기는 기존 라이브 타이틀 간 경쟁 구간이다. 트릭컬처럼 주년·대형 업데이트를 'IP 미디어 확장'과 묶는 편성이 비교 기준이 된다.</li>
+      <li>CN 대형 버전이 월말에 몰리는 주기를 피해 브더2 대형 업데이트 시점을 잡는 것이 과금 분산을 줄이는 길이다.</li>
+      <li>오프라인 행사를 '계정 레벨 연동 입장권'처럼 리텐션 장치로 설계하는 방식(블루 아카이브)은 브더2 오프라인 이벤트 기획에 바로 참고할 수 있다.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="tab" id="t2">
+  <h2><span class="num">2</span>게임별 30일 이슈 (2026.09.02~10.02 · 106건)</h2>
+  <div class="publisher-group">
+    <h3><span class="publisher-badge kr">KR</span>국내 개발·퍼블리싱 (라이브 서비스)</h3>
+    <div class="game-card">
+      <h4>승리의 여신: 니케 <span class="publisher-badge kr">시프트업 / 레벨인피니트</span></h4>
+      <ul>
+        <li><b>9/24~10/15</b> <span class="tag global">GLOBAL</span> '승리의 여신: 니케' 2026 바니걸 시즌 이벤트 'COIN RUSH SHOWDOWN' 파트2가 9월 24일 오전 5시 오픈했으며 이벤트는 10월 8일 오전 4시 59분까지 진행된다. 신규 SSR 니케 '신: 스위프트 바니'가 추가됐고 픽업 기간은 9월 24일부터 10월 15일 오전 4시 59분까지다. '신: 스위프트 바니'는 저격소총(SR) 사용 3버스트 화력형 니케로 '길티: 마이티 바니'와 바니 모드 시스템을 공유한다. <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225719" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~10/15</b> 레벨인피니트가 '승리의 여신: 니케'에 신규 SSR 화력형 니케 2종을 추가했다. 저격총 '럼블 스톰퍼'를 쓰는 '길티 : 마이티 바니'는 10월 8일까지, 저격총 '블링크 캐럿'을 쓰는 '신 : 스위프트 바니'는 24일부터 10월 15일까지 모집할 수 있다. 기업 엑스포와 배틀로얄을 소재로 '플랜 C 스쿼드'가 등장하는 풀보이스 스토리 이벤트 'COIN RUSH SHOWDOWN'과 미니게임 'THREE COMPANY RUMBLE'이 열리고, 10월 8일까지 겨울 테마 캐릭터(루피 : 윈터 쇼퍼, 앤 : 미라클 페어리, 루드밀라 : 윈터 오너, 메이든 : 아이스 로즈, 길로틴 : 윈터 슬레이어 등 6종) 중 1종을 고르는 기간 한정 선택 모집이 진행된다. 신규 코스튬 '슈가 - 킬러 래빗'·'마나 - 드렁큰 래빗'과 기존 한정 바니걸 코스튬 6종 복각 판매, 3.5주년 스토리 이벤트 'STAR ANIS' 아카이브 추가, 장비 개조 시스템 편의성 개선이 함께 적용됐다. <a class="src-link" href="https://www.ilovepcbang.com/news/articleView.html?idxno=201880" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/15~11/10</b> <span class="tag global">JP</span> '승리의 여신: 니케'의 교토 컬래버 2탄 'NIKKE in Kyoto 2026'이 9월 15일부터 11월 10일까지 진행된다. 9월 14일 교토역 빌딩 가라스마오지 광장에서 기자회견과 점등식이 열렸다. 교토 8곳을 돌며 스탬프를 모으는 분실물 찾기 프로그램이 핵심이며, 아니스: 스타 등 니케 8명이 전통 의상 차림으로 등장한다. <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225700" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/10~10/18</b> <span class="tag global">JP</span> '승리의 여신: 니케'가 일본 도쿄돔시티 어트랙션즈와 9월 10일부터 10월 18일까지 컬래버 이벤트 '유원지를 탈환하라, 지휘관!'을 진행 중이며 9월 30일부터 후반부에 들어갔다. 교복 콘셉트 일러스트로 라피: 레드 후드, 헬름, 신데렐라, 크라운, 나유타, 나가 6명이 등장한다. 놀이기구 5종 테마 어트랙션, 수수께끼 랠리, 13곳 18종 컬래버 메뉴, 굿즈 판매 등이 운영된다. <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225921" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/9</b> '승리의 여신: 니케'의 경쟁 랭킹 콘텐츠 '솔로 레이드'에서 불법 프로그램 사용 의혹이 제기됐다. 상위권 계정 점수가 31억2,705만8,540점으로 끝자리까지 동일하게 나타난 것이 발단으로, 시프트업은 9월 2일 1차 공지 후 9월 9일 추가 제재 결과를 발표했다. 초기 제재가 '7일 이용 제한'에 그쳐 솜방망이라는 비판이 나오자 최종적으로 38개 계정을 10년 정지로 상향했다. 유형석 부사장이 대응 창구로 나섰고 김형태 대표는 공개 발언을 하지 않았다. 기사에는 구체적 매출 손실 수치는 제시되지 않았다. <a class="src-link" href="https://www.globale.co.kr/news/articleView.html?idxno=40351" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/3</b> 레벨 인피니트는 승리의 여신: 니케에 SSR 니케 드레이크 : 그레이트 빌런을 업데이트하고 신규 스토리 이벤트 GREAT VILLAIN UNION을 시작했다. <a class="src-link" href="https://www.inven.co.kr/webzine/news/?news=320361" target="_blank">[출처 🔗]</a></li>
+        <li><b>3분기</b> <span class="tag global">GLOBAL·CN</span> 메리츠증권은 시프트업의 3분기 연결 매출액을 503억원, 영업이익을 257억원으로 추정하고 목표주가를 4만3000원에서 3만5000원으로 18.6% 하향했다. 중국을 포함한 3분기 니케 매출은 410억원으로 전년 동기보다 7.7% 감소할 것으로 추정했다. 니케 글로벌은 2분기 반주년 행사 성공으로 두 자릿수 성장했지만 3분기는 비수기로 전년 수준 실적이 예상됐고, 니케 차이나는 글로벌 빌드와의 갭에서 발생하는 중국 게이머 불만을 극복하지 못했다고 평가했다. <a class="src-link" href="http://www.4th.kr/news/articleView.html?idxno=2119088" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 최상(KR #1, 3개월연속) · TW 상(2025 #7)</div>
+    </div>
+    <div class="game-card">
+      <h4>블루 아카이브 <span class="publisher-badge kr">넥슨게임즈 / 넥슨</span></h4>
+      <ul>
+        <li><b>11/7~11/8</b> 넥슨이 11월 7일부터 8일까지 일산 킨텍스 제2전시장 9홀에서 '블루 아카이브 5주년 페스티벌'을 개최한다. 미니게임, 특별 방송, 무대 공연, 공식 굿즈, 코스프레, 2차 창작 부스 등이 마련된다. 입장권은 계정 레벨 기반 멤버십 코드로 판매되며 1차는 10월 14일(레벨 70 이상), 2차는 10월 16일(레벨 30 이상)이다. 장기 이용자 1,200명을 선정하는 '패스트트랙' 조기 입장 프로그램도 운영된다. <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781156" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/28</b> <span class="tag global">JP</span> '블루 아카이브'는 출시 후 3.5년간 글로벌 누적 매출의 약 72%가 일본에서 발생했으며, 일본 다운로드 비중은 34%에 그쳤다. 코믹마켓 참가 서클 수는 C102 약 894개에서 C104 약 1,922개로 늘었다. 5주년 'DJ Fest Tour'(8~10월) 전 회차가 매진되는 등 일본 오프라인 행사 수요가 이어지고 있다. <a class="src-link" href="https://www.gametoc.co.kr/news/articleView.html?idxno=111764" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/15~9/28</b> 넥슨이 '블루 아카이브'에 메인 스토리 2부 'Ex. 로어추적 편 2장'을 추가했다. FOX 소대 학생들이 총학생회장 지시로 카네사키 항 실종 사건을 조사해 도시전설 '드럼통 게'의 정체를 밝히는 내용이며, 카네사키 항을 필드 이벤트 형태로 탐색하며 단서를 모으고 선택지를 고르는 신규 연출이 도입됐다. 게헨나 학원의 드레스 콘셉트 신규 학생 2종이 추가됐는데 '무츠키(드레스)'는 신비 속성 딜러로 EX 스킬이 단일 대상 고피해를, '하루카(드레스)'는 폭발 속성 딜러로 EX 스킬이 적 방어력 일부를 무시한다. 총력전 신규 보스 '드럼통 게'는 9월 22일부터 28일까지 진행되며 경장갑·특수장갑 2종 방어 타입과 '카운터 클로', '주포 사격' EX 스킬을 갖는다. 미니 스토리 '잡초는 홀로 피지 않는다'와 신규 이용자 이벤트 '샬레 정식 발령! 어서 오세요 선생님!'도 추가돼 일일 보상 아카이브 모집 티켓 10장, 최종 보상 50장, T7 장비 설계도 선택 상자 등을 제공한다. <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225317" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/9</b> 블루 아카이브 일본 서버 이벤트 '여름 하늘의 프로미스' 복각이 2026년 9월 9일(수) 점검 이후 개최된다고 예고됐다. <a class="src-link" href="https://bbs.ruliweb.com/news/board/320108/read/2293747" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/8~9/15</b> '블루 아카이브'는 9월 8일(화) 11시~15시 점검 후 신규 학생 '에리카'(★3)를 추가했다. 미니 이벤트 '샬레 총결산 with 총학생회'가 9월 15일까지 진행되고 보상 교환은 9월 22일까지다. 전술대회 시즌 11이 시가지에서 야외 전장으로 변경되며 방어력·회피·코스트 회복에 영향을 주는 'FEVER TIME' 기믹이 도입됐다. 대결전 '묘귀 쿠로카게'(시가전)가 9월 8일~15일 진행되고 보상 수령은 10월 6일까지다. 신규 미니 스토리 'ON AIR: 게헨나' 1~2화, 에리카 인연 콘텐츠가 추가됐고 키라라·츠바키(가이드)·우미카·피나(가이드) 복각 픽업이 9월 15일까지 진행됐다. 점검 보상으로 청휘석 480개가 지급됐다. <a class="src-link" href="https://bbs.ruliweb.com/news/board/320108/read/2293822" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 상(자체 서비스) · TW 중(요스타)</div>
+    </div>
+    <div class="game-card">
+      <h4>트릭컬 리바이브 <span class="publisher-badge kr">에피드게임즈 / 에피드·빌리빌리(TW)</span></h4>
+      <ul>
+        <li><b>10/3~10/4</b> 트릭컬 리바이브는 10월 3일과 4일 서울 경희대학교 평화의전당에서 3주년 기념 오케스트라 공연을 개최한다. <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781228" target="_blank">[출처 🔗]</a></li>
+        <li><b>10/1</b> <span class="tag global">JP</span> 트릭컬 리바이브가 국내 구글플레이 매출 순위 4위를 기록하며 서비스 이후 최고 매출 순위를 경신했다. 일본 애플스토어에서도 매출 3위를 기록했다. 9월 24일 3주년 업데이트의 영향으로 분석됐다. <a class="src-link" href="https://www.inven.co.kr/webzine/news/?news=321647" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/28</b> 트릭컬 리바이브는 3주년을 기념해 9월 28일부터 라프텔과 애니플러스에서 애니메이션 '트릭컬 만화극장'을 매주 1화씩 공개하고 있다. <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781228" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/24~11/5</b> 에피드게임즈가 '트릭컬 리바이브' 서비스 3주년 대규모 업데이트를 예고했다. 9월 24일 점검과 함께 테마극장 신규 에피소드(총 17화)와 신규 엘다인 사도가 추가되고 인게임 광고가 전면 제거된다. 광고 기반 보상은 새 혜택으로 재편된다. 10월 1일 '보드 만개' 기능과 던전 15스테이지 확장, 10월 15일·29일 시즌3 8장 전·후반, 11월 5일 무제한 스토리 감상 이벤트 마감, 11월 죽음을 테마로 한 신규 보스가 순차 적용된다. 출석 이벤트 보상으로 첫날 '에르핀(왕도)', 15일 달성 시 '네르(빡침)' 코스튬을 지급하며 3주년 이벤트 전체로 600회 이상의 뽑기를 제공한다. '최애 사도 선택 모집'과 '빵주 데이트' 기능, '예술의 쩐당' 투표 이벤트 '리스티의 최애 결정전'이 신설되고, '이달의 우수 복권' 필요 횟수는 336회에서 112회로 약 66% 줄어든다. 캐릭터 최대 레벨은 140에서 150으로, 경험치 부스트 구간은 100에서 120레벨로 확대되며 왕사탕·별사탕 일일 충전 한도는 각각 15회·5회로 늘어난다. 사전예약 보상에는 전설 펫과 엘리프 3,000이 포함된다. <a class="src-link" href="https://www.gamevu.co.kr/news/articleView.html?idxno=60820" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/24</b> 에피드게임즈는 9월 24일 3주년 업데이트를 통해 신규 엘다인 사도 '비비(신성)'와 '우이(기억)'를 추가했다. 이벤트 기간 동안 최대 600회의 무료 뽑기 기회를 제공하며, 접속 시 3주년 기념 테두리와 사도 모집 티켓 30장, 취향 모집 티켓 30장을 지급한다. <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781228" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/10~9/24</b> '트릭컬 리바이브'는 9월 10일(목) 점검 후 신규 사도 '로니' 픽업 모집과 테마극장 '후회냐? 미련이냐? 다시 돌아올 석양을 향해'를 오픈했다. [사도 면접] 시스템 내 사도도 [로니]로 변경됐다. 신규 스펙타클 카드 뽑기, 스토리 요약 특별 전시 이벤트가 함께 시작되고, 기존 테마극장 '심연으로 밝히는 너의 오로라'와 오로라·디아나 픽업은 9월 10일 10:59 종료됐다. 신규 정규 PvP 시즌은 9월 10일 점검 후~10월 8일(목) 10:59 진행되며 계정 생성 경과일(7일/8~30일/…/365일 이상) 기준 티어 그룹이 적용된다. 신규 펫 아이템 '마라그니마'와 사복 아이템은 9월 24일(목) 10:59까지 판매된다. <a class="src-link" href="https://memic.at/articles/821284" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/3</b> 9월 3일(목) 정기점검을 통해 업데이트가 진행되며 신규 추가 콘텐츠로 '차원 대충돌 2.0 BETA 시즌'이 활발하게 진행된다. <a class="src-link" href="https://bbs.ruliweb.com/news/board/1004/read/2293613" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 상(top-10, 2026) · TW 중</div>
+    </div>
+    <div class="game-card">
+      <h4>림버스 컴퍼니 <span class="publisher-badge kr">프로젝트문 / 프로젝트문 자체</span></h4>
+      <ul>
+        <li><b>10/1</b> <span class="tag global">GLOBAL</span> '림버스 컴퍼니' 시즌8 'PUNCTUM'과 메인 스토리 10장이 시작됐다. 10월 1일 하편 업데이트와 함께 시즌 패스가 120레벨까지 개방된다. 시즌 패스 보상은 스토리 공개 일정에 맞춰 순차적으로 열리는 방식이다. <a class="src-link" href="https://www.gameple.co.kr/news/articleView.html?idxno=216573" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~9/21</b> <span class="tag global">JP</span> 프로젝트문은 TGS 2026 HALL 8에 림버스 컴퍼니 부스를 운영했으며 비즈니스 데이부터 대기열이 꾸준히 이어졌다. 현장 시연 범위는 메인 스토리 10-4의 일부로 제한 시간은 15분이었고, 이스마엘과 료슈의 신규 인격도 사용할 수 있었다. 현장에서는 뫼르소 부채, 타포린 백, 손수건, E.G.O 기프트 러버 배지를 배포했다. <a class="src-link" href="https://www.gameple.co.kr/news/articleView.html?idxno=216543" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/11</b> 프로젝트문이 '림버스 컴퍼니' 시즌 8 트레일러를 공개하며 제10장(Canto 10)을 발표했다. 제10장은 N사(N-Corp)를 배경으로 하며 1장 클리어 직후 진입 가능하다. 신규 인격 2종은 오트 쿠튀르 계열의 료슈 'Noir Footwear'(출혈/진동)와 이스마엘 'Boutique du Rouge'(출혈/침착)이며, 배틀패스 E.G.O 4종은 홍루 'Repudiation', 로쟈 'Mirror-Touch', 파우스트 'Hollow'(WAW), 뫼르소 'Hollow'(WAW)다. 아나운서는 뫼르소·G.M. Sisphe·Jeanne 3종이 포함됐다. 최대 변화는 뫼르소·단테와 교체되는 수감자들이 등장하는 RPG메이커 풍 탑다운 던전 탐사 요소로, 프로젝트문 작품에서 도시 내 장소를 직접 탐험하는 것은 처음이다. 제10장 스토리는 주간 패치 3회에 걸쳐 전개되며 1화는 므네시스 경험 종료 후 체포된 뫼르소의 재판을 다룬다. <a class="src-link" href="https://www.dualshockers.com/limbus-company-season-8-reveals-canto-10-new-identities-and-rpg-gameplay" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 상(top-10, 2026) · TW 중</div>
+    </div>
+    <div class="game-card">
+      <h4>몬길: STAR DIVE <span class="publisher-badge kr">넷마블 / 넷마블 자체</span></h4>
+      <ul>
+        <li><b>9/30</b> <span class="tag global">GLOBAL</span> 넷마블은 '몬길: STAR DIVE'에 1.4 버전 업데이트를 실시해 7번째 에피소드 '잿빛 요람을 흔드는 베르쇠즈'와 신규 지역을 공개했다. 신규 지역에서는 몬스터링 29종과 링크체인 15종, 신규 전설 토벌 몬스터 '소린'이 등장한다. 얼음 속성 신규 5성 캐릭터 '이자벨라'의 이야기를 스토리 '경계를 넘는 방랑자들'로 확인할 수 있다. '속성의 성소', '모바일 AR 촬영 모드'가 추가됐고 모험 레벨 최대치는 60에서 70으로 확장됐다. <a class="src-link" href="https://www.betanews.net/article/view/beta202609300057" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/9</b> 넷마블은 9월 9일 '몬길: STAR DIVE'에 원작 '몬스터 길들이기' 캐릭터 인기 투표 1위였던 '비비안'을 신규 5성 캐릭터로 추가했다. 비비안은 화속성 5성 지원 캐릭터로 화속성 피해 버프와 화속성 저항 감소로 아군 전투력을 높인다. 3주간 진행되는 이벤트 '영원한 기쁨의 바니걸'에서 미션·이벤트 던전으로 소환권과 성장 재료를 획득할 수 있고, 비비안 스토리를 다룬 신규 에픽 퀘스트 '욕망 수집가'가 추가됐다. 하반기 로드맵으로 30일 적용되는 1.4 버전에 에피소드 7·신규 지역 '가바 제도'·0.5주년 캐릭터 복각이, 1.5 버전에 친구 시스템 개편·랭킹 명예 시스템이, 1.6 버전에 연말연시 스토리·캐릭터 에필로그·호감도 상호작용이 예고됐다. <a class="src-link" href="https://www.xportsnews.com/article/2193771" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 상(KR #4, 2026.5) · TW -</div>
+    </div>
+    <div class="game-card">
+      <h4>로스트 소드 <span class="publisher-badge kr">코드캣 / 위메이드커넥트</span></h4>
+      <ul>
+        <li><b>10/1</b> 로스트 소드 10월 1일 업데이트로 크리스티나의 코스튬이 추가되며 구매 시 '코스튬 에피소드'를 볼 수 있다. 마을 NPC '핀'을 통해 입장하는 '슬라임 경주' 이벤트와 메이드 카페 캐릭터 호출 기능이 추가됐다. 셀렉트 픽업 이벤트가 10월 1일부터 15일까지 진행되며 '소녀의 과거', '서큐버스 여왕, 강림?' 이벤트 던전이 열렸다. <a class="src-link" href="https://bbs.ruliweb.com/mobile/board/320108/read/2295062" target="_blank">[출처 🔗]</a></li>
+        <li><b>10월</b> 로스트 소드 10월 첫 번째 개발자 노트에 따르면 10월 두 번째 업데이트에서 카지노 배경의 스톤헨지 16층과 신규 보스 릴리아가 추가된다. 갤러해드의 메모리얼 코스튬은 10월 출시를 목표로 준비 중이다. <a class="src-link" href="https://bbs.ruliweb.com/news/board/320108/read/2294663" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17</b> 위메이드커넥트가 서브컬처 RPG '로스트 소드'에 추석 맞이 대규모 업데이트를 실시했다. '제국의 집정관'이라는 이명을 가진 전격 속성 후열 사수 신규 캐릭터 '크라사'와 그 메모리얼 코스튬이 추가됐다. 크라사는 은빛 와이어를 활용한 전투가 특징이다. 구글 플레이 게임즈 지원이 시작돼 모바일과 PC를 연동해 플레이할 수 있고 추후 스팀 출시도 예정돼 있다. 추석 이벤트로 업데이트 후 14일간 일일 보상을 주는 '달맞이 미션'과 빙고 완성 보상을 주는 '바니 엘리의 빙고'가 진행되며, 추석 테마 인게임 이모티콘 8종이 추가됐다. 장비 프리셋 기능 개선 등 시스템·UI 편의성 개선도 함께 적용됐다. <a class="src-link" href="https://www.ilovepcbang.com/news/articleView.html?idxno=201843" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/10</b> <span class="tag global">TW</span> 코드캣이 개발하고 위메이드커넥트가 서비스하는 '로스트 소드'는 2025년 1월 국내 출시 후 50일 만에 누적 매출 1,000만 달러를 달성했다. 같은 해 7월 유럽·북미 글로벌 출시에 이어 8월 NC타이완을 퍼블리셔로 대만·홍콩·마카오 중화권에 진출했다. 현재 스팀 상점 페이지를 열었으나 출시일은 미발표다. 같은 기사에서 위메이드커넥트의 '메이크 드라마: MAD'는 8월 13일 스팀 사전예약을 시작하며 미국·대만·일본 구글플레이/앱스토어 사전예약을 병행하고 모바일-스팀 크로스플레이를 지원한다고 밝혔다(스팀 음성은 일본어, 텍스트는 한국어·일본어·영어·중국어 간체/번체 지원). <a class="src-link" href="https://www.gamevu.co.kr/news/articleView.html?idxno=60701" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/3</b> 로스트소드 9/3(목) 업데이트 안내. 이벤트 회상은 로비 &gt; 메이드 선택 &gt; 회상 &gt; 이벤트 탭에서 확인 가능. <a class="src-link" href="https://bbs.ruliweb.com/mobile/board/1004/read/2293658" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 상(2025.1 출시, 50일 $10M) · TW -</div>
+    </div>
+    <div class="game-card">
+      <h4>이터널 리턴 <span class="publisher-badge kr">님블뉴런</span></h4>
+      <ul>
+        <li><b>10/1</b> <span class="tag global">GLOBAL</span> 님블뉴런은 '이터널 리턴'에 91번째 신규 캐릭터 세레스를 추가했다. 세레스는 양손검을 주무기로 사용하며 탱커와 지원가 역할을 담당한다. 신규 스킨 '테니스부 프리야', 세레스 이모티콘 4종과 함께 유저 차단 기능 등 시스템 개선이 진행됐다. <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781281" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17</b> 님블뉴런이 '이터널 리턴' 12.4 패치를 9월 17일 오전 11시~오후 3시 점검과 함께 적용했다. 아카이브에 메인 스토리 신규 에피소드 'Ep.2 재가 기억하는 것'이 추가됐고, 다이아 티어 이하 솔로 이용자가 주간 재화 '탄환'을 써서 랭크 포인트를 200%(갬빗) 또는 300%(킹스 갬빗) 배율로 베팅하는 '갬빗' 시스템이 12.7 패치까지 시험 운영된다. 시즌 패스 보유 시 음성을 팀 채팅 텍스트로 변환하는 '음성 타이핑' 베타와 마우스 커서 크기 옵션도 추가됐다. 시즌12 루미아 유니온전은 9월 16일 23시 59분 기준으로 종료되고, 시즌12 코발트 유니온전이 9월 17일부터 9월 30일까지 4인 팀 기준으로 시작된다. 신규 희귀 스킨 '청춘, 한 컷 비형'과 에키온 이모트가 추가되고, 시즌12 e스포츠 지원 패키지(9,900원)와 KEL 팀 지원 패키지 16종(각 9,900원)이 판매된다. 다수 실험체 밸런스 조정과 전설 장신구 2종 추가, 버그 수정이 포함됐다. <a class="src-link" href="https://playeternalreturn.com/posts/news/3838?hl=ko-KR" target="_blank">[출처 🔗]</a></li>
+        <li><b>9월</b> 님블뉴런의 '이터널 리턴' 시즌 12 '세일링'과 연계한 테마 팝업 카페 '카페 세일링'이 경기도 IP 사업 지원 프로그램의 일환으로 운영된다. 2026년 9~11월 12주간 진행되며 4주 단위로 특전이 교체되고 일부 주차에는 이터널 리턴 선수·인플루언서를 초청한 일일카페가 열린다. 장소는 경기 안양시 동안구 블루버드로스터스 평촌CGV점(관평로170번길 33, 122호)과 금강스마트점(시민대로 311 금강스마트빌딩 1층)이며 예약 없이 자유석으로 운영된다. 특전은 '카페 세일링 전용 메뉴' 구매 시 테이크아웃으로만 제공되고 랜덤 지급되며, 점포별 수량이 한정돼 소진 시 별도 예고 없이 종료될 수 있다. <a class="src-link" href="https://www.gametoc.co.kr/news/articleView.html?idxno=111375" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 상 · TW 중</div>
+    </div>
+    <div class="game-card">
+      <h4>카오스 제로 나이트메어 <span class="publisher-badge kr">Super Creative / 스마일게이트</span></h4>
+      <ul>
+        <li><b>10월</b> 최승현 라이브 디렉터가 카오스 제로 나이트메어의 신임 PD로 선임됐다. 신임 PD는 내달(10월) 초 1주년 쇼케이스를 통해 향후 업데이트 방향성을 상세히 공개할 예정이다. 정식 출시 1주년 행사 '악몽제'의 카운트다운 출석 이벤트도 시작됐다. <a class="src-link" href="https://www.pointe.co.kr/news/articleView.html?idxno=85391" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/30~10/21</b> 스마일게이트가 카오스 제로 나이트메어 시즌5 '눈 위에 맺힌 약속'의 프롤로그를 공개했다. 프롤로그는 9월 30일부터 10월 21일까지 진행되며 시즌5 정식 시작은 10월 21일이다. 신규 4성 전투원 '아니카'가 추가되고 세레니엘과 파트너 페코가 복귀하며, 에테르 셀 시스템이 도입된다. 10월 개최 예정인 1주년 행사 '악몽제' 카운트다운도 시작됐다. <a class="src-link" href="https://www.inven.co.kr/webzine/news/?news=321616" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~10/29</b> '카오스 제로 나이트메어' 9월 9일 업데이트 공지에 따르면 같은 퍼블리셔(스마일게이트) 타이틀과의 콜라보로 양 게임에서 사용 가능한 쿠폰 코드가 9월 17일 18:00(KST)부터 10월 29일 12:00(KST)까지 배포되며, 구출 앵커 3개와 유닛 300,000개가 보상으로 지급된다. <a class="src-link" href="https://bbs.ruliweb.com/news/board/1004/read/2293901" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 신규 · TW -</div>
+    </div>
+    <div class="game-card">
+      <h4>라스트 오리진 <span class="publisher-badge kr">스마트조이 / 밸로프</span></h4>
+      <ul>
+        <li><b>10/29~11/19</b> 라스트오리진은 10월 22일 예정이던 업데이트를 일주일 연기해 10월 29일에 진행한다고 공지했다. 이 업데이트에는 '라스트오리진 X 사니양 연구실' 컬래버레이션 이벤트를 비롯해 챕터 시나리오 리뉴얼, 전투 시스템 리뉴얼이 포함된다. 컬래버 이벤트 '수상한 연구소의 사라진 대학원생'은 10월 29일부터 11월 19일까지 진행된다. <a class="src-link" href="https://bbs.ruliweb.com/news/board/320108/read/2295034" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/10~9/22</b> '라스트 오리진'은 2026년 9월 10일 11:00~16:00 정기점검을 진행했다. 셀시 선행 패키지 판매 종료와 함께 신규 스킨 '에코 프렌들리 란제리'와 일반 캐릭터 패키지가 출시됐다. 이벤트 '침묵하는 늪'이 종료되고 교환소는 9/22 업데이트 후 닫히며 이벤트 화폐 '올챙이'도 함께 삭제된다. '다시 시작하는 바다 모험'이 복각돼 9/22 점검까지 신규 소모품 '구조 튜브'로 진행할 수 있고 기존 최초 클리어·완료 보상은 재획득할 수 없다. 월간 교환소에 A랭크 중장형 지원기·A랭크 경장형 공격기와 지원 장비 2종이 추가됐고, 셀시 연계 OS형 지원 장비가 총력전 교환소에 추가됐다. 점검 보상으로 모든 자원 5,000개가 9월 11일까지 지급됐다. <a class="src-link" href="https://bbs.ruliweb.com/news/board/1004/read/2293874" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 중 · TW -</div>
+    </div>
+    <div class="game-card">
+      <h4>호라이즌 워커 <span class="publisher-badge kr">젠틀매니악</span></h4>
+      <ul>
+        <li><b>9/23</b> <span class="tag global">GLOBAL</span> 젠틀매니악은 9월 23일 '호라이즌 워커'에 신장 2미터가 넘는 신규 캐릭터 '가루드'를 추가한다. 가루드는 불사조 혈족 설정의 장신 여성 캐릭터로 '공격형 근위' 역할을 맡는다. 에우제니아의 신규 코스튬과 신규 콘텐츠 '성흔'·'토벌'이 추가되고 '도파민 채널'도 갱신된다. <a class="src-link" href="https://www.inven.co.kr/webzine/news/?news=321344" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 중(라이브, niche) · TW -</div>
+    </div>
+    <div class="game-card">
+      <h4>메이크 드라마: MAD <span class="publisher-badge kr">플러피덕 / 위메이드커넥트</span></h4>
+      <ul>
+        <li><b>9/10</b> <span class="tag global">TW</span> 위메이드커넥트가 플러피덕이 개발한 모바일 서브컬처 RPG '메이크 드라마: MAD'의 국내 출시 100일 기념 업데이트를 진행했다. 신규 파트너 '비앙카'는 가면과 검을 사용하는 캐릭터로 새롭게 공개되는 이야기의 주요 인물로 등장하며 메인 스토리 5장이 함께 추가됐다. 최대 레벨과 영지 정복 콘텐츠가 확장되고, NPC 호출 시 음성 대사 추가와 일부 챕터 난이도 조정 등 편의성이 개선됐다. 기념 이벤트로 생일 캐릭터·호감도 랭크 연계 '9월의 생일파티!', 접속 보상 '100일 감사 선물', 미션 이벤트 '성스러운 수행'이 진행된다. 플러피덕 이정훈 대표는 이용자 감사 취지의 업데이트라며 예정된 글로벌 출시 준비에도 만전을 기하겠다고 밝혔다. 이 게임은 2026년 6월 국내 출시됐고 현재 미국·대만·일본 구글플레이/앱스토어 사전예약과 스팀 페이지를 운영 중이다. <a class="src-link" href="https://www.inven.co.kr/webzine/news?news=320657" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/3</b> 위메이드커넥트가 서비스하고 플러피덕이 개발한 서브컬처 RPG '메이크 드라마: MAD'가 서비스 100일을 맞아 메인 스토리 5장과 신규 파트너, 이벤트 스토리, 신규 성장 시스템 등 하반기 업데이트 계획을 공개했다. <a class="src-link" href="https://www.gamevu.co.kr/news/articleView.html?idxno=60549" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 2026-06 국내 출시(청소년이용불가 등급) · TW 2026-08-13 대만 포함 글로벌 사전예약 개시</div>
+    </div>
+    <div class="game-card">
+      <h4>아우터플레인 (OUTERPLANE) <span class="publisher-badge kr">브이에이게임즈(VA Games) / 메이저나인 (2025년 10월 스마일게이트로부터 서비스 이관)</span></h4>
+      <ul>
+        <li><b>9/17~9/21</b> <span class="tag global">JP</span> 메이저나인이 퍼블리싱하는 '아우터플레인'이 도쿄게임쇼 2026(9월 17~21일, 마쿠하리 멧세) 8홀 C-19에 단독 부스를 운영한다. 9월 17~18일은 비즈니스데이, 이후 21일까지 일반 관람객에게 공개되며 부스 방문자에게 TGS 한정 굿즈를 배포한다. 코스플레이어 죠미가 '데미우르고스 세이란', 요나가 '히트 웨이브 델타'로 등장한다. 서비스 이관 1주년을 맞아 신규 데미우르고스 캐릭터 1종과 신규 이벤트 스토리가 추가되고 복귀·신규 이용자를 위한 성장 지원 혜택이 준비된다. 1주년 업데이트 사전예약은 9월 21일 시작되며 참여자에게 보상을 제공한다. 캠페인과 업데이트 세부 내용은 공식 채널을 통해 순차 공개될 예정이다. <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1780579" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 국내 라이브 서비스 중(메이저나인). 2026-08-26/27 스팀 PC판 정식 출시로 플랫폼 확장, 9월 5일 국내 오프라인 이용자 행사 개최. 구체적 매출 순위 수치는 확인된 기사에 없다. · TW 확인 안 됨. 대만 전용 서비스·매출 자료를 찾지 못했다.</div>
+    </div>
+  </div>
+  <div class="publisher-group">
+    <h3><span class="publisher-badge kr">KR</span>국내 신작 (출시 전·테스트 단계)</h3>
+    <div class="game-card">
+      <h4>아스트라에 오라티오 <span class="publisher-badge kr">디나미스 원 / 엔씨소프트</span></h4>
+      <ul>
+        <li><b>10/2~10/6</b> <span class="tag global">JP·TW·GLOBAL</span> 엔씨는 '아스트라에 오라티오' 글로벌 CBT를 10월 2일부터 6일까지 5일간 안드로이드·iOS에서 진행한다고 밝혔다. 지원 언어는 한국어·일본어·중국어 번체·영어다. 테스트에서는 메인 스토리 3종과 미니 스토리 2종, 처음 공개되는 레이드 콘텐츠, 캐릭터 18종, 전투·교류 콘텐츠를 선보인다. 선정된 이용자에게는 23일부터 순차적으로 안내 메일을 발송한다. <a class="src-link" href="https://www.newspim.com/news/view/20260923000795" target="_blank">[출처 🔗]</a></li>
+        <li><b>10/1</b> <span class="tag global">GLOBAL</span> 엔씨는 10월 1일 공식 유튜브 채널에 '아스트라에 오라티오' CBT 픽업 캐릭터 '하나모리 모아'의 15초 분량 픽업 PV를 공개했다. 모아는 분쿄구 자경단 '분쿄의 장미' 소속으로 괴도를 자처하는 캐릭터이며, 픽업 PV에서 SSR 등급으로 소개됐다. 공식 SNS에는 스킬 '강탈'·'괴도의 예고장'과 얼티메이트 스킬 '레핀 드 쥐스티스' 전투 모션도 공개됐고, 다가오는 CBT에서 모아를 직접 활용할 수 있다. <a class="src-link" href="https://www.gametoc.co.kr/news/articleView.html?idxno=111913" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/30</b> <span class="tag global">GLOBAL</span> 엔씨가 '아스트라에 오라티오'의 첫 이야기를 애니메이션으로 담은 프롤로그 PV를 공개했다. 도쿄의 밤을 뒤흔드는 사건과 그 한가운데 선 마법사, 공무원의 모습을 그렸다. 애니메이션 제작은 스튜디오 스텔레이션(studio Stellation)이 맡았고, 주제가는 'Starless'로 보컬은 R!N(Gemie)이 참여했다. <a class="src-link" href="https://www.inven.co.kr/webzine/news/?news=321659" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/26</b> <span class="tag global">JP·GLOBAL</span> 게임조선의 TGS 2026 한국 미소녀 서브컬처 게임 결산 기획에 따르면 '아스트라에 오라티오'의 TGS 행사 기간 부스 방문객은 약 3만 명이었다. 9월 21일 CBT 참가자 모집을 마쳤고 글로벌 CBT로 스토리·전투·행정과 일상의 순환 구조를 검증받을 예정이다. 개발진은 이야기와 캐릭터가 연재물처럼 이어지는 라이브 서비스를 염두에 두고 있으며, 2027년 글로벌 출시를 목표로 개발 중이다. <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225645" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~9/21</b> <span class="tag global">JP</span> 엔씨소프트가 '아스트라에 오라티오'로 도쿄게임쇼 2026(9월 17일 개막, 마쿠하리 멧세)에 단독 출품한다. 부스는 BTC 전시홀 7홀에 위치하며 일반 관람객 공개는 9월 19~21일 3일간이다. 부스 디자인은 게임 배경을 반영한 '밤, 도쿄, 소녀 그리고 마법' 키워드를 중심으로 구성됐다. 방문객은 시연에서 '시나리오'와 '전투 빌드' 중 하나를 선택해 플레이할 수 있다. 9월 17일 오전 10시 30분 부스 스테이지에서 미디어·업계 대상 프리뷰가 열리며 신규 정보가 공개될 예정이다. '프롤로그 다이제스트 PV'가 9월 17일 공식 채널에 공개되고 부스에서 하루 약 3회, 회당 약 40분간 상영된다. 시연 완료·공식 SNS 팔로우·현장 활동 참여자에게 렌티큘러 카드, 캐릭터 키링, 특구청 명함 케이스, 토트백, 부채가 증정된다. <a class="src-link" href="https://www.gameple.co.kr/news/articleView.html?idxno=216427" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~9/21</b> <span class="tag global">JP</span> 디나미스 원이 개발하고 엔씨가 퍼블리싱하는 '아스트라에 오라티오'가 9월 17일 일본 지바에서 개막한 도쿄게임쇼 2026에서 첫 공개 시연을 진행했다. 시연 빌드는 스토리와 연결된 실시간 턴제 전투 시스템을 보여줬고, IP 인지도가 낮은 점을 고려해 관람객에게 스토리와 세계관을 소개하는 '시나리오 상영회'도 함께 열렸다. 디나미스 원 임종규 게임 디렉터와 김인 아트디렉터가 부스 간담회에 참여해 스토리·아트·게임성 세 축을 강조했으며, 임 디렉터는 전투와 스토리를 자연스럽게 연결하고 라이브 서비스 업데이트로 연재물처럼 성장시키겠다는 구상을 밝혔다. 김인 디렉터는 시연 빌드가 프롤로그를 압축한 것으로 계절감·시대·분위기를 비주얼로 전달하려 했다고 설명했다. 부스는 개막 직후 인산인해를 이뤘고, 이 게임은 지난달 도쿄 코미케에도 출품돼 세계관과 캐릭터를 알렸다. TGS 이후 글로벌 CBT로 분위기를 이어갈 계획이라고 전했다. <a class="src-link" href="https://v.daum.net/v/20260917154911298" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~9/21</b> <span class="tag global">JP</span> 도쿄게임쇼 2026 관련 기사는 엔씨소프트가 디나미스 원 개발 '아스트라에 오라티오'의 시나리오·전투 시연 빌드를 공개했고, 개막 약 30분 만에 대기 시간이 60분까지 늘어났다고 보도했다. TGS 2026은 9월 17일 개막해 21일까지 마쿠하리 멧세에서 열렸으며 한국 기업 127개사가 참가해 전년보다 50개사 늘었고, 전체 출전 기업은 일본 540개사와 해외 598개사를 합한 1,138개사로 53개 국가·지역이 참여한 역대 최대 규모다. 같은 기사는 넥슨게임즈가 '파레이돌리아'를 처음 공개했고, 넷마블이 '샹그릴라 프론티어: 일곱 최강종', 글로벌 IP 신작, '펄 인 블루' 3종으로 일본 만화 IP·글로벌 IP·신규 오리지널 IP의 반응을 비교했으며, 스마일게이트도 현지 이용자 접점 확대를 위해 시연을 운영했다고 전했다. 기사는 한국 출시 후 일본 현지화라는 기존 순서 대신 개발 중 빌드를 일본·글로벌 관람객에게 직접 검증받아 출시 전 팬덤과 정성 피드백을 확보하는 전략 전환으로 해석했다. <a class="src-link" href="https://www.mediapen.com/news/view/1124593" target="_blank">[출처 🔗]</a></li>
+        <li><b>8/19~9/21</b> <span class="tag global">JP</span> 엔씨소프트가 글로벌 퍼블리싱하고 디나미스 원이 개발하는 서브컬처 RPG '아스트라에 오라티오'의 CBT 참가자 모집이 8월 19일 시작돼 TGS 최종일인 9월 21일 낮 12시까지 진행된다. 테스트는 안드로이드·iOS에서 진행되며 구체적 일정은 추후 공개된다. 게임은 마법이 존재하는 가상의 도쿄 '89년'을 배경으로, 플레이어는 마법사가 아닌 평범한 공무원 '주임'이 되어 마법 관련 업무를 관리하는 가상 기관 '특구청'에서 근무한다. 8월 15~16일 코미케 108에서는 티저 아트북과 굿즈 세트가 양일 완판됐다. 엔씨는 1월 디나미스 원에 투자하고 이 타이틀의 글로벌 퍼블리싱 권리를 확보했다. <a class="src-link" href="https://www.ddaily.co.kr/page/view/2026090910320499629" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 미출시 — 2026-08 첫 CBT 참가자 모집 · TW 미확인</div>
+    </div>
+    <div class="game-card">
+      <h4>펄 인 블루 <span class="publisher-badge kr">넷마블 (넷마블엔투)</span></h4>
+      <ul>
+        <li><b>9/28</b> <span class="tag global">GLOBAL</span> 넷마블은 수집형 RPG '펄인블루'의 주역 캐릭터 다크나이트 4인(이치하·니카·미호·요츠바)의 프로필 카드를 공개했다. 다크나이트는 아쿠아 기사단의 일원이자 주인공과 처음 만나는 주역 캐릭터들이다. 펄인블루는 월간 러브코미디를 표방하는 수집형 RPG로 TGS 2026에서 처음 공개됐다. <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225772" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/26</b> <span class="tag global">JP</span> 게임조선의 TGS 2026 한국 미소녀 서브컬처 게임 결산 기획에 따르면 '펄 인 블루'는 TGS를 사실상 첫 대형 오프라인 팬 접점으로 활용해 성우·코스프레·러브코미디 토크 스테이지 등을 진행했다. 기사는 펄 인 블루가 2027년 정식 출시를 목표로 개발 중이라고 전했다. <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225645" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/18</b> <span class="tag global">JP</span> 도쿄게임쇼 2026에서 넷마블엔투가 개발 중인 '펄 인 블루'의 첫 공개 시연 빌드 체험 기사가 게재됐다. 게임은 넷마블 자체 IP 기반 수집형 RPG이며 '월간 러브 코미디'를 내세워 기사·인플루언서 히로인과의 관계 형성과 현대 배경 괴물 전투를 결합한다. 핵심 설정은 누구나 가질 수 있는 힘 '진주'와 이를 각성시키는 '펄라이트'다. 시연은 주인공이 검을 벼리던 중 습격당하고 '니카'라는 소녀에게 구조된 뒤 전투와 QTE 컷신으로 힘을 각성하는 구성이었다. 기사는 원화와 컷신 품질, 캐릭터 표정과 일상·정식 일러스트의 코믹한 대비를 호평했고 일부 3D·애니메이션 시퀀스는 정지 일러스트보다 완성도가 낮았다고 평가했다. 전투는 공격·가드와 반격 타이밍 정도로 단순했으며 시연이 스토리와 컷신에 집중했다고 전했다. 등장 인물로 '니카', 도끼를 쓰는 중장갑 적 '바로크', '단장'이 언급됐다. 출시일은 공개되지 않았고 기사는 별점 3점과 '오늘보단 내일이 더 기대되는 작품'이라는 평을 남겼다. <a class="src-link" href="https://www.dailian.co.kr/news/view/1692405" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~9/21</b> <span class="tag global">JP</span> 넷마블이 도쿄게임쇼 2026(9월 17~21일, 마쿠하리 멧세) 출품작 3종의 무대 이벤트를 공개했다. '펄 인 블루'는 9월 17일 정현준 개발 PD와 일본 개그 콤비 NON STYLE 이노우에 유스케, 프리랜서 라이터 게무보쿠가 참여하는 미디어 발표회를 진행한다. 9월 18일부터는 매일 성우 호센 타에·키쿠치 유리나의 토크쇼와 코스플레이어 시노노메 우미·야마모토 시오리의 코스플레이 이벤트가 열리고, 최종일인 9월 21일에는 VTuber 이누야마 타마키가 참여하는 '다크 나이트' 드로잉 스테이지가 진행된다. TGS 특설 사이트를 통해 '진주'와 '기사' 테마에 집중한 신규 PV '세계관편'도 공개됐다. <a class="src-link" href="https://zdnet.co.kr/view?no=20260911155939" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~9/21</b> <span class="tag global">JP</span> 넷마블이 도쿄게임쇼 2026 자사 부스에서 넷마블엔투 개발 신작 '펄인블루' 미디어 발표회를 열었다. 발표회에는 넷마블엔투 정형준 개발 PD와 넷마블 일본 사업 총괄 야마시타 히로카즈가 참여해 게임 주요 특징과 개발 현황, 세계관을 설명했다. 게임은 러브코미디 애니메이션 주인공이 된 듯한 연애 경험에 RPG 요소를 결합한 서브컬처 수집형 모바일 RPG로 소개됐다. 메인 캐릭터 성우로 일본 개그 콤비 NON STYLE 이노우에 유스케, 호센 타에, 키쿠치 유리나가 무대에 올랐고, TGS 2026을 위해 제작한 캐릭터 콘셉트 PV가 특설 사이트와 일본 공식 X·유튜브 채널을 통해 최초 공개됐다. 9월 18일부터는 매일 성우 토크쇼와 일본 코스플레이어 이벤트가 진행되고, 최종일인 9월 21일에는 VTuber 이누야마 타마키가 참여하는 '다크 나이트' 드로잉 스테이지가 열린다. 구체적 출시일은 공개되지 않았고 정식 출시 전까지 공식 SNS로 정보를 순차 공개할 예정이다. <a class="src-link" href="https://zdnet.co.kr/view?no=20260917171204" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~9/21</b> <span class="tag global">JP</span> 도쿄게임쇼 2026 종합 기사에 따르면 넷마블은 '샹그릴라 프론티어 일곱 최강종', 글로벌 IP 신작, 일본 시장을 겨냥한 서브컬처 신작 '펄인블루' 3종을 전시했고, 방준혁 의장이 부스를 방문해 '펄인블루'의 일본 내 반응이 궁금하다고 말한 것으로 전해졌다. TGS 2026은 30주년을 맞아 처음으로 5일(9월 17~21일)로 확대 운영됐고 53개국 1,138개사 3,999부스 규모로, 해외 출전사 598개사가 일본 기업 수를 넘어섰다. 같은 기사는 엔씨가 1989년 도쿄를 배경으로 한 '아스트라에 오라티오' 시연 빌드를, 넥슨이 '파레이돌리아' 등을, 스마일게이트가 '데드 어카운트 두 개의 푸른불꽃'과 개발 중인 '미래시 보이지 않는 미래'를 선보였다고 전했다. <a class="src-link" href="https://www.mt.co.kr/tech/2026/09/20/2026091914584848280" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17</b> <span class="tag global">JP</span> 한국금융신문에 따르면 넷마블엔투가 개발한 넷마블 첫 자체 서브컬처 IP '펄인블루'는 9월 17일 개막한 TGS 2026에서 시연 대기 시간이 두 시간을 넘는 등 사전 예상보다 높은 호응을 얻었다. 방준혁 의장은 '기획 단계부터 철저하게 일본 시장과 유저들을 타깃으로 만들었다'고 강조했다. 넷마블은 정식 출시 전까지 일본 공식 X와 유튜브 등 현지 SNS로 캐릭터·세계관·성우 인터뷰 등을 순차 공개하며 팬덤을 쌓을 계획이며, 정식 출시일은 공개되지 않았다. <a class="src-link" href="https://www.fntimes.com/html/view.php?ud=2026092312383288077492587736_18" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 국내 개발·국내 매체 집중 보도(8/18~8/24), 한국 출시 일정 미발표 — 2027년 출시 목표 · TW -</div>
+    </div>
+    <div class="game-card">
+      <h4>파레이돌리아 <span class="publisher-badge kr">넥슨게임즈 IO본부 RX스튜디오 / 넥슨</span></h4>
+      <ul>
+        <li><b>9/17~9/21</b> <span class="tag global">JP</span> 넥슨게임즈 IO본부 RX스튜디오가 개발한 '파레이돌리아'가 도쿄게임쇼 2026(9월 17~21일, 마쿠하리 멧세) 넥슨 부스 7홀 C04에서 글로벌 첫 시연을 진행했다. 약 10분 분량 빌드로 '미니에', '오하나', '샤미' 3인 파티를 조작해 '타소가레관' 던전 버전을 탐색하며, 전투는 부스트 게이지로 캐릭터 턴 순서를 바꾸는 '라이브 턴 배틀' 시스템을 쓰고 음성 인식으로 캐릭터를 부르거나 말을 걸 수 있다. 부스에는 대형 시계와 엘리베이터를 포함한 타소가레관 실물 재현 공간, 12석 시연 존, '메이츠 가위바위보' 코너, TGS 한정 굿즈를 주는 스탬프 랠리 미션이 마련됐다. 게임은 평행세계 도시 '아니마시'를 배경으로 플레이어가 타소가레관 관리자가 되어 '메이츠'와 교류하며 도시 문제를 해결하는 구조다. 2024년 '프로젝트 RX'로 처음 공개돼 2026년 7월 LA 애니메 엑스포 2026에 출품됐고, 정식 명칭은 2026년 8월 24일 확정됐다. <a class="src-link" href="https://www.inven.co.kr/webzine/news?news=321055" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17</b> <span class="tag global">JP</span> 도쿄게임쇼 2026 현장에서 넥슨게임즈 차민서 PD와 김용하 IO본부장이 '파레이돌리아' 인터뷰를 진행했다. 게임은 미소녀 게임 장르의 수집형 RPG로 포지셔닝되며, '블루 아카이브'의 헤일로처럼 상징을 강제하는 디자인 요소를 피하고 '생활감'에 집중해 캐릭터가 배경에 자연스럽게 녹아들도록 설계했다. 김용하 본부장은 로파이(Lo-Fi) 음악처럼 부담 없고 편안한 분위기를 목표로 한다고 밝혔고, 타소가레관과 일상 콘텐츠 완성도는 '50% 이상은 안정적으로 구현됐다'고 평가했다. 전투는 턴제와 실시간을 결합한 '라이브 턴 배틀'이며 오토 전투 적용은 이용자 피드백을 보고 결정할 예정이다. 오픈월드는 아니고 선형과 오픈 구조 사이로, 탐색보다 캐릭터 교류를 우선한다. 오컬트·미스터리 요소인 '침식'은 분위기 장치로만 쓰이며 최종 목표는 '이세계 홈스테이' 느낌이다. 서버 없이 작동하는 온디바이스 AI 음성 인식으로 캐릭터 이름을 부르거나 간단한 대화를 할 수 있으나 아직 데모 수준이다. 차민서 PD는 CBT를 준비 중이지만 연내 진행은 어려울 것이라고 말했다. 음악은 전작에 참여한 Mitsukiyo가 다시 맡는다. <a class="src-link" href="https://www.gametrics.com/news/News01_View.aspx?seqid=68937" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~9/21</b> <span class="tag global">JP·GLOBAL</span> 넥슨게임즈 파레이돌리아가 도쿄게임쇼 2026에서 첫 시연을 진행해 150분 대기줄이 형성됐다. 음성 인식 기반 '3D 가위바위보' 부스가 온라인 커뮤니티에서 주목받았다. CBT의 명확한 시점은 확정되지 않았으나 내년을 염두에 두고 준비 중이며, TGS 이후에도 국내외 여러 전시행사에 출품할 예정이다. <a class="src-link" href="https://www.wolyo.co.kr/news/articleView.html?idxno=318231" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 미출시(2026-09 TGS 출품 예정) · TW -</div>
+    </div>
+    <div class="game-card">
+      <h4>미래시 <span class="publisher-badge kr">컨트롤나인(Control9)/스마일게이트</span></h4>
+      <ul>
+        <li><b>9/17~9/21</b> <span class="tag global">JP</span> 스마일게이트가 서구권을 겨냥한 AAA 슈터와 일본·북미 팬덤을 겨냥한 서브컬처를 동시에 추진하는 투트랙 전략을 진행 중이다. 2026년 7월 애니메 엑스포에 첫 참가해 '카오스 제로 나이트메어'와 '미래시'를 출품했고, 도쿄게임쇼 2026에는 2년 연속 참가해 '미래시'와 신작 '데드 어카운트: 두 개의 푸른 불꽃'을 선보인다. '미래시'는 지난해 TGS → 국내 AGF → 올해 AX → 다시 TGS로 글로벌 팬덤을 단계적으로 확장해 왔다. '데드 어카운트: 두 개의 푸른 불꽃'은 와타나베 시즈무의 일본 만화를 원작으로 한 로그라이트 RPG로 TGS 2026에서 시연 부스를 운영한다. 부스에는 대형 LED 게이트와 4면 LED 타워가 설치되고 코스플레이어 이오리 모에·에나코가 등장한다. <a class="src-link" href="https://www.fntimes.com/html/view.php?ud=2026090911415693227492587736_18" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~9/21</b> <span class="tag global">JP</span> 스마일게이트가 2년 연속으로 도쿄게임쇼 2026(9월 17~21일, 마쿠하리 멧세)에 참가해 '미래시: 보이지 않는 미래'와 '데드 어카운트: 두 개의 푸른 불꽃' 2종을 시연했다. '미래시' 부스는 4면 LED 타워와 게이트로 캐릭터 비주얼을 노출하고 캐릭터 스토리 영상을 최초 공개했으며, 시연 환경은 게이밍 브랜드 G TUNE(마우스컴퓨터)과 협업해 구성했다. 방문객에게는 시연 보상 '이츠카 캐릭터 클리어 백'과 캔 배지·만주 키링 등을 제공하고 가차 이벤트로 다키마쿠라·마우스패드·핫피를 지급한다. 9월 17일에는 아트디렉터 김형섭이 마피아 카지타 진행으로 라이브 드로잉쇼를 진행했고, 이후 무대에는 코스플레이어 이오리 모에·에나코·아스미 세나, VTuber 네코타 츠나·카미토·히이라기 츠루기·야쿠모 베니가 출연한다. 두 부스의 이벤트 미션 4개 스탬프를 모두 모으면 가차 응모 기회가 1회 추가된다. <a class="src-link" href="https://www.ddaily.co.kr/page/view/2026091802474524463" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~9/20</b> <span class="tag global">JP·GLOBAL</span> 스마일게이트가 TGS 2026 부스 운영을 마치며 미래시 시연존에 2시간 이상의 대기열이 이어졌다고 밝혔다. 게이트에서 상영된 캐릭터 영상은 X에서 500만 뷰 이상을 기록했다. 지난해에 이어 두 번째로 운영된 시연존에서는 발전된 그래픽과 신규 콘텐츠 '메멘토'를 소개했다. 백영훈 CBO는 정식 출시까지 잘 준비하겠다고 언급했다. <a class="src-link" href="https://www.inven.co.kr/webzine/news/?news=321393" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 신규 · TW -</div>
+    </div>
+    <div class="game-card">
+      <h4>샹그릴라 프론티어: 일곱 최강종 <span class="publisher-badge kr">넷마블넥서스 (퍼블리싱: 넷마블)</span></h4>
+      <ul>
+        <li><b>10/1</b> <span class="tag global">JP</span> 하나증권은 넷마블이 4분기 3종의 신작을 준비 중이며, 도쿄게임쇼 2026에서 '샹그릴라 프론티어: 일곱 최강종' 등 시연 부스를 운영하고 현지 마케팅을 진행했다고 분석했다. 다만 '연내 출시되기 위해서는 10월 내에 출시 일정이 공개될 필요가 있다'고 덧붙였다. <a class="src-link" href="https://www.g-enews.com/view.php?ud=20261001085622895244093b5d4e_1" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~9/21</b> <span class="tag global">JP</span> 넷마블이 9월 17일 도쿄게임쇼 2026 부스에서 넷마블넥서스 개발 '샹그릴라 프론티어: 일곱 최강종' 미디어 발표회를 열고 오리지널 PV를 최초 공개했다. 발표회는 게임캐스터 MC 오다 진행으로 넷마블넥서스 김경률 PD와 넷마블 일본 사업 총괄 야마시타 히로카즈가 원작 최초 게임화, 원작 재현, 전략 전투, '일곱 최강종' 네 가지 핵심 요소를 소개했고 코스플레이어 에나코가 스페셜 게스트로 참석했다. 원작자 카타리나와 후지 료스케, 주인공 산라쿠 역 성우 우치다 유우마의 영상 메시지가 상영됐다. 오리지널 PV는 원작 애니메이션 제작사 C2C와 협업해 제작됐으며 비밀 묘지 정원에서 유니크 몬스터 '웨자에몬'이 등장하고 산라쿠·에무루, 이어 산라쿠·아서 펜슬곤·오이캇초가 웨자에몬과 싸우는 장면을 담았다. 원작 웹소설은 누적 조회 수 10억 회, 만화는 누적 발행 부수 1,800만 부를 넘겼다. 게임은 한 손 조작을 고려한 2인 교체 태그 배틀 RPG다. <a class="src-link" href="https://zdnet.co.kr/view?no=20260917171001" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 국내 개발사(넷마블넥서스) 제작, 8/19 국내 매체 다수 상세 보도 — 한국 서비스 일정은 미발표 · TW -</div>
+    </div>
+    <div class="game-card">
+      <h4>데드 어카운트: 두 개의 푸른 불꽃 <span class="publisher-badge kr">이안게임즈 (퍼블리싱: 스마일게이트)</span></h4>
+      <ul>
+        <li><b>9/17</b> <span class="tag global">JP</span> 스마일게이트는 TGS 2026 부스에서 '미래시'와 '데드 어카운트: 두 개의 푸른 불꽃'을 시연했으며, 행사 종료 직후 집계된 현장 데이터에 따르면 시연 대기열이 최장 2시간에 달했다. 데드 어카운트 시연존은 원작의 미스터리한 세계관과 어두운 분위기를 시각적으로 충실하게 구현했다는 평가를 받았고, 이안게임즈 김병기 PD가 메인 무대에서 기획 의도와 시스템 특징을 설명했다. 구체적인 정식 출시 일정은 아직 대외적으로 확정되지 않았으며, 현장 피드백을 완성도 개선에 반영할 계획이다. <a class="src-link" href="https://www.gamevu.co.kr/news/articleView.html?idxno=61028" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 이안게임즈(개발)·스마일게이트(퍼블리싱) 모두 한국 기업이며 공식 홈페이지는 스토브(onstove) 기반. 출시일은 미정으로, 기사 기준 핵심 콘텐츠 개발은 '대부분 마친 상태'이며 TGS 2026 피드백 검토 후 양사가 다음 단계를 결정한다. · TW -</div>
+    </div>
+  </div>
+  <div class="publisher-group">
+    <h3><span class="publisher-badge cn">CN</span>중국 개발·퍼블리싱 (KR·TW 침투 관점)</h3>
+    <div class="game-card">
+      <h4>명조: 워더링 웨이브 <span class="publisher-badge cn">쿠로게임즈 / 쿠로 자체</span></h4>
+      <ul>
+        <li><b>10/2</b> 모바일인덱스 등 데이터 분석 플랫폼 기준 주간 게임 순위에서 '명조: 워더링 웨이브'가 구글 플레이 매출 5위로 올라섰다. 앱스토어 매출에서는 2위로 뛰어올라 선두를 바짝 추격했다. 스팀 글로벌 차트에서도 59계단 상승해 3위를 차지했다. <a class="src-link" href="http://www.popcornnews.net/news/articleView.html?idxno=134786" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/30</b> 쿠로게임즈가 '명조: 워더링 웨이브' 3.7 버전 '몽주의 궤적, 마음이 그리는 대로' 프리뷰 특별 방송을 진행했다. 3.7 버전은 9월 30일 업데이트되며 '몽주' 스토리 아크를 마무리한다. 신규 5성 공명자로 '여우의 별자리'와 '쇄명'이 등장하며 파티 사전 설정 슬롯이 20개로 늘어나고, '여정 돌아보기' 모드가 1.1·1.2·1.3 버전을 다루며, 클라이언트 리소스 품질 3단계(최고 품질/고품질/표준 품질) 다운로드 옵션이 테스트된다. 롯데시네마 콜라보는 10월 19일 시작된다. 방송에서는 리딤 코드 FALLINGSANCTUM, FINDSENTINEL, WAKINGMOON이 공개됐다. <a class="src-link" href="https://v.daum.net/v/20260919212910361" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/30</b> <span class="tag global">GLOBAL</span> 쿠로게임즈 '명조: 워더링 웨이브' 3.7 버전이 9월 30일 업데이트될 예정이다. 3.7 버전 첫 픽업 캐릭터 '여우의 별자리'는 명조 최초의 수호신 픽업 캐릭터로, 캐릭터 트레일러 '저무는 꿈'이 공개됐다. 트레일러에서는 수호신 '심월 여우'가 인류를 돕기 위해 힘을 넘겨 붉은 꼬리 여우가 공명자가 되는 서사가 그려졌다. <a class="src-link" href="https://www.gametoc.co.kr/news/articleView.html?idxno=111811" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/30</b> '명조: 워더링 웨이브' 공식 실물 카드게임 '명조: 배틀'이 9월 30일 출시된다. UCP 카드 게임이 쿠로게임즈의 공식 라이선스를 받아 제작했으며 첫 간판 캐릭터는 파수인이다. 첫 부스터에는 금희, 산화, 앙코, 양양, 치샤, 카멜리아와 남녀 방랑자 등 9명의 캐릭터가 수록된다. <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1780982" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~9/21</b> <span class="tag global">JP</span> 도쿄게임쇼 2026(9월 17~21일, 마쿠하리 멧세) 현장 취재 기사는 일본 매체 쿨투르(Kultur)를 인용해 넷이즈·호요버스·쿠로게임즈 등 중국 퍼블리셔가 올해 TGS에 부스를 내지 않았다고 전했다. 같은 기사는 넥슨 부스(07-C04)의 '파레이돌리아' 대기 시간이 50분 표기였고, 엔씨 부스(07-C03)의 '아스트라에 오라티오' 대기열도 50분에 가까웠으며 인접한 캡콤 부스 대기열이 두 한국 신작보다 짧았다고 보도했다. TGS 2026은 30주년을 맞아 역대 최장 5일(9월 17~18일 비즈니스데이, 19~21일 일반 공개) 일정으로 열렸고 주최사 CESA 집계 참가 기업은 1,138개사다. <a class="src-link" href="https://www.gamey.kr/news/articleView.html?idxno=3018748" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 최상(KR #2, 2026) · TW 상(2025 #8)</div>
+    </div>
+    <div class="game-card">
+      <h4>붕괴: 스타레일 <span class="publisher-badge cn">호요버스 / 호요버스 자체</span></h4>
+      <ul>
+        <li><b>10/15</b> 메가MGC커피가 '붕괴: 스타레일' 한정 굿즈 사전예약을 10월 11일까지 진행하며 정식 출시는 10월 15일이다. 사전예약 고객은 10월 12일부터 14일까지 우선 수령할 수 있다. 굿즈는 아크릴 스탠드, 데스크 패드, 뱃지 세트, 아크릴 코스터, 온도 변화 텀블러 5종으로 '은랑 LV.999'와 '천야·블레이드'가 담겼다. <a class="src-link" href="https://www.shinailbo.co.kr/news/articleView.html?idxno=5067100" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/28~11/11</b> <span class="tag global">GLOBAL</span> '붕괴: 스타레일' 4.6 버전 '달 뜨기 전, 괴수와 춤을'이 9월 28일 업데이트됐으며 버전 기간은 11월 11일까지다. 신규 5성 캐릭터 '펄'(환락/얼음)이 추가됐고, 신규 스토리 임무 '아스트로폴리스 - 달 뜨기 전, 괴수와 춤을'이 개방됐다. 버전 이벤트로 '러브, 고스트 + 로봇', '스타피스 페스티벌: 원 테이크'와 신규 콘텐츠 '우주 환상 펫'이 추가됐다. <a class="src-link" href="https://bbs.ruliweb.com/news/board/300001/read/2363538" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/8</b> <span class="tag global">TW·CN</span> 호요버스가 '붕괴: 스타레일'의 신규 만상천도(Myriad Celestia) 트레일러 'Deep Waters'를 공개했다. IPC와 십난성(Ten Stonehearts)을 조명하며, 어벤츄린이 십난성 내부의 배신자를 조사하는 전개로 은하 특급·개척자·선주·지식학회 등이 얽힌다. 신규 5성 '어벤츄린·웨이브플레어'는 양자 속성 환락 운명 캐릭터로 서핑·비치볼을 활용하며 Punchline·Fervor 자원을 축적해 광역 추가 공격을 발동한다. 배너 일정은 기사에 명시되지 않았다. <a class="src-link" href="https://gamespace.com/all-articles/news/honkai-star-rail-shared-myriad-celestia-trailer-deep-waters" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 최상(KR #3~4) · TW 최상(TW #1)</div>
+    </div>
+    <div class="game-card">
+      <h4>원신 <span class="publisher-badge cn">호요버스 / 호요버스 자체</span></h4>
+      <ul>
+        <li><b>10/2~10/5</b> 호요버스가 10월 2일부터 5일까지 일산 킨텍스 제2전시장에서 종합 게임 축제 '호요랜드 2026'을 연다. 원신, 붕괴: 스타레일, 젠레스 존 제로 등 자사 게임으로 콘텐츠를 구성했으며 2024년 시작 이후 3년째 개최다. 4일 전 회차 입장권이 매진됐다. <a class="src-link" href="https://www.apnews.kr/news/articleView.html?idxno=3051669" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/30</b> 게임메카 인기 게임순위에서 '원신'이 12계단 상승해 '명조'를 큰 격차로 누르고 서브컬처 선두 자리를 되찾았다. 게임메카는 6주년 기념 7.1 업데이트와 원신 숲, 호요랜드 등 오프라인 행사를 상승 요인으로 분석했다. 해당 순위는 포털 검색량, PC방 게임접속, 게임방송 시청 수, 유저 투표를 종합해 집계된다. <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781205" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/23</b> <span class="tag global">GLOBAL</span> 호요버스 '원신'이 6주년을 맞아 9월 23일 7.1 버전 '죽음의 진혼곡'을 업데이트했다. 신규 마신 임무 완료 시 백출, 닐루, 타르탈리아 등 한정 5성 캐릭터 중 1종을 선택해 영입할 수 있다. 신규 캐릭터로 5성 바람 원소 한손검 '베스나'와 물 원소 법구 '보댜니차'가 추가됐다. <a class="src-link" href="https://zdnet.co.kr/view/?no=20260922095257" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~9/21</b> <span class="tag global">JP</span> 도쿄게임쇼 2026 현장 기사는 일본 매체 쿨투르(Kultur)를 인용해 넷이즈, 호요버스, 쿠로게임즈 등 중국 퍼블리셔가 올해 TGS에 출품하지 않았다고 전했다. TGS 2026은 30주년을 맞아 9월 17~21일 마쿠하리 멧세에서 역대 최장 5일 일정으로 개최됐으며 주최사 CESA가 집계한 참가 기업은 1,138개사다. <a class="src-link" href="https://www.gamey.kr/news/articleView.html?idxno=3018748" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 상(KR #6~7) · TW 최상(TW #3)</div>
+    </div>
+    <div class="game-card">
+      <h4>젠레스 존 제로 <span class="publisher-badge cn">호요버스 / 호요버스 자체</span></h4>
+      <ul>
+        <li><b>10/2~10/5</b> 10월 2일부터 5일까지 킨텍스에서 열리는 '호요랜드 2026'에 '젠레스 존 제로' 존이 실내 전시로 운영된다. 버스 도착 시간을 맞추는 게임, Bangboo를 복귀시키는 체험, 레미엘과 함께하는 리듬형 콘텐츠 등이 마련됐다. 포토카드와 공식 굿즈를 획득할 수 있는 유료 프로그램도 운영된다. <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225733" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/9~10/21</b> '젠레스 존 제로'가 9월 9일 07:00(KST) 점검(약 5시간)과 함께 3.2 버전 '그녀들의 숨겨진 과거'를 업데이트했다. 버전은 2026년 10월 21일 07:00까지 총 42일간 진행된다. 신규 S급 에이전트 '클라렛(전기·단조)'이 「붉은 달이 떠오를 때」 조율에서, '록시(바람·격파)'가 「잿빛 밤에 내린 안식」 조율에서 등장한다. 메인 스토리 시즌3 3장 '그녀들의 숨겨진 과거'가 영구 개방되고 로스캘리퍼 지역 신규 맵(비리움 구역·관제 구역), 남궁우·아리아·수나 신규 코스튬, 기간 한정 이벤트 '천사 응원하기 대작전' 등이 추가됐다. 점검·버그 보상으로 폴리크롬 총 600개가 지급됐다. <a class="src-link" href="https://bbs.ruliweb.com/news/board/320108/read/2293916" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 상(KR top-10) · TW 상(TW #10)</div>
+    </div>
+    <div class="game-card">
+      <h4>붕괴3rd <span class="publisher-badge cn">HoYoverse / 호요버스</span></h4>
+      <ul>
+        <li><b>10/2~10/5</b> 10월 2일부터 5일까지 열리는 '호요랜드 2026'에서 '붕괴3rd'는 킨텍스 야외 공간에서 운영된다. '환야의 숨바꼭질'에 맞춘 체험과 랜덤 굿즈 이벤트가 진행되며, 실내 행사와 별도 티켓으로 운영된다. <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225733" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/8</b> <span class="tag global">JP</span> APEX의 LIMEPIE 시리즈 '붕괴3rd 브로냐 자이칙 비범한 태도 Ver.' 1/8 스케일 완성품 피규어가 아미아미(오오아미 주식회사)에서 예약 접수를 안내했다. 가격은 9,240엔(세금 포함), 발매 예정은 2027년 7월, 전고 약 20.6cm(대좌 포함), 재질은 PVC·ABS다. <a class="src-link" href="https://prtimes.jp/main/html/rd/p/000003798.000025615.html" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 중 · TW 중</div>
+    </div>
+    <div class="game-card">
+      <h4>이환 <span class="publisher-badge cn">호타/퍼펙트월드 / 호타/퍼펙트월드</span></h4>
+      <ul>
+        <li><b>9/30</b> <span class="tag global">GLOBAL</span> 퍼펙트월드가 9월 30일 '이환' 1.4 버전 '누구를 위하여 기도를 올리나'를 업데이트했다. 신규 S급 캐릭터 '레이븐'이 추가되고 기간 한정 보드 '예언의 마지막 순간'이 열렸다. 섬 전체가 놀이공원으로 구성된 신규 지역 '푸카 파라다이스'가 추가됐다. 포르쉐와의 2차 컬래버레이션도 진행되며 조건 달성 시 'Porsche Club'이 해금된다. <a class="src-link" href="https://www.ipnn.co.kr/news/articleView.html?idxno=417718" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/30</b> <span class="tag global">TW</span> 대만판 '이환(異環)'도 9월 30일 1.4 버전 「禱歌為誰而誦」을 선보였다. 신규 S급 캐릭터 '黑羽'와 신규 지역 '噗卡樂園', Porsche 컬래버 2탄(911·Taycan 신규, 918 Spyder 복각)이 함께 추가됐다. 로그인 보상으로 質實骰子×10과 프로필 테두리 「咫尺之間」을 지급한다. <a class="src-link" href="https://gnn.gamer.com.tw/detail.php?sn=312530" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/9~9/30</b> '이환(NTE)' 한국 서비스는 9월 9일 07:00~12:00(KST) 서버 점검을 진행하고 신규 한정 S급 캐릭터 '링코'를 추가했다. 링코는 점검 종료 후부터 9월 30일 06:59까지 '주파수 로밍 중!' 특간에서 획득할 수 있고 A급 하니엘·우미츠키·스키아가 함께 등장한다. 신규 한정 S급 아크 '원행자의 목소리'는 '만물의 소리 특간'에서, 한정 S급 캐릭터 '호토리'와 아크 '시간 밖으로의 행진' 복각도 같은 기간 진행된다. 링코 신규 코스튬 3종('늦은 봄날' 32% 할인 1,680 월석 / '우주 여행' 이벤트 획득 / '대기 모드' 인연 레벨 해금), 신규 탑승물 '옛 시절'(80만 폰즈), 링코 산책·초대 콘텐츠가 추가됐다. 기간 한정 이벤트로 '궤도 너머의 메아리'(9/9~9/30), '산들바람 속 라이딩'(9/17~9/30), '픽셀 대방출'(9/14~9/21), '폰즈 러시'(9/21~9/28)가 열리고 신규 카트 레이싱 트랙 4종, 버프 표시 상한 3→5 확대 등이 반영됐다. 9월 9일 07:00 이전 생성 캐릭터에 환석 300개가 보상 지급됐다. <a class="src-link" href="https://nte.perfectworld.com/kr/article/news/gamenews/20260908/263945.html" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 상(KR #5, 2026.5) · TW 중 — 대만판 '異環' 별도 운영, 2026-09-30 1.4 버전 한국판과 동시 배포(gamer.com.tw GNN 2026-09-30)</div>
+    </div>
+    <div class="game-card">
+      <h4>벽람항로 <span class="publisher-badge cn">Manjuu/Yongshi / 요스타</span></h4>
+      <ul>
+        <li><b>9/24~10/16</b> 벽람항로 한국 서버에서 9월 24일 점검 후부터 10월 16일 23:59까지 한정 대형 이벤트 「유영 미성」이 진행된다. 한정 건조로 아즈치(UR, 1.2%), 이14(SSR, 2.0%), 빅토리어스·META(SSR, 0.5%), 헤이스티(SR, 2.5%)가 등장한다. <a class="src-link" href="https://bbs.ruliweb.com/community/board/300143/read/76775674" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/24~10/15</b> <span class="tag global">TW</span> 벽람항로 대만 서버가 9월 24일 점검 후부터 10월 15일까지 한정 이벤트 「幽影迷城」을 연다. 虎, 安土, 伊14, 勝利·META, 匆忙, 敵對 등 신규 함선이 이벤트·한정 건조·교환으로 등장한다. <a class="src-link" href="https://gnn.gamer.com.tw/detail.php?sn=312225" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/17~10/21</b> '벽람항로' 한국 서버가 9월 17일 업데이트를 완료했다. 한정 이벤트 '작전 준비: 신기원 도시 NO.7'은 9월 17일부터 10월 21일까지 2단계로 진행되며, 1단계(9월 17~24일)에는 저비스·애리조나·오라에타·Z23·Z14 등의 경험치 보너스가, 2단계(9월 24일~10월 21일)에는 훈련 포인트로 왕관 테마 프레임을 교환하는 보상이 주어진다. 한정 이벤트 '빛나는 마법'(9월 17일~10월 14일)은 누적 5일 접속 시 에밀 베르탱 한정 스킨을 지급한다. 신규 META 도전 '새러토가·META'가 9월 17일부터 12월 24일까지 개방되며 기존 브리스톨 META 도전은 종료되고 일일 신호기·도전 횟수가 초기화된다. 비콘 파일 해석 대상에 호넷 META가 추가됐다. 이벤트 'Fight! 도시 구직 대작전!'(9월 17일~10월 14일)은 일일 임무로 최단 9월 21일 한정 장비 '스태프 카드'를 얻을 수 있고, 강화 이벤트 '나폴리'(9월 17일~10월 14일)는 연구 임무로 일반 상한 150과 별도로 최대 30개의 나폴리 강화 유닛을 제공한다. 탈린·글로스터·U-73·키타카제·인트레피드 전용 장비, 한정 일일 도전 '한정 장비 훈련'(9월 17~24일), 하쿠호 개인 스토리, 타이호 개인 채팅 'Juice', 'JUUs' 모항 스토리, 위치타 META 스킬 비정상 동작 버그 수정이 함께 적용됐다. <a class="src-link" href="https://bbs.ruliweb.com/community/board/300143/read/76706595" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/5</b> <span class="tag global">JP</span> 벽람항로 TV 애니메이션 '2.5차원의 유혹' 콜라보레이션 개최 결정 공지. 상세 일정은 추후 공개 예정. <a class="src-link" href="https://bbs.ruliweb.com/news/board/320108/read/2293753" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/5~9/6</b> <span class="tag global">JP</span> 요스타가 서비스하는 '벽람항로' 9주년 기념 오프라인 행사 'AZUR LANE MUSI9 FES.'가 2026년 9월 5일~6일 도쿄 신주쿠 스미토모 빌딩 삼각광장과 신주쿠 스미토모 홀에서 열렸다. 삼각광장 '페스티벌 아레나'에는 라이브·토크 스테이지, 오리지널 푸드·드링크, 굿즈 판매 코너, '챌린지 포토 샷', 팬아트 월, 실물 크기 함선 포토 스팟, 아크릴 스탠드 전시, 피규어 전시 존이 운영됐다. 스미토모 홀에서는 사운드를 축으로 9년 역사를 체험하는 '사운드 뮤지엄'이 운영돼 웰컴 월, 이벤트 타임라인, 사운드 아카이브, 메모리얼 월, 리듬게임 스테이션 2대, 함선 매칭, '너의 소리는 -your sound-', 이머시브 시어터가 구성됐다. 9월 6일 토크 스테이지에서 신규 굿즈·피규어·콜라보 정보가 공개됐다. 기사에 관객 수치는 제시되지 않았다. <a class="src-link" href="https://www.gamevu.co.kr/news/articleView.html?idxno=60673" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/4</b> <span class="tag global">global</span> 전초전 이벤트 '작전준비 : 새로운 시대의 도시 No.7'이 9월 4일부터 시작된다. <a class="src-link" href="https://bbs.ruliweb.com/mobile/board/320108/read/2293596" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/4~9/10</b> <span class="tag global">global</span> 전용 장비 재료 이벤트가 9월 4일부터 9월 10일 오후 11시 59분(UTC-7)까지 진행된다. <a class="src-link" href="https://bbs.ruliweb.com/news/board/1004/read/2293595" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 중 · TW 중</div>
+    </div>
+    <div class="game-card">
+      <h4>명일방주 <span class="publisher-badge cn">하이퍼그리프 / 요스타·아리엘(TW)</span></h4>
+      <ul>
+        <li><b>9/16</b> '명일방주' 한국 서비스는 SideStory '사람들, 우리들' 이벤트를 9월 16일(수) 16:00부터 개방한다고 공지했다. 공지에는 신규 오퍼레이터 정보는 포함되지 않았다. <a class="src-link" href="https://bbs.ruliweb.com/news/board/320108/read/2294153" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/16~9/30</b> '명일방주'에 이벤트 헤드헌팅 '길을 여는 자들'이 9월 16일 16시부터 9월 30일 03시 59분까지 진행된다는 안내가 공지됐다. 해당 기간 ★6 가드 '지마 더 레이징 타이드'와 ★5 메딕 '우쿠시크'의 모집 확률이 상승한다. <a class="src-link" href="https://memic.at/articles/824265" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 중(코어→대중) · TW 상(TW 대행)</div>
+    </div>
+    <div class="game-card">
+      <h4>명일방주: 엔드필드 <span class="publisher-badge cn">하이퍼그리프 / GRYPHLINE</span></h4>
+      <ul>
+        <li><b>10/6</b> <span class="tag global">GLOBAL</span> 「명일방주: 엔드필드」의 신규 버전 「단청도」 미리보기 특별 방송이 10월 6일 20:30(KST)에 유튜브로 방송된다. 공지 문구는 '먹의 운치가 종이에 스며들고, 구름과 물이 여백을 남긴다'로 수묵화풍 세계를 예고했다. <a class="src-link" href="https://bbs.ruliweb.com/news/board/1004/read/2295007" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/11~9/20</b> 그리프라인이 '명일방주: 엔드필드'와 삼성전자 갤럭시 스토어 협업으로 삼성스토어 부천중동 1층에서 9월 11일~20일 '가을 피크닉' 팝업스토어를 운영한다. 갤럭시 Z 폴드8·갤럭시 S26 울트라용 '가을 피크닉 액세서리 에디션' 출시를 기념한 행사로, 네이버 예약 사전예약이 필수다. 폰케이스·아크릴 디오라마·버즈4 파우치·마우스패드·아크릴 코롯토·포토카드 등 콜라보 상품 전시·판매, 미니게임, 포토존, 굿즈숍이 운영되고 '원석충 사냥 TIME!', '티프로스의 사격 시험', '가을의 한마디' 3종 미션 스탬프 랠리로 포토카드·클리어파일을 증정한다. 9월 11~13일에는 티프로스·펠리카·아델리아 코스플레이어와 캐릭터 마스코트 포토존이 운영되며, '갤스 스테이션'에서 엔드필드 테마 갤럭시 Z 폴드8 2종을 체험하면 선착순 8,000명에게 런칭 테마와 갤럭시 스토어 할인 쿠폰을 제공한다. <a class="src-link" href="https://www.etnews.com/20260911000268" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/2~9/3</b> 이벤트 기간 9/2(수) 13:00~9/3(목) 12:59, 대상 게임 명일방주: 엔드필드, 삼성 계정 로그인 및 이벤트 참여 후 유료 결제 시 30% 페이백. <a class="src-link" href="https://r1.community.samsung.com/t5/galaxy-store/%EB%AA%85%EC%9D%BC%EB%B0%A9%EC%A3%BC-%EC%97%94%EB%93%9C%ED%95%84%EB%93%9C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EA%B8%B0%EB%85%90-30-%ED%8E%98%EC%9D%B4%EB%B0%B1/m-p/39298155" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 신규(2026-01-22) · TW 신규</div>
+    </div>
+    <div class="game-card">
+      <h4>아주르 프로밀리아 <span class="publisher-badge cn">Manjuu(KR퍼블 넥슨)</span></h4>
+      <ul>
+        <li><b>9/17</b> <span class="tag global">CN</span> 중국판 '蓝色星原：旅谣'(아주르 프로밀리아)의 3차 테스트 '旅迹测试'가 9월 17일 시작됐다. 이번 테스트는 조작 가능 캐릭터 22명(신규 3명: 枫糖, 佩佩, 兰香子)과 200종 이상의 키보(전회 대비 약 70종 증가)를 제공한다. 처음으로 상업화 요소가 도입됐으며, 한정 픽업에서 5성을 뽑거나 천장에 도달하면 해당 기간 한정 캐릭터를 바로 획득하는 '픽뚫 없는' 방식이 적용되고 천장 횟수는 다음 픽업으로 이월된다. <a class="src-link" href="https://finance.sina.com.cn/tech/roll/2026-09-23/doc-inisvumx0993874.shtml" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/9</b> <span class="tag global">CN</span> '아주르 프로밀리아' 개발사 만쥬게임즈가 중국 3차 CBT를 앞두고 미디어 프리뷰를 열어 가챠·과금 구조가 처음 공개됐다. 캐릭터 뽑기는 90회, 무기('영자') 뽑기는 80회에 픽업 확정이며 둘 모두 '픽뚫' 없이 픽업 대상만 획득하고 반천장도 없다. 초보 배너는 20% 할인 뽑기로 30회 내 5성이 확정되고, 상시 배너는 50회에 선택형 5성이 확정된다. 개발사는 현재가 최종 BM이 아니어서 변경될 수 있다고 덧붙였다. 한국은 넥슨이 퍼블리싱하며 2026년 5월 국내 CBT를 진행해 아트·애니메이션은 호평받았으나 당시 BM 정보가 없다는 점이 지적됐다. 정식 출시일은 미확정으로, 3월 사전예약 개시와 넥슨 IR 자료의 '2026년 출시' 언급, 일부 스토어의 12월까지 사전예약 프로모션을 근거로 업계는 2026년 출시를 예상한다. <a class="src-link" href="https://www.gameple.co.kr/news/articleView.html?idxno=216428" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 신규(출시예정) · TW CBT</div>
+    </div>
+    <div class="game-card">
+      <h4>무한대 <span class="publisher-badge cn">NetEase(Naked Rain)</span></h4>
+      <ul>
+        <li><b>9/3</b> <span class="tag global">CN</span> 넷이즈게임즈의 '무한대 ANANTA'에 새로 등장하는 도시 '중소'를 소개하는 기사. 오픈월드 RPG 속에서 여행 프로그램의 한 장면 같은 풍경을 연출한다고 소개됐다. <a class="src-link" href="https://www.gamevu.co.kr/news/articleView.html?idxno=60515" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 신규(출시예정) · TW 미정</div>
+    </div>
+    <div class="game-card">
+      <h4>물화미신 (物華彌新 / Neo Artifacts) <span class="publisher-badge cn">Dragonest Games (드래고네스트) / 미확인 (한국 서비스 확인 안 됨)</span></h4>
+      <ul>
+        <li><b>9/30~10/22</b> <span class="tag global">CN</span> '물화미신' 공식 웨이보(#物华弥新3.4上版本 #物华弥新2.5周年)는 한정 모집 '万嶂烟峦'·'四海无争', 기간 한정 모집 '刻名存念', 지정 모집 '结伴同游'를 9월 30일 10시부터 10월 22일 09시 59분까지 연다고 공지했다. 각 모집에서 특출 기자 '错金博山炉'(원격), '天球仪'(원격), '小宋香炉'(원격)의 획득 확률이 크게 오른다. 错金博山炉는 '万嶂烟峦' 한정 모집에서만 얻을 수 있다. <a class="src-link" href="https://www.sina.cn/news/detail/5348788010485180.html" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 한국 서비스·퍼블리셔 확인 안 됨. 국내 기사·사전예약 기록을 찾지 못했다. · TW Dragonest Games 자체 운영으로 台港澳(대만·홍콩·마카오)판 2026년 3월 5일 정식 출시. 사전예약 40만(2월 시점 보도)·5만 마일스톤 이벤트 등 현지 마케팅 진행. 번체중문·일본어·영어 지원. 陸服(중국 본토 서버)과 별도 운영으로, 巴哈姆特 커뮤니티에 양 서버 비교 글이 존재할 정도의 인지도.</div>
+    </div>
+  </div>
+  <div class="publisher-group">
+    <h3><span class="publisher-badge jp">JP</span>일본 개발</h3>
+    <div class="game-card">
+      <h4>우마무스메 <span class="publisher-badge jp">사이게임즈 / 카카오게임즈</span></h4>
+      <ul>
+        <li><b>9/18~10/2</b> 카카오게임즈가 사이게임즈 개발 '우마무스메 프리티 더비'에 신규 스토리 이벤트 '푸른 유월의 스타티스'를 추가했다. 이벤트 기간은 9월 18일부터 10월 2일까지다. 웨딩드레스 콘셉트 승부복을 입은 신규 육성 우마무스메 '★3 [Untouchable Eden] 메지로 라모누'와 '★3 [Twinbell Queen] 세자리오'가 등장하고, 신규 SSR 서포트 카드 '[Unveiled Dream] 라인 크라프트'와 '[Blooming Buds] 데어링 하트'가 추가됐다. 스토리는 '뷰티 드림컵'의 '뮤즈'를 정하기 앞서 열리는 공개 행사 준비를 다루며 메지로 라모누의 '식을 올리고 싶어'라는 대사로 시작한다. 육성으로 이벤트 포인트와 룰렛 코인을 모아 한정 SSR 서포트 카드 등 보상으로 교환할 수 있다. <a class="src-link" href="https://www.betanews.net/article/view/beta202609180052" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/9~9/18</b> 카카오게임즈(CM게이트)는 '우마무스메 프리티 더비' 한국 서비스에 9월 9일(수) 12:00 무점검 업데이트로 신규 육성 우마무스메 ★★★ [9927 Wishes] 러브즈 온리 유를 추가했다. 픽업 가챠는 9월 9일 12:00~9월 18일 11:59 진행되며 같은 기간 해당 캐릭터의 우마무스메 스토리 1~4화를 미보유 상태로도 열람할 수 있는 캠페인이 함께 열렸다. SSR 서포트 카드 10종 중 2종을 선택해 확률을 올리는 '셀렉트 픽업'이 병행되고, '육성' 응원 캠페인은 9월 9일~9월 23일 11:59, PvP '리그 오브 히어로스'는 9월 12일 12:00~9월 21일 11:59 진행된다. 육성 패스 집계 기간은 9월 14일 12:00~10월 16일 11:59로 갱신됐다. <a class="src-link" href="https://bbs.ruliweb.com/news/board/320108/read/2293807" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 상(2022 day-1 #1) · TW 중</div>
+    </div>
+    <div class="game-card">
+      <h4>페이트/그랜드 오더 <span class="publisher-badge jp">라센글 / 넷마블(과거)·반남(TW)</span></h4>
+      <ul>
+        <li><b>9/23</b> 넷마블이 '페이트/그랜드 오더'에서 9월 23일 신규 이벤트 '오노노 코마치 고금초'를 시작했다. '★5 오노노 코마치(캐스터)', '★5 오사카베히메(어쌔신)' 등을 획득할 수 있는 픽업 소환이 진행된다. 9월 25일부터 10월 9일까지 대상 ★5 여성 서번트가 매일 바뀌는 '발렌타인 2026 특별 픽업 소환'과 9월 23일부터 10월 11일까지 '2026 추석 기념 캠페인'도 운영된다. <a class="src-link" href="https://www.maniareport.com/view.php?ud=202609252140329400cecffa9387_19" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 중(코어팬) · TW 상(TW #4)</div>
+    </div>
+    <div class="game-card">
+      <h4>무직전생: 크로니클 오브 에코즈 (無職轉生 迴響編年史) <span class="publisher-badge jp">그리 엔터테인먼트 (개발협력 아소비모) / 대만·홍콩·마카오 퍼블리싱: 紅心辣椒(Cayenne)</span></h4>
+      <ul>
+        <li><b>9/30~10/19</b> <span class="tag global">JP</span> 그리 엔터테인먼트는 '무직전생 ~이세계에 갔으면 최선을 다한다~ 크로니클 오브 에코즈'에서 기간 한정 시나리오 이벤트 '에리스의 호박 축제(エリスのカボチャ祭り)'를 2026년 9월 30일 15시부터 10월 19일 14시 59분까지 개최한다고 발표했다. 신규 ★5 캐릭터 '[마대륙의 호박 아가씨] 에리스(魔大陸の南瓜娘)' 픽업 가챠는 9월 30일 15시부터 10월 30일 14시 59분까지 진행된다. 공식 정보 프로그램 '크로에코 정보국 Vol.02'도 유튜브로 공개됐다. <a class="src-link" href="https://prtimes.jp/main/html/rd/p/000000199.000090815.html" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR - · TW 紅心辣椒(Cayenne)가 대만·홍콩·마카오 운영 판권 확보 발표(2026-08-24), 2026년 내 TW/HK/MO 출시 예정. 일본 선출시분 누적 50만+ 다운로드</div>
+    </div>
+  </div>
+  <div class="publisher-group">
+    <h3><span class="publisher-badge sg">SG</span>싱가포르 개발</h3>
+    <div class="game-card">
+      <h4>실버 팰리스 <span class="publisher-badge sg">엘리멘타(Elementa)</span></h4>
+      <ul>
+        <li><b>9/22~10/10</b> <span class="tag global">GLOBAL</span> Elementa가 실버 팰리스 3차 테스트 'Dichotomy: Retrace' 참가자 모집을 9월 22일부터 10월 10일까지 진행한다. 이번 빌드는 성능 최적화 버전으로 콘텐츠는 이전 베타와 비슷하며, PC와 모바일(Android·iOS)을 대상으로 한 첫 기술 테스트다. 테스트 일정은 추후 공지되며 참가자는 NDA에 서명해야 한다. 2차 베타 설문 완료자도 새 모집 설문을 제출해야 우선 참가 자격이 유지된다. <a class="src-link" href="https://game8.co/articles/latest/silver-palace-3rd-closed-beta-test-dichotomy-retrace-recruitments-now-open" target="_blank">[출처 🔗]</a></li>
+        <li><b>9/2</b> '실버 팰리스' 개발진 인터뷰: '동일률'과 '이분법'이라는 테스트명은 게임이 그리려는 탐정의 모습과 추리 과정을 반영한 것이며, 다음 테스트의 이름도 이미 정해져 있다고 밝혔다. <a class="src-link" href="https://www.gamevu.co.kr/news/articleView.html?idxno=60517" target="_blank">[출처 🔗]</a></li>
+      </ul>
+      <div class="pen">KR 신규(출시예정) · TW -</div>
+    </div>
+  </div>
+</section>
+
+<!-- TAB 3 -->
+<section class="tab" id="t3">
+  <h2><span class="num">3</span>1개월 전망 (2026.10.02~11.01)</h2>
+  <table class="calendar-row">
+    <tr><th style="width:120px">날짜</th><th style="width:210px">타이틀</th><th>내용</th></tr>
+    <tr><td>10/02~05</td><td>호요버스 IP<br>(원신·스타레일·젠레스·붕괴3rd)</td><td>'호요랜드 2026'(킨텍스 제2전시장) — 4일 전 회차 입장권 매진 <a class="src-link" href="https://www.apnews.kr/news/articleView.html?idxno=3051669" target="_blank">[출처 🔗]</a> · 젠레스 실내 체험존, 붕괴3rd 야외 공간(별도 티켓) <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225733" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>10/02~06</td><td>아스트라에 오라티오</td><td><b>글로벌 CBT</b>(안드로이드·iOS, 한국어·일본어·중국어 번체·영어) — 메인 스토리 3종, 첫 공개 레이드, 캐릭터 18종 <a class="src-link" href="https://www.newspim.com/news/view/20260923000795" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>10/03~04</td><td>트릭컬 리바이브</td><td>3주년 기념 오케스트라 공연(경희대 평화의전당) <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781228" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>10/06</td><td>명일방주: 엔드필드</td><td>신규 버전 「단청도」 미리보기 특별 방송(20:30 KST) <a class="src-link" href="https://bbs.ruliweb.com/news/board/1004/read/2295007" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>10월 초</td><td>카오스 제로 나이트메어</td><td>1주년 쇼케이스 — 신임 PD가 향후 업데이트 방향성 공개 <a class="src-link" href="https://www.pointe.co.kr/news/articleView.html?idxno=85391" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>~10/08 / ~10/15</td><td>승리의 여신: 니케</td><td>바니걸 이벤트 'COIN RUSH SHOWDOWN' 파트2 종료(~10/8) · 신규 SSR '신: 스위프트 바니' 픽업 종료(~10/15) <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225719" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>~10/09 / ~10/11</td><td>페이트/그랜드 오더</td><td>'발렌타인 2026 특별 픽업 소환' 종료(~10/9) · '2026 추석 기념 캠페인' 종료(~10/11) <a class="src-link" href="https://www.maniareport.com/view.php?ud=202609252140329400cecffa9387_19" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>~10/10</td><td>실버 팰리스</td><td>3차 테스트 'Dichotomy: Retrace' 참가자 모집 마감(첫 PC·모바일 기술 테스트) <a class="src-link" href="https://game8.co/articles/latest/silver-palace-3rd-closed-beta-test-dichotomy-retrace-recruitments-now-open" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>10/14 · 10/16</td><td>블루 아카이브</td><td>5주년 페스티벌 입장권 1차(레벨 70 이상)·2차(레벨 30 이상) 판매 <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781156" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>~10/15</td><td>로스트 소드</td><td>셀렉트 픽업 이벤트(10/1~15) <a class="src-link" href="https://bbs.ruliweb.com/mobile/board/320108/read/2295062" target="_blank">[출처 🔗]</a> · 10월 두 번째 업데이트로 스톤헨지 16층·신규 보스 릴리아 예정 <a class="src-link" href="https://bbs.ruliweb.com/news/board/320108/read/2294663" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>10/15</td><td>붕괴: 스타레일</td><td>메가MGC커피 한정 굿즈 정식 출시(사전예약 ~10/11) <a class="src-link" href="https://www.shinailbo.co.kr/news/articleView.html?idxno=5067100" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>~10/15 / ~10/16</td><td>벽람항로</td><td>대만 서버 「幽影迷城」 종료(~10/15) <a class="src-link" href="https://gnn.gamer.com.tw/detail.php?sn=312225" target="_blank">[출처 🔗]</a> · 한국 서버 「유영 미성」 종료(~10/16) <a class="src-link" href="https://bbs.ruliweb.com/community/board/300143/read/76775674" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>~10/18</td><td>승리의 여신: 니케</td><td>일본 도쿄돔시티 어트랙션즈 컬래버 종료 <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225921" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>10/19</td><td>명조: 워더링 웨이브</td><td>롯데시네마 콜라보 시작 <a class="src-link" href="https://v.daum.net/v/20260919212910361" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>~10/19 / ~10/30</td><td>무직전생: 크로니클 오브 에코즈</td><td>일본판 시나리오 이벤트 '에리스의 호박 축제' 종료(~10/19) · ★5 에리스 픽업 종료(~10/30) <a class="src-link" href="https://prtimes.jp/main/html/rd/p/000000199.000090815.html" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>10/21</td><td>카오스 제로 나이트메어</td><td>시즌5 '눈 위에 맺힌 약속' 정식 시작(프롤로그 9/30~10/21) <a class="src-link" href="https://www.inven.co.kr/webzine/news/?news=321616" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>~10/22</td><td>물화미신</td><td>CN 3.4 버전·2.5주년 한정 모집 종료 <a class="src-link" href="https://www.sina.cn/news/detail/5348788010485180.html" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>10/29</td><td>라스트 오리진</td><td>'사니양 연구실' 컬래버(~11/19) + 챕터 시나리오·전투 시스템 리뉴얼 — 10/22에서 1주 연기 <a class="src-link" href="https://bbs.ruliweb.com/news/board/320108/read/2295034" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>10월 중</td><td>넷마블 TGS 출품작<br>(샹그릴라 프론티어 등)</td><td>연내 출시 여부 판가름 — 하나증권 '연내 출시되기 위해서는 10월 내에 출시 일정이 공개될 필요' <a class="src-link" href="https://www.g-enews.com/view.php?ud=20261001085622895244093b5d4e_1" target="_blank">[출처 🔗]</a></td></tr>
+  </table>
+
+  <div class="summary-box">
+    <h4>핵심 관전 포인트</h4>
+    <ol>
+      <li><b>10월 2~6일 아스트라에 오라티오 글로벌 CBT가 TGS 이후 첫 실플레이 검증이다.</b> 4개 언어(한국어·일본어·번체·영어) 동시 테스트라 KR·TW·JP 반응이 한 번에 나온다. 2027년 출시를 목표로 한 국산 신작들의 실제 체급을 처음 가늠할 수 있는 데이터다.</li>
+      <li><b>스마일게이트 수집형 1년차 성적표가 10월에 나온다.</b> 카오스 제로 나이트메어는 신임 PD 체제로 10월 초 1주년 쇼케이스를 열고 10월 21일 시즌5를 시작한다. 1주년 반등 폭은 출시 1년 차 서브컬처 타이틀의 운영 기준선이 된다.</li>
+      <li><b>CN 공세가 10월에도 이어진다.</b> 명조는 앱스토어 매출 2위 상승세에 10월 19일 롯데시네마 콜라보를 붙이고, 엔드필드는 10월 6일 「단청도」 방송으로 다음 버전을 예고한다. 10월 중순까지 KR 매출 상위권에서 CN 비중이 유지될 가능성이 크다.</li>
+      <li><b>10월 14·16일 블루 아카이브 5주년 입장권 판매가 장기 이용자 규모의 공개 지표가 된다.</b> 레벨 70 이상·30 이상으로 나눠 판매해, 매진 속도가 고레벨 코어층 규모를 그대로 보여준다.</li>
+      <li><b>넷마블 TGS 출품작(샹그릴라 프론티어 등)의 10월 일정 공개 여부가 연내 출시를 가른다.</b> 공개가 없으면 TGS 출품 국산 신작의 연내 출시 가능성은 더 낮아지고, 국산 신작 경쟁은 2027년으로 넘어간다.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- TAB 4 -->
+<section class="tab" id="t4">
+  <h2><span class="num">4</span>2~6개월 전망</h2>
+  <table class="calendar-row">
+    <tr><th style="width:150px">시점</th><th style="width:210px">타이틀</th><th>내용</th></tr>
+    <tr><td>11/07~08</td><td>블루 아카이브</td><td><b>5주년 페스티벌</b>(킨텍스 제2전시장 9홀) — 미니게임·특별 방송·무대 공연·2차 창작 부스, 장기 이용자 1,200명 '패스트트랙' 조기 입장 <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781156" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>~11/10</td><td>승리의 여신: 니케</td><td>일본 교토 컬래버 2탄 'NIKKE in Kyoto 2026'(교토 8곳 스탬프 랠리) <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225700" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>~11/11</td><td>붕괴: 스타레일</td><td>4.6 버전 '달 뜨기 전, 괴수와 춤을' 기간 종료 → 다음 버전 전환 <a class="src-link" href="https://bbs.ruliweb.com/news/board/300001/read/2363538" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>~11/19</td><td>라스트 오리진</td><td>'사니양 연구실' 컬래버 이벤트 '수상한 연구소의 사라진 대학원생' 종료 <a class="src-link" href="https://bbs.ruliweb.com/news/board/320108/read/2295034" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>2026년 4분기</td><td>넷마블 신작<br>(샹그릴라 프론티어 외)</td><td>넷마블 4분기 신작 3종 준비(하나증권) — TGS 시연작(샹그릴라 프론티어 등)의 연내 출시는 10월 내 일정 공개가 전제 <a class="src-link" href="https://www.g-enews.com/view.php?ud=20261001085622895244093b5d4e_1" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>2027.01.15</td><td>무한대 (ANANTA)</td><td>글로벌 정식 출시일 확정(게임스컴 2026 오프닝 나이트 라이브, 8/30 보도 — 집계 구간 이전 기사) <a class="src-link" href="https://www.inven.co.kr/webzine/news/?news=320194" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>2027년</td><td>아스트라에 오라티오</td><td>글로벌 출시 목표 — 10/2~6 글로벌 CBT 후 라이브 서비스형 '연재물' 구조로 운영 구상 <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225645" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>2027년</td><td>펄 인 블루</td><td>정식 출시 목표 <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225645" target="_blank">[출처 🔗]</a> — 출시 전까지 일본 공식 X·유튜브로 캐릭터·세계관·성우 인터뷰 순차 공개 <a class="src-link" href="https://www.fntimes.com/html/view.php?ud=2026092312383288077492587736_18" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>2027년<br>(시점 미확정)</td><td>파레이돌리아</td><td>CBT를 내년을 염두에 두고 준비 — TGS 이후에도 국내외 전시행사 출품 예정 <a class="src-link" href="https://www.wolyo.co.kr/news/articleView.html?idxno=318231" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>미정</td><td>미래시 · 데드 어카운트</td><td>스마일게이트 '정식 출시까지 잘 준비하겠다'(미래시) <a class="src-link" href="https://www.inven.co.kr/webzine/news/?news=321393" target="_blank">[출처 🔗]</a> · 데드 어카운트 정식 출시 일정 미확정, TGS 피드백을 완성도 개선에 반영 <a class="src-link" href="https://www.gamevu.co.kr/news/articleView.html?idxno=61028" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>미정</td><td>실버 팰리스</td><td>3차 테스트 일정 추후 공지(모집 ~10/10) <a class="src-link" href="https://game8.co/articles/latest/silver-palace-3rd-closed-beta-test-dichotomy-retrace-recruitments-now-open" target="_blank">[출처 🔗]</a></td></tr>
+    <tr><td>미정</td><td>아주르 프로밀리아</td><td>중국 3차 테스트(9/17~)에서 첫 상업화 검증 — 다음 단계 일정 미발표 <a class="src-link" href="https://finance.sina.com.cn/tech/roll/2026-09-23/doc-inisvumx0993874.shtml" target="_blank">[출처 🔗]</a></td></tr>
+  </table>
+
+  <div class="game-card">
+    <h4>글로벌 확장 이슈 — 신작은 '일본 우선', 라이브 CN 타이틀은 'KR·TW 동시'가 표준 경로가 됐다 <span class="tag global">GLOBAL</span></h4>
+    <ul>
+      <li>펄 인 블루는 기획 단계부터 일본 시장을 타깃으로 만들었고, 출시 전까지 일본 현지 SNS로 팬덤을 쌓을 계획이다 <a class="src-link" href="https://www.fntimes.com/html/view.php?ud=2026092312383288077492587736_18" target="_blank">[출처 🔗]</a></li>
+      <li>아스트라에 오라티오는 첫 글로벌 CBT부터 한국어·일본어·중국어 번체·영어를 동시에 지원한다 <a class="src-link" href="https://www.newspim.com/news/view/20260923000795" target="_blank">[출처 🔗]</a></li>
+      <li>이환은 한국판과 대만판 1.4 버전을 같은 날 배포했다 <a class="src-link" href="https://gnn.gamer.com.tw/detail.php?sn=312530" target="_blank">[출처 🔗]</a></li>
+      <li>뱅드림! 아워 노트는 BILIBILI GAME이 국제판을 발행하고 대만은 현지 대리사가 운영하며, 9월 24일 번체 중국어를 포함해 출시됐다 <a class="src-link" href="https://gnn.gamer.com.tw/detail.php?sn=311618" target="_blank">[출처 🔗]</a></li>
+    </ul>
+    <div class="pen">KR 신작은 일본 매출 비중(블루 아카이브 72%)을 근거로 일본부터 공략하고, CN 라이브 타이틀은 KR·TW를 하나의 배포 단위로 묶는다. 2027년 상반기 출시작이 몰리면 KR·TW·JP 세 시장에서 동시에 신작 경쟁이 붙는다.</div>
+  </div>
+
+  <div class="game-card">
+    <h4>시장 구조 트렌드 — 2027년 1분기에 국산 신작·CN 대작 출시가 겹친다 <span class="tag trend">TREND</span></h4>
+    <ul>
+      <li>TGS 출품 국산 신작 중 출시 목표를 밝힌 타이틀(아스트라에 오라티오·펄 인 블루)은 모두 2027년을 제시했고 <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225645" target="_blank">[출처 🔗]</a>, 파레이돌리아도 CBT를 내년으로 보고 있다 <a class="src-link" href="https://www.wolyo.co.kr/news/articleView.html?idxno=318231" target="_blank">[출처 🔗]</a></li>
+      <li>CN 쪽 대형 신작 무한대(ANANTA)는 2027년 1월 15일 글로벌 출시가 확정돼 있다(8/30 보도) <a class="src-link" href="https://www.inven.co.kr/webzine/news/?news=320194" target="_blank">[출처 🔗]</a></li>
+      <li>가챠 체감 설계가 출시 전 경쟁 포인트가 됐다 — 아주르 프로밀리아는 테스트 단계에서 '픽뚫 없는' 한정 픽업과 천장 이월을 공개했다 <a class="src-link" href="https://finance.sina.com.cn/tech/roll/2026-09-23/doc-inisvumx0993874.shtml" target="_blank">[출처 🔗]</a></li>
+      <li>장르 경계도 넓어진다 — 애니 IP 리듬게임 '뱅드림! 아워 노트'가 SSR·SR 멤버 뽑기 구조로 글로벌 출시했다 <a class="src-link" href="https://www.xportsnews.com/article/2199827" target="_blank">[출처 🔗]</a></li>
+    </ul>
+    <div class="pen">2~6개월 관점의 결론: 2026년 4분기는 라이브 타이틀(주년·대형 버전) 경쟁, 2027년 1분기부터는 국산 신작과 CN 대작의 출시 경쟁으로 국면이 바뀐다. 유저 이탈 압력은 2027년 상반기에 집중될 전망이다.</div>
+  </div>
+</section>
+
+<!-- TAB 5 -->
+<section class="tab" id="t5">
+  <h2><span class="num">5</span>브더2(BrownDust 2) 시사점</h2>
+  <div class="threat-box">
+    <h4>⚠️ 위협 — 브더2의 포지션을 직접 겨냥하는 신호</h4>
+    <ol>
+      <li><b>KR 2D 수집형 경쟁작이 주년 한 번으로 매출 순위를 끌어올리면서 '주년 기대치'의 기준선이 올라갔다.</b> 트릭컬 리바이브는 3주년에 최대 600회 무료 뽑기·신규 사도 2종·애니메이션·오케스트라 공연을 한 묶음으로 내고 <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781228" target="_blank">[출처 🔗]</a> 국내 구글 매출 4위, 일본 애플 매출 3위를 기록했다 <a class="src-link" href="https://www.inven.co.kr/webzine/news/?news=321647" target="_blank">[출처 🔗]</a>. 같은 2D 캐릭터 수집형 권역에서 이 규모가 주년 표준이 되면, 브더2 주년이 재화 지급 중심으로 편성될 경우 상대 평가가 불리해진다.</li>
+      <li><b>CN 상위권의 월말 대형 버전 러시가 KR 매출 상위권을 흔든다.</b> 원신 7.1(9/23) <a class="src-link" href="https://zdnet.co.kr/view/?no=20260922095257" target="_blank">[출처 🔗]</a>·스타레일 4.6(9/28) <a class="src-link" href="https://bbs.ruliweb.com/news/board/300001/read/2363538" target="_blank">[출처 🔗]</a>·명조 3.7(9/30) <a class="src-link" href="https://www.gametoc.co.kr/news/articleView.html?idxno=111811" target="_blank">[출처 🔗]</a>·이환 1.4(9/30) <a class="src-link" href="https://www.ipnn.co.kr/news/articleView.html?idxno=417718" target="_blank">[출처 🔗]</a>가 일주일 안에 몰렸고, 명조는 국내 앱스토어 매출 2위까지 올라섰다 <a class="src-link" href="http://www.popcornnews.net/news/articleView.html?idxno=134786" target="_blank">[출처 🔗]</a>. 브더2 대형 업데이트가 이 주기와 겹치면 같은 유저층의 과금이 분산된다.</li>
+      <li><b>2027년 국산 신작은 브더2도 서비스 중인 일본 시장을 정조준한다.</b> 펄 인 블루는 '기획 단계부터 철저하게 일본 시장과 유저들을 타깃'으로 만들었고 <a class="src-link" href="https://www.fntimes.com/html/view.php?ud=2026092312383288077492587736_18" target="_blank">[출처 🔗]</a>, 블루 아카이브는 누적 매출의 약 72%가 일본에서 나왔다 <a class="src-link" href="https://www.gametoc.co.kr/news/articleView.html?idxno=111764" target="_blank">[출처 🔗]</a>. 스토리·2D 수집형 신작이 일본에서 현지 SNS 팬덤을 먼저 쌓으면, 브더2의 일본 신규 유입 비용이 올라간다.</li>
+      <li><b>오프라인 팬덤 행사의 규모 기준이 커졌다.</b> 호요랜드 2026은 4일 전 회차 입장권이 매진됐고 <a class="src-link" href="https://www.apnews.kr/news/articleView.html?idxno=3051669" target="_blank">[출처 🔗]</a>, 블루 아카이브는 킨텍스에서 이틀짜리 5주년 페스티벌을 연다 <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781156" target="_blank">[출처 🔗]</a>. 단일 IP인 브더2가 오프라인 행사를 열면 같은 장소·같은 분기의 다중 IP·대형 IP 행사와 직접 비교된다.</li>
+    </ol>
+  </div>
+  <div class="opp-box">
+    <h4>✅ 기회 — 브더2가 지금 취할 수 있는 실행 카드</h4>
+    <ol>
+      <li><b>TGS 결산으로 국산 경쟁 신작의 2027년 출시가 재확인됐다. 2026년 4분기는 계속 신작 공백 구간이다.</b> 출시 목표를 밝힌 아스트라에 오라티오·펄 인 블루는 모두 2027년이고 <a class="src-link" href="https://www.gamechosun.co.kr/webzine/article/view.php?no=225645" target="_blank">[출처 🔗]</a>, 파레이돌리아는 CBT도 내년이다 <a class="src-link" href="https://www.wolyo.co.kr/news/articleView.html?idxno=318231" target="_blank">[출처 🔗]</a>. 10~12월 대형 스토리·코스튬 시즌을 CN 월말 버전 주기와 겹치지 않게 배치하면 효율이 가장 높다.</li>
+      <li><b>'계정 레벨 연동 입장권'은 오프라인 행사를 리텐션 장치로 바꾸는 검증 가능한 설계다.</b> 블루 아카이브는 레벨 70 이상·30 이상으로 판매를 나누고 장기 이용자 1,200명에게 조기 입장을 준다 <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781156" target="_blank">[출처 🔗]</a>. 브더2 팝업·오프라인 이벤트에 장기 이용자 우선권을 붙이면 행사 자체가 복귀·유지 동기가 된다.</li>
+      <li><b>주년을 'IP 미디어 확장'의 기점으로 쓰는 편성을 참고할 수 있다.</b> 트릭컬은 3주년에 맞춰 라프텔·애니플러스에서 애니메이션 '트릭컬 만화극장'을 매주 공개한다 <a class="src-link" href="https://www.gamemeca.com/view.php?gid=1781228" target="_blank">[출처 🔗]</a>. 브더2의 스토리·컷신 자산은 짧은 애니메이션·영상 시리즈로 옮기기 쉬운 형태라, 주년 노출을 게임 밖 채널로 넓히는 저위험 옵션이 된다.</li>
+      <li><b>가챠 체감 개선이 신작 표준이 되기 전에 픽업 구조를 먼저 점검할 수 있다.</b> 아주르 프로밀리아는 테스트 단계에서 '픽뚫 없는' 한정 픽업과 천장 이월을 공개했다 <a class="src-link" href="https://finance.sina.com.cn/tech/roll/2026-09-23/doc-inisvumx0993874.shtml" target="_blank">[출처 🔗]</a>. 2027년 출시작이 이 사양을 기본으로 내걸기 전에 브더2가 픽업 천장·확정 구조 개선을 먼저 알리면, '유저 친화' 메시지를 선점할 수 있다.</li>
+      <li><b>중국어권 확장의 리스크 사례가 확인됐다 — 빌드 동일성이 핵심이다.</b> 메리츠증권은 니케 차이나가 글로벌 빌드와의 격차에서 오는 중국 게이머 불만을 극복하지 못했다고 평가했다 <a class="src-link" href="http://www.4th.kr/news/articleView.html?idxno=2119088" target="_blank">[출처 🔗]</a>. 브더2가 번체·간체권 접점을 넓힐 때는 글로벌과 동일한 콘텐츠·코스튬 일정을 유지하는 것이 전제 조건이다.</li>
+    </ol>
+  </div>
+  <div class="summary-box">
+    <h4>핵심</h4>
+    <p>이번 주 브더2 관점의 결론은 <b>'2026년 4분기는 신작이 아니라 라이브 타이틀끼리 붙는 구간'</b>이라는 것이다. TGS 결산에서 국산 신작들은 반응을 확인했지만 출시는 2027년으로 모였고, 그 사이 KR 시장은 CN 상위권의 월말 대형 버전(명조 앱스토어 매출 2위)과 KR 라이브 타이틀의 주년 편성(트릭컬 3주년 구글 매출 4위)이 나눠 갖는다.</p>
+    <p>따라서 브더2는 ① 4분기 대형 업데이트를 CN 월말 버전 주기와 비켜 배치하고, ② 주년·대형 업데이트를 재화 지급이 아니라 IP 미디어 확장·구조 개선과 묶고, ③ 2027년 일본 정조준 신작이 오기 전에 장기 이용자 우대(오프라인 우선권)와 가챠 체감 개선으로 충성층을 먼저 묶어두는 것이 필요하다.</p>
+  </div>
+</section>
+
+<div class="game-card" style="margin-top:28px">
+  <h4>🆕 이번 주 신규 등재 — 등재 1건 · 보류 0건 <span class="tag new">신규</span></h4>
+  <ul>
+    <li><b>뱅드림! 아워 노트 (BanG Dream! Our Notes / 交織的樂章)</b> (title id 41) · 개발 <b>FROM TOKYO</b> / 일본 퍼블리싱 <b>Bushiroad</b> / 국제판 <b>BILIBILI GAME</b>(대만 대리 艾瑞爾) / JP — 애니메이션 'BanG Dream!' 프로젝트 기반 캐릭터 리듬게임으로, 9월 24일 한국어·번체 중국어를 포함해 글로벌 정식 출시했다(사전예약 200만). SSR·SR 멤버 뽑기 구조, 홍대 팝업의 팬 방문 등 아트·수집·팬덤 3축과 독립 출처 5곳을 충족해 <b>자동 등재</b>됐다 <a class="src-link" href="https://www.xportsnews.com/article/2199827" target="_blank">[출처 🔗]</a> <a class="src-link" href="https://www.gametoc.co.kr/news/articleView.html?idxno=111796" target="_blank">[출처 🔗]</a> <a class="src-link" href="https://gnn.gamer.com.tw/detail.php?sn=311618" target="_blank">[출처 🔗]</a><br><span style="color:#92400E">※ 장르가 리듬게임이라 '캐주얼 제외' 기준과의 경계에 있습니다. 캐릭터 가챠·팬덤 구조는 서브컬처 수집형과 같아 게이트는 등재로 판정했습니다.</span></li>
+  </ul>
+  <div class="pen">이번 주 <b>보류 0건</b> — 게이트에 올라온 후보 전부가 등재 판정을 받았습니다. 현재 추적 대상은 타이틀 39종이며 전체 명단은 <a href="roster.html">📋 트래킹 게임·게임사 명단</a>에서 확인하실 수 있습니다. 제외 원하시면 게임명만 알려주세요 → 다음 주부터 제외됩니다.</div>
+</div>
+
+<section style="margin-top:8px">
+  <h2><span class="num">📚</span>기타 참고 출처</h2>
+  <table class="earnings-table">
+    <thead><tr><th style="width:220px">게임</th><th style="width:220px">이슈</th><th style="width:90px">기준일</th><th>출처</th></tr></thead>
+    <tbody>
+      <tr><td>이환</td><td>1.4 버전 '누구를 위하여 기도를 올리나' 프리뷰 방송 — 신규 S급 </td><td>9/30</td><td><a class="src-link" href="https://www.inven.co.kr/webzine/news?news=321020" target="_blank">inven.co.kr</a></td></tr>
+      <tr><td>원신</td><td>7.1 버전 '죽음의 진혼곡' — 6주년 한정 5성 선택 증정</td><td>9/23</td><td><a class="src-link" href="https://zdnet.co.kr/view?no=20260912235205" target="_blank">zdnet.co.kr</a></td></tr>
+      <tr><td>명조: 워더링 웨이브</td><td>명조 X ? 콜라보 티저 — 9월 19일 공개 예고</td><td>9/19</td><td><a class="src-link" href="https://bbs.ruliweb.com/news/board/1001/read/2362361" target="_blank">bbs.ruliweb.com</a></td></tr>
+      <tr><td>명조: 워더링 웨이브</td><td>3.7 버전 프리뷰 특별 방송</td><td>9/19</td><td><a class="src-link" href="https://bbs.ruliweb.com/news/board/320108/read/2294160" target="_blank">bbs.ruliweb.com</a></td></tr>
+      <tr><td>파레이돌리아</td><td>파레이돌리아(프로젝트 RX) - TGS 2026 첫 공개 시연 예정</td><td>9/17</td><td><a class="src-link" href="https://www.ebn.co.kr/news/articleView.html?idxno=1722825" target="_blank">ebn.co.kr</a></td></tr>
+      <tr><td>아스트라에 오라티오</td><td>아스트라에 오라티오 - TGS 2026 단독 부스</td><td>9/17</td><td><a class="src-link" href="https://www.etoday.co.kr/news/view/2621992" target="_blank">etoday.co.kr</a></td></tr>
+      <tr><td>림버스 컴퍼니</td><td>TGS 2026 프로젝트문 단독 부스 (08-C13)</td><td>9/17</td><td><a class="src-link" href="https://www.gamey.kr/news/articleView.html?idxno=3018674" target="_blank">gamey.kr</a></td></tr>
+      <tr><td>파레이돌리아</td><td>TGS 2026 인게임 최초 공개 (넥슨 07-C04 부스)</td><td>9/17</td><td><a class="src-link" href="https://www.newscj.com/news/articleView.html?idxno=3432173" target="_blank">newscj.com</a></td></tr>
+      <tr><td>로스트 소드</td><td>신규 캐릭터 '크라사' 공개 및 추석 특집 개발자 노트</td><td>9/11</td><td><a class="src-link" href="https://bbs.ruliweb.com/news/board/1004/read/2294093" target="_blank">bbs.ruliweb.com</a></td></tr>
+      <tr><td>메이크 드라마: MAD</td><td>메인스토리 5장</td><td>9/10</td><td><a class="src-link" href="https://bbs.ruliweb.com/news/board/1004/read/2293619" target="_blank">bbs.ruliweb.com</a></td></tr>
+      <tr><td>카오스 제로 나이트메어</td><td>대균열 신규 보스 아네스 / 신규 전투원 올가</td><td>9/9</td><td><a class="src-link" href="https://bbs.ruliweb.com/news/board/1004/read/2293610" target="_blank">bbs.ruliweb.com</a></td></tr>
+      <tr><td>블루 아카이브</td><td>에리카 (신규 픽업)</td><td>9/8</td><td><a class="src-link" href="https://bbs.ruliweb.com/mobile/board/320108/read/2293700" target="_blank">bbs.ruliweb.com</a></td></tr>
+      <tr><td>아주르 프로밀리아</td><td>3차 CBT - BM(가챠 확률) 최초 공개</td><td>9/6</td><td><a class="src-link" href="https://bbs.ruliweb.com/mobile/board/320108/read/2293782" target="_blank">bbs.ruliweb.com</a></td></tr>
+      <tr><td>벽람항로</td><td>9주년 생방송 진행(세부 미확인)</td><td>9/5</td><td><a class="src-link" href="https://bbs.ruliweb.com/mobile/board/1004/read/2293763" target="_blank">bbs.ruliweb.com</a></td></tr>
+      <tr><td>미래시</td><td>미래시: 보이지 않는 미래 - TGS 2026 출품 예고 / 캐릭터 소개</td><td>9/4</td><td><a class="src-link" href="https://www.ipnn.co.kr/news/articleView.html?idxno=417406" target="_blank">ipnn.co.kr</a></td></tr>
+      <tr><td>펄 인 블루</td><td>넷마블 TGS 2026 출품작 특설 사이트 오픈 (샹그릴라 프론티어: 일</td><td>9/4</td><td><a class="src-link" href="https://www.ngonews.kr/news/articleView.html?idxno=237255" target="_blank">ngonews.kr</a></td></tr>
+      <tr><td>명조: 워더링 웨이브</td><td>여우의 별자리 / 쇄명 (신규 공명자)</td><td>9/3</td><td><a class="src-link" href="https://v.daum.net/v/20260903134352301" target="_blank">v.daum.net</a></td></tr>
+    </tbody>
+  </table>
+  <div class="pen">본문 ①·②탭에 인라인 「[출처 🔗]」로 이미 표기한 출처는 중복을 피해 제외하고, 인라인에 걸지 않은 보조 참고 자료만 등재했습니다. 「기준일」은 이슈 발생일 기준입니다.</div>
+</section>
+
+<footer>
+  <div><a href="roster.html">📋 트래킹 게임·게임사 명단</a></div>
+  <div style="margin-top:6px">집계 구간 2026.09.02~10.02 · 30일 이슈 106건 · 이번 주 신규 등재 1종(보류 0종)</div>
+  <div style="margin-top:6px">출처: 각 항목 인라인 <span style="color:#E51937;font-weight:700">[출처 🔗]</span> 링크 및 본문 하단 「기타 참고 출처」 표 참조 (게임 미디어 보도·공식 공지·퍼블리셔 발표 기준)</div>
+  <div style="margin-top:6px">GPX사업부 컨텐츠사업팀 · 이한나 · © NEOWIZ</div>
+</footer>
+
+</div><!-- /wrap -->
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+  function toggleArchive(){
+    const pop = document.getElementById('archivePop');
+    const open = pop.classList.toggle('open');
+    if(open){
+      fetch('archive/index.json').then(r=>r.ok?r.json():Promise.reject()).then(data=>{
+        const ul = document.getElementById('archiveList');
+        const list = Array.isArray(data) ? data : ((data && data.reports) || []);
+        if(list.length===0){ ul.innerHTML='<li>이전 리포트가 없습니다.</li>'; return; }
+        ul.innerHTML = list.map(x=>`<li><a href="${x.url || x.href}" target="_blank">${x.title || x.week || x.date}</a></li>`).join('');
+      }).catch(()=>{
+        document.getElementById('archiveList').innerHTML='<li>아카이브를 불러올 수 없습니다.</li>';
+      });
+    }
+  }
+</script>
+</body>
+</html>
